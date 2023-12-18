@@ -1,45 +1,73 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="Source Files">
-      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
-      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    <Filter Include="Core">
+      <UniqueIdentifier>{2EB4837C-1AEB-840D-C3D7-6A10AFED000F}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files">
-      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
-      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
+    <Filter Include="Core\Log">
+      <UniqueIdentifier>{FF3299C2-EBFF-F3CD-1419-E2750045295C}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Resource Files">
-      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
-      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    <Filter Include="Core\Log\include">
+      <UniqueIdentifier>{72E92C9C-5EE2-4BEE-8714-3173736C2BFA}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\Log\src">
+      <UniqueIdentifier>{96580402-82BB-93A6-2B41-CC5C17835F29}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="HAL">
+      <UniqueIdentifier>{DAED870B-46F7-877C-CF72-9E7C3B7B937C}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="HAL\Windows">
+      <UniqueIdentifier>{14D22A8F-8087-A384-097C-9D5B75309A88}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="HAL\Windows\Core">
+      <UniqueIdentifier>{EC62DEA6-D85B-FDF8-018E-E27DEDE5DC04}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="HAL\Windows\Core\Application">
+      <UniqueIdentifier>{AF60DB31-9B1B-CBDD-44D3-4328306D156E}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="HAL\Windows\Core\Application\include">
+      <UniqueIdentifier>{22C7D922-0EAE-9B1A-B7FE-0138A3C41481}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="HAL\Windows\Core\Application\src">
+      <UniqueIdentifier>{46DE057D-322F-F1BE-5B93-DF8047438428}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="HAL\Windows\Core\Graphics">
+      <UniqueIdentifier>{AC34DE20-18F7-11AB-61A7-A037CDA8EA88}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="HAL\Windows\Core\Graphics\include">
+      <UniqueIdentifier>{1F48FBA3-8BB6-5023-D49F-0B23404D46BF}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="HAL\Windows\Core\Core.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="Core\Core.h">
+      <Filter>Core</Filter>
     </ClInclude>
-    <ClInclude Include="HAL\Windows\Core\Application\include\Application.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="HAL\Windows\Windows.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="EntryPoint.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="HAL\PlatformDetection.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="Core\Log\include\Log.h">
+      <Filter>Core\Log\include</Filter>
     </ClInclude>
     <ClInclude Include="HAL\HAL.h">
-      <Filter>Header Files</Filter>
+      <Filter>HAL</Filter>
     </ClInclude>
-    <ClInclude Include="Phoenix.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="HAL\PlatformDetection.h">
+      <Filter>HAL</Filter>
     </ClInclude>
+    <ClInclude Include="HAL\Windows\Core\Application\include\Application.h">
+      <Filter>HAL\Windows\Core\Application\include</Filter>
+    </ClInclude>
+    <ClInclude Include="HAL\Windows\Core\Graphics\include\Test.h">
+      <Filter>HAL\Windows\Core\Graphics\include</Filter>
+    </ClInclude>
+    <ClInclude Include="HAL\Windows\Windows.h">
+      <Filter>HAL\Windows</Filter>
+    </ClInclude>
+    <ClInclude Include="Phoenix.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Core\Log\src\Log.cpp">
+      <Filter>Core\Log\src</Filter>
+    </ClCompile>
     <ClCompile Include="HAL\Windows\Core\Application\src\Application.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>HAL\Windows\Core\Application\src</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
