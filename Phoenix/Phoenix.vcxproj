@@ -80,15 +80,16 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="Core\Application.h" />
-    <ClInclude Include="Core\Core.h" />
-    <ClInclude Include="Core\EntryPoint.h" />
+    <ClInclude Include="HAL\HAL.h" />
+    <ClInclude Include="HAL\PlatformDetection.h" />
+    <ClInclude Include="HAL\Windows\Core\Application\include\Application.h" />
+    <ClInclude Include="HAL\Windows\Core\Core.h" />
+    <ClInclude Include="EntryPoint.h" />
+    <ClInclude Include="HAL\Windows\Windows.h" />
     <ClInclude Include="Phoenix.h" />
-    <ClInclude Include="Test.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Core\Application.cpp" />
-    <ClCompile Include="Test.cpp" />
+    <ClCompile Include="HAL\Windows\Core\Application\src\Application.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

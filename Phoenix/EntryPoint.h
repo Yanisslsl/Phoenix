@@ -1,4 +1,5 @@
 #pragma once
+#include "HAL/HAL.h"
 
 #ifdef PHOENIX_PLATFORM_WINDOWS
 

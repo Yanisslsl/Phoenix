@@ -1,5 +1,5 @@
 #pragma once
-
+// Macros for use by Phoenix applications
 #ifdef PHOENIX_PLATFORM_WINDOWS
 	#ifdef PHOENIX_BUILD_DLL
 		#define PHOENIX_API __declspec(dllexport)

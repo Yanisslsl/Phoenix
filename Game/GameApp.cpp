@@ -1,5 +1,4 @@
-#include <Phoenix.h>
-
+#include "Phoenix.h"
 
 class GameApp : public Phoenix::Application
 {

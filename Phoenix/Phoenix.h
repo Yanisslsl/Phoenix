@@ -1,10 +1,5 @@
 #pragma once
-
-
-// For use of Phoenix applications
-#include <cstdio>
-#include "Core/Application.h"
-
-
 // Entry Point
-#include "Core/EntryPoint.h"
+#include "EntryPoint.h"
+#include <cstdio>
+#include "HAL/HAL.h"
