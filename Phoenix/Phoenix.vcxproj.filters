@@ -4,6 +4,15 @@
     <Filter Include="Core">
       <UniqueIdentifier>{2EB4837C-1AEB-840D-C3D7-6A10AFED000F}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Core\Base">
+      <UniqueIdentifier>{78DDB915-E447-6E8C-2D86-1F32992F4CE1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\Events">
+      <UniqueIdentifier>{52201B74-BED5-9369-47CA-8D40B37E8A6D}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\Events\include">
+      <UniqueIdentifier>{C579A437-31DB-8145-BA48-C8F726A9B804}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Core\Log">
       <UniqueIdentifier>{FF3299C2-EBFF-F3CD-1419-E2750045295C}</UniqueIdentifier>
     </Filter>
@@ -39,8 +48,17 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Core\Base\Base.h">
+      <Filter>Core\Base</Filter>
+    </ClInclude>
     <ClInclude Include="Core\Core.h">
       <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Events\include\Event.h">
+      <Filter>Core\Events\include</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Events\include\EventDispatcher.h">
+      <Filter>Core\Events\include</Filter>
     </ClInclude>
     <ClInclude Include="Core\Log\include\Log.h">
       <Filter>Core\Log\include</Filter>
