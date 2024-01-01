@@ -1,5 +1,7 @@
 ﻿#pragma once
 #include "Event.h"
+#include "WindowEvent.h"
+#include <iostream>
 #include <functional>
 
 
@@ -24,13 +26,11 @@ namespace Phoenix
             }
             return false;
         }
-
-        inline std::ostream& operator<<(std::ostream& os, const Event& e)
-        {
-            return os << e.ToString();
-        }
-
         private :
             Event& m_event;
+        // inline std::ostream& operator<<(std::ostream& os, const Event& e)
+        // {
+        //     return os << e.ToString();
+        // }
     };
 }

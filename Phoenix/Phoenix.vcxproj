@@ -79,7 +79,7 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>PHOENIX_PLATFORM_WINDOWS;PHOENIX_BUILD_DLL;PHOENIX_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>vendor\spdlog\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>HAL;Core;vendor\spdlog\include;vendor\GLFW\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <Optimization>Disabled</Optimization>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
@@ -89,6 +89,7 @@
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <ImportLibrary>..\bin\Debug-windows-x86_64\Phoenix\Phoenix.lib</ImportLibrary>
     </Link>
     <PostBuildEvent>
@@ -100,7 +101,7 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>PHOENIX_PLATFORM_WINDOWS;PHOENIX_BUILD_DLL;PHOENIX_RELEASE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>vendor\spdlog\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>HAL;Core;vendor\spdlog\include;vendor\GLFW\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>Full</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
@@ -114,6 +115,7 @@
       <SubSystem>Windows</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalDependencies>opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <ImportLibrary>..\bin\Release-windows-x86_64\Phoenix\Phoenix.lib</ImportLibrary>
     </Link>
     <PostBuildEvent>
@@ -125,7 +127,7 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>PHOENIX_PLATFORM_WINDOWS;PHOENIX_BUILD_DLL;PHOENIX_DIST;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>vendor\spdlog\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>HAL;Core;vendor\spdlog\include;vendor\GLFW\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>Full</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
@@ -139,6 +141,7 @@
       <SubSystem>Windows</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalDependencies>opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <ImportLibrary>..\bin\Dist-windows-x86_64\Phoenix\Phoenix.lib</ImportLibrary>
     </Link>
     <PostBuildEvent>
@@ -148,19 +151,35 @@
   <ItemGroup>
     <ClInclude Include="Core\Base\Base.h" />
     <ClInclude Include="Core\Core.h" />
-    <ClInclude Include="Core\Events\include\Event.h" />
-    <ClInclude Include="Core\Events\include\EventDispatcher.h" />
+    <ClInclude Include="Core\Events\Event.h" />
+    <ClInclude Include="Core\Events\EventDispatcher.h" />
+    <ClInclude Include="Core\Events\KeyEvent.h" />
+    <ClInclude Include="Core\Events\MouseEvent.h" />
+    <ClInclude Include="Core\Events\WindowEvent.h" />
     <ClInclude Include="Core\Log\include\Log.h" />
+    <ClInclude Include="Core\Utils\KeyCode.h" />
+    <ClInclude Include="Core\Utils\MouseCode.h" />
+    <ClInclude Include="HAL\Common\Core\Window\include\Window.h" />
     <ClInclude Include="HAL\HAL.h" />
     <ClInclude Include="HAL\PlatformDetection.h" />
     <ClInclude Include="HAL\Windows\Core\Application\include\Application.h" />
     <ClInclude Include="HAL\Windows\Core\Graphics\include\Test.h" />
+    <ClInclude Include="HAL\Windows\Core\Window\include\Window.h" />
     <ClInclude Include="HAL\Windows\Windows.h" />
     <ClInclude Include="Phoenix.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Core\Log\src\Log.cpp" />
+    <ClCompile Include="HAL\Common\Core\Window\src\Window.cpp" />
     <ClCompile Include="HAL\Windows\Core\Application\src\Application.cpp" />
+    <ClCompile Include="HAL\Windows\Core\Window\src\Window.cpp">
+      <ObjectFileName>$(IntDir)\Window1.obj</ObjectFileName>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="vendor\GLFW\GLFW.vcxproj">
+      <Project>{154B857C-0182-860D-AA6E-6C109684020F}</Project>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

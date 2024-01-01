@@ -10,9 +10,6 @@
     <Filter Include="Core\Events">
       <UniqueIdentifier>{52201B74-BED5-9369-47CA-8D40B37E8A6D}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Core\Events\include">
-      <UniqueIdentifier>{C579A437-31DB-8145-BA48-C8F726A9B804}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Core\Log">
       <UniqueIdentifier>{FF3299C2-EBFF-F3CD-1419-E2750045295C}</UniqueIdentifier>
     </Filter>
@@ -22,8 +19,26 @@
     <Filter Include="Core\Log\src">
       <UniqueIdentifier>{96580402-82BB-93A6-2B41-CC5C17835F29}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Core\Utils">
+      <UniqueIdentifier>{0EA057CE-FA57-991B-635F-72774F36340C}</UniqueIdentifier>
+    </Filter>
     <Filter Include="HAL">
       <UniqueIdentifier>{DAED870B-46F7-877C-CF72-9E7C3B7B937C}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="HAL\Common">
+      <UniqueIdentifier>{D2A11BD6-BE59-5D23-2761-367F1338F813}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="HAL\Common\Core">
+      <UniqueIdentifier>{6AB9DC5A-D644-4A1F-DF55-CD134B60A61F}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="HAL\Common\Core\Window">
+      <UniqueIdentifier>{11CB0066-FDC4-29B8-E631-C0C8D2CA8F24}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="HAL\Common\Core\Window\include">
+      <UniqueIdentifier>{84736CCA-7099-3631-59DF-BBFC45A45BFD}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="HAL\Common\Core\Window\src">
+      <UniqueIdentifier>{A8A9BDC0-94B9-6991-FD72-CEAFE9A1582A}</UniqueIdentifier>
     </Filter>
     <Filter Include="HAL\Windows">
       <UniqueIdentifier>{14D22A8F-8087-A384-097C-9D5B75309A88}</UniqueIdentifier>
@@ -46,6 +61,15 @@
     <Filter Include="HAL\Windows\Core\Graphics\include">
       <UniqueIdentifier>{1F48FBA3-8BB6-5023-D49F-0B23404D46BF}</UniqueIdentifier>
     </Filter>
+    <Filter Include="HAL\Windows\Core\Window">
+      <UniqueIdentifier>{536ED875-BFA5-200D-C8AF-843034664706}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="HAL\Windows\Core\Window\include">
+      <UniqueIdentifier>{C6384C05-321C-5B45-3B1F-8981A7812196}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="HAL\Windows\Core\Window\src">
+      <UniqueIdentifier>{EA1D596E-562B-8754-DF11-833F4B1E530B}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Core\Base\Base.h">
@@ -54,14 +78,32 @@
     <ClInclude Include="Core\Core.h">
       <Filter>Core</Filter>
     </ClInclude>
-    <ClInclude Include="Core\Events\include\Event.h">
-      <Filter>Core\Events\include</Filter>
+    <ClInclude Include="Core\Events\Event.h">
+      <Filter>Core\Events</Filter>
     </ClInclude>
-    <ClInclude Include="Core\Events\include\EventDispatcher.h">
-      <Filter>Core\Events\include</Filter>
+    <ClInclude Include="Core\Events\EventDispatcher.h">
+      <Filter>Core\Events</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Events\KeyEvent.h">
+      <Filter>Core\Events</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Events\MouseEvent.h">
+      <Filter>Core\Events</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Events\WindowEvent.h">
+      <Filter>Core\Events</Filter>
     </ClInclude>
     <ClInclude Include="Core\Log\include\Log.h">
       <Filter>Core\Log\include</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Utils\KeyCode.h">
+      <Filter>Core\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Utils\MouseCode.h">
+      <Filter>Core\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="HAL\Common\Core\Window\include\Window.h">
+      <Filter>HAL\Common\Core\Window\include</Filter>
     </ClInclude>
     <ClInclude Include="HAL\HAL.h">
       <Filter>HAL</Filter>
@@ -75,6 +117,9 @@
     <ClInclude Include="HAL\Windows\Core\Graphics\include\Test.h">
       <Filter>HAL\Windows\Core\Graphics\include</Filter>
     </ClInclude>
+    <ClInclude Include="HAL\Windows\Core\Window\include\Window.h">
+      <Filter>HAL\Windows\Core\Window\include</Filter>
+    </ClInclude>
     <ClInclude Include="HAL\Windows\Windows.h">
       <Filter>HAL\Windows</Filter>
     </ClInclude>
@@ -84,8 +129,14 @@
     <ClCompile Include="Core\Log\src\Log.cpp">
       <Filter>Core\Log\src</Filter>
     </ClCompile>
+    <ClCompile Include="HAL\Common\Core\Window\src\Window.cpp">
+      <Filter>HAL\Common\Core\Window\src</Filter>
+    </ClCompile>
     <ClCompile Include="HAL\Windows\Core\Application\src\Application.cpp">
       <Filter>HAL\Windows\Core\Application\src</Filter>
+    </ClCompile>
+    <ClCompile Include="HAL\Windows\Core\Window\src\Window.cpp">
+      <Filter>HAL\Windows\Core\Window\src</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

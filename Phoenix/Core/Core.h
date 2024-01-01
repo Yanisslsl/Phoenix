@@ -9,3 +9,9 @@
 #else
 	#error Phoenix only supports Windows!
 #endif
+
+
+
+#ifdef PH_DEBUG
+	#define PH_ENABLE_ASSERTS
+#endif

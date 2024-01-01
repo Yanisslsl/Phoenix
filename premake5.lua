@@ -10,11 +10,18 @@ workspace "Phoenix"
 		}
 
 outputdir = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
+-- Include directories relative to root folder (solution directory)
+IncludeDir = {}
+IncludeDir["GLFW"] = "Phoenix/vendor/GLFW/include"
+ 
+-- Include GLFW premake file
+include "Phoenix/vendor/GLFW"
 
 project "Phoenix"
 	location "Phoenix"
 	kind "SharedLib"
 	language "C++"
+	staticruntime "on"
 
 	targetdir ("bin/" .. outputdir .. "/%{prj.name}")
 	objdir ("bin-int/" .. outputdir .. "/%{prj.name}")
@@ -42,7 +49,16 @@ project "Phoenix"
 		
 		includedirs
 		{
+		    "%{prj.name}/HAL",
+            "%{prj.name}/Core",
 			"%{prj.name}/vendor/spdlog/include",
+			"%{IncludeDir.GLFW}"
+		}
+		
+		links 
+		{
+		    "GLFW",
+		    "opengl32.lib"
 		}
 
 		postbuildcommands
@@ -63,6 +79,7 @@ project "Game"
 	location "Game"
 	kind "ConsoleApp"
 	language "C++"
+	staticruntime "on"
 
 	targetdir ("bin/" .. outputdir .. "/%{prj.name}")
 	objdir ("bin-int/" .. outputdir .. "/%{prj.name}")
