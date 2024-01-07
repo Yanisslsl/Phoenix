@@ -21,7 +21,6 @@ project "Phoenix"
 	location "Phoenix"
 	kind "SharedLib"
 	language "C++"
-	staticruntime "on"
 
 	targetdir ("bin/" .. outputdir .. "/%{prj.name}")
 	objdir ("bin-int/" .. outputdir .. "/%{prj.name}")
@@ -32,13 +31,12 @@ project "Phoenix"
 		"%{prj.name}/HAL/**.cpp",
 		"%{prj.name}/Core/**.cpp",
 		"%{prj.name}/Core/**.h",
-		"%{prj.name}/Phoenix.h"
-
+		"%{prj.name}/Phoenix.h",
+		"%{prj.name}/Core/Events/**.h",
 	}
 
 	filter "system:windows"
 		cppdialect "C++17"
-		staticruntime "On"
 		systemversion "latest"
 
 		defines
@@ -66,12 +64,15 @@ project "Phoenix"
 			("{COPY} %{cfg.buildtarget.relpath} ../bin/" .. outputdir .. "/Game")
 		}
 	filter "configurations:Debug"
+	    buildoptions "/MDd"
 		defines "PHOENIX_DEBUG"
 		symbols "On"
 	filter "configurations:Release"
+	    buildoptions "/MDd"
 		defines "PHOENIX_RELEASE"
 		optimize "On"
 	filter "configurations:Dist"
+	    buildoptions "/MDd"
 		defines "PHOENIX_DIST"
 		optimize "On"
 
@@ -79,7 +80,6 @@ project "Game"
 	location "Game"
 	kind "ConsoleApp"
 	language "C++"
-	staticruntime "on"
 
 	targetdir ("bin/" .. outputdir .. "/%{prj.name}")
 	objdir ("bin-int/" .. outputdir .. "/%{prj.name}")
@@ -104,7 +104,6 @@ project "Game"
 
 	filter "system:windows"
 		cppdialect "C++17"
-		staticruntime "On"
 		systemversion "latest"
 
 		defines

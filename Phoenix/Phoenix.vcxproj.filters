@@ -10,6 +10,27 @@
     <Filter Include="Core\Events">
       <UniqueIdentifier>{52201B74-BED5-9369-47CA-8D40B37E8A6D}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Core\Layers">
+      <UniqueIdentifier>{2D0BFE82-99C0-7678-22B5-704F8E696D7C}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\Layers\Layer">
+      <UniqueIdentifier>{B9F54F05-250C-4E9B-6E83-D9BCDAD81E23}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\Layers\Layer\include">
+      <UniqueIdentifier>{2CC6EF24-9888-23AF-E138-B23B4D3AFC8C}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\Layers\Layer\src">
+      <UniqueIdentifier>{50E87173-BC54-2D6E-8548-C5CBF1734FD6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\Layers\LayerStack">
+      <UniqueIdentifier>{EFA83AE4-DBA2-6336-C40F-FA46B0A8C9A2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\Layers\LayerStack\include">
+      <UniqueIdentifier>{624F1DE3-4E75-E749-37BB-6C1523800C16}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\Layers\LayerStack\src">
+      <UniqueIdentifier>{86464F62-7256-FB32-DB0F-6051C73EEACB}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Core\Log">
       <UniqueIdentifier>{FF3299C2-EBFF-F3CD-1419-E2750045295C}</UniqueIdentifier>
     </Filter>
@@ -93,6 +114,12 @@
     <ClInclude Include="Core\Events\WindowEvent.h">
       <Filter>Core\Events</Filter>
     </ClInclude>
+    <ClInclude Include="Core\Layers\Layer\include\Layer.h">
+      <Filter>Core\Layers\Layer\include</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Layers\LayerStack\include\LayerStack.h">
+      <Filter>Core\Layers\LayerStack\include</Filter>
+    </ClInclude>
     <ClInclude Include="Core\Log\include\Log.h">
       <Filter>Core\Log\include</Filter>
     </ClInclude>
@@ -126,6 +153,12 @@
     <ClInclude Include="Phoenix.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Core\Layers\Layer\src\Layer.cpp">
+      <Filter>Core\Layers\Layer\src</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\Layers\LayerStack\src\LayerStack.cpp">
+      <Filter>Core\Layers\LayerStack\src</Filter>
+    </ClCompile>
     <ClCompile Include="Core\Log\src\Log.cpp">
       <Filter>Core\Log\src</Filter>
     </ClCompile>
