@@ -41,6 +41,11 @@ namespace Phoenix
 
         // ONLY FOR DEBUGGING
         virtual const char* GetName() const = 0;
+
+        bool IsInCategory(EventCategory category)
+        {
+            return GetCategoryFlags() & category;
+        }
     };
 
    

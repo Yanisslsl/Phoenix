@@ -10,6 +10,21 @@
     <Filter Include="Core\Events">
       <UniqueIdentifier>{52201B74-BED5-9369-47CA-8D40B37E8A6D}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Core\ImGui">
+      <UniqueIdentifier>{D8137ACD-C4CB-BB1A-2DD3-947619AA560B}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\ImGui\Platform">
+      <UniqueIdentifier>{2C231864-9884-F571-21F2-3B248D522C31}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\ImGui\Platform\OpenGL">
+      <UniqueIdentifier>{E002E056-CC12-8C27-35CC-F04521FB7AC0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\ImGui\include">
+      <UniqueIdentifier>{4B936927-3777-2A7D-A0D7-24D08CDA14FF}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\ImGui\src">
+      <UniqueIdentifier>{EFFDAB61-DBCB-9F67-C45F-108EB0CC7BCC}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Core\Layers">
       <UniqueIdentifier>{2D0BFE82-99C0-7678-22B5-704F8E696D7C}</UniqueIdentifier>
     </Filter>
@@ -114,6 +129,12 @@
     <ClInclude Include="Core\Events\WindowEvent.h">
       <Filter>Core\Events</Filter>
     </ClInclude>
+    <ClInclude Include="Core\ImGui\Platform\OpenGL\ImGuiOpenGLRenderer.h">
+      <Filter>Core\ImGui\Platform\OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\ImGui\include\ImGuiLayer.h">
+      <Filter>Core\ImGui\include</Filter>
+    </ClInclude>
     <ClInclude Include="Core\Layers\Layer\include\Layer.h">
       <Filter>Core\Layers\Layer\include</Filter>
     </ClInclude>
@@ -153,6 +174,12 @@
     <ClInclude Include="Phoenix.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Core\ImGui\Platform\OpenGL\ImGuiOpenGLRenderer.cpp">
+      <Filter>Core\ImGui\Platform\OpenGL</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\ImGui\src\ImGuiLayer.cpp">
+      <Filter>Core\ImGui\src</Filter>
+    </ClCompile>
     <ClCompile Include="Core\Layers\Layer\src\Layer.cpp">
       <Filter>Core\Layers\Layer\src</Filter>
     </ClCompile>

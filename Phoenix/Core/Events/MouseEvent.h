@@ -2,7 +2,7 @@
 #include <sstream>
 
 #include "Event.h"
-#include "Utils/MouseCode.h"
+#include "../Utils/MouseCode.h"
 
 namespace Phoenix {
 

@@ -26,6 +26,7 @@ public:
 	GameApp()
 	{
 		PushLayer(new ExampleLayer());
+		PushOverlay(new Phoenix::ImGuiLayer());
 	}
 
 	~GameApp()

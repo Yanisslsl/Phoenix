@@ -13,9 +13,13 @@ outputdir = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
 -- Include directories relative to root folder (solution directory)
 IncludeDir = {}
 IncludeDir["GLFW"] = "Phoenix/vendor/GLFW/include"
+IncludeDir["GLAD"] = "Phoenix/vendor/GLAD/include"
+IncludeDir["ImGui"] = "Phoenix/vendor/imgui"
  
 -- Include GLFW premake file
 include "Phoenix/vendor/GLFW"
+include "Phoenix/vendor/GLAD"
+include "Phoenix/vendor/imgui"
 
 project "Phoenix"
 	location "Phoenix"
@@ -42,7 +46,8 @@ project "Phoenix"
 		defines
 		{
 			"PHOENIX_PLATFORM_WINDOWS",
-			"PHOENIX_BUILD_DLL"
+			"PHOENIX_BUILD_DLL",
+			"GLFW_INCLUDE_NONE"
 		}
 		
 		includedirs
@@ -50,13 +55,17 @@ project "Phoenix"
 		    "%{prj.name}/HAL",
             "%{prj.name}/Core",
 			"%{prj.name}/vendor/spdlog/include",
-			"%{IncludeDir.GLFW}"
+			"%{IncludeDir.GLFW}",
+			"%{IncludeDir.GLAD}",
+			"%{IncludeDir.ImGui}"
 		}
 		
 		links 
 		{
 		    "GLFW",
-		    "opengl32.lib"
+		    "GLAD",
+		    "opengl32.lib",
+		    "ImGui"
 		}
 
 		postbuildcommands

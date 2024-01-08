@@ -4,7 +4,7 @@
 #include "Events/MouseEvent.h"
 #include "Events/WindowEvent.h"
 #include "Log/include/Log.h"
-
+#include <glad/glad.h>
 
 namespace Phoenix
 {
@@ -32,12 +32,12 @@ namespace Phoenix
 
     void Window::SetVSync(bool enabled)
     {
-        // if(enabled)
-        //     glfwSwapInterval(1);
-        // else
-        //     glfwSwapInterval(0);
-        //
-        // m_Data.VSync = enabled;
+        if(enabled)
+            glfwSwapInterval(1);
+        else
+            glfwSwapInterval(0);
+        
+        m_Data.VSync = enabled;
     }
 
     bool Window::IsVSync() const
@@ -58,17 +58,23 @@ namespace Phoenix
         if(s_GLFWWindowCount == 0)
         {
             int success = glfwInit();
+            PX_CORE_ASSERT(success, "Could not initialize GLFW!");
+
             glfwWindowHint(GLFW_CLIENT_API, GLFW_OPENGL_API);
             glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
             glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 6);
             glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
             glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
-            
-            PX_CORE_ASSERT(success, "Could not initialize GLFW!");
-            glfwSetErrorCallback(GLFWErrorCallback);
             glfwWindowHint(GLFW_OPENGL_DEBUG_CONTEXT, GLFW_TRUE);
+            
+            glfwSetErrorCallback(GLFWErrorCallback);
+
             m_Window = glfwCreateWindow((int)props.Width, (int)props.Height, m_Data.Title.c_str(), nullptr, nullptr);
             glfwMakeContextCurrent(m_Window);
+
+            int status = gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
+            PX_CORE_ASSERT(status, "Failed to initialize Glad!");
+
             ++s_GLFWWindowCount;
         }
         
@@ -177,8 +183,8 @@ namespace Phoenix
     void Window::OnUpdate()
     {
         glfwPollEvents();
-        glClearColor(0.1f, 0.2f, 0.3f, 1.0f);
-        glClear(GL_COLOR_BUFFER_BIT);
+        // glClearColor(0.1f, 0.2f, 0.3f, 1.0f);
+        // glClear(GL_COLOR_BUFFER_BIT);
         glfwSwapBuffers(m_Window);
     }
 

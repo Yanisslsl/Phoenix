@@ -78,8 +78,8 @@
     <ClCompile>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
-      <PreprocessorDefinitions>PHOENIX_PLATFORM_WINDOWS;PHOENIX_BUILD_DLL;PHOENIX_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>C:\Users\yello\Dev\2023-2024\GameEngine\Phoenix\Phoenix\Core\Events;HAL;Core;vendor\spdlog\include;vendor\GLFW\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>PHOENIX_PLATFORM_WINDOWS;PHOENIX_BUILD_DLL;GLFW_INCLUDE_NONE;PHOENIX_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>HAL;Core;vendor\spdlog\include;vendor\GLFW\include;vendor\GLAD\include;vendor\imgui;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <Optimization>Disabled</Optimization>
       <AdditionalOptions>/MDd %(AdditionalOptions)</AdditionalOptions>
@@ -100,8 +100,8 @@
     <ClCompile>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
-      <PreprocessorDefinitions>PHOENIX_PLATFORM_WINDOWS;PHOENIX_BUILD_DLL;PHOENIX_RELEASE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>C:\Users\yello\Dev\2023-2024\GameEngine\Phoenix\Phoenix\Core\Events;HAL;Core;vendor\spdlog\include;vendor\GLFW\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>PHOENIX_PLATFORM_WINDOWS;PHOENIX_BUILD_DLL;GLFW_INCLUDE_NONE;PHOENIX_RELEASE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>HAL;Core;vendor\spdlog\include;vendor\GLFW\include;vendor\GLAD\include;vendor\imgui;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>Full</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
@@ -126,8 +126,8 @@
     <ClCompile>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
-      <PreprocessorDefinitions>PHOENIX_PLATFORM_WINDOWS;PHOENIX_BUILD_DLL;PHOENIX_DIST;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>C:\Users\yello\Dev\2023-2024\GameEngine\Phoenix\Phoenix\Core\Events;HAL;Core;vendor\spdlog\include;vendor\GLFW\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>PHOENIX_PLATFORM_WINDOWS;PHOENIX_BUILD_DLL;GLFW_INCLUDE_NONE;PHOENIX_DIST;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>HAL;Core;vendor\spdlog\include;vendor\GLFW\include;vendor\GLAD\include;vendor\imgui;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>Full</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
@@ -156,6 +156,8 @@
     <ClInclude Include="Core\Events\KeyEvent.h" />
     <ClInclude Include="Core\Events\MouseEvent.h" />
     <ClInclude Include="Core\Events\WindowEvent.h" />
+    <ClInclude Include="Core\ImGui\Platform\OpenGL\ImGuiOpenGLRenderer.h" />
+    <ClInclude Include="Core\ImGui\include\ImGuiLayer.h" />
     <ClInclude Include="Core\Layers\Layer\include\Layer.h" />
     <ClInclude Include="Core\Layers\LayerStack\include\LayerStack.h" />
     <ClInclude Include="Core\Log\include\Log.h" />
@@ -171,6 +173,8 @@
     <ClInclude Include="Phoenix.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Core\ImGui\Platform\OpenGL\ImGuiOpenGLRenderer.cpp" />
+    <ClCompile Include="Core\ImGui\src\ImGuiLayer.cpp" />
     <ClCompile Include="Core\Layers\Layer\src\Layer.cpp" />
     <ClCompile Include="Core\Layers\LayerStack\src\LayerStack.cpp" />
     <ClCompile Include="Core\Log\src\Log.cpp" />
@@ -183,6 +187,12 @@
   <ItemGroup>
     <ProjectReference Include="vendor\GLFW\GLFW.vcxproj">
       <Project>{154B857C-0182-860D-AA6E-6C109684020F}</Project>
+    </ProjectReference>
+    <ProjectReference Include="vendor\GLAD\GLAD.vcxproj">
+      <Project>{5D4A857C-4981-860D-F26D-6C10DE83020F}</Project>
+    </ProjectReference>
+    <ProjectReference Include="vendor\imgui\ImGui.vcxproj">
+      <Project>{C0FF640D-2C14-8DBE-F595-301E616989EF}</Project>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

@@ -3,16 +3,21 @@
 #include <cstdio>
 
 #include "Events/EventDispatcher.h"
+#include <glad/glad.h>
 #include "Log/include/Log.h"
 
 namespace Phoenix
 {
 
+	Application* Application::s_Instance = nullptr;
+
 	Application::Application()
 	{
 		m_Window = WindowHal::Create(WindowProps("Phoenix Engine", 1280, 720));
 		m_Window->SetEventCallback(PX_BIND_EVENT_FN(Application::OnEvent));
+		s_Instance = this;
 	}
+	
 	Application::~Application()	{	}
 	void Application::Run()
 	{
@@ -51,10 +56,12 @@ namespace Phoenix
 	void Application::PushLayer(Layer* layer)
 	{
 		m_LayerStack.PushLayer(layer);
+		layer->OnAttach();
 	}
 
 	void Application::PushOverlay(Layer* overlay)
 	{
 		m_LayerStack.PushOverlay(overlay);
+		overlay->OnAttach();
 	}
 }

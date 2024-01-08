@@ -5,7 +5,7 @@
 #include <sstream>
 
 #include "Event.h"
-#include "Utils/KeyCode.h"
+#include "../Utils/KeyCode.h"
 
 
 namespace Phoenix
