@@ -1,13 +1,12 @@
 #pragma once
 #include <cstdint>
-
 namespace Phoenix
 {
 	using KeyCode = uint16_t;
 	
 	namespace Key
 	{
-		enum : KeyCode
+		enum :  KeyCode
 		{
 			// From glfw3.h
 			Space               = 32,

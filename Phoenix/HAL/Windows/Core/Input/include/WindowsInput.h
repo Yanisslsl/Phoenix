@@ -5,17 +5,18 @@
 
 #include "Utils/KeyCode.h"
 #include "Utils/MouseCode.h"
+#include "../../Core/Core.h"
 
 namespace Phoenix
 {
-    class WindowsInput
+    class PHOENIX_API WindowsInput
     {
     public:
-        static bool IsKeyPressed(KeyCode keyCode);
-        static bool IsMouseButtonPressed(MouseCode mouseCode);
-        static std::vector<float> GetMousePosition();
+        [[ nodiscard]] static bool IsKeyPressed(KeyCode keyCode);
+        [[ nodiscard]] static bool IsMouseButtonPressed(MouseCode mouseCode);
+        [[ nodiscard]] static std::vector<float> GetMousePosition();
 
-        static float GetMouseX();
-        static float GetMouseY();
+        [[ nodiscard]] static float GetMouseX();
+        [[ nodiscard]] static float GetMouseY();
     };
 }

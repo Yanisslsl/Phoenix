@@ -4,7 +4,10 @@
 
 #include "Events/EventDispatcher.h"
 #include <glad/glad.h>
-#include "Log/include/Log.h"
+
+#include "../../HAL/Common/Core/Graphics/Render/include/Renderer.h"
+#include "../../Core/ImGui/include/ImGuiLayer.h"
+#include "../../Core/Log/include/Log.h"
 
 namespace Phoenix
 {
@@ -16,6 +19,11 @@ namespace Phoenix
 		m_Window = WindowHal::Create(WindowProps("Phoenix Engine", 1280, 720));
 		m_Window->SetEventCallback(PX_BIND_EVENT_FN(Application::OnEvent));
 		s_Instance = this;
+
+		Renderer::Init();
+
+		m_ImGuiLayer = new ImGuiLayer();
+		PushOverlay(m_ImGuiLayer);
 	}
 	
 	Application::~Application()	{	}

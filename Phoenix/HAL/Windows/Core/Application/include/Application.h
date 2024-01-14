@@ -31,6 +31,7 @@ namespace Phoenix
 		static Application* s_Instance;
 		bool m_Running = true;
 		LayerStack m_LayerStack;
+		Layer* m_ImGuiLayer;
 	};
 
 	// To be defined in CLIENT
