@@ -255,8 +255,9 @@ struct ImGui_ImplOpenGL3_VtxAttribState
 bool    ImGui_ImplOpenGL3_Init(const char* glsl_version)
 {
     ImGuiIO& io = ImGui::GetIO();
-    IM_ASSERT(io.BackendRendererUserData == nullptr && "Already initialized a renderer backend!");
-
+    // IM_ASSERT(io.BackendRendererUserData == nullptr && "Already initialized a renderer backend!");
+    if(io.BackendRendererUserData != nullptr)
+        ImGui_ImplOpenGL3_Shutdown();
     // Initialize our loader
 #if !defined(IMGUI_IMPL_OPENGL_ES2) && !defined(IMGUI_IMPL_OPENGL_ES3) && !defined(IMGUI_IMPL_OPENGL_LOADER_CUSTOM)
     if (imgl3wInit() != 0)

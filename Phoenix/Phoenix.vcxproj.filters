@@ -55,6 +55,12 @@
     <Filter Include="Core\Log\src">
       <UniqueIdentifier>{96580402-82BB-93A6-2B41-CC5C17835F29}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Core\Maths">
+      <UniqueIdentifier>{1A9FBCCD-0657-FE1A-6F5E-D7765B35990B}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\Maths\include">
+      <UniqueIdentifier>{8D401CE3-7924-DD38-E284-D78BCE87C7BA}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Core\Utils">
       <UniqueIdentifier>{0EA057CE-FA57-991B-635F-72774F36340C}</UniqueIdentifier>
     </Filter>
@@ -66,6 +72,45 @@
     </Filter>
     <Filter Include="HAL\Common\Core">
       <UniqueIdentifier>{6AB9DC5A-D644-4A1F-DF55-CD134B60A61F}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="HAL\Common\Core\Graphics">
+      <UniqueIdentifier>{EAB890BC-D6DD-DF3C-FF28-C5CCEBACDE5A}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="HAL\Common\Core\Graphics\DataObjects">
+      <UniqueIdentifier>{9D1671DC-89FD-32D4-324E-99F11E14AC3A}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="HAL\Common\Core\Graphics\DataObjects\include">
+      <UniqueIdentifier>{108B05DA-FC9D-0533-A587-E21F9179A280}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="HAL\Common\Core\Graphics\DataObjects\src">
+      <UniqueIdentifier>{34DB4046-2058-3489-49D5-349D35B1D01C}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="HAL\Common\Core\Graphics\OpenGLImpl">
+      <UniqueIdentifier>{101C8112-7CD5-EBBC-0535-069771EDA12C}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="HAL\Common\Core\Graphics\OpenGLImpl\include">
+      <UniqueIdentifier>{835331E2-EFB8-C468-7891-6641E4F5B9D7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="HAL\Common\Core\Graphics\OpenGLImpl\src">
+      <UniqueIdentifier>{2762EC66-93F1-AD51-9CED-8E6908FCE85D}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="HAL\Common\Core\Graphics\Render">
+      <UniqueIdentifier>{192C5828-850F-6768-8E12-95A4FA742DB9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="HAL\Common\Core\Graphics\Render\include">
+      <UniqueIdentifier>{8C5C78BE-F8EB-39A9-01E8-1AC16DF674B5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="HAL\Common\Core\Graphics\Render\src">
+      <UniqueIdentifier>{B04E6EB2-1C08-D95C-A567-F33611208FCC}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="HAL\Common\Core\Input">
+      <UniqueIdentifier>{E9506A38-55BD-2533-1EB1-BD908ADC479B}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="HAL\Common\Core\Input\include">
+      <UniqueIdentifier>{5C518AE5-C869-710F-9116-01A9FDED05A9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="HAL\Common\Core\Input\src">
+      <UniqueIdentifier>{805BA615-EC1D-DA9F-35CE-682CA1CFB27D}</UniqueIdentifier>
     </Filter>
     <Filter Include="HAL\Common\Core\Window">
       <UniqueIdentifier>{11CB0066-FDC4-29B8-E631-C0C8D2CA8F24}</UniqueIdentifier>
@@ -96,6 +141,15 @@
     </Filter>
     <Filter Include="HAL\Windows\Core\Graphics\include">
       <UniqueIdentifier>{1F48FBA3-8BB6-5023-D49F-0B23404D46BF}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="HAL\Windows\Core\Input">
+      <UniqueIdentifier>{EB93590A-D78D-825C-C0FA-186DAC93E8C8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="HAL\Windows\Core\Input\include">
+      <UniqueIdentifier>{5E7605B1-4A9C-CF17-33E2-54E31FA7F4E3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="HAL\Windows\Core\Input\src">
+      <UniqueIdentifier>{824FA303-6E5F-4FD4-D718-B4F2C3473E6D}</UniqueIdentifier>
     </Filter>
     <Filter Include="HAL\Windows\Core\Window">
       <UniqueIdentifier>{536ED875-BFA5-200D-C8AF-843034664706}</UniqueIdentifier>
@@ -144,11 +198,47 @@
     <ClInclude Include="Core\Log\include\Log.h">
       <Filter>Core\Log\include</Filter>
     </ClInclude>
+    <ClInclude Include="Core\Maths\include\Maths.h">
+      <Filter>Core\Maths\include</Filter>
+    </ClInclude>
     <ClInclude Include="Core\Utils\KeyCode.h">
       <Filter>Core\Utils</Filter>
     </ClInclude>
     <ClInclude Include="Core\Utils\MouseCode.h">
       <Filter>Core\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="HAL\Common\Core\Graphics\DataObjects\include\Buffer.h">
+      <Filter>HAL\Common\Core\Graphics\DataObjects\include</Filter>
+    </ClInclude>
+    <ClInclude Include="HAL\Common\Core\Graphics\DataObjects\include\Shader.h">
+      <Filter>HAL\Common\Core\Graphics\DataObjects\include</Filter>
+    </ClInclude>
+    <ClInclude Include="HAL\Common\Core\Graphics\DataObjects\include\VertexArray.h">
+      <Filter>HAL\Common\Core\Graphics\DataObjects\include</Filter>
+    </ClInclude>
+    <ClInclude Include="HAL\Common\Core\Graphics\OpenGLImpl\include\OpenGLBuffer.h">
+      <Filter>HAL\Common\Core\Graphics\OpenGLImpl\include</Filter>
+    </ClInclude>
+    <ClInclude Include="HAL\Common\Core\Graphics\OpenGLImpl\include\OpenGLShader.h">
+      <Filter>HAL\Common\Core\Graphics\OpenGLImpl\include</Filter>
+    </ClInclude>
+    <ClInclude Include="HAL\Common\Core\Graphics\OpenGLImpl\include\OpenGLVertexArray.h">
+      <Filter>HAL\Common\Core\Graphics\OpenGLImpl\include</Filter>
+    </ClInclude>
+    <ClInclude Include="HAL\Common\Core\Graphics\Render\include\OpenGLRendererAPI.h">
+      <Filter>HAL\Common\Core\Graphics\Render\include</Filter>
+    </ClInclude>
+    <ClInclude Include="HAL\Common\Core\Graphics\Render\include\RenderCommand.h">
+      <Filter>HAL\Common\Core\Graphics\Render\include</Filter>
+    </ClInclude>
+    <ClInclude Include="HAL\Common\Core\Graphics\Render\include\Renderer.h">
+      <Filter>HAL\Common\Core\Graphics\Render\include</Filter>
+    </ClInclude>
+    <ClInclude Include="HAL\Common\Core\Graphics\Render\include\RendererAPI.h">
+      <Filter>HAL\Common\Core\Graphics\Render\include</Filter>
+    </ClInclude>
+    <ClInclude Include="HAL\Common\Core\Input\include\Input.h">
+      <Filter>HAL\Common\Core\Input\include</Filter>
     </ClInclude>
     <ClInclude Include="HAL\Common\Core\Window\include\Window.h">
       <Filter>HAL\Common\Core\Window\include</Filter>
@@ -164,6 +254,9 @@
     </ClInclude>
     <ClInclude Include="HAL\Windows\Core\Graphics\include\Test.h">
       <Filter>HAL\Windows\Core\Graphics\include</Filter>
+    </ClInclude>
+    <ClInclude Include="HAL\Windows\Core\Input\include\WindowsInput.h">
+      <Filter>HAL\Windows\Core\Input\include</Filter>
     </ClInclude>
     <ClInclude Include="HAL\Windows\Core\Window\include\Window.h">
       <Filter>HAL\Windows\Core\Window\include</Filter>
@@ -189,11 +282,47 @@
     <ClCompile Include="Core\Log\src\Log.cpp">
       <Filter>Core\Log\src</Filter>
     </ClCompile>
+    <ClCompile Include="HAL\Common\Core\Graphics\DataObjects\src\Buffer.cpp">
+      <Filter>HAL\Common\Core\Graphics\DataObjects\src</Filter>
+    </ClCompile>
+    <ClCompile Include="HAL\Common\Core\Graphics\DataObjects\src\Shader.cpp">
+      <Filter>HAL\Common\Core\Graphics\DataObjects\src</Filter>
+    </ClCompile>
+    <ClCompile Include="HAL\Common\Core\Graphics\DataObjects\src\VertexArray.cpp">
+      <Filter>HAL\Common\Core\Graphics\DataObjects\src</Filter>
+    </ClCompile>
+    <ClCompile Include="HAL\Common\Core\Graphics\OpenGLImpl\src\OpenGLBuffer.cpp">
+      <Filter>HAL\Common\Core\Graphics\OpenGLImpl\src</Filter>
+    </ClCompile>
+    <ClCompile Include="HAL\Common\Core\Graphics\OpenGLImpl\src\OpenGLShader.cpp">
+      <Filter>HAL\Common\Core\Graphics\OpenGLImpl\src</Filter>
+    </ClCompile>
+    <ClCompile Include="HAL\Common\Core\Graphics\OpenGLImpl\src\OpenGLVertexArray.cpp">
+      <Filter>HAL\Common\Core\Graphics\OpenGLImpl\src</Filter>
+    </ClCompile>
+    <ClCompile Include="HAL\Common\Core\Graphics\Render\src\OpenGLRendererAPI.cpp">
+      <Filter>HAL\Common\Core\Graphics\Render\src</Filter>
+    </ClCompile>
+    <ClCompile Include="HAL\Common\Core\Graphics\Render\src\RenderCommand.cpp">
+      <Filter>HAL\Common\Core\Graphics\Render\src</Filter>
+    </ClCompile>
+    <ClCompile Include="HAL\Common\Core\Graphics\Render\src\Renderer.cpp">
+      <Filter>HAL\Common\Core\Graphics\Render\src</Filter>
+    </ClCompile>
+    <ClCompile Include="HAL\Common\Core\Graphics\Render\src\RendererAPI.cpp">
+      <Filter>HAL\Common\Core\Graphics\Render\src</Filter>
+    </ClCompile>
+    <ClCompile Include="HAL\Common\Core\Input\src\Input.cpp">
+      <Filter>HAL\Common\Core\Input\src</Filter>
+    </ClCompile>
     <ClCompile Include="HAL\Common\Core\Window\src\Window.cpp">
       <Filter>HAL\Common\Core\Window\src</Filter>
     </ClCompile>
     <ClCompile Include="HAL\Windows\Core\Application\src\Application.cpp">
       <Filter>HAL\Windows\Core\Application\src</Filter>
+    </ClCompile>
+    <ClCompile Include="HAL\Windows\Core\Input\src\WindowsInput.cpp">
+      <Filter>HAL\Windows\Core\Input\src</Filter>
     </ClCompile>
     <ClCompile Include="HAL\Windows\Core\Window\src\Window.cpp">
       <Filter>HAL\Windows\Core\Window\src</Filter>

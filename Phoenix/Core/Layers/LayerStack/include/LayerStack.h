@@ -5,6 +5,7 @@
 
 #include "../../../Core.h"
 #include "../../Layer/include/Layer.h"
+// #include "Windows/Core/Application/include/Application.h"
 
 
 namespace Phoenix
@@ -22,9 +23,11 @@ namespace Phoenix
 
         std::vector<Layer*>::iterator begin() { return m_Layers.begin(); }
         std::vector<Layer*>::iterator end() { return m_Layers.end(); }
-
     private:
         std::vector<Layer*> m_Layers;
-        std::vector<Layer*>::iterator m_LayerInsert;
+        std::vector<Layer*> m_Overlays;
+
+        // @TODO: change this to a vector of unique_ptr // Add badge to Layer
+        friend class Application;
     };
 }

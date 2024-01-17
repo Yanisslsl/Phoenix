@@ -31,7 +31,10 @@ namespace Phoenix
 	{
 		while (m_Running)
 		{
-			for(Layer* layer : m_LayerStack)
+			// Update layers first then overlays 
+			for(Layer* layer: m_LayerStack.m_Layers)
+				layer->OnUpdate();
+			for(Layer* layer : m_LayerStack.m_Overlays)
 				layer->OnUpdate();
 			m_Window->OnUpdate();
 		}
@@ -42,12 +45,10 @@ namespace Phoenix
 		EventDispatcher dispatcher(e);
 		dispatcher.Dispatch<WindowCloseEvent>(PX_BIND_EVENT_FN(Application::OnWindowClose));
 		dispatcher.Dispatch<WindowResizeEvent>(PX_BIND_EVENT_FN(Application::OnWindowResize));
-		for(auto it = m_LayerStack.end(); it != m_LayerStack.begin();)
-		{
-			(*--it)->OnEvent(e);
-			if(e.Handled)
-				break;
-		}
+		for(Layer* layer: m_LayerStack.m_Overlays)
+			layer->OnEvent(e);
+		for(Layer* layer: m_LayerStack.m_Layers)
+			layer->OnEvent(e);
 	}
 
 	bool Application::OnWindowClose(WindowCloseEvent& e)

@@ -1,11 +1,12 @@
 #include "../include/LayerStack.h"
 
+#include <iostream>
+
 
 namespace Phoenix
 {
     LayerStack::LayerStack()
     {
-        m_LayerInsert = m_Layers.begin();
     }
 
     LayerStack::~LayerStack()
@@ -18,12 +19,12 @@ namespace Phoenix
 
     void LayerStack::PushLayer(Layer* layer)
     {
-        m_LayerInsert = m_Layers.emplace(m_LayerInsert, layer);
+        m_Layers.emplace_back(layer);
     }
 
     void LayerStack::PushOverlay(Layer* overlay)
     {
-        m_Layers.emplace_back(overlay);
+        m_Overlays.emplace_back(overlay);
     }
 
     void LayerStack::PopLayer(Layer* layer)
@@ -32,7 +33,6 @@ namespace Phoenix
         if (it != m_Layers.end())
         {
             m_Layers.erase(it);
-            m_LayerInsert--;
         }
     }
 
@@ -41,7 +41,7 @@ namespace Phoenix
         auto it = std::find(m_Layers.begin(), m_Layers.end(), overlay);
         if (it != m_Layers.end())
         {
-            m_Layers.erase(it);
+            m_Overlays.erase(it);
         }
     }
 }

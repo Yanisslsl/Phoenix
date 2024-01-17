@@ -5,12 +5,12 @@
 #include <string>
 
 #include "../../../Core/Base/Base.h"
-
-
+#include "../../DataObjects/include/VertexArray.h"
+#include "../../../Core/Maths/include/Maths.h"
 
 namespace Phoenix
 {
-    class RendererAPI
+    class PHOENIX_API RendererAPI
     {
     public:
         enum class API
@@ -21,28 +21,7 @@ namespace Phoenix
             // PSP = 2
         };
 
-        // @TODO: delete when glm is added
-        struct Matrix4 {
-            float m[4][4];
-        };
-         
-        struct Vec4
-        {
-            float x, y, z, w;
-        };
-        struct Vec3
-        {
-            float x, y, z;
-        };
-        struct Vec2
-        {
-            float x, y;
-        };
 
-        struct Color
-        {
-            float r, g, b, a;
-        };
 
         virtual ~RendererAPI() = default;
 
@@ -50,7 +29,7 @@ namespace Phoenix
         virtual void SetViewport(uint32_t x, uint32_t y, uint32_t width, uint32_t height) = 0;
         // @TODO: add GLM support
         // virtual void SetClearColor(const glm::vec4& color) = 0;
-        virtual void SetClearColor(const Color color) = 0;
+        virtual void SetClearColor(const Maths::Color color) = 0;
 
         virtual void Clear() = 0;
 

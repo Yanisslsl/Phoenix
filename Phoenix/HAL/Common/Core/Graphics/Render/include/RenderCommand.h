@@ -1,11 +1,16 @@
 // RenderCommand.h
 
 #pragma once
+#include <cstdint>
+
+#include "RendererAPI.h"
 #include "../../../Core/Base/Base.h"
+#include "../../DataObjects/include/VertexArray.h"
+#include "../../../Core/Maths/include/Maths.h"
 
 namespace Phoenix
 {
-    class RenderCommand
+    class PHOENIX_API RenderCommand
     {
     public:
         static void Init()
@@ -18,7 +23,7 @@ namespace Phoenix
             s_RendererAPI->SetViewport(x, y, width, height);
         }
 
-        static void SetClearColor(const glm::vec4& color)
+        static void SetClearColor(const Maths::Color color)
         {
             s_RendererAPI->SetClearColor(color);
         }
@@ -39,6 +44,6 @@ namespace Phoenix
         }
 
     private:
-        Scope<RendererAPI> s_RendererAPI;
+        static Scope<RendererAPI> s_RendererAPI;
     };
 }

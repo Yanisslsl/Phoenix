@@ -3,6 +3,7 @@
 #include "Common/Core/Graphics/Render/include/Renderer.h"
 #include "../../../Core/Log/include/Log.h"
 #include "../../../Core/Base/Base.h"
+#include "Common/Core/Graphics/OpenGLImpl/include/OpenGLShader.h"
 
 
 namespace Phoenix
