@@ -21,9 +21,9 @@ namespace Phoenix
 		s_Instance = this;
 
 		Renderer::Init();
-
-		m_ImGuiLayer = new ImGuiLayer();
-		PushOverlay(m_ImGuiLayer);
+		//
+		// m_ImGuiLayer = new ImGuiLayer();
+		// PushOverlay(m_ImGuiLayer);
 	}
 	
 	Application::~Application()	{	}
