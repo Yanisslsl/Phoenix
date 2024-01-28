@@ -38,6 +38,7 @@ namespace Phoenix
     void OpenGLRendererAPI::DrawIndexed(const Ref<VertexArray>& vertexArray, uint32_t indexCount)
     {
         vertexArray->Bind();
+        auto d = vertexArray->GetIndexBuffer()->GetCount();
         uint32_t count = indexCount ? indexCount : vertexArray->GetIndexBuffer()->GetCount();
         glDrawElements(GL_TRIANGLES, count, GL_UNSIGNED_INT, nullptr);
     }

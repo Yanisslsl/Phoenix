@@ -8,6 +8,7 @@
 #include "../../HAL/Common/Core/Graphics/Render/include/Renderer.h"
 #include "../../Core/ImGui/include/ImGuiLayer.h"
 #include "../../Core/Log/include/Log.h"
+#include "../../Core/Utils/Timer.h"
 
 namespace Phoenix
 {
@@ -16,6 +17,7 @@ namespace Phoenix
 
 	Application::Application()
 	{
+		Timer::Reset();
 		m_Window = WindowHal::Create(WindowProps("Phoenix Engine", 1280, 720));
 		m_Window->SetEventCallback(PX_BIND_EVENT_FN(Application::OnEvent));
 		s_Instance = this;

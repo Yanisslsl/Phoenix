@@ -160,6 +160,12 @@
     <Filter Include="HAL\Windows\Core\Window\src">
       <UniqueIdentifier>{EA1D596E-562B-8754-DF11-833F4B1E530B}</UniqueIdentifier>
     </Filter>
+    <Filter Include="vendor">
+      <UniqueIdentifier>{B3738122-9F15-ACF8-88D0-BF4C74113349}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="vendor\stb_image">
+      <UniqueIdentifier>{0DA0BA59-F998-D9AB-22CB-BE300E23B9B7}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Core\Base\Base.h">
@@ -207,10 +213,16 @@
     <ClInclude Include="Core\Utils\MouseCode.h">
       <Filter>Core\Utils</Filter>
     </ClInclude>
+    <ClInclude Include="Core\Utils\Timer.h">
+      <Filter>Core\Utils</Filter>
+    </ClInclude>
     <ClInclude Include="HAL\Common\Core\Graphics\DataObjects\include\Buffer.h">
       <Filter>HAL\Common\Core\Graphics\DataObjects\include</Filter>
     </ClInclude>
     <ClInclude Include="HAL\Common\Core\Graphics\DataObjects\include\Shader.h">
+      <Filter>HAL\Common\Core\Graphics\DataObjects\include</Filter>
+    </ClInclude>
+    <ClInclude Include="HAL\Common\Core\Graphics\DataObjects\include\Texture.h">
       <Filter>HAL\Common\Core\Graphics\DataObjects\include</Filter>
     </ClInclude>
     <ClInclude Include="HAL\Common\Core\Graphics\DataObjects\include\VertexArray.h">
@@ -220,6 +232,9 @@
       <Filter>HAL\Common\Core\Graphics\OpenGLImpl\include</Filter>
     </ClInclude>
     <ClInclude Include="HAL\Common\Core\Graphics\OpenGLImpl\include\OpenGLShader.h">
+      <Filter>HAL\Common\Core\Graphics\OpenGLImpl\include</Filter>
+    </ClInclude>
+    <ClInclude Include="HAL\Common\Core\Graphics\OpenGLImpl\include\OpenGLTexture2D.h">
       <Filter>HAL\Common\Core\Graphics\OpenGLImpl\include</Filter>
     </ClInclude>
     <ClInclude Include="HAL\Common\Core\Graphics\OpenGLImpl\include\OpenGLVertexArray.h">
@@ -265,6 +280,9 @@
       <Filter>HAL\Windows</Filter>
     </ClInclude>
     <ClInclude Include="Phoenix.h" />
+    <ClInclude Include="vendor\stb_image\stb_image.h">
+      <Filter>vendor\stb_image</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Core\ImGui\Platform\OpenGL\ImGuiOpenGLRenderer.cpp">
@@ -288,6 +306,9 @@
     <ClCompile Include="HAL\Common\Core\Graphics\DataObjects\src\Shader.cpp">
       <Filter>HAL\Common\Core\Graphics\DataObjects\src</Filter>
     </ClCompile>
+    <ClCompile Include="HAL\Common\Core\Graphics\DataObjects\src\Texture.cpp">
+      <Filter>HAL\Common\Core\Graphics\DataObjects\src</Filter>
+    </ClCompile>
     <ClCompile Include="HAL\Common\Core\Graphics\DataObjects\src\VertexArray.cpp">
       <Filter>HAL\Common\Core\Graphics\DataObjects\src</Filter>
     </ClCompile>
@@ -295,6 +316,9 @@
       <Filter>HAL\Common\Core\Graphics\OpenGLImpl\src</Filter>
     </ClCompile>
     <ClCompile Include="HAL\Common\Core\Graphics\OpenGLImpl\src\OpenGLShader.cpp">
+      <Filter>HAL\Common\Core\Graphics\OpenGLImpl\src</Filter>
+    </ClCompile>
+    <ClCompile Include="HAL\Common\Core\Graphics\OpenGLImpl\src\OpenGLTexture2D.cpp">
       <Filter>HAL\Common\Core\Graphics\OpenGLImpl\src</Filter>
     </ClCompile>
     <ClCompile Include="HAL\Common\Core\Graphics\OpenGLImpl\src\OpenGLVertexArray.cpp">
@@ -326,6 +350,9 @@
     </ClCompile>
     <ClCompile Include="HAL\Windows\Core\Window\src\Window.cpp">
       <Filter>HAL\Windows\Core\Window\src</Filter>
+    </ClCompile>
+    <ClCompile Include="vendor\stb_image\stb_image.cpp">
+      <Filter>vendor\stb_image</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

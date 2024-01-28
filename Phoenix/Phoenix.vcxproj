@@ -79,7 +79,7 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>PHOENIX_PLATFORM_WINDOWS;PHOENIX_BUILD_DLL;GLFW_INCLUDE_NONE;PHOENIX_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>HAL;Core;vendor\spdlog\include;vendor\GLFW\include;vendor\GLAD\include;vendor\imgui;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>HAL;Core;vendor\spdlog\include;vendor\GLFW\include;vendor\GLAD\include;vendor\imgui;vendor\stb_image;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <Optimization>Disabled</Optimization>
       <AdditionalOptions>/MDd %(AdditionalOptions)</AdditionalOptions>
@@ -101,7 +101,7 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>PHOENIX_PLATFORM_WINDOWS;PHOENIX_BUILD_DLL;GLFW_INCLUDE_NONE;PHOENIX_RELEASE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>HAL;Core;vendor\spdlog\include;vendor\GLFW\include;vendor\GLAD\include;vendor\imgui;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>HAL;Core;vendor\spdlog\include;vendor\GLFW\include;vendor\GLAD\include;vendor\imgui;vendor\stb_image;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>Full</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
@@ -127,7 +127,7 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>PHOENIX_PLATFORM_WINDOWS;PHOENIX_BUILD_DLL;GLFW_INCLUDE_NONE;PHOENIX_DIST;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>HAL;Core;vendor\spdlog\include;vendor\GLFW\include;vendor\GLAD\include;vendor\imgui;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>HAL;Core;vendor\spdlog\include;vendor\GLFW\include;vendor\GLAD\include;vendor\imgui;vendor\stb_image;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>Full</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
@@ -164,11 +164,14 @@
     <ClInclude Include="Core\Maths\include\Maths.h" />
     <ClInclude Include="Core\Utils\KeyCode.h" />
     <ClInclude Include="Core\Utils\MouseCode.h" />
+    <ClInclude Include="Core\Utils\Timer.h" />
     <ClInclude Include="HAL\Common\Core\Graphics\DataObjects\include\Buffer.h" />
     <ClInclude Include="HAL\Common\Core\Graphics\DataObjects\include\Shader.h" />
+    <ClInclude Include="HAL\Common\Core\Graphics\DataObjects\include\Texture.h" />
     <ClInclude Include="HAL\Common\Core\Graphics\DataObjects\include\VertexArray.h" />
     <ClInclude Include="HAL\Common\Core\Graphics\OpenGLImpl\include\OpenGLBuffer.h" />
     <ClInclude Include="HAL\Common\Core\Graphics\OpenGLImpl\include\OpenGLShader.h" />
+    <ClInclude Include="HAL\Common\Core\Graphics\OpenGLImpl\include\OpenGLTexture2D.h" />
     <ClInclude Include="HAL\Common\Core\Graphics\OpenGLImpl\include\OpenGLVertexArray.h" />
     <ClInclude Include="HAL\Common\Core\Graphics\Render\include\OpenGLRendererAPI.h" />
     <ClInclude Include="HAL\Common\Core\Graphics\Render\include\RenderCommand.h" />
@@ -184,6 +187,7 @@
     <ClInclude Include="HAL\Windows\Core\Window\include\Window.h" />
     <ClInclude Include="HAL\Windows\Windows.h" />
     <ClInclude Include="Phoenix.h" />
+    <ClInclude Include="vendor\stb_image\stb_image.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Core\ImGui\Platform\OpenGL\ImGuiOpenGLRenderer.cpp" />
@@ -193,9 +197,11 @@
     <ClCompile Include="Core\Log\src\Log.cpp" />
     <ClCompile Include="HAL\Common\Core\Graphics\DataObjects\src\Buffer.cpp" />
     <ClCompile Include="HAL\Common\Core\Graphics\DataObjects\src\Shader.cpp" />
+    <ClCompile Include="HAL\Common\Core\Graphics\DataObjects\src\Texture.cpp" />
     <ClCompile Include="HAL\Common\Core\Graphics\DataObjects\src\VertexArray.cpp" />
     <ClCompile Include="HAL\Common\Core\Graphics\OpenGLImpl\src\OpenGLBuffer.cpp" />
     <ClCompile Include="HAL\Common\Core\Graphics\OpenGLImpl\src\OpenGLShader.cpp" />
+    <ClCompile Include="HAL\Common\Core\Graphics\OpenGLImpl\src\OpenGLTexture2D.cpp" />
     <ClCompile Include="HAL\Common\Core\Graphics\OpenGLImpl\src\OpenGLVertexArray.cpp" />
     <ClCompile Include="HAL\Common\Core\Graphics\Render\src\OpenGLRendererAPI.cpp" />
     <ClCompile Include="HAL\Common\Core\Graphics\Render\src\RenderCommand.cpp" />
@@ -208,6 +214,7 @@
     <ClCompile Include="HAL\Windows\Core\Window\src\Window.cpp">
       <ObjectFileName>$(IntDir)\Window1.obj</ObjectFileName>
     </ClCompile>
+    <ClCompile Include="vendor\stb_image\stb_image.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="vendor\GLFW\GLFW.vcxproj">

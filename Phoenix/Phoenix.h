@@ -10,3 +10,4 @@
 #include "HAL/Common/Core/Input/include/Input.h"
 #include "Core/Utils/KeyCode.h"
 #include "Core/Utils/MouseCode.h"
+#include "Core/Utils/Timer.h"

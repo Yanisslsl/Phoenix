@@ -15,6 +15,7 @@ IncludeDir = {}
 IncludeDir["GLFW"] = "Phoenix/vendor/GLFW/include"
 IncludeDir["GLAD"] = "Phoenix/vendor/GLAD/include"
 IncludeDir["ImGui"] = "Phoenix/vendor/imgui"
+IncludeDir["stb_image"] = "Phoenix/vendor/stb_image"
  
 -- Include GLFW premake file
 include "Phoenix/vendor/GLFW"
@@ -37,6 +38,8 @@ project "Phoenix"
 		"%{prj.name}/Core/**.h",
 		"%{prj.name}/Phoenix.h",
 		"%{prj.name}/Core/Events/**.h",
+        "%{prj.name}/vendor/stb_image/**.h",
+        "%{prj.name}/vendor/stb_image/**.cpp"
 	}
 
 	filter "system:windows"
@@ -57,7 +60,8 @@ project "Phoenix"
 			"%{prj.name}/vendor/spdlog/include",
 			"%{IncludeDir.GLFW}",
 			"%{IncludeDir.GLAD}",
-			"%{IncludeDir.ImGui}"
+			"%{IncludeDir.ImGui}",
+			"%{IncludeDir.stb_image}"
 		}
 		
 		links 
@@ -65,7 +69,7 @@ project "Phoenix"
 		    "GLFW",
 		    "GLAD",
 		    "opengl32.lib",
-		    "ImGui"
+		    "ImGui",
 		}
 
 		postbuildcommands

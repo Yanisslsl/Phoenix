@@ -15,6 +15,7 @@ namespace Phoenix
         OpenGLVertexBuffer(float* vertices, uint32_t size);
 
         virtual ~OpenGLVertexBuffer();
+        
         virtual void Bind() const override;
         virtual void Unbind() const override;
 
