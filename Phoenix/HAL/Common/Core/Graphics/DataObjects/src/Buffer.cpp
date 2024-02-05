@@ -19,24 +19,24 @@ namespace Phoenix
         return nullptr;
     }
 
-    Ref<VertexBuffer> VertexBuffer::Create(float* vertices, uint32_t size)
+    Ref<VertexBuffer> VertexBuffer::Create(std::vector<float> vertices)
     {
         switch (Renderer::GetAPI())
         {
         case RendererAPI::API::None:    PX_CORE_ASSERT(false, "RendererAPI::None is currently not supported!"); return nullptr;
-        case RendererAPI::API::OpenGL:  return CreateRef<OpenGLVertexBuffer>(vertices, size);
+        case RendererAPI::API::OpenGL:  return CreateRef<OpenGLVertexBuffer>(vertices);
         }
 
         PX_CORE_ASSERT(false, "Unknown RendererAPI!");
         return nullptr;
     }
 
-    Ref<IndexBuffer> IndexBuffer::Create(uint32_t* indices, uint32_t size)
+    Ref<IndexBuffer> IndexBuffer::Create(std::vector<uint32_t> indices)
     {
         switch (Renderer::GetAPI())
         {
         case RendererAPI::API::None:    PX_CORE_ASSERT(false, "RendererAPI::None is currently not supported!"); return nullptr;
-        case RendererAPI::API::OpenGL:  return CreateRef<OpenGLIndexBuffer>(indices, size);
+        case RendererAPI::API::OpenGL:  return CreateRef<OpenGLIndexBuffer>(indices);
         }
 
         PX_CORE_ASSERT(false, "Unknown RendererAPI!");

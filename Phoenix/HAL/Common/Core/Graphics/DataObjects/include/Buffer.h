@@ -122,7 +122,7 @@ namespace Phoenix
         virtual void SetLayout(const BufferLayout& layout) = 0;
 
         static Ref<VertexBuffer> Create(uint32_t size);
-        static Ref<VertexBuffer> Create(float* vertices, uint32_t size);
+        static Ref<VertexBuffer> Create(std::vector<float> vertices);
     };
     
     //@TODO: move to his own file
@@ -136,6 +136,6 @@ namespace Phoenix
 
         virtual uint32_t GetCount() const = 0;
 
-        static Ref<IndexBuffer> Create(uint32_t* indices, uint32_t count);
+        static Ref<IndexBuffer> Create(std::vector<uint32_t> indices);
     };
 }

@@ -60,14 +60,14 @@ namespace Phoenix
         glLineWidth(width);
     }
 
-    Ref<VertexBuffer> OpenGLRendererAPI::CreateVertexBuffer(float* vertices, size_t size)
+    Ref<VertexBuffer> OpenGLRendererAPI::CreateVertexBuffer(std::vector<float> vertices)
     {
-        return OpenGLVertexBuffer::Create(vertices, size);
+        return OpenGLVertexBuffer::Create(vertices);
     }
 
-    Ref<IndexBuffer> OpenGLRendererAPI::CreateIndexBuffer(uint32_t* indices, size_t size)
+    Ref<IndexBuffer> OpenGLRendererAPI::CreateIndexBuffer(std::vector<uint32_t> indices)
     {
-        return OpenGLIndexBuffer::Create(indices, size);
+        return OpenGLIndexBuffer::Create(indices);
     }
 
     Ref<VertexArray> OpenGLRendererAPI::CreateVertexArray()

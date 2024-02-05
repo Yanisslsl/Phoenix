@@ -29,13 +29,13 @@ namespace Phoenix {
         Renderer::DrawIndexed(vertexArray);
     }
 
-    void Renderer::CreateShape(std::string name, float* vertices, uint32_t vertices_size, uint32_t* indices, uint32_t indices_size, const char* vertexShader, const char* fragmentShader, const BufferLayout bufferlayout ,const Maths::Matrix4& transform)
+    void Renderer::CreateShape(std::string name, std::vector<float> vertices, std::vector<uint32_t> indices, const char* vertexShader, const char* fragmentShader, const BufferLayout bufferlayout ,const Maths::Matrix4& transform)
     {
         Ref<VertexArray> vertexArray = s_RendererAPI->CreateVertexArray();
-        Ref<VertexBuffer> vertexBuffer = s_RendererAPI->CreateVertexBuffer(vertices, vertices_size);
+        Ref<VertexBuffer> vertexBuffer = s_RendererAPI->CreateVertexBuffer(vertices);
         vertexBuffer->SetLayout(bufferlayout);
         vertexArray->AddVertexBuffer(vertexBuffer);
-        Ref<IndexBuffer> indexBuffer = s_RendererAPI->CreateIndexBuffer(indices, indices_size / sizeof(uint32_t));
+        Ref<IndexBuffer> indexBuffer = s_RendererAPI->CreateIndexBuffer(indices);
         vertexArray->SetIndexBuffer(indexBuffer);
         Ref<Shader> shader  = s_RendererAPI->CreateShader(name, vertexShader, fragmentShader);
         shader->Bind();

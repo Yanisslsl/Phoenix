@@ -33,14 +33,14 @@ public:
 		// m_VertexArray = Phoenix::VertexArray::Create();
 		// m_VertexArray = Phoenix::Renderer::CreateVertexArray();
 
-		float vertices[] = {
+		std::vector<float> vertices = {
 			0.5f,  0.5f, 0.0f, 1.0f, 0.0f, 0.0f,
 			0.5f, -0.5f, 0.0f,  1.0f, 0.0f, 0.0f,
 		   -0.5f, -0.5f, 0.0f, 1.0f, 0.0f, 0.0f,
 		   -0.5f,  0.5f, 0.0f , 1.0f, 0.0f, 0.0f,
 		};
 
-		uint32_t indices[] = {
+		std::vector<uint32_t> indices = {
 			0, 1, 3,
 			1, 2, 3
 		};
@@ -60,7 +60,7 @@ public:
 		//
 		// m_Shader = Phoenix::Shader::Create("VertexPosColor", vsSrc, fsSrc);
 		// m_Shader->Bind();
-		Phoenix::Renderer::CreateShape("rectangle", vertices, sizeof(vertices), indices , sizeof(indices),  vsSrc, fsSrc, layout);
+		Phoenix::Renderer::CreateShape("rectangle", vertices,  indices ,  vsSrc, fsSrc, layout);
 
 		// Needs to first call useProgram before setting uniforms
 

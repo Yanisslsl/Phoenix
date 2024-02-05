@@ -24,8 +24,8 @@ namespace Phoenix
 
         
         virtual Ref<VertexArray> CreateVertexArray() override;
-        virtual Ref<VertexBuffer> CreateVertexBuffer(float* vertices, size_t size) override;
-        virtual Ref<IndexBuffer> CreateIndexBuffer(uint32_t* indices, size_t size) override;
+        virtual Ref<VertexBuffer> CreateVertexBuffer(std::vector<float> vertices) override;
+        virtual Ref<IndexBuffer> CreateIndexBuffer(std::vector<uint32_t> indices) override;
         virtual Ref<Shader> CreateShader(std::string name, const char* vertexShader, const char* fragmentShader) override;
     };
 }

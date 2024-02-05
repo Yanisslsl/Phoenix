@@ -61,7 +61,7 @@ namespace Phoenix
         
         static RendererAPI::API GetAPI() { return RendererAPI::GetAPI(); }
 
-        static void Renderer::CreateShape(std::string name, float* vertices, uint32_t vertices_size, uint32_t* indices, uint32_t indices_size, const char* vertexShader, const char* fragmentShader, const BufferLayout bufferlayout ,const Maths::Matrix4& transform = {});
+        static void Renderer::CreateShape(std::string name, std::vector<float> vertices, std::vector<uint32_t> indices, const char* vertexShader, const char* fragmentShader, const BufferLayout bufferlayout ,const Maths::Matrix4& transform = {});
         static Ref<Shader> Renderer::GetShader(std::string name);
         static void OnUpdate();
     private:

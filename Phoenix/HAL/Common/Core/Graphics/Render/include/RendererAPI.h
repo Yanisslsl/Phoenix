@@ -41,8 +41,8 @@ namespace Phoenix
         virtual void SetLineWidth(float width) = 0;
 
         virtual Ref<VertexArray> CreateVertexArray() = 0;
-        virtual Ref<VertexBuffer> CreateVertexBuffer(float* vertices, size_t size) = 0;
-        virtual Ref<IndexBuffer> CreateIndexBuffer(uint32_t* indices, size_t size) = 0;
+        virtual Ref<VertexBuffer> CreateVertexBuffer(std::vector<float> vertices) = 0;
+        virtual Ref<IndexBuffer> CreateIndexBuffer(std::vector<uint32_t> indices) = 0;
         virtual Ref<Shader> CreateShader(std::string name, const char* vertexShader, const char* fragmentShader) = 0;
 
         static API GetAPI() { return s_API; }
