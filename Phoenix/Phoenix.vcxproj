@@ -174,7 +174,6 @@
     <ClInclude Include="HAL\Common\Core\Graphics\OpenGLImpl\include\OpenGLTexture2D.h" />
     <ClInclude Include="HAL\Common\Core\Graphics\OpenGLImpl\include\OpenGLVertexArray.h" />
     <ClInclude Include="HAL\Common\Core\Graphics\Render\include\OpenGLRendererAPI.h" />
-    <ClInclude Include="HAL\Common\Core\Graphics\Render\include\RenderCommand.h" />
     <ClInclude Include="HAL\Common\Core\Graphics\Render\include\Renderer.h" />
     <ClInclude Include="HAL\Common\Core\Graphics\Render\include\RendererAPI.h" />
     <ClInclude Include="HAL\Common\Core\Input\include\Input.h" />
@@ -204,7 +203,6 @@
     <ClCompile Include="HAL\Common\Core\Graphics\OpenGLImpl\src\OpenGLTexture2D.cpp" />
     <ClCompile Include="HAL\Common\Core\Graphics\OpenGLImpl\src\OpenGLVertexArray.cpp" />
     <ClCompile Include="HAL\Common\Core\Graphics\Render\src\OpenGLRendererAPI.cpp" />
-    <ClCompile Include="HAL\Common\Core\Graphics\Render\src\RenderCommand.cpp" />
     <ClCompile Include="HAL\Common\Core\Graphics\Render\src\Renderer.cpp" />
     <ClCompile Include="HAL\Common\Core\Graphics\Render\src\RendererAPI.cpp" />
     <ClCompile Include="HAL\Common\Core\Input\src\Input.cpp" />

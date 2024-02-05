@@ -21,5 +21,11 @@ namespace Phoenix
         void DrawLines(const Ref<VertexArray>& vertexArray, uint32_t vertexCount) override;
 
         void SetLineWidth(float width) override;
+
+        
+        virtual Ref<VertexArray> CreateVertexArray() override;
+        virtual Ref<VertexBuffer> CreateVertexBuffer(float* vertices, size_t size) override;
+        virtual Ref<IndexBuffer> CreateIndexBuffer(uint32_t* indices, size_t size) override;
+        virtual Ref<Shader> CreateShader(std::string name, const char* vertexShader, const char* fragmentShader) override;
     };
 }

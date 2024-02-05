@@ -3,7 +3,6 @@
 #pragma once
 #include "Common/Core/Graphics/DataObjects/include/Buffer.h"
 
-
 namespace Phoenix
 {
     class OpenGLVertexBuffer: public VertexBuffer
