@@ -91,6 +91,12 @@ namespace Phoenix {
         return s_ShapeData.find(name)->second.shader;
     }
 
+    void Renderer::BeginScene(OrthographicCamera& camera)
+    {
+        s_SceneData->ViewProjectionMatrix = camera.GetViewProjectionMatrix();
+    }
+
+
     void Renderer::OnUpdate()
     {
         for (auto& shape : s_ShapeData)

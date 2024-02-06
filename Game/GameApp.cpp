@@ -3,13 +3,14 @@
 #include "Common/Core/Graphics/DataObjects/include/Texture.h"
 #include "Common/Core/Graphics/DataObjects/include/VertexArray.h"
 #include "Common/Core/Graphics/Render/include/Renderer.h"
+#include "Common/Core/Scene/include/OrthographicCameraController.h"
 
 
 class ExampleLayer : public Phoenix::Layer
 {
 public:
 	ExampleLayer()
-		: Layer("Example")
+		: Layer("Example"), m_CameraController(1280.0f / 720.0f)
 	{
 		const char* vsSrc = R"(
 		#version 330 core
@@ -85,6 +86,7 @@ public:
 	{
 		Phoenix::Renderer::SetClearColor({ 0.0f, 0.0f, 0.0f, 1 });
 		Phoenix::Renderer::Clear();
+		
 
 		Phoenix::Renderer::OnUpdate();
 		// float timeValue = Phoenix::Timer::Elapsed();
@@ -97,6 +99,7 @@ public:
 
 	void OnEvent(Phoenix::Event& event) override
 	{
+		m_CameraController.OnEvent(event);
 		PX_TRACE("Event catched {0}", event.GetName());
 	}
 	
@@ -104,6 +107,7 @@ private:
 	Phoenix::Ref<Phoenix::Shader> m_Shader;
 	Phoenix::Ref<Phoenix::VertexArray> m_VertexArray;
 	Phoenix::Ref<Phoenix::Texture2D> m_Texture;
+	Phoenix::OrthographicCameraController m_CameraController;
 };
 
 class GameApp : public Phoenix::Application

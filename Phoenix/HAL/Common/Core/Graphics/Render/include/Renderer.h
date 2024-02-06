@@ -9,6 +9,7 @@
 #include "../../../Core/Maths/include/Maths.h"
 #include "../../../Core/Base/Base.h"
 #include "Common/Core/Graphics/DataObjects/include/Texture.h"
+#include "Common/Core/Scene/include/OrthographicCamera.h"
 
 
 namespace Phoenix
@@ -126,10 +127,17 @@ namespace Phoenix
          * This function is responsible for rendering all of the objects in the scene
          */
         static void OnUpdate();
+
+     
+        /**
+         * \brief Begin the scene
+         * \param camera 
+         */
+        static void BeginScene(OrthographicCamera& camera);
     private:
         struct SceneData
         {
-            Maths::Matrix4 ViewProjectionMatrix;
+            glm::mat4 ViewProjectionMatrix;
         };
         static Scope<SceneData> s_SceneData;
      
