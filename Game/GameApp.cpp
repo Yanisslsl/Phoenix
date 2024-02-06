@@ -11,33 +11,47 @@ public:
 	ExampleLayer()
 		: Layer("Example")
 	{
-		const char* vsSrc = "#version 330 core\n"
-		"layout (location = 0) in vec3 aPos;\n"
-		"layout (location = 1) in vec3 aColor;\n"
-		"out vec3 ourColor;\n"
-		"void main()\n"
-		"{\n"
-		"   gl_Position = vec4(aPos, 1.0);\n"
-		"   ourColor = aColor;\n"
-		"}\0";
+		const char* vsSrc = R"(
+		#version 330 core
+		layout (location = 0) in vec3 aPos;
+		layout (location = 1) in vec3 aColor;
+		layout (location = 2) in vec2 aTexCoord;
 
-		const char *fsSrc = "#version 330 core\n"
-	"out vec4 FragColor;\n"
-	"in vec3 ourColor;\n"
-	"void main()\n"
-	"{\n"
-	"   FragColor = vec4(ourColor, 1.0f);\n"
-	"}\n\0";
+		out vec3 ourColor;
+		out vec2 TexCoord;
+
+		void main()
+		{
+		    gl_Position = vec4(aPos, 1.0);
+		    ourColor = aColor;
+		    TexCoord = aTexCoord;
+		}
+		)";
+
+		const char* fsSrc = R"(
+			#version 330 core
+			out vec4 FragColor;
+			  
+			in vec3 ourColor;
+			in vec2 TexCoord;
+
+			uniform sampler2D ourTexture;
+
+			void main()
+			{
+			FragColor = texture(ourTexture, TexCoord);
+			}
+		)";
 
 
 		// m_VertexArray = Phoenix::VertexArray::Create();
 		// m_VertexArray = Phoenix::Renderer::CreateVertexArray();
 
 		std::vector<float> vertices = {
-			0.5f,  0.5f, 0.0f, 1.0f, 0.0f, 0.0f,
-			0.5f, -0.5f, 0.0f,  1.0f, 0.0f, 0.0f,
-		   -0.5f, -0.5f, 0.0f, 1.0f, 0.0f, 0.0f,
-		   -0.5f,  0.5f, 0.0f , 1.0f, 0.0f, 0.0f,
+			0.5f,  0.5f, 0.0f,   1.0f, 0.0f, 0.0f,   1.0f, 1.0f,   // top right
+				0.5f, -0.5f, 0.0f,   0.0f, 1.0f, 0.0f,   1.0f, 0.0f,   // bottom right
+			   -0.5f, -0.5f, 0.0f,   0.0f, 0.0f, 1.0f,   0.0f, 0.0f,   // bottom left
+			   -0.5f,  0.5f, 0.0f,   1.0f, 1.0f, 0.0f,   0.0f, 1.0f  
 		};
 
 		std::vector<uint32_t> indices = {
@@ -47,7 +61,8 @@ public:
 		// auto vertexBuffer = Phoenix::VertexBuffer::Create(vertices, sizeof(vertices));
 		Phoenix::BufferLayout layout = {
 			{ Phoenix::ShaderDataType::Float3, "aPos" },
-		{ Phoenix::ShaderDataType::Float3, "aColor" }
+					{ Phoenix::ShaderDataType::Float3, "aColor" },
+					{ Phoenix::ShaderDataType::Float2, "aTexCoord" }
 		};
 		// vertexBuffer->SetLayout(layout);
 		// m_VertexArray->AddVertexBuffer(vertexBuffer);
@@ -60,7 +75,7 @@ public:
 		//
 		// m_Shader = Phoenix::Shader::Create("VertexPosColor", vsSrc, fsSrc);
 		// m_Shader->Bind();
-		Phoenix::Renderer::CreateShape("rectangle", vertices,  indices ,  vsSrc, fsSrc, layout);
+		Phoenix::Renderer::CreateTexturedShape("rectangle", vertices,  indices ,  vsSrc, fsSrc, layout, "assets/container.jpg");
 
 		// Needs to first call useProgram before setting uniforms
 
@@ -68,7 +83,7 @@ public:
 
 	void OnUpdate() override
 	{
-		Phoenix::Renderer::SetClearColor({ 1.0f, 1.0f, 0.0f, 1 });
+		Phoenix::Renderer::SetClearColor({ 0.0f, 0.0f, 0.0f, 1 });
 		Phoenix::Renderer::Clear();
 
 		Phoenix::Renderer::OnUpdate();

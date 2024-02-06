@@ -3,6 +3,7 @@
 
 #include "Common/Core/Graphics/OpenGLImpl/include/OpenGLBuffer.h"
 #include "Common/Core/Graphics/OpenGLImpl/include/OpenGLShader.h"
+#include "Common/Core/Graphics/OpenGLImpl/include/OpenGLTexture2D.h"
 #include "Common/Core/Graphics/OpenGLImpl/include/OpenGLVertexArray.h"
 
 namespace Phoenix
@@ -78,6 +79,11 @@ namespace Phoenix
     Ref<Shader> OpenGLRendererAPI::CreateShader(std::string name, const char* vertexShader, const char* fragmentShader)
     {
         return CreateRef<OpenGLShader>(name, vertexShader, fragmentShader);
+    }
+
+    Ref<Texture2D> OpenGLRendererAPI::CreateTexture2D(std::string texturePath)
+    {
+        return CreateRef<OpenGLTexture2D>(texturePath);
     }
 
     

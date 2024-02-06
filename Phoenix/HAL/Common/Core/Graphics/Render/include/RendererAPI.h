@@ -7,6 +7,7 @@
 #include "../../../Core/Base/Base.h"
 #include "../../DataObjects/include/VertexArray.h"
 #include "../../../Core/Maths/include/Maths.h"
+#include "Common/Core/Graphics/DataObjects/include/Texture.h"
 
 namespace Phoenix
 {
@@ -44,7 +45,7 @@ namespace Phoenix
         virtual Ref<VertexBuffer> CreateVertexBuffer(std::vector<float> vertices) = 0;
         virtual Ref<IndexBuffer> CreateIndexBuffer(std::vector<uint32_t> indices) = 0;
         virtual Ref<Shader> CreateShader(std::string name, const char* vertexShader, const char* fragmentShader) = 0;
-
+        virtual Ref<Texture2D> CreateTexture2D(std::string texturePath) = 0;
         static API GetAPI() { return s_API; }
         static Scope<RendererAPI> Create();
     private:
