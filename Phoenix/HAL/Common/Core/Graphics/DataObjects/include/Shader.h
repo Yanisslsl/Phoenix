@@ -4,6 +4,7 @@
 #include <memory>
 #include <string>
 #include <unordered_map>
+#include <glm/glm.hpp>
 
 #include "../../../Core/Base/Base.h"
 #include "../../Render/include/RendererAPI.h"
@@ -22,10 +23,10 @@ namespace Phoenix
         virtual void SetInt(const std::string& name, int value) = 0;
         virtual void SetIntArray(const std::string& name, int* values, uint32_t count) = 0;
         virtual void SetFloat(const std::string& name, float value) = 0;
-        virtual void SetFloat2(const std::string& name, const Maths::Vec2& value) = 0;
-        virtual void SetFloat3(const std::string& name, const Maths::Vec3& value) = 0;
-        virtual void SetFloat4(const std::string& name, const Maths::Vec4& value) = 0;
-        virtual void SetMat4(const std::string& name, const Maths::Matrix4& value) = 0;
+        virtual void SetFloat2(const std::string& name, const glm::vec2& value) = 0;
+        virtual void SetFloat3(const std::string& name, const glm::vec3& value) = 0;
+        virtual void SetFloat4(const std::string& name, const glm::vec4& value) = 0;
+        virtual void SetMat4(const std::string& name, const glm::mat4& value) = 0;
 
         virtual const std::string& GetName() const = 0;
 

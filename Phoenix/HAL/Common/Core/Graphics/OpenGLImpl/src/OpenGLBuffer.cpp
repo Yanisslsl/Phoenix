@@ -19,7 +19,7 @@ namespace Phoenix
         glBufferData(GL_ARRAY_BUFFER, static_cast<GLsizeiptr>(vertices.size() * sizeof(float)), vertices.data(), GL_STATIC_DRAW);
     }
 
-OpenGLVertexBuffer::~OpenGLVertexBuffer()
+    OpenGLVertexBuffer::~OpenGLVertexBuffer()
     {
         glDeleteBuffers(1, &m_RendererID);
     }

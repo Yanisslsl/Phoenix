@@ -14,7 +14,7 @@ namespace Phoenix
     class PHOENIX_API OrthographicCameraController
     {
     public:
-        OrthographicCameraController(float aspectRatio, bool rotation = false);
+        OrthographicCameraController(float left, float right, float bottom, float top, float aspectRation, bool rotation = false);
         void OnUpdate(TimeStep ts);
         void OnEvent(Event& event);
 

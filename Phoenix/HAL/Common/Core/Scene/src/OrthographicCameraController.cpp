@@ -6,10 +6,9 @@
 
 namespace Phoenix
 {
-    OrthographicCameraController::OrthographicCameraController(float aspectRatio, bool rotation)
-        : m_AspectRatio(aspectRatio), m_Camera(-m_AspectRatio * m_ZoomLevel, m_AspectRatio * m_ZoomLevel, -m_ZoomLevel, m_ZoomLevel), m_Rotation(rotation)
+    OrthographicCameraController::OrthographicCameraController(float left, float right, float bottom, float top, float aspectRatio, bool rotation)
+        : m_AspectRatio(aspectRatio),  m_Camera(left, right, bottom, top), m_Rotation(rotation)
     {
-        
     }
 
     void OrthographicCameraController::OnUpdate(TimeStep ts)

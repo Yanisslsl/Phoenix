@@ -22,7 +22,7 @@ namespace Phoenix
         Ref<VertexArray> vertexArray;
         Ref<Shader> shader;
         BufferLayout bufferlayout;
-        Maths::Matrix4 transform;
+        glm::vec2 transform;
         Ref<Texture2D> texture;
     };
     class PHOENIX_API Renderer
@@ -81,7 +81,7 @@ namespace Phoenix
          * \param texture
          * \param transform 
          */
-        static void Submit(const Ref<Shader>& shader, const Ref<VertexArray>& vertexArray, Ref<Texture> texture, const Maths::Matrix4& transform = {});
+        static void Submit(const Ref<Shader>& shader, const Ref<VertexArray>& vertexArray, Ref<Texture> texture, const glm::vec2& transform = {});
 
         /**
          * \brief Create shape
@@ -93,7 +93,7 @@ namespace Phoenix
          * \param bufferlayout 
          * \param transform 
          */
-        static void Renderer::CreateShape(std::string name, std::vector<float> vertices, std::vector<uint32_t> indices, const char* vertexShader, const char* fragmentShader, const BufferLayout bufferlayout ,const Maths::Matrix4& transform = {});
+        static void Renderer::CreateShape(std::string name, std::vector<float> vertices, std::vector<uint32_t> indices, const char* vertexShader, const char* fragmentShader, const BufferLayout bufferlayout ,const glm::vec2& transform = {});
 
         /**
          * \brief Create textured shape
@@ -106,7 +106,7 @@ namespace Phoenix
          * \param texturePath 
          * \param transform 
          */
-        static void Renderer::CreateTexturedShape(std::string name, std::vector<float> vertices, std::vector<uint32_t> indices, const char* vertexShader, const char* fragmentShader, const BufferLayout bufferlayout ,const char* texturePath, const Maths::Matrix4& transform = {});
+        static void Renderer::CreateTexturedShape(std::string name, std::vector<float> vertices, std::vector<uint32_t> indices, const char* vertexShader, const char* fragmentShader, const BufferLayout bufferlayout ,const char* texturePath, const glm::vec2& transform = {});
 
         /**
          * \brief 

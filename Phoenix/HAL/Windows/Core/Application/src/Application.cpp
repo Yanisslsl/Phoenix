@@ -55,6 +55,7 @@ namespace Phoenix
 
 	bool Application::OnWindowClose(WindowCloseEvent& e)
 	{
+		Renderer::Shutdown();
 		m_Running = false;
 		return true;
 	}
