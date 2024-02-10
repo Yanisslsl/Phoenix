@@ -134,6 +134,13 @@ namespace Phoenix
          * \param camera 
          */
         static void BeginScene(OrthographicCamera& camera);
+
+        /**
+         * \brief Update the shape transform
+         * \param name 
+         * \param transform 
+         */
+        static void Renderer::UpdateShapeTransform(std::string name, const glm::vec2& transform);
     private:
         struct SceneData
         {

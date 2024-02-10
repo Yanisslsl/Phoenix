@@ -113,5 +113,10 @@ namespace Phoenix {
         }
     }
 
+    void Renderer::UpdateShapeTransform(std::string name, const glm::vec2& transform)
+    {
+        s_ShapeData.find(name)->second.transform = transform;
+    }
+
     
 }

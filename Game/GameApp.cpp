@@ -1,18 +1,14 @@
 #include <glm/ext/matrix_transform.hpp>
-
 #include "Phoenix.h"
-#include "Common/Core/Graphics/DataObjects/include/Shader.h"
-#include "Common/Core/Graphics/DataObjects/include/Texture.h"
-#include "Common/Core/Graphics/DataObjects/include/VertexArray.h"
 #include "Common/Core/Graphics/Render/include/Renderer.h"
 #include "Common/Core/Scene/include/OrthographicCameraController.h"
-
+#include "Common/Core/Scene/include/Scene.h"
 
 class ExampleLayer : public Phoenix::Layer
 {
 public:
 	ExampleLayer()
-		: Layer("Example"), m_CameraController(0.0f, 1280.0f, 0.0f, 720.0f, 1.0f, false)
+		: Layer("Example")
 	{
 		const char* vsSrc = R"(
 		#version 330 core
@@ -64,37 +60,44 @@ public:
 					{ Phoenix::ShaderDataType::Float3, "aColor" },
 					{ Phoenix::ShaderDataType::Float2, "aTexCoord" }
 		};
-		// Create rectangle shape and put it in the center of the screen
-		Phoenix::Renderer::CreateTexturedShape("rectangle", vertices,  indices ,  vsSrc, fsSrc, layout, "assets/container.jpg",  glm::vec2(1280.0f/2, 720.0f/2));
+		
+		Phoenix::OrthographicCameraController cameraController = Phoenix::OrthographicCameraController(0.0f, 1280.0f, 0.0f, 720.0f, 1.0f, false);
+		m_Scene = new Phoenix::Scene(cameraController);
+		Phoenix::Entity* square = m_Scene->CreateEntity("square");
+		square->AddComponent<Phoenix::SpriteComponent>(Phoenix::SpriteComponent("square", vertices, indices, vsSrc, fsSrc, layout,"assets/container.jpg" ));
+		square->AddComponent<Phoenix::TransformComponent>(Phoenix::TransformComponent(glm::vec2(980.0f/2, 720.0f/2)));
+
+		Phoenix::Entity* square1 = m_Scene->CreateEntity("square1");
+		square1->AddComponent<Phoenix::SpriteComponent>(Phoenix::SpriteComponent("square1", vertices, indices, vsSrc, fsSrc, layout,"assets/container.jpg" ));
+		square1->AddComponent<Phoenix::TransformComponent>(Phoenix::TransformComponent(glm::vec2(1280.0f/2, 720.0f/2)));
+
+		Phoenix::Entity* square2 = m_Scene->CreateEntity("square2");
+		square2->AddComponent<Phoenix::SpriteComponent>(Phoenix::SpriteComponent("square2", vertices, indices, vsSrc, fsSrc, layout,"assets/container.jpg" ));
+		square2->AddComponent<Phoenix::TransformComponent>(Phoenix::TransformComponent(glm::vec2(1580.0f/2, 720.0f/2)));
 	}
 
 	void OnUpdate() override
 	{
-		Phoenix::Renderer::SetClearColor({ 0.0f, 0.0f, 0.0f, 1 });
-		Phoenix::Renderer::Clear();
-		Phoenix::Renderer::BeginScene(m_CameraController.GetCamera());
-		Phoenix::Renderer::OnUpdate();
-	}
-
-	void OnEvent(Phoenix::Event& event) override
-	{
-		m_CameraController.OnEvent(event);
-		PX_TRACE("Event catched {0}", event.GetName());
+		m_Scene->OnUpdate();
 	}
 	
+	//
+	// void OnEvent(Phoenix::Event& event) override
+	// {
+	// 	m_CameraController.OnEvent(event);
+	// 	PX_TRACE("Event catched {0}", event.GetName());
+	// }
+	
 private:
-	Phoenix::Ref<Phoenix::Shader> m_Shader;
-	Phoenix::Ref<Phoenix::VertexArray> m_VertexArray;
-	Phoenix::Ref<Phoenix::Texture2D> m_Texture;
-	Phoenix::OrthographicCameraController m_CameraController;
+	Phoenix::Scene* m_Scene;
 };
-
 class GameApp : public Phoenix::Application
 {
 public:
 	GameApp()
 	{
 		PushLayer(new ExampleLayer());
+		this->GetWindow();
 	}
 
 	~GameApp()
