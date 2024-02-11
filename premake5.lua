@@ -16,6 +16,7 @@ IncludeDir["GLFW"] = "Phoenix/vendor/GLFW/include"
 IncludeDir["GLAD"] = "Phoenix/vendor/GLAD/include"
 IncludeDir["ImGui"] = "Phoenix/vendor/imgui"
 IncludeDir["stb_image"] = "Phoenix/vendor/stb_image"
+IncludeDir["glm"] = "Phoenix/vendor/glm"
  
 -- Include GLFW premake file
 include "Phoenix/vendor/GLFW"
@@ -61,7 +62,8 @@ project "Phoenix"
 			"%{IncludeDir.GLFW}",
 			"%{IncludeDir.GLAD}",
 			"%{IncludeDir.ImGui}",
-			"%{IncludeDir.stb_image}"
+			"%{IncludeDir.stb_image}",
+			"%{IncludeDir.glm}"
 		}
 		
 		links 
@@ -108,6 +110,7 @@ project "Game"
 		"Phoenix/HAL",
 		"Phoenix",
 		"Phoenix/vendor/spdlog/include",
+        "%{IncludeDir.glm}"
 	}
 
 	links

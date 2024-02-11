@@ -8,6 +8,8 @@
 #include "../../DataObjects/include/Shader.h"
 #include "../../../Core/Maths/include/Maths.h"
 #include "../../../Core/Base/Base.h"
+#include "Common/Core/Graphics/DataObjects/include/Texture.h"
+#include "Common/Core/Scene/include/OrthographicCamera.h"
 
 
 namespace Phoenix
@@ -20,60 +22,140 @@ namespace Phoenix
         Ref<VertexArray> vertexArray;
         Ref<Shader> shader;
         BufferLayout bufferlayout;
-        Maths::Matrix4 transform;
+        glm::vec2 transform;
+        Ref<Texture2D> texture;
     };
     class PHOENIX_API Renderer
     {
     public:
-        static void Init()
-        {
-            s_RendererAPI->Init();
-        }
-        static void OnWindowResize(uint32_t width, uint32_t height)
-        {
-            s_RendererAPI->SetViewport(0, 0, width, height);
-        }
+        
+        /**
+         * \brief Initialization of the Renderer call this function in the Application constructor
+         */
+        static void Init();
 
-        static void SetClearColor(const Maths::Color color)
-        {
-            s_RendererAPI->SetClearColor(color);
-        }
+        /**
+         * \brief EventListener for window resize
+         * \param width
+         * \param height
+         */
+        static void OnWindowResize(uint32_t width, uint32_t height);
+        
+        /**
+         * \brief Set the clear color of the window
+         * \param color
+         */
+        static void SetClearColor(const Maths::Color color);
+        
+        /**
+         * \brief Clear the window
+         */
+        static void Clear();
+        
+        /**
+         * \brief Draw the indexed vertex array
+         * \param vertexArray
+         * \param indexCount
+         */
+        static void DrawIndexed(const Ref<VertexArray>& vertexArray, uint32_t indexCount = 0);
+        
+        /**
+         * \brief Draw the lines
+         * \param vertexArray
+         * \param vertexCount
+         */
+        static void DrawLines(const Ref<VertexArray>& vertexArray, uint32_t vertexCount);
 
-        static void Clear()
-        {
-            s_RendererAPI->Clear();
-        }
-
-        static void DrawIndexed(const Ref<VertexArray>& vertexArray, uint32_t indexCount = 0)
-        {
-            s_RendererAPI->DrawIndexed(vertexArray, indexCount);
-        }
-
-        static void DrawLines(const Ref<VertexArray>& vertexArray, uint32_t vertexCount)
-        {
-            s_RendererAPI->DrawLines(vertexArray, vertexCount);
-        }
+        /**
+         * \brief Shutdown the Renderer
+         */
         static void Shutdown();
         
         static void BeginScene();
         static void EndScene();
-        static void Submit(const Ref<Shader>& shader, const Ref<VertexArray>& vertexArray, const Maths::Matrix4& transform = {});
-        
+
+        /**
+         * \brief  Bind the shader and vertex array and draw the indexed vertex array
+         * \param shader 
+         * \param vertexArray
+         * \param texture
+         * \param transform 
+         */
+        static void Submit(const Ref<Shader>& shader, const Ref<VertexArray>& vertexArray, Ref<Texture> texture, const glm::vec2& transform = {});
+
+        /**
+         * \brief Create shape
+         * \param name 
+         * \param vertices 
+         * \param indices 
+         * \param vertexShader 
+         * \param fragmentShader 
+         * \param bufferlayout 
+         * \param transform 
+         */
+        static void Renderer::CreateShape(std::string name, std::vector<float> vertices, std::vector<uint32_t> indices, const char* vertexShader, const char* fragmentShader, const BufferLayout bufferlayout ,const glm::vec2& transform = {});
+
+        /**
+         * \brief Create textured shape
+         * \param name 
+         * \param vertices 
+         * \param indices 
+         * \param vertexShader 
+         * \param fragmentShader 
+         * \param bufferlayout 
+         * \param texturePath 
+         * \param transform 
+         */
+        static void Renderer::CreateTexturedShape(std::string name, std::vector<float> vertices, std::vector<uint32_t> indices, const char* vertexShader, const char* fragmentShader, const BufferLayout bufferlayout ,const char* texturePath, const glm::vec2& transform = {});
+
+        /**
+         * \brief 
+         * \return The rendered API, be cautious when using RendererAPI::API
+         */
         static RendererAPI::API GetAPI() { return RendererAPI::GetAPI(); }
 
-        static void Renderer::CreateShape(std::string name, float* vertices, uint32_t vertices_size, uint32_t* indices, uint32_t indices_size, const char* vertexShader, const char* fragmentShader, const BufferLayout bufferlayout ,const Maths::Matrix4& transform = {});
+        /**
+         * \brief Return the shader by name, useful for updating the shader
+         * \param name 
+         * \return 
+         */
         static Ref<Shader> Renderer::GetShader(std::string name);
+
+        /**
+         * \brief Update the Renderer
+         *
+         * This function is responsible for rendering all of the objects in the scene
+         */
         static void OnUpdate();
+
+     
+        /**
+         * \brief Begin the scene
+         * \param camera 
+         */
+        static void BeginScene(OrthographicCamera& camera);
+
+        /**
+         * \brief Update the shape transform
+         * \param name 
+         * \param transform 
+         */
+        static void Renderer::UpdateShapeTransform(std::string name, const glm::vec2& transform);
     private:
         struct SceneData
         {
-            Maths::Matrix4 ViewProjectionMatrix;
+            glm::mat4 ViewProjectionMatrix;
         };
         static Scope<SceneData> s_SceneData;
-        static std::map<std::string, Ref<VertexArray>> s_VertexArrays;
+     
+        /**
+         * \brief Internal renderer data for shapes, used to keep track of the shapes and their data
+         */
         static std::map<std::string, ShapeData> s_ShapeData;
+
+        /**
+         * \brief Abstraction of the Graphics API 
+         */
         static Scope<RendererAPI> s_RendererAPI;
-        static Ref<VertexArray> m_Vertex_Array;
-        static Ref<Shader> m_Shader;
     };
 }

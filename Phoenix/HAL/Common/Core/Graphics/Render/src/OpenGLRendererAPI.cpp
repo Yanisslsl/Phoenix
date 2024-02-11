@@ -3,6 +3,7 @@
 
 #include "Common/Core/Graphics/OpenGLImpl/include/OpenGLBuffer.h"
 #include "Common/Core/Graphics/OpenGLImpl/include/OpenGLShader.h"
+#include "Common/Core/Graphics/OpenGLImpl/include/OpenGLTexture2D.h"
 #include "Common/Core/Graphics/OpenGLImpl/include/OpenGLVertexArray.h"
 
 namespace Phoenix
@@ -60,14 +61,14 @@ namespace Phoenix
         glLineWidth(width);
     }
 
-    Ref<VertexBuffer> OpenGLRendererAPI::CreateVertexBuffer(float* vertices, size_t size)
+    Ref<VertexBuffer> OpenGLRendererAPI::CreateVertexBuffer(std::vector<float> vertices)
     {
-        return OpenGLVertexBuffer::Create(vertices, size);
+        return OpenGLVertexBuffer::Create(vertices);
     }
 
-    Ref<IndexBuffer> OpenGLRendererAPI::CreateIndexBuffer(uint32_t* indices, size_t size)
+    Ref<IndexBuffer> OpenGLRendererAPI::CreateIndexBuffer(std::vector<uint32_t> indices)
     {
-        return OpenGLIndexBuffer::Create(indices, size);
+        return OpenGLIndexBuffer::Create(indices);
     }
 
     Ref<VertexArray> OpenGLRendererAPI::CreateVertexArray()
@@ -78,6 +79,11 @@ namespace Phoenix
     Ref<Shader> OpenGLRendererAPI::CreateShader(std::string name, const char* vertexShader, const char* fragmentShader)
     {
         return CreateRef<OpenGLShader>(name, vertexShader, fragmentShader);
+    }
+
+    Ref<Texture2D> OpenGLRendererAPI::CreateTexture2D(std::string texturePath)
+    {
+        return CreateRef<OpenGLTexture2D>(texturePath);
     }
 
     

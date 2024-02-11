@@ -7,3 +7,6 @@
 [submodule "Phoenix/vendor/imgui"]
 	path = Phoenix/vendor/imgui
 	url = https://github.com/Yanisslsl/imgui.git
+[submodule "Phoenix/vendor/glm"]
+	path = Phoenix/vendor/glm
+	url = https://github.com/g-truc/glm.git

@@ -243,6 +243,9 @@
     <ClInclude Include="HAL\Common\Core\Graphics\Render\include\OpenGLRendererAPI.h">
       <Filter>HAL\Common\Core\Graphics\Render\include</Filter>
     </ClInclude>
+    <ClInclude Include="HAL\Common\Core\Graphics\Render\include\OrthographicCamera.h">
+      <Filter>HAL\Common\Core\Graphics\Render\include</Filter>
+    </ClInclude>
     <ClInclude Include="HAL\Common\Core\Graphics\Render\include\Renderer.h">
       <Filter>HAL\Common\Core\Graphics\Render\include</Filter>
     </ClInclude>
@@ -322,6 +325,9 @@
       <Filter>HAL\Common\Core\Graphics\OpenGLImpl\src</Filter>
     </ClCompile>
     <ClCompile Include="HAL\Common\Core\Graphics\Render\src\OpenGLRendererAPI.cpp">
+      <Filter>HAL\Common\Core\Graphics\Render\src</Filter>
+    </ClCompile>
+    <ClCompile Include="HAL\Common\Core\Graphics\Render\src\OrthographicCamera.cpp">
       <Filter>HAL\Common\Core\Graphics\Render\src</Filter>
     </ClCompile>
     <ClCompile Include="HAL\Common\Core\Graphics\Render\src\Renderer.cpp">
