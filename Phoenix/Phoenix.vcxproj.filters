@@ -112,6 +112,15 @@
     <Filter Include="HAL\Common\Core\Input\src">
       <UniqueIdentifier>{805BA615-EC1D-DA9F-35CE-682CA1CFB27D}</UniqueIdentifier>
     </Filter>
+    <Filter Include="HAL\Common\Core\Scene">
+      <UniqueIdentifier>{070E1939-737A-D433-3C6E-6C91A899F69B}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="HAL\Common\Core\Scene\include">
+      <UniqueIdentifier>{7A4C3B3A-E664-2264-AF11-B2FD1BE9B6FD}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="HAL\Common\Core\Scene\src">
+      <UniqueIdentifier>{9E778A1B-0A3A-BEA5-53EA-4C32BFEB9683}</UniqueIdentifier>
+    </Filter>
     <Filter Include="HAL\Common\Core\Window">
       <UniqueIdentifier>{11CB0066-FDC4-29B8-E631-C0C8D2CA8F24}</UniqueIdentifier>
     </Filter>
@@ -213,6 +222,9 @@
     <ClInclude Include="Core\Utils\MouseCode.h">
       <Filter>Core\Utils</Filter>
     </ClInclude>
+    <ClInclude Include="Core\Utils\TimeStep.h">
+      <Filter>Core\Utils</Filter>
+    </ClInclude>
     <ClInclude Include="Core\Utils\Timer.h">
       <Filter>Core\Utils</Filter>
     </ClInclude>
@@ -243,9 +255,6 @@
     <ClInclude Include="HAL\Common\Core\Graphics\Render\include\OpenGLRendererAPI.h">
       <Filter>HAL\Common\Core\Graphics\Render\include</Filter>
     </ClInclude>
-    <ClInclude Include="HAL\Common\Core\Graphics\Render\include\OrthographicCamera.h">
-      <Filter>HAL\Common\Core\Graphics\Render\include</Filter>
-    </ClInclude>
     <ClInclude Include="HAL\Common\Core\Graphics\Render\include\Renderer.h">
       <Filter>HAL\Common\Core\Graphics\Render\include</Filter>
     </ClInclude>
@@ -254,6 +263,24 @@
     </ClInclude>
     <ClInclude Include="HAL\Common\Core\Input\include\Input.h">
       <Filter>HAL\Common\Core\Input\include</Filter>
+    </ClInclude>
+    <ClInclude Include="HAL\Common\Core\Scene\include\Component.h">
+      <Filter>HAL\Common\Core\Scene\include</Filter>
+    </ClInclude>
+    <ClInclude Include="HAL\Common\Core\Scene\include\Entity.h">
+      <Filter>HAL\Common\Core\Scene\include</Filter>
+    </ClInclude>
+    <ClInclude Include="HAL\Common\Core\Scene\include\EntityManager.h">
+      <Filter>HAL\Common\Core\Scene\include</Filter>
+    </ClInclude>
+    <ClInclude Include="HAL\Common\Core\Scene\include\OrthographicCamera.h">
+      <Filter>HAL\Common\Core\Scene\include</Filter>
+    </ClInclude>
+    <ClInclude Include="HAL\Common\Core\Scene\include\OrthographicCameraController.h">
+      <Filter>HAL\Common\Core\Scene\include</Filter>
+    </ClInclude>
+    <ClInclude Include="HAL\Common\Core\Scene\include\Scene.h">
+      <Filter>HAL\Common\Core\Scene\include</Filter>
     </ClInclude>
     <ClInclude Include="HAL\Common\Core\Window\include\Window.h">
       <Filter>HAL\Common\Core\Window\include</Filter>
@@ -327,9 +354,6 @@
     <ClCompile Include="HAL\Common\Core\Graphics\Render\src\OpenGLRendererAPI.cpp">
       <Filter>HAL\Common\Core\Graphics\Render\src</Filter>
     </ClCompile>
-    <ClCompile Include="HAL\Common\Core\Graphics\Render\src\OrthographicCamera.cpp">
-      <Filter>HAL\Common\Core\Graphics\Render\src</Filter>
-    </ClCompile>
     <ClCompile Include="HAL\Common\Core\Graphics\Render\src\Renderer.cpp">
       <Filter>HAL\Common\Core\Graphics\Render\src</Filter>
     </ClCompile>
@@ -338,6 +362,15 @@
     </ClCompile>
     <ClCompile Include="HAL\Common\Core\Input\src\Input.cpp">
       <Filter>HAL\Common\Core\Input\src</Filter>
+    </ClCompile>
+    <ClCompile Include="HAL\Common\Core\Scene\src\OrthographicCamera.cpp">
+      <Filter>HAL\Common\Core\Scene\src</Filter>
+    </ClCompile>
+    <ClCompile Include="HAL\Common\Core\Scene\src\OrthographicCameraController.cpp">
+      <Filter>HAL\Common\Core\Scene\src</Filter>
+    </ClCompile>
+    <ClCompile Include="HAL\Common\Core\Scene\src\Scene.cpp">
+      <Filter>HAL\Common\Core\Scene\src</Filter>
     </ClCompile>
     <ClCompile Include="HAL\Common\Core\Window\src\Window.cpp">
       <Filter>HAL\Common\Core\Window\src</Filter>

@@ -62,6 +62,7 @@ namespace Phoenix
 
 	bool Application::OnWindowResize(WindowResizeEvent& e)
 	{
+		Renderer::OnWindowResize(e.GetWidth(), e.GetHeight());
 		return false;
 	}
 

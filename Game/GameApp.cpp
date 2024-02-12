@@ -14,6 +14,7 @@ public:
 		#version 330 core
 		layout (location = 0) in vec3 aPos;
 		layout (location = 1) in vec3 aColor;
+		layout (location = 2) in vec2 aTexCoord;
 
 		uniform mat4 u_ViewProjection;
 		uniform vec3 customColor;
@@ -27,6 +28,7 @@ public:
 		{
 			gl_Position = projection * transform * vec4(aPos, 1.0);
 		    ourColor = customColor;
+			TexCoord = aTexCoord;
 		}
 		)";
 
@@ -35,22 +37,24 @@ public:
 			out vec4 FragColor;
 			  
 			in vec3 ourColor;
+			in vec2 TexCoord;
 
 			uniform sampler2D ourTexture;
 
 			void main()
 			{
-			FragColor = vec4(ourColor, 1.0);
+			FragColor = texture(ourTexture, TexCoord);
 			}
 		)";
 
-		float scaleFactor = 100.0f;
+		float scaleFactor = 30.0f;
 		std::vector<float> vertices = {
 			0.5f * scaleFactor,  0.5f * scaleFactor, 0.0f * scaleFactor,   1.0f , 0.0f, 0.0f,   1.0f, 1.0f,   // top right
 				0.5f * scaleFactor, -0.5f * scaleFactor, 0.0f * scaleFactor,   0.0f, 1.0f, 0.0f,   1.0f, 0.0f,   // bottom right
 			   -0.5f * scaleFactor, -0.5f * scaleFactor, 0.0f * scaleFactor,   0.0f, 0.0f, 1.0f,   0.0f, 0.0f,   // bottom left
 			   -0.5f * scaleFactor,  0.5f * scaleFactor, 0.0f * scaleFactor,   1.0f, 1.0f, 0.0f,   0.0f, 1.0f  
 		};
+		
 		std::vector<uint32_t> indices = {
 			0, 1, 3,
 			1, 2, 3
@@ -63,21 +67,17 @@ public:
 		
 		Phoenix::OrthographicCameraController cameraController = Phoenix::OrthographicCameraController(0.0f, 1280.0f, 0.0f, 720.0f, 1.0f, false);
 		m_Scene = new Phoenix::Scene(cameraController);
-		Phoenix::Entity* square = m_Scene->CreateEntity("square");
-		square->AddComponent<Phoenix::SpriteComponent>(Phoenix::SpriteComponent("square", vertices, indices, vsSrc, fsSrc, layout,"assets/container.jpg" ));
-		square->AddComponent<Phoenix::TransformComponent>(Phoenix::TransformComponent(glm::vec2(980.0f/2, 720.0f/2)));
-
-		Phoenix::Entity* square1 = m_Scene->CreateEntity("square1");
-		square1->AddComponent<Phoenix::SpriteComponent>(Phoenix::SpriteComponent("square1", vertices, indices, vsSrc, fsSrc, layout,"assets/container.jpg" ));
-		square1->AddComponent<Phoenix::TransformComponent>(Phoenix::TransformComponent(glm::vec2(1280.0f/2, 720.0f/2)));
-
-		Phoenix::Entity* square2 = m_Scene->CreateEntity("square2");
-		square2->AddComponent<Phoenix::SpriteComponent>(Phoenix::SpriteComponent("square2", vertices, indices, vsSrc, fsSrc, layout,"assets/container.jpg" ));
-		square2->AddComponent<Phoenix::TransformComponent>(Phoenix::TransformComponent(glm::vec2(1580.0f/2, 720.0f/2)));
+		Phoenix::Entity* isac = m_Scene->CreateEntity("isac");
+		//
+		// //@TODO: refacto here the component has to got reference to the entity by passing the entity name, change this
+		isac->AddComponent<Phoenix::SpriteComponent>(Phoenix::SpriteComponent("isac", vertices, indices, vsSrc, fsSrc, layout,"assets/Isac.png" ));
+		isac->AddComponent<Phoenix::TransformComponent>(Phoenix::TransformComponent("isac", glm::vec2(980.0f/2, 720.0f/2)));
 	}
 
 	void OnUpdate() override
 	{
+		Phoenix::Entity* isac = m_Scene->GetEntity("isac");
+		// isac->GetComponent<Phoenix::TransformComponent>().GetTransformPosition();
 		m_Scene->OnUpdate();
 	}
 	

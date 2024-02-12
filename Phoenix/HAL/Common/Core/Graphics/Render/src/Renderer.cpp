@@ -117,6 +117,4 @@ namespace Phoenix {
     {
         s_ShapeData.find(name)->second.transform = transform;
     }
-
-    
 }
