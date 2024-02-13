@@ -27,7 +27,7 @@ namespace Phoenix
 		void PushOverlay(Layer* overlay);
 		EntityManager* GetEntityManager() { return m_EntityManager; }
 		static Application& Get() { return *s_Instance; }
-	private:
+	protected:
 		// unqique ptr => une seule instance // si je veux passer cette instance il faut la move ce qui change l'ownership // ce qui veut dire que je ne peux pas la copier
 		// c'est juste un pointeur dans une classe // quand la classe est detruite le pointeur est detruit
 		std::unique_ptr<WindowHal> m_Window;

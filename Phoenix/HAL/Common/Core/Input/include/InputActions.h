@@ -14,9 +14,16 @@ namespace Phoenix
     {
     public:
         InputAction() = delete;
-        InputAction(std::string name) : m_Name(name) {}
+        InputAction(std::string name, uint16_t code) : m_Name(name), m_Code(code) {}
         [[nodiscard]] std::string GetName() const { return m_Name; }
+        [[nodiscard]] uint16_t GetCode() const { return m_Code; }
+        bool operator < (const InputAction& action) const
+        {
+            //  FIX: Error C2678 : '<' binaire : aucun opérateur trouvé qui accepte un opérande de partie gauche de type 'const _Ty' (ou il n'existe pas de conversion acceptable)
+            return m_Name < action.m_Name;
+        } 
     private:
+        uint16_t m_Code;
         std::string m_Name;
     };
 
@@ -25,10 +32,7 @@ namespace Phoenix
     public:
         MouseInputAction() = delete;
         MouseInputAction(std::string name, const MouseCode mouseCode)
-            : m_mouseCode(mouseCode), InputAction(name) {}
-        [[nodiscard]] MouseCode GetMouseCode() const { return m_mouseCode; }
-    private:
-        MouseCode m_mouseCode;
+            : InputAction(name, mouseCode) {}
     };
 
     class PHOENIX_API KeyInputAction: public InputAction
@@ -36,9 +40,7 @@ namespace Phoenix
     public:
         KeyInputAction() = delete;
         KeyInputAction(std::string name, const KeyCode keyCode)
-            : m_keyCode(keyCode), InputAction(name) {}
-        [[nodiscard]] KeyCode GetKeyCode() const { return m_keyCode; }
+            : InputAction(name, keyCode) {}
     private:
-        KeyCode m_keyCode;
     };
 }

@@ -1,5 +1,6 @@
 #pragma once
 #include <cstdint>
+#include "../../Core/Core.h"
 
 namespace Phoenix
 {
@@ -7,7 +8,7 @@ namespace Phoenix
 
     namespace Mouse
     {
-        enum : MouseCode
+        PHOENIX_API enum : MouseCode
         {
             // From glfw3.h
             Button0                = 0,

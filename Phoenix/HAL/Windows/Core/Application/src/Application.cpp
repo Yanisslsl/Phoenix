@@ -46,6 +46,7 @@ namespace Phoenix
 	void Application::OnEvent(Event& e)
 	{
 		EventDispatcher dispatcher(e);
+		m_InputActionRegistrator->OnEvent(e);
 		dispatcher.Dispatch<WindowCloseEvent>(PX_BIND_EVENT_FN(Application::OnWindowClose));
 		dispatcher.Dispatch<WindowResizeEvent>(PX_BIND_EVENT_FN(Application::OnWindowResize));
 		dispatcher.Dispatch<WindowResizeEvent>(PX_BIND_EVENT_FN(Application::OnWindowResize));
