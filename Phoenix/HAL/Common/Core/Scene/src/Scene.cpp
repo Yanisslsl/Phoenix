@@ -46,6 +46,6 @@ namespace Phoenix
 
     Entity* Scene::GetEntity(std::string name)
     {
-        Application::Get().GetEntityManager()->GetEntity(name);
+        return Application::Get().GetEntityManager()->GetEntity(name);
     }
 }

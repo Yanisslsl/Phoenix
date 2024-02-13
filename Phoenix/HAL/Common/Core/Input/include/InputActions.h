@@ -4,8 +4,8 @@
 #include <string>
 
 #include "../../../Core/Core.h"
-#include "Utils/KeyCode.h"
-#include "Utils/MouseCode.h"
+#include "../../Core/Utils/MouseCode.h"
+#include "../../Core/Utils/KeyCode.h"
 
 
 namespace Phoenix
