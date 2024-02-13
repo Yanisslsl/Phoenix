@@ -11,7 +11,7 @@
 class ExampleLayer : public Phoenix::Layer
 {
 public:
-	ExampleLayer()
+	ExampleLayer(Phoenix::Application* app = nullptr)
 		: Layer("Example")
 	{
 		const char* vsSrc = R"(
@@ -127,13 +127,19 @@ class GameApp : public Phoenix::Application
 public:
 	GameApp()
 	{
-		PushLayer(new ExampleLayer());
+		m_InputActionRegistrator->RegisterAction(Phoenix::InputAction("move", Phoenix::Key::A), PX_BIND_EVENT_FN(GameApp::TestInputActionClbk));
+		PushLayer(new ExampleLayer(this));
 		this->GetWindow();
 	}
 
 	~GameApp()
 	{
 
+	}
+
+	void TestInputActionClbk()
+	{
+		PX_TRACE("Input action triggered");
 	}
 };
 
