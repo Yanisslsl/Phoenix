@@ -13,22 +13,84 @@
 
 namespace Phoenix
 {
+    class Entity;
 
+    class EntityManager
+    {
+    public: 
+        EntityManager(): m_Entities(std::map<std::string, Entity*>{}) {}
+
+        Entity* AddEntity(std::string name, Entity* entity)
+        {
+            m_Entities.insert(std::make_pair(name, entity));
+            return entity;
+        }
+
+        Entity* RemoveEntity(std::string name)
+        {
+            auto entity = m_Entities.at(name);
+            m_Entities.erase(name);
+            return entity;
+        }
+
+        Entity* GetEntity(std::string name)
+        {
+            return m_Entities.at(name);
+        }
+    private:
+        std::map<std::string, Entity*> m_Entities;
+    };
+
+     struct Component
+     {
+         Component(std::string entityId): m_Entity_Name(entityId) {} 
+        virtual ~Component() = default;
+         virtual void OnStart() = 0;
+         virtual void OnStop() = 0;
+         virtual void OnUpdate() = 0;
+         
+     private:
+         //@TODO: change to UUID, maybe pass to 
+         std::string m_Entity_Name;
+     };
+
+    
        // choose struct here for simplicity, but can be base class with specific extended components as well
-      struct PHOENIX_API TransformComponent
+      struct PHOENIX_API TransformComponent: public Component
       {
-          TransformComponent(glm::vec2 transformPosition): m_Position(transformPosition) {}
+          TransformComponent(std::string name, glm::vec2 transformPosition): m_Position(transformPosition), Component(name) {};
           glm::vec2 GetTransformPosition() const { return m_Position; }
+
+          virtual void OnStart() override
+          {
+          }
+          virtual void OnStop() override
+          {
+          }
+          virtual void OnUpdate() override
+          {
+          }
       private:
           glm::vec2 m_Position;
       };
 
-    struct PHOENIX_API SpriteComponent
+    struct PHOENIX_API SpriteComponent: public Component
     {
-        // here we pass the vertices and indices to the renderer maybe create specific shapes like rectangles, circles, etc with predifined vertices and indices
-        explicit SpriteComponent(std::string name, std::vector<float> vertices, std::vector<uint32_t> indices, const char* vertexShader, const char* fragmentShader, const BufferLayout bufferlayout, const char* texturePath)
+        
+        // @TODO here we pass the vertices and indices to the renderer maybe create specific shapes like rectangles, circles, etc with predifined vertices and indices
+        explicit SpriteComponent(std::string name, std::vector<float> vertices, std::vector<uint32_t> indices, const char* vertexShader, const char* fragmentShader, const BufferLayout bufferlayout, const char* texturePath): Component(name)
         {
             Renderer::CreateTexturedShape(name, vertices, indices, vertexShader, fragmentShader, bufferlayout, texturePath);
+        }
+
+        virtual void OnStart() override
+        {
+        }
+        virtual void OnStop() override
+        {
+        }
+        virtual void OnUpdate() override
+        {
         }
     };
      /**
@@ -55,7 +117,7 @@ namespace Phoenix
             return m_Components.at(typeid(T).name()).as<T>();
         }
 
-         template <typename T>
+        template <typename T>
         bool HasComponent()
         {
             return m_Components.find(typeid(T).name()) != m_Components.end();
@@ -67,14 +129,19 @@ namespace Phoenix
              static_assert(sizeof(T) == 0, "Component not found");
          }
 
-        template <typename>
-        void OnComponentAdded(SpriteComponent component)
+         template <typename >
+         void OnComponentAdded(Component& component)
          {
-             auto c = component;
+             
          }
 
         template <typename>
-        void OnComponentAdded(TransformComponent component)
+        void OnComponentAdded(SpriteComponent& component)
+         {
+         }
+
+        template <typename>
+        void OnComponentAdded(TransformComponent& component)
          {
              Renderer::UpdateShapeTransform(m_Name, component.GetTransformPosition());
          }
@@ -132,10 +199,11 @@ namespace Phoenix
 
          void SetPaused(bool paused) { m_IsPaused = paused; }
 
+        Entity* Scene::GetEntity(std::string name);
+
      OrthographicCameraController& GetCameraController() { return m_CameraController; }
     private:
        
-        std::map<std::string, Entity*> m_Entities;
         // @TODO: uncomment when ECS is implemented
         // std::vector<System> m_Systems;
        // void OnComponentAdded(Entity entity, T& component);

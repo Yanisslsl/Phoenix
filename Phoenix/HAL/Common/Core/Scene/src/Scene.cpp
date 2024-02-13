@@ -1,10 +1,11 @@
 #include "../include/Scene.h"
 #include "Common/Core/Graphics/Render/include/Renderer.h"
+#include "Windows/Core/Application/include/Application.h"
 
 namespace Phoenix
 {
     Scene::Scene(OrthographicCameraController cameraController)
-        : m_CameraController(cameraController), m_EntityManager(EntityManager())
+        : m_CameraController(cameraController)
     {
     }
 
@@ -34,17 +35,17 @@ namespace Phoenix
     Entity* Scene::CreateEntity(std::string name)
     {
         Entity* entity = new Entity(name);
-        m_EntityManager.AddEntity(name, entity);
+        Application::Get().GetEntityManager()->AddEntity(name, entity);
         return entity;
     }
 
     void Scene::DestroyEntity(std::string name)
     {
-        m_EntityManager.RemoveEntity(name);
+        Application::Get().GetEntityManager()->RemoveEntity(name);
     }
 
     Entity* Scene::GetEntity(std::string name)
     {
-        return m_EntityManager.GetEntity(name);
+        Application::Get().GetEntityManager()->GetEntity(name);
     }
 }

@@ -77,7 +77,7 @@ public:
 	void OnUpdate() override
 	{
 		Phoenix::Entity* isac = m_Scene->GetEntity("isac");
-		// isac->GetComponent<Phoenix::TransformComponent>().GetTransformPosition();
+		// isac->GetComponent<Phoenix::TransformComponent>().SeTransformPosition();
 		m_Scene->OnUpdate();
 	}
 	

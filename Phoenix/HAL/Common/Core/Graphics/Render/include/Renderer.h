@@ -141,6 +141,7 @@ namespace Phoenix
          * \param transform 
          */
         static void Renderer::UpdateShapeTransform(std::string name, const glm::vec2& transform);
+
     private:
         struct SceneData
         {

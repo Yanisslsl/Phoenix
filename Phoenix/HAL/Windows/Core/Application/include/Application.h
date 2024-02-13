@@ -3,6 +3,8 @@
 #include "Common/Core/Window/include/Window.h"
 #include "../../../../../Core/Layers/LayerStack/include/LayerStack.h"
 #include "../../../../../Core/Events/WindowEvent.h"
+#include "Common/Core/Input/include/InputActionRegistrator.h"
+#include "Common/Core/Scene/include/Scene.h"
 
 
 namespace Phoenix
@@ -23,6 +25,7 @@ namespace Phoenix
 		WindowHal* GetWindow() { return  m_Window.get(); }
 		void PushLayer(Layer* layer);
 		void PushOverlay(Layer* overlay);
+		EntityManager* GetEntityManager() { return m_EntityManager; }
 		static Application& Get() { return *s_Instance; }
 	private:
 		// unqique ptr => une seule instance // si je veux passer cette instance il faut la move ce qui change l'ownership // ce qui veut dire que je ne peux pas la copier
@@ -32,6 +35,10 @@ namespace Phoenix
 		bool m_Running = true;
 		LayerStack m_LayerStack;
 		Layer* m_ImGuiLayer;
+		EntityManager* m_EntityManager;
+		InputActionRegistrator* m_InputActionRegistrator;
+
+		//@TODO: Add Scene Manager and renderer here 
 	};
 
 	// To be defined in CLIENT
