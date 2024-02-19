@@ -1,4 +1,5 @@
 #pragma once
+#include "Application.h"
 #include "../../../../../Core/Core.h"
 #include "Common/Core/Window/include/Window.h"
 #include "../../../../../Core/Layers/LayerStack/include/LayerStack.h"
@@ -37,6 +38,7 @@ namespace Phoenix
 		Layer* m_ImGuiLayer;
 		EntityManagerOld* m_EntityManager;
 		InputActionRegistrator* m_InputActionRegistrator;
+
 
 		//@TODO: Add Scene Manager and renderer here 
 	};

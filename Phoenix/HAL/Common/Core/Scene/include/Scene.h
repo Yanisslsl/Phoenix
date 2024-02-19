@@ -80,7 +80,13 @@ namespace Phoenix
         // @TODO here we pass the vertices and indices to the renderer maybe create specific shapes like rectangles, circles, etc with predifined vertices and indices
         explicit SpriteComponent(std::string name, std::vector<float> vertices, std::vector<uint32_t> indices, const char* vertexShader, const char* fragmentShader, const BufferLayout bufferlayout, const char* texturePath): Component(name)
         {
+            // Here we do not bother about the specific shape, we just create a raw quad as we are in 2D
             Renderer::CreateTexturedShape(name, vertices, indices, vertexShader, fragmentShader, bufferlayout, texturePath);
+        }
+
+        explicit SpriteComponent(std::string name, const char* texturePath, glm::vec2 transform = {}): Component(name)
+        {
+            Renderer::CreateQuad(name, texturePath, glm::vec2(0.0f));
         }
 
         virtual void OnStart() override

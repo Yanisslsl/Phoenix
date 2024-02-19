@@ -81,6 +81,11 @@ namespace Phoenix
         return CreateRef<OpenGLShader>(name, vertexShader, fragmentShader);
     }
 
+    Ref<Shader> OpenGLRendererAPI::CreateShader(std::string name)
+    {
+        return CreateRef<OpenGLShader>(name);
+    }
+
     Ref<Texture2D> OpenGLRendererAPI::CreateTexture2D(std::string texturePath)
     {
         return CreateRef<OpenGLTexture2D>(texturePath);

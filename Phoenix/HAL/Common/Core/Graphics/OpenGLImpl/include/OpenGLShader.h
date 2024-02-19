@@ -14,7 +14,7 @@ namespace Phoenix
     {
     public:
 
-        OpenGLShader(const std::string& filepath);
+        OpenGLShader(const std::string& name);
         OpenGLShader(const std::string& name, const std::string& vertexSrc, const std::string& fragmentSrc);
 
         virtual ~OpenGLShader() override;
@@ -45,10 +45,11 @@ namespace Phoenix
         void UploadUniformMat4(const std::string& name, const glm::mat4& matrix);
     private:
         std::string ReadFile(const std::string& filepath);
-        // std::unordered_map<GLenum, std::string> PreProcess(const std::string& source);
+        std::unordered_map<GLenum, std::string> PreProcess(const std::string& source);
         int CompileShader(const char* src, const GLenum shader_type);
         // void CompileOrGetOpenGLBinaries();
         int CreateProgram(const GLuint vertex_shader, const GLuint fragment_shader);
+        
         // void Reflect(GLenum stage, const std::vector<uint32_t>& shaderData);
 
 

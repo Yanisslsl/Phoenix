@@ -83,6 +83,12 @@ namespace Phoenix
          */
         static void Submit(const Ref<Shader>& shader, const Ref<VertexArray>& vertexArray, Ref<Texture> texture, const glm::vec2& transform = {});
 
+
+        /**
+         * \brief Create quad
+         */
+        static  void CreateQuad(std::string name, const char* texturePath, const glm::vec2& transform);
+
         /**
          * \brief Create shape
          * \param name 

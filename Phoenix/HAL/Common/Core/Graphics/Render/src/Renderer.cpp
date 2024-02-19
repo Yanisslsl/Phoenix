@@ -110,6 +110,42 @@ namespace Phoenix
                                                              }));
     }
 
+    void Renderer::CreateQuad(std::string name, const char* texturePath, const glm::vec2& transform)
+    {
+        float scaleFactor = 30.0f;
+        std::vector<float> vertices = {
+            0.5f * scaleFactor,  0.5f * scaleFactor, 0.0f * scaleFactor,   1.0f , 0.0f, 0.0f,   1.0f, 1.0f,   // top right
+                0.5f * scaleFactor, -0.5f * scaleFactor, 0.0f * scaleFactor,   0.0f, 1.0f, 0.0f,   1.0f, 0.0f,   // bottom right
+               -0.5f * scaleFactor, -0.5f * scaleFactor, 0.0f * scaleFactor,   0.0f, 0.0f, 1.0f,   0.0f, 0.0f,   // bottom left
+               -0.5f * scaleFactor,  0.5f * scaleFactor, 0.0f * scaleFactor,   1.0f, 1.0f, 0.0f,   0.0f, 1.0f  
+        };
+		
+        std::vector<uint32_t> indices = {
+            0, 1, 3,
+            1, 2, 3
+        };
+        Phoenix::BufferLayout layout = {
+            { Phoenix::ShaderDataType::Float3, "aPos" },
+                    { Phoenix::ShaderDataType::Float3, "aColor" },
+                    { Phoenix::ShaderDataType::Float2, "aTexCoord" }
+        };
+        Ref<VertexArray> vertexArray = s_RendererAPI->CreateVertexArray();
+        Ref<VertexBuffer> vertexBuffer = s_RendererAPI->CreateVertexBuffer(vertices);
+        vertexBuffer->SetLayout(layout);
+        vertexArray->AddVertexBuffer(vertexBuffer);
+        Ref<IndexBuffer> indexBuffer = s_RendererAPI->CreateIndexBuffer(indices);
+        vertexArray->AddVertexBuffer(vertexBuffer);
+        vertexArray->SetIndexBuffer(indexBuffer);
+        Ref<Texture2D> texture = s_RendererAPI->CreateTexture2D(texturePath);
+        Ref<Shader> shader = s_RendererAPI->CreateShader(name);
+        shader->Bind();
+        shader->SetInt("u_Texture", 0);
+        s_ShapeData.insert(std::pair<std::string, ShapeData>(name, {
+                                                                 vertexBuffer, indexBuffer, vertexArray, shader,
+                                                                 layout, transform, texture
+                                                             }));
+    }
+
 
     Ref<Shader> Renderer::GetShader(std::string name)
     {
