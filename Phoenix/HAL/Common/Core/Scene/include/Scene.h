@@ -13,32 +13,32 @@
 
 namespace Phoenix
 {
-    class Entity;
+    class EntityOld;
 
-    class EntityManager
+    class EntityManagerOld
     {
     public: 
-        EntityManager(): m_Entities(std::map<std::string, Entity*>{}) {}
+        EntityManagerOld(): m_Entities(std::map<std::string, EntityOld*>{}) {}
 
-        Entity* AddEntity(std::string name, Entity* entity)
+        EntityOld* AddEntity(std::string name, EntityOld* entity)
         {
             m_Entities.insert(std::make_pair(name, entity));
             return entity;
         }
 
-        Entity* RemoveEntity(std::string name)
+        EntityOld* RemoveEntity(std::string name)
         {
             auto entity = m_Entities.at(name);
             m_Entities.erase(name);
             return entity;
         }
 
-        Entity* GetEntity(std::string name)
+        EntityOld* GetEntity(std::string name)
         {
             return m_Entities.at(name);
         }
     private:
-        std::map<std::string, Entity*> m_Entities;
+        std::map<std::string, EntityOld*> m_Entities;
     };
 
      struct Component
@@ -97,11 +97,11 @@ namespace Phoenix
       * \brief Entity class, should contain all the components
       *  @TODO : Delete this class when ECS is implemented
       */
-     class PHOENIX_API Entity
+     class PHOENIX_API EntityOld
      {
      public:
-         Entity() = default;
-         Entity(std::string name)
+         EntityOld() = default;
+         EntityOld(std::string name)
              : m_Name(name) {}
             
          template <typename T>
@@ -188,7 +188,7 @@ namespace Phoenix
          */
         void OnUpdate();
 
-        Entity* CreateEntity(const std::string name);
+        EntityOld* CreateEntity(const std::string name);
         void DestroyEntity(std::string name);
          // Entity FindEntityByName(std::string_view name);
         // Entity CreateEntityWithUUID(UUID uuid, const std::string& name = std::string());
@@ -199,7 +199,7 @@ namespace Phoenix
 
          void SetPaused(bool paused) { m_IsPaused = paused; }
 
-        Entity* Scene::GetEntity(std::string name);
+        EntityOld* Scene::GetEntity(std::string name);
 
      OrthographicCameraController& GetCameraController() { return m_CameraController; }
     private:

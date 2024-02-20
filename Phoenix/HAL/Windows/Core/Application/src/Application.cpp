@@ -16,7 +16,7 @@ namespace Phoenix
 		m_Window = WindowHal::Create(WindowProps("Phoenix Engine", 1280, 720));
 		m_Window->SetEventCallback(PX_BIND_EVENT_FN(Application::OnEvent));
 		s_Instance = this;
-		m_EntityManager = new EntityManager();
+		m_EntityManager = new EntityManagerOld();
 		m_InputActionRegistrator = new InputActionRegistrator();
 		Renderer::Init();
 		//

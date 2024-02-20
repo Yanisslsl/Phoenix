@@ -1,13 +1,17 @@
-#include "glm/ext/matrix_transform.hpp"
+#include <iostream>
+#include <glm/ext/matrix_transform.hpp>
 #include "Phoenix.h"
 #include "Common/Core/Graphics/Render/include/Renderer.h"
 #include "Common/Core/Scene/include/OrthographicCameraController.h"
 #include "Common/Core/Scene/include/Scene.h"
+#include "Core/ECS/include/EntityComponent.h"
+#include "Core/ECS/include/EntityManager.h"
+#include "Core/ECS/include/TransformSystem.h"
 
 class ExampleLayer : public Phoenix::Layer
 {
 public:
-	ExampleLayer(Phoenix::Application* app = nullptr)
+	ExampleLayer()
 		: Layer("Example")
 	{
 		const char* vsSrc = R"(
@@ -64,10 +68,36 @@ public:
 					{ Phoenix::ShaderDataType::Float3, "aColor" },
 					{ Phoenix::ShaderDataType::Float2, "aTexCoord" }
 		};
+
+		//////////////////////////////////////////////////////////////////////////////////////////////////
+		//Start Test Dorian ECS///////////////////////////////////////////////////////////////////////////
+		//////////////////////////////////////////////////////////////////////////////////////////////////
+		m_EntityManager = new Phoenix::EntityManager();
+		Phoenix::EntityId Player = m_EntityManager->Create("Player");
+		m_EntityManager->PrintEntityName(Player);
+		Phoenix::EntityId Player2 = m_EntityManager->Create("Player2");
+		m_EntityManager->PrintEntityName(Player2);
+		Phoenix::EntityId Player3 = m_EntityManager->Create("Player3");
+		m_EntityManager->PrintEntityName(Player3);
+		Phoenix::EntityId Player4 = m_EntityManager->Create("Player4");
+		m_EntityManager->PrintEntityName(Player4);
+		m_EntityManager->Remove(Player3);
+		Phoenix::EntityId Player5 = m_EntityManager->Create("Player5");
+		m_EntityManager->PrintEntityName(Player5);
+
+		Phoenix::TransformSystem TransformStm = Phoenix::TransformSystem(0,10);
+
+		TransformStm.AddComponentTo(Player);
+		TransformStm.SetEntityPostion(Player, glm::vec2(1,1));
+		TransformStm.PrintEntityPosition(Player);
+		//////////////////////////////////////////////////////////////////////////////////////////////////
+		//End Test Dorian ECS/////////////////////////////////////////////////////////////////////////////
+		//////////////////////////////////////////////////////////////////////////////////////////////////
+		
 		
 		Phoenix::OrthographicCameraController cameraController = Phoenix::OrthographicCameraController(0.0f, 1280.0f, 0.0f, 720.0f, 1.0f, false);
 		m_Scene = new Phoenix::Scene(cameraController);
-		Phoenix::Entity* isac = m_Scene->CreateEntity("isac");
+		Phoenix::EntityOld* isac = m_Scene->CreateEntity("isac");
 		//
 		// //@TODO: refacto here the component has to got reference to the entity by passing the entity name, change this
 		isac->AddComponent<Phoenix::SpriteComponent>(Phoenix::SpriteComponent("isac", vertices, indices, vsSrc, fsSrc, layout,"assets/Isac.png" ));
@@ -76,7 +106,7 @@ public:
 
 	void OnUpdate() override
 	{
-		Phoenix::Entity* isac = m_Scene->GetEntity("isac");
+		Phoenix::EntityOld* isac = m_Scene->GetEntity("isac");
 		// isac->GetComponent<Phoenix::TransformComponent>().SeTransformPosition();
 		m_Scene->OnUpdate();
 	}
@@ -90,25 +120,20 @@ public:
 	
 private:
 	Phoenix::Scene* m_Scene;
+	Phoenix::EntityManager* m_EntityManager;
 };
 class GameApp : public Phoenix::Application
 {
 public:
 	GameApp()
 	{
-		m_InputActionRegistrator->RegisterAction(Phoenix::InputAction("move", Phoenix::Key::A), PX_BIND_EVENT_FN(GameApp::TestInputActionClbk));
-		PushLayer(new ExampleLayer(this));
+		PushLayer(new ExampleLayer());
 		this->GetWindow();
 	}
 
 	~GameApp()
 	{
 
-	}
-
-	void TestInputActionClbk()
-	{
-		PX_TRACE("Input action triggered");
 	}
 };
 

@@ -297,14 +297,11 @@
     <ClInclude Include="HAL\Common\Core\Input\include\Input.h">
       <Filter>HAL\Common\Core\Input\include</Filter>
     </ClInclude>
-    <ClInclude Include="HAL\Common\Core\Scene\include\Component.h">
-      <Filter>HAL\Common\Core\Scene\include</Filter>
+    <ClInclude Include="HAL\Common\Core\Input\include\InputActionRegistrator.h">
+      <Filter>HAL\Common\Core\Input\include</Filter>
     </ClInclude>
-    <ClInclude Include="HAL\Common\Core\Scene\include\Entity.h">
-      <Filter>HAL\Common\Core\Scene\include</Filter>
-    </ClInclude>
-    <ClInclude Include="HAL\Common\Core\Scene\include\EntityManager.h">
-      <Filter>HAL\Common\Core\Scene\include</Filter>
+    <ClInclude Include="HAL\Common\Core\Input\include\InputActions.h">
+      <Filter>HAL\Common\Core\Input\include</Filter>
     </ClInclude>
     <ClInclude Include="HAL\Common\Core\Scene\include\OrthographicCamera.h">
       <Filter>HAL\Common\Core\Scene\include</Filter>
@@ -414,6 +411,12 @@
       <Filter>HAL\Common\Core\Graphics\Render\src</Filter>
     </ClCompile>
     <ClCompile Include="HAL\Common\Core\Input\src\Input.cpp">
+      <Filter>HAL\Common\Core\Input\src</Filter>
+    </ClCompile>
+    <ClCompile Include="HAL\Common\Core\Input\src\InputActionRegistrator.cpp">
+      <Filter>HAL\Common\Core\Input\src</Filter>
+    </ClCompile>
+    <ClCompile Include="HAL\Common\Core\Input\src\InputActions.cpp">
       <Filter>HAL\Common\Core\Input\src</Filter>
     </ClCompile>
     <ClCompile Include="HAL\Common\Core\Scene\src\OrthographicCamera.cpp">
