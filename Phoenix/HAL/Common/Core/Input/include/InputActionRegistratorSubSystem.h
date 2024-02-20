@@ -13,10 +13,10 @@ namespace Phoenix
      * @TODO: the system is a bit closed now, if a new controller is added, the system needs to be updated.
      * Maybe add a file that binds 
      */
-    class PHOENIX_API InputActionRegistrator
+    class PHOENIX_API InputActionRegistratorSubSystem
     {
     public:
-        InputActionRegistrator() = default;
+        InputActionRegistratorSubSystem() = default;
         void RegisterAction(const InputAction action, std::function<void()> callback);
         void UnregisterAction(const InputAction action);
         void OnEvent(Event& e);

@@ -32,20 +32,9 @@ namespace Phoenix
         
     }
 
-    EntityOld* Scene::CreateEntity(std::string name)
-    {
-        EntityOld* entity = new EntityOld(name);
-        Application::Get().GetEntityManager()->AddEntity(name, entity);
-        return entity;
-    }
-
     void Scene::DestroyEntity(std::string name)
     {
-        Application::Get().GetEntityManager()->RemoveEntity(name);
+        // Application::Get().GetEntityManager()->RemoveEntity(name);
     }
 
-    EntityOld* Scene::GetEntity(std::string name)
-    {
-        return Application::Get().GetEntityManager()->GetEntity(name);
-    }
 }

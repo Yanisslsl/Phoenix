@@ -31,6 +31,7 @@ namespace Phoenix
             m_ComponentsId.reserve(dataSize);
         }
 
+        // runtime error when error occurs in the destructor
         ~ComponentSystem() noexcept
         {
         }

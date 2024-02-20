@@ -3,6 +3,8 @@
 #include "Common/Core/Graphics/Render/include/Renderer.h"
 #include "Common/Core/Scene/include/OrthographicCameraController.h"
 #include "Common/Core/Scene/include/Scene.h"
+#include "Core/ECS/include/EntityManager.h"
+#include "Core/ECS/include/TransformSystem.h"
 
 class ExampleLayer : public Phoenix::Layer
 {
@@ -10,74 +12,20 @@ public:
 	ExampleLayer(Phoenix::Application* app = nullptr)
 		: Layer("Example")
 	{
-		const char* vsSrc = R"(
-		#version 330 core
-		layout (location = 0) in vec3 aPos;
-		layout (location = 1) in vec3 aColor;
-		layout (location = 2) in vec2 aTexCoord;
-
-		uniform mat4 u_ViewProjection;
-		uniform vec3 customColor;
-		uniform mat4 projection;
-		uniform mat4 transform;
-
-		out vec3 ourColor;
-		out vec2 TexCoord;
-
-		void main()
-		{
-			gl_Position = projection * transform * vec4(aPos, 1.0);
-		    ourColor = customColor;
-			TexCoord = aTexCoord;
-		}
-		)";
-
-		const char* fsSrc = R"(
-			#version 330 core
-			out vec4 FragColor;
-			  
-			in vec3 ourColor;
-			in vec2 TexCoord;
-
-			uniform sampler2D ourTexture;
-
-			void main()
-			{
-			FragColor = texture(ourTexture, TexCoord);
-			}
-		)";
-
-		float scaleFactor = 30.0f;
-		std::vector<float> vertices = {
-			0.5f * scaleFactor,  0.5f * scaleFactor, 0.0f * scaleFactor,   1.0f , 0.0f, 0.0f,   1.0f, 1.0f,   // top right
-				0.5f * scaleFactor, -0.5f * scaleFactor, 0.0f * scaleFactor,   0.0f, 1.0f, 0.0f,   1.0f, 0.0f,   // bottom right
-			   -0.5f * scaleFactor, -0.5f * scaleFactor, 0.0f * scaleFactor,   0.0f, 0.0f, 1.0f,   0.0f, 0.0f,   // bottom left
-			   -0.5f * scaleFactor,  0.5f * scaleFactor, 0.0f * scaleFactor,   1.0f, 1.0f, 0.0f,   0.0f, 1.0f  
-		};
-		
-		std::vector<uint32_t> indices = {
-			0, 1, 3,
-			1, 2, 3
-		};
-		Phoenix::BufferLayout layout = {
-			{ Phoenix::ShaderDataType::Float3, "aPos" },
-					{ Phoenix::ShaderDataType::Float3, "aColor" },
-					{ Phoenix::ShaderDataType::Float2, "aTexCoord" }
-		};
-		
 		Phoenix::OrthographicCameraController cameraController = Phoenix::OrthographicCameraController(0.0f, 1280.0f, 0.0f, 720.0f, 1.0f, false);
 		m_Scene = new Phoenix::Scene(cameraController);
-		Phoenix::Entity* isac = m_Scene->CreateEntity("isac");
-		//
-		// //@TODO: refacto here the component has to got reference to the entity by passing the entity name, change this
-		isac->AddComponent<Phoenix::SpriteComponent>(Phoenix::SpriteComponent("isac", vertices, indices, vsSrc, fsSrc, layout,"assets/Isac.png" ));
-		isac->AddComponent<Phoenix::TransformComponent>(Phoenix::TransformComponent("isac", glm::vec2(980.0f/2, 720.0f/2)));
+		x = 1280. / 2;
+		y = 720. / 2;
+		isac = app->GetSubSystem<Phoenix::EntitySubsystem>()->CreateEntity("hello");
+		isac->AddComponent(Phoenix::SpriteComponent{ "assets/Isac.png" });
+		isac->AddComponent(Phoenix::TransformComponent{ glm::vec2(x, y), glm::vec2(1, 1), glm::vec2(1, 1) });
 	}
 
 	void OnUpdate() override
 	{
-		Phoenix::Entity* isac = m_Scene->GetEntity("isac");
-		// isac->GetComponent<Phoenix::TransformComponent>().SeTransformPosition();
+		x += 0.9;
+		y += 0.9;
+		isac->SetTransformPosition(glm::vec2(x, y));
 		m_Scene->OnUpdate();
 	}
 	
@@ -90,13 +38,16 @@ public:
 	
 private:
 	Phoenix::Scene* m_Scene;
+	Phoenix::Entity* isac;
+	float x;
+	float y;
 };
 class GameApp : public Phoenix::Application
 {
 public:
 	GameApp()
 	{
-		m_InputActionRegistrator->RegisterAction(Phoenix::InputAction("move", Phoenix::Key::A), PX_BIND_EVENT_FN(GameApp::TestInputActionClbk));
+		// m_InputActionRegistrator->RegisterAction(Phoenix::InputAction("move", Phoenix::Key::A), PX_BIND_EVENT_FN(GameApp::TestInputActionClbk));
 		PushLayer(new ExampleLayer(this));
 		this->GetWindow();
 	}

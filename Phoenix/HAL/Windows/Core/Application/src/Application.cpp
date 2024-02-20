@@ -16,8 +16,8 @@ namespace Phoenix
 		m_Window = WindowHal::Create(WindowProps("Phoenix Engine", 1280, 720));
 		m_Window->SetEventCallback(PX_BIND_EVENT_FN(Application::OnEvent));
 		s_Instance = this;
-		m_EntityManager = new EntityManagerOld();
-		m_InputActionRegistrator = new InputActionRegistrator();
+		m_InputActionRegistratorSubsystem = new InputActionRegistratorSubSystem();
+		m_EntityManagerSubsystem = new EntitySubsystem();
 		Renderer::Init();
 		//
 		// m_ImGuiLayer = new ImGuiLayer();
@@ -41,7 +41,7 @@ namespace Phoenix
 	void Application::OnEvent(Event& e)
 	{
 		EventDispatcher dispatcher(e);
-		m_InputActionRegistrator->OnEvent(e);
+		m_InputActionRegistratorSubsystem->OnEvent(e);
 		dispatcher.Dispatch<WindowCloseEvent>(PX_BIND_EVENT_FN(Application::OnWindowClose));
 		dispatcher.Dispatch<WindowResizeEvent>(PX_BIND_EVENT_FN(Application::OnWindowResize));
 		dispatcher.Dispatch<WindowResizeEvent>(PX_BIND_EVENT_FN(Application::OnWindowResize));

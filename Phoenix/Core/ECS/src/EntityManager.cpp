@@ -4,6 +4,9 @@
 #include <vector>
 #include <iostream>
 #include <string>
+
+#include "Log/include/Log.h"
+
 namespace Phoenix
 {
     EntityManager::EntityManager(size_t size)
@@ -53,7 +56,7 @@ namespace Phoenix
         }
         else
         {
-            //Log entity not found
+            PX_ERROR("Entity not found");
         }
     }
 
