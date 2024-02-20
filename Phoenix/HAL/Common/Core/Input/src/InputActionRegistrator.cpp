@@ -26,6 +26,7 @@ namespace Phoenix
             return;
         }
         m_InputActions.erase(action);
+        m_InputActionsMap.erase(action.GetCode());
     }
 
     
@@ -43,4 +44,5 @@ namespace Phoenix
         }    
     }
 
+    
 }

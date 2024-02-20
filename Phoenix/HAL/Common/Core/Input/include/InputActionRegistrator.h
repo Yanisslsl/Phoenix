@@ -8,6 +8,11 @@
 
 namespace Phoenix
 {
+    /**
+     * \brief
+     * @TODO: the system is a bit closed now, if a new controller is added, the system needs to be updated.
+     * Maybe add a file that binds 
+     */
     class PHOENIX_API InputActionRegistrator
     {
     public:
@@ -17,9 +22,11 @@ namespace Phoenix
         void OnEvent(Event& e);
         void OnInputAction();
     private:
+        //same for callbks
         std::map<InputAction, std::function<void()>> m_InputActions;
         // maybe an InputAction can have multiple keys or mouse buttons
         std::map<uint16_t, InputAction> m_InputActionsMap;
+        
     };
 }
 
