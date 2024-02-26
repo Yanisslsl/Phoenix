@@ -1,8 +1,7 @@
 ﻿#include "../include/OpenGLTexture2D.h"
-// #include "stb_image"
-#include <stb_image.h>
-
 #include "Log/include/Log.h"
+#define STB_IMAGE_IMPLEMENTATION
+#include <stb_image.h>
 
 namespace Phoenix
 {
