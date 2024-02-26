@@ -13,9 +13,6 @@
     <Filter Include="Core\ECS\include">
       <UniqueIdentifier>{EB2E1A2B-D727-397D-005A-1E02ECB11889}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Core\ECS\include\BehaviourTree">
-      <UniqueIdentifier>{CF28E5B7-BB4E-AF1E-A494-34EA9059D4EA}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Core\ECS\src">
       <UniqueIdentifier>{8FC91F7F-7B2C-AF23-24B2-E7D910F47AA6}</UniqueIdentifier>
     </Filter>
@@ -84,6 +81,15 @@
     </Filter>
     <Filter Include="HAL\Common\Core">
       <UniqueIdentifier>{6AB9DC5A-D644-4A1F-DF55-CD134B60A61F}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="HAL\Common\Core\ECSExtended">
+      <UniqueIdentifier>{25BEDEAA-91CB-0C91-1AB2-087C86BED847}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="HAL\Common\Core\ECSExtended\include">
+      <UniqueIdentifier>{983A46D5-04F4-B07F-8D53-CB59F90B67EF}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="HAL\Common\Core\ECSExtended\src">
+      <UniqueIdentifier>{BC06C75A-28EA-D59A-31ED-03D79D4F9CEB}</UniqueIdentifier>
     </Filter>
     <Filter Include="HAL\Common\Core\Graphics">
       <UniqueIdentifier>{EAB890BC-D6DD-DF3C-FF28-C5CCEBACDE5A}</UniqueIdentifier>
@@ -195,9 +201,6 @@
     <ClInclude Include="Core\Core.h">
       <Filter>Core</Filter>
     </ClInclude>
-    <ClInclude Include="Core\ECS\include\BehaviourTree\Task.h">
-      <Filter>Core\ECS\include\BehaviourTree</Filter>
-    </ClInclude>
     <ClInclude Include="Core\ECS\include\ComponentSystem.h">
       <Filter>Core\ECS\include</Filter>
     </ClInclude>
@@ -234,6 +237,9 @@
     <ClInclude Include="Core\Events\WindowEvent.h">
       <Filter>Core\Events</Filter>
     </ClInclude>
+    <ClInclude Include="Core\ImGui\Platform\OpenGL\ImGuiOpenGLRenderer.h">
+      <Filter>Core\ImGui\Platform\OpenGL</Filter>
+    </ClInclude>
     <ClInclude Include="Core\ImGui\include\ImGuiLayer.h">
       <Filter>Core\ImGui\include</Filter>
     </ClInclude>
@@ -260,6 +266,9 @@
     </ClInclude>
     <ClInclude Include="Core\Utils\Timer.h">
       <Filter>Core\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="HAL\Common\Core\ECSExtended\include\EntitySubsystem.h">
+      <Filter>HAL\Common\Core\ECSExtended\include</Filter>
     </ClInclude>
     <ClInclude Include="HAL\Common\Core\Graphics\DataObjects\include\Buffer.h">
       <Filter>HAL\Common\Core\Graphics\DataObjects\include</Filter>
@@ -297,7 +306,7 @@
     <ClInclude Include="HAL\Common\Core\Input\include\Input.h">
       <Filter>HAL\Common\Core\Input\include</Filter>
     </ClInclude>
-    <ClInclude Include="HAL\Common\Core\Input\include\InputActionRegistrator.h">
+    <ClInclude Include="HAL\Common\Core\Input\include\InputActionRegistratorSubSystem.h">
       <Filter>HAL\Common\Core\Input\include</Filter>
     </ClInclude>
     <ClInclude Include="HAL\Common\Core\Input\include\InputActions.h">
@@ -337,26 +346,15 @@
       <Filter>HAL\Windows</Filter>
     </ClInclude>
     <ClInclude Include="Phoenix.h" />
-    <ClInclude Include="Core\ECS\include\ComponentSystem.hxx" />
-    <ClInclude Include="Core\ECS\include\Entity.hxx" />
+    <ClInclude Include="vendor\stb_image\stb_image.h">
+      <Filter>vendor\stb_image</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Core\ECS\include\BehaviourTree\Task.cpp">
-      <Filter>Core\ECS\include\BehaviourTree</Filter>
-    </ClCompile>
     <ClCompile Include="Core\ECS\src\ComponentSystem.cpp">
       <Filter>Core\ECS\src</Filter>
     </ClCompile>
-    <ClCompile Include="Core\ECS\src\ComponentsData.cpp">
-      <Filter>Core\ECS\src</Filter>
-    </ClCompile>
-    <ClCompile Include="Core\ECS\src\Entity.cpp">
-      <Filter>Core\ECS\src</Filter>
-    </ClCompile>
     <ClCompile Include="Core\ECS\src\EntityManager.cpp">
-      <Filter>Core\ECS\src</Filter>
-    </ClCompile>
-    <ClCompile Include="Core\ECS\src\ISystem.cpp">
       <Filter>Core\ECS\src</Filter>
     </ClCompile>
     <ClCompile Include="Core\ECS\src\TransformSystem.cpp">
@@ -364,6 +362,9 @@
     </ClCompile>
     <ClCompile Include="Core\ECS\src\TransformsData.cpp">
       <Filter>Core\ECS\src</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\ImGui\Platform\OpenGL\ImGuiOpenGLRenderer.cpp">
+      <Filter>Core\ImGui\Platform\OpenGL</Filter>
     </ClCompile>
     <ClCompile Include="Core\ImGui\src\ImGuiLayer.cpp">
       <Filter>Core\ImGui\src</Filter>
@@ -376,6 +377,9 @@
     </ClCompile>
     <ClCompile Include="Core\Log\src\Log.cpp">
       <Filter>Core\Log\src</Filter>
+    </ClCompile>
+    <ClCompile Include="HAL\Common\Core\ECSExtended\src\EntitySubsystem.cpp">
+      <Filter>HAL\Common\Core\ECSExtended\src</Filter>
     </ClCompile>
     <ClCompile Include="HAL\Common\Core\Graphics\DataObjects\src\Buffer.cpp">
       <Filter>HAL\Common\Core\Graphics\DataObjects\src</Filter>
@@ -413,7 +417,7 @@
     <ClCompile Include="HAL\Common\Core\Input\src\Input.cpp">
       <Filter>HAL\Common\Core\Input\src</Filter>
     </ClCompile>
-    <ClCompile Include="HAL\Common\Core\Input\src\InputActionRegistrator.cpp">
+    <ClCompile Include="HAL\Common\Core\Input\src\InputActionRegistratorSubSystem.cpp">
       <Filter>HAL\Common\Core\Input\src</Filter>
     </ClCompile>
     <ClCompile Include="HAL\Common\Core\Input\src\InputActions.cpp">
@@ -439,6 +443,9 @@
     </ClCompile>
     <ClCompile Include="HAL\Windows\Core\Window\src\Window.cpp">
       <Filter>HAL\Windows\Core\Window\src</Filter>
+    </ClCompile>
+    <ClCompile Include="vendor\stb_image\stb_image.cpp">
+      <Filter>vendor\stb_image</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

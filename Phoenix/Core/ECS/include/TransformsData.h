@@ -1,5 +1,6 @@
 #pragma once
 #include <vector>
+#include <glm/fwd.hpp>
 #include <glm/vec2.hpp>
 #include "EntityComponent.h"
 
@@ -13,7 +14,7 @@ namespace Phoenix
         TransformsData(size_t size);
 
         std::vector<glm::vec2> m_positions;
-        std::vector<glm::vec2> m_rotations;
+        std::vector<float> m_rotations;
         std::vector<glm::vec2> m_scales;
         std::vector<EntityId> m_parents;
         std::vector<std::vector<EntityId>> m_children;

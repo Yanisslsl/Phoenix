@@ -10,6 +10,7 @@
 #include "../../../Core/Base/Base.h"
 #include "Common/Core/Graphics/DataObjects/include/Texture.h"
 #include "Common/Core/Scene/include/OrthographicCamera.h"
+#include "../../Core/Utils/Color.h"
 
 
 namespace Phoenix
@@ -22,8 +23,9 @@ namespace Phoenix
         Ref<VertexArray> vertexArray;
         Ref<Shader> shader;
         BufferLayout bufferlayout;
-        glm::vec2 transform;
+        glm::mat4 modelMat;
         Ref<Texture2D> texture;
+        ColorType color;
     };
     class PHOENIX_API Renderer
     {
@@ -81,13 +83,15 @@ namespace Phoenix
          * \param texture
          * \param transform 
          */
-        static void Submit(const Ref<Shader>& shader, const Ref<VertexArray>& vertexArray, Ref<Texture> texture, const glm::vec2& transform = {});
+        static void Submit(const Ref<Shader>& shader, const Ref<VertexArray>& vertexArray, Ref<Texture> texture, ColorType color, glm::mat4 modelMat);
 
 
         /**
          * \brief Create quad
          */
-        static  void CreateQuad(std::string name, const char* texturePath, const glm::vec2& transform);
+        static  void CreateQuad(std::string name, const char* texturePath, const glm::mat4 modelMat);
+
+        static void CreateQuad(std::string name, const ColorType color , const glm::mat4 modelMat);
 
         /**
          * \brief Create shape
@@ -99,7 +103,7 @@ namespace Phoenix
          * \param bufferlayout 
          * \param transform 
          */
-        static void Renderer::CreateShape(std::string name, std::vector<float> vertices, std::vector<uint32_t> indices, const char* vertexShader, const char* fragmentShader, const BufferLayout bufferlayout ,const glm::vec2& transform = {});
+        static void Renderer::CreateShape(std::string name, std::vector<float> vertices, std::vector<uint32_t> indices, const char* vertexShader, const char* fragmentShader, const BufferLayout bufferlayout ,const glm::mat4 modelMat);
 
         /**
          * \brief Create textured shape
@@ -112,7 +116,7 @@ namespace Phoenix
          * \param texturePath 
          * \param transform 
          */
-        static void Renderer::CreateTexturedShape(std::string name, std::vector<float> vertices, std::vector<uint32_t> indices, const char* vertexShader, const char* fragmentShader, const BufferLayout bufferlayout ,const char* texturePath, const glm::vec2& transform = {});
+        static void Renderer::CreateTexturedShape(std::string name, std::vector<float> vertices, std::vector<uint32_t> indices, const char* vertexShader, const char* fragmentShader, const BufferLayout bufferlayout ,const char* texturePath, const glm::mat4 modelMat);
 
         /**
          * \brief 
@@ -142,11 +146,11 @@ namespace Phoenix
         static void BeginScene(OrthographicCamera& camera);
 
         /**
-         * \brief Update the shape transform
+         * \brief Update the shape model matrix
          * \param name 
-         * \param transform 
+         * \param modelMat 
          */
-        static void Renderer::UpdateShapeTransform(std::string name, const glm::vec2& transform);
+        static void UpdateModelMatrix(std::string name, glm::mat4 modelMat);
 
     private:
         struct SceneData

@@ -69,4 +69,17 @@ namespace Phoenix
     {
         m_entitiesComponents.at(Entity).at(ComponentSystem) = Component;
     }
+
+    // retrieve entity and components
+    EntityId EntityManager::GetEntity(const std::string& name)
+    {
+        for (std::size_t i = 0; i < m_entitiesName.size(); i++)
+        {
+            if (m_entitiesName.at(i) == name)
+            {
+                return m_entitiesId.at(i);
+            } 
+        }
+        PX_ERROR("Entity not found");
+    }
 }

@@ -1,58 +1,94 @@
 #include "ECS/include/TransformSystem.h"
 
 #include <iostream>
-
+#include "../../Core/Log/include/Log.h"
 #include "ECS/include/EntityManager.h"
 #include "ECS/include/TransformsData.h"
 
-void Phoenix::TransformSystem::InitComponents()
-{
-}
 
-void Phoenix::TransformSystem::StartComponents()
+namespace Phoenix
 {
-}
+    void TransformSystem::InitComponents()
+    {
+    }
 
-void Phoenix::TransformSystem::UpdateComponents()
-{
-}
+    void TransformSystem::StartComponents()
+    {
+    }
 
-Phoenix::TransformSystem::TransformSystem(ComponentSystemId id, size_t dataSize)
-    : ComponentSystem(id,dataSize)
-{
-    m_TransformsData = new TransformsData(dataSize);
-}
+    void TransformSystem::UpdateComponents()
+    {
+    }
 
-Phoenix::TransformSystem::~TransformSystem()
-{
-    delete m_TransformsData;
-    m_TransformsData = nullptr;
-}
+    TransformSystem::TransformSystem(ComponentSystemId id, size_t dataSize)
+        : ComponentSystem(id,dataSize)
+    {
+        m_TransformsData = new TransformsData(dataSize);
+    }
 
-void Phoenix::TransformSystem::Init()
-{
-    ComponentSystem::Init();
-}
+    TransformSystem::~TransformSystem()
+    {
+        delete m_TransformsData;
+        m_TransformsData = nullptr;
+    }
 
-void Phoenix::TransformSystem::Start()
-{
-    ComponentSystem::Start();
-}
+    void TransformSystem::Init()
+    {
+        ComponentSystem::Init();
+    }
 
-void Phoenix::TransformSystem::Update()
-{
-    ComponentSystem::Update();
-}
+    void TransformSystem::Start()
+    {
+        ComponentSystem::Start();
+    }
 
-void Phoenix::TransformSystem::PrintEntityPosition(EntityId entity)
-{
-    ComponentId transformId = EntityMgr.m_entitiesComponents.at(entity).at(m_Id);
-    glm::vec2 position = m_TransformsData->m_positions.at(transformId);
-    std::cout<<"position : "<<position.x << ","<<position.y<<std::endl;
-}
+    void TransformSystem::Update()
+    {
+        ComponentSystem::Update();
+    }
 
-void Phoenix::TransformSystem::SetEntityPostion(EntityId entity, glm::vec2 position)
-{
-    ComponentId transformId = EntityMgr.m_entitiesComponents.at(entity).at(m_Id);
-    m_TransformsData->m_positions.at(transformId) = position;
+    void TransformSystem::PrintEntityPosition(EntityId entity)
+    {
+        ComponentId transformId = EntityMgr.m_entitiesComponents.at(entity).at(m_Id);
+        glm::vec2 position = m_TransformsData->m_positions.at(transformId);
+        PX_INFO("position : {0},{1}", position.x, position.y);
+    }
+
+
+    glm::vec2 TransformSystem::GetEntityPosition(EntityId entity)
+    {
+        ComponentId transformId = EntityMgr.m_entitiesComponents.at(entity).at(m_Id);
+        return m_TransformsData->m_positions.at(transformId);
+    }
+
+    float TransformSystem::GetEntityRotation(EntityId entity)
+    {
+        ComponentId transformId = EntityMgr.m_entitiesComponents.at(entity).at(m_Id);
+        return m_TransformsData->m_rotations.at(transformId);
+    }
+
+    glm::vec2 TransformSystem::GetEntityScale(EntityId entity)
+    {
+        ComponentId transformId = EntityMgr.m_entitiesComponents.at(entity).at(m_Id);
+        return m_TransformsData->m_scales.at(transformId);
+    }
+
+    void TransformSystem::SetEntityPostion(EntityId entity, glm::vec2 position)
+    {
+        ComponentId transformId = EntityMgr.m_entitiesComponents.at(entity).at(m_Id);
+        m_TransformsData->m_positions.at(transformId) = position;
+    }
+
+    void TransformSystem::SetEntityRotation(EntityId entity, float rotation)
+    {
+        ComponentId transformId = EntityMgr.m_entitiesComponents.at(entity).at(m_Id);
+        m_TransformsData->m_rotations.at(transformId) = rotation;
+    }
+
+    void TransformSystem::SetEntityScale(EntityId entity, glm::vec2 scale)
+    {
+        ComponentId transformId = EntityMgr.m_entitiesComponents.at(entity).at(m_Id);
+        m_TransformsData->m_scales.at(transformId) = scale;
+    }
+    
 }

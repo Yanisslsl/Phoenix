@@ -1,6 +1,9 @@
 #include "../include/Renderer.h"
 
-#include "glm/ext/matrix_transform.hpp"
+#include <glm/ext/matrix_clip_space.hpp>
+#include <glm/ext/matrix_transform.hpp>
+
+#include "Utils/Color.h"
 
 
 namespace Phoenix
@@ -58,22 +61,30 @@ namespace Phoenix
 
 
     // @TODO create base type maths type that encapsulates glm types
-    void Renderer::Submit(const Ref<Shader>& shader, const Ref<VertexArray>& vertexArray, Ref<Texture> texture,
-                          const glm::vec2& transform)
+    void Renderer::Submit(const Ref<Shader>& shader, const Ref<VertexArray>& vertexArray, Ref<Texture> texture, ColorType color,
+                          const glm::mat4 modelMat)
     {
-        shader->SetMat4("projection", s_SceneData->ViewProjectionMatrix);
-        shader->SetFloat3("customColor", {0.2f, 0.3f, 0.8f});
+        shader->SetMat4("u_ViewProjection", s_SceneData->ViewProjectionMatrix);
+        shader->SetFloat3("u_Color", {0.2f, 0.3f, 0.8f});
         shader->Bind();
         // we set the model matrix to the shader by using the transform vector with z = 1.0f for the 2D rendering
-        shader->SetMat4("transform", glm::translate(glm::mat4(1.0f), glm::vec3(transform.x, transform.y, 1.0f)));
-        texture->Bind();
+        shader->SetMat4("u_Model", modelMat);
+        if(texture != nullptr)
+        {
+            texture->Bind();
+            shader->SetFloat3("u_Color", glm::vec3(0.0f, 0.0f, 0.0f));
+
+        } else
+        {
+            shader->SetFloat3("u_Color", color);
+        }
         vertexArray->Bind();
         DrawIndexed(vertexArray);
     }
 
     void Renderer::CreateShape(std::string name, std::vector<float> vertices, std::vector<uint32_t> indices,
                                const char* vertexShader, const char* fragmentShader, const BufferLayout bufferlayout,
-                               const glm::vec2& transform)
+                               const glm::mat4 modelMat)
     {
         Ref<VertexArray> vertexArray = s_RendererAPI->CreateVertexArray();
         Ref<VertexBuffer> vertexBuffer = s_RendererAPI->CreateVertexBuffer(vertices);
@@ -85,14 +96,14 @@ namespace Phoenix
         shader->Bind();
         s_ShapeData.insert(std::pair<std::string, ShapeData>(name, {
                                                                  vertexBuffer, indexBuffer, vertexArray, shader,
-                                                                 bufferlayout, transform
+                                                                 bufferlayout, modelMat
                                                              }));
     }
 
-    auto Renderer::CreateTexturedShape(std::string name, std::vector<float> vertices, std::vector<uint32_t> indices,
+    void Renderer::CreateTexturedShape(std::string name, std::vector<float> vertices, std::vector<uint32_t> indices,
                                        const char* vertexShader, const char* fragmentShader,
                                        const BufferLayout bufferlayout, const char* texturePath,
-                                       const glm::vec2& transform) -> void
+                                       const glm::mat4 modelMat)
     {
         Ref<VertexArray> vertexArray = s_RendererAPI->CreateVertexArray();
         Ref<VertexBuffer> vertexBuffer = s_RendererAPI->CreateVertexBuffer(vertices);
@@ -106,18 +117,17 @@ namespace Phoenix
         shader->SetInt("u_Texture", 0);
         s_ShapeData.insert(std::pair<std::string, ShapeData>(name, {
                                                                  vertexBuffer, indexBuffer, vertexArray, shader,
-                                                                 bufferlayout, transform, texture
+                                                                 bufferlayout, modelMat, texture
                                                              }));
     }
 
-    void Renderer::CreateQuad(std::string name, const char* texturePath, const glm::vec2& transform)
+    void Renderer::CreateQuad(std::string name, const char* texturePath, const glm::mat4 modelMat)
     {
-        float scaleFactor = 30.0f;
         std::vector<float> vertices = {
-            0.5f * scaleFactor,  0.5f * scaleFactor, 0.0f * scaleFactor,   1.0f , 0.0f, 0.0f,   1.0f, 1.0f,   // top right
-                0.5f * scaleFactor, -0.5f * scaleFactor, 0.0f * scaleFactor,   0.0f, 1.0f, 0.0f,   1.0f, 0.0f,   // bottom right
-               -0.5f * scaleFactor, -0.5f * scaleFactor, 0.0f * scaleFactor,   0.0f, 0.0f, 1.0f,   0.0f, 0.0f,   // bottom left
-               -0.5f * scaleFactor,  0.5f * scaleFactor, 0.0f * scaleFactor,   1.0f, 1.0f, 0.0f,   0.0f, 1.0f  
+            0.5f,  0.5f, 0.0f,1.0f, 1.0f,   // top right
+                0.5f, -0.5f, 0.0f,  1.0f, 0.0f,   // bottom right
+               -0.5f, -0.5f, 0.0f,  0.0f, 0.0f,   // bottom left
+               -0.5f,  0.5f, 0.0f,  0.0f, 1.0f  
         };
 		
         std::vector<uint32_t> indices = {
@@ -126,7 +136,6 @@ namespace Phoenix
         };
         Phoenix::BufferLayout layout = {
             { Phoenix::ShaderDataType::Float3, "aPos" },
-                    { Phoenix::ShaderDataType::Float3, "aColor" },
                     { Phoenix::ShaderDataType::Float2, "aTexCoord" }
         };
         Ref<VertexArray> vertexArray = s_RendererAPI->CreateVertexArray();
@@ -142,7 +151,40 @@ namespace Phoenix
         shader->SetInt("u_Texture", 0);
         s_ShapeData.insert(std::pair<std::string, ShapeData>(name, {
                                                                  vertexBuffer, indexBuffer, vertexArray, shader,
-                                                                 layout, transform, texture
+                                                                 layout, modelMat, texture 
+                                                             }));
+    }
+
+    void Renderer::CreateQuad(std::string name, const ColorType color , const glm::mat4 modelMat)
+    {
+        std::vector<float> vertices = {
+            0.5f,  0.5f, 0.0f,1.0f, 1.0f,   // top right
+                0.5f, -0.5f, 0.0f,  1.0f, 0.0f,   // bottom right
+               -0.5f, -0.5f, 0.0f,  0.0f, 0.0f,   // bottom left
+               -0.5f,  0.5f, 0.0f,  0.0f, 1.0f  
+        };
+		
+        std::vector<uint32_t> indices = {
+            0, 1, 3,
+            1, 2, 3
+        };
+        BufferLayout layout = {
+            { ShaderDataType::Float3, "aPos" },
+                    { ShaderDataType::Float2, "aTexCoord" }
+        };
+        Ref<VertexArray> vertexArray = s_RendererAPI->CreateVertexArray();
+        Ref<VertexBuffer> vertexBuffer = s_RendererAPI->CreateVertexBuffer(vertices);
+        vertexBuffer->SetLayout(layout);
+        vertexArray->AddVertexBuffer(vertexBuffer);
+        Ref<IndexBuffer> indexBuffer = s_RendererAPI->CreateIndexBuffer(indices);
+        vertexArray->AddVertexBuffer(vertexBuffer);
+        vertexArray->SetIndexBuffer(indexBuffer);
+        Ref<Shader> shader = s_RendererAPI->CreateShader(name);
+        shader->Bind();
+        shader->SetInt("u_Texture", 0);
+        s_ShapeData.insert(std::pair<std::string, ShapeData>(name, {
+                                                                 vertexBuffer, indexBuffer, vertexArray, shader,
+                                                                 layout, modelMat, nullptr, color
                                                              }));
     }
 
@@ -162,12 +204,12 @@ namespace Phoenix
     {
         for (auto& shape : s_ShapeData)
         {
-            Submit(shape.second.shader, shape.second.vertexArray, shape.second.texture, shape.second.transform);
+            Submit(shape.second.shader, shape.second.vertexArray, shape.second.texture, shape.second.color, shape.second.modelMat);
         }
     }   
 
-    void Renderer::UpdateShapeTransform(std::string name, const glm::vec2& transform)
+    void Renderer::UpdateModelMatrix(std::string name, glm::mat4 modelMat)
     {
-        s_ShapeData.find(name)->second.transform = transform;
+        s_ShapeData.find(name)->second.modelMat = modelMat;
     }
 }

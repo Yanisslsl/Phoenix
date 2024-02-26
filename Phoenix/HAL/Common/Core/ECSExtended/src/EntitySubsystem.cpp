@@ -12,15 +12,21 @@ namespace Phoenix
         m_TransformSystem = new TransformSystem(0, 1000);
     }
     
-    Entity* EntitySubsystem::CreateEntity(std::string name)
+    Ref<Entity> EntitySubsystem::CreateEntity(std::string name)
     {
         EntityId entityId = m_EntityManager->Create(name);
-        return new Entity{ this, entityId, name };
+        return CreateRef<Entity>(Entity{ this, entityId, name });
     }
 
     void EntitySubsystem::DestroyEntity(Entity entity)
     {
         m_EntityManager->Remove(entity.m_id);
+    }
+
+    Ref<Entity> EntitySubsystem::GetEntity(std::string name)
+    {
+        EntityId entityId  = m_EntityManager->GetEntity(name);
+        return CreateRef<Entity>(Entity{ this, entityId, name });
     }
 
 }

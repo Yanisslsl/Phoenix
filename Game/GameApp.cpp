@@ -16,16 +16,25 @@ public:
 		m_Scene = new Phoenix::Scene(cameraController);
 		x = 1280. / 2;
 		y = 720. / 2;
-		isac = app->GetSubSystem<Phoenix::EntitySubsystem>()->CreateEntity("hello");
+		scale = 1;
+		auto square = app->GetSubSystem<Phoenix::EntitySubsystem>()->CreateEntity("square");
+		square->AddComponent(Phoenix::SpriteComponent(Phoenix::Color::RED));
+		square->AddComponent(Phoenix::TransformComponent{ glm::vec2(x, y), 0, glm::vec2(1, 1) });
+		square->SetScale(50);
+
+		auto isac = app->GetSubSystem<Phoenix::EntitySubsystem>()->CreateEntity("isac");
+		square->AddChild(isac);
 		isac->AddComponent(Phoenix::SpriteComponent{ "assets/Isac.png" });
-		isac->AddComponent(Phoenix::TransformComponent{ glm::vec2(x, y), glm::vec2(1, 1), glm::vec2(1, 1) });
+		isac->AddComponent(Phoenix::TransformComponent{ glm::vec2(10,0), 0, glm::vec2(1, 1) });
+		isac->SetScale(50);
 	}
 
 	void OnUpdate() override
 	{
 		x += 0.9;
 		y += 0.9;
-		isac->SetTransformPosition(glm::vec2(x, y));
+		scale += 0.01;
+		auto isac = Phoenix::Application::Get().GetSubSystem<Phoenix::EntitySubsystem>()->GetEntity("isac");
 		m_Scene->OnUpdate();
 	}
 	
@@ -38,9 +47,9 @@ public:
 	
 private:
 	Phoenix::Scene* m_Scene;
-	Phoenix::Entity* isac;
 	float x;
 	float y;
+	float scale;
 };
 class GameApp : public Phoenix::Application
 {

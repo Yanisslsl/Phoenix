@@ -4,6 +4,7 @@
 #include "ComponentSystem.h"
 #include "TransformsData.h"
 #include "../../../Core/Core.h"
+#include <glm/ext/matrix_transform.hpp>
 
 //class TransformsData;
 
@@ -25,9 +26,15 @@ namespace Phoenix
 
         TransformsData* m_TransformsData;
 
+        glm::vec2 GetEntityPosition(EntityId entity);
+        void SetEntityPostion(EntityId entity, glm::vec2 position);
         void PrintEntityPosition(EntityId entity);
 
-        void SetEntityPostion(EntityId entity, glm::vec2 position);
+        void SetEntityRotation(EntityId entity, float rotation);
+        float GetEntityRotation(EntityId entity);
+        
+        void SetEntityScale(EntityId entity, glm::vec2 scale);
+        glm::vec2 GetEntityScale(EntityId entity);
     }; 
 }
 

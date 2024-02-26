@@ -19,9 +19,10 @@ namespace Phoenix
 		m_InputActionRegistratorSubsystem = new InputActionRegistratorSubSystem();
 		m_EntityManagerSubsystem = new EntitySubsystem();
 		Renderer::Init();
-		//
-		// m_ImGuiLayer = new ImGuiLayer();
-		// PushOverlay(m_ImGuiLayer);
+#ifdef PX_DEBUG
+		m_ImGuiLayer = new ImGuiLayer();
+		PushOverlay(m_ImGuiLayer);
+#endif
 	}
 	
 	Application::~Application()	{	}
