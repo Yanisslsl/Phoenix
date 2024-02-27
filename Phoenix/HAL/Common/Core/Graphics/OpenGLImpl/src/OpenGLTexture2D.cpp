@@ -1,6 +1,8 @@
 ﻿#include "../include/OpenGLTexture2D.h"
 #include "Log/include/Log.h"
 #define STB_IMAGE_IMPLEMENTATION
+#include <filesystem>
+#include <iostream>
 #include <stb_image.h>
 
 namespace Phoenix
@@ -13,6 +15,15 @@ namespace Phoenix
     
     OpenGLTexture2D::OpenGLTexture2D(const std::string& path): m_Path(path)
     {
+        std::string file_path = "assets/Isac.png"; // Replace with your file path
+        std::filesystem::path currentPath = std::filesystem::current_path();
+
+        // Check if file exists
+        if (std::filesystem::exists(file_path)) {
+            std::cout << "File exists." << std::endl;
+        } else {
+            std::cout << "File does not exist." << std::endl;
+        }
         int width, height, channels;
         stbi_set_flip_vertically_on_load(1);
         char* data = nullptr;

@@ -2,9 +2,9 @@
 
 #pragma once
 #include <string>
-#include <glm/glm.hpp>
+#include "glm/glm.hpp"
 
-#include "../../DataObjects/include/Shader.h"
+#include "Common/Core/Graphics/DataObjects/include/Shader.h"
 #include "glad/glad.h"
 
 

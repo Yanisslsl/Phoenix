@@ -1,14 +1,9 @@
-#include "../include/Application.h"
+#include "Windows/Core/Application/include/Application.h"
 
 #include <cstdio>
-
 #include "Events/EventDispatcher.h"
-#include <glad/glad.h>
+#include "Utils/Timer.h"
 
-#include "../../HAL/Common/Core/Graphics/Render/include/Renderer.h"
-#include "../../Core/ImGui/include/ImGuiLayer.h"
-#include "../../Core/Log/include/Log.h"
-#include "../../Core/Utils/Timer.h"
 
 namespace Phoenix
 {

@@ -1,11 +1,12 @@
-﻿#include "../include/Window.h"
+﻿#include "Windows/Core/Window/include/Window.h"
+
+#include <glad/glad.h>
 
 #include "Events/KeyEvent.h"
 #include "Events/MouseEvent.h"
 #include "Events/WindowEvent.h"
 #include "Log/include/Log.h"
-#include <glad/glad.h>
-
+#include <GLFW/glfw3.h>
 namespace Phoenix
 {
     static uint8_t s_GLFWWindowCount = 0;

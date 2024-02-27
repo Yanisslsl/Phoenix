@@ -1,13 +1,10 @@
 // InputActionRegistrator.h
-
 #pragma once
 #include <functional>
 #include <map>
-#include <string>
-
 #include "InputActions.h"
-#include "../../../Core/Core.h"
-#include "../../Core/Events/Event.h"
+#include "Core.h"
+#include "Events/Event.h"
 
 namespace Phoenix
 {

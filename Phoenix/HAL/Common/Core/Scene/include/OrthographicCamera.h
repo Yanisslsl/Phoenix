@@ -1,6 +1,6 @@
 ﻿// OrthographicCamera.h
 #pragma once
-#include <glm/glm.hpp>
+#include "glm/glm.hpp"
 
 namespace Phoenix
 {

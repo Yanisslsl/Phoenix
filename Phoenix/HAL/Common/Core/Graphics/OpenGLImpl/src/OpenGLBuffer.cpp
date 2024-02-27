@@ -1,5 +1,4 @@
-#include "../include/OpenGLBuffer.h"
-
+#include "Common/Core/Graphics/OpenGLImpl/include/OpenGLBuffer.h"
 #include "glad/glad.h"
 
 namespace Phoenix

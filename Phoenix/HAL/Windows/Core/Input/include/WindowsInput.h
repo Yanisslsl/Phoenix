@@ -5,7 +5,7 @@
 
 #include "Utils/KeyCode.h"
 #include "Utils/MouseCode.h"
-#include "../../Core/Core.h"
+#include "Core.h"
 
 namespace Phoenix
 {

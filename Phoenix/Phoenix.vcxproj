@@ -156,7 +156,6 @@
     <ClInclude Include="Core\Events\KeyEvent.h" />
     <ClInclude Include="Core\Events\MouseEvent.h" />
     <ClInclude Include="Core\Events\WindowEvent.h" />
-    <ClInclude Include="Core\ImGui\Platform\OpenGL\ImGuiOpenGLRenderer.h" />
     <ClInclude Include="Core\ImGui\include\ImGuiLayer.h" />
     <ClInclude Include="Core\Layers\Layer\include\Layer.h" />
     <ClInclude Include="Core\Layers\LayerStack\include\LayerStack.h" />
@@ -192,10 +191,8 @@
     <ClInclude Include="HAL\Windows\Core\Window\include\Window.h" />
     <ClInclude Include="HAL\Windows\Windows.h" />
     <ClInclude Include="Phoenix.h" />
-    <ClInclude Include="vendor\stb_image\stb_image.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Core\ImGui\Platform\OpenGL\ImGuiOpenGLRenderer.cpp" />
     <ClCompile Include="Core\ImGui\src\ImGuiLayer.cpp" />
     <ClCompile Include="Core\Layers\Layer\src\Layer.cpp" />
     <ClCompile Include="Core\Layers\LayerStack\src\LayerStack.cpp" />
@@ -371,18 +368,6 @@
     <ClCompile Include="HAL\Windows\Core\Window\src\Window.cpp">
       <ObjectFileName>$(IntDir)\Window1.obj</ObjectFileName>
     </ClCompile>
-    <ClCompile Include="vendor\stb_image\stb_image.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="vendor\GLFW\GLFW.vcxproj">
-      <Project>{154B857C-0182-860D-AA6E-6C109684020F}</Project>
-    </ProjectReference>
-    <ProjectReference Include="vendor\GLAD\GLAD.vcxproj">
-      <Project>{5D4A857C-4981-860D-F26D-6C10DE83020F}</Project>
-    </ProjectReference>
-    <ProjectReference Include="vendor\imgui\ImGui.vcxproj">
-      <Project>{C0FF640D-2C14-8DBE-F595-301E616989EF}</Project>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

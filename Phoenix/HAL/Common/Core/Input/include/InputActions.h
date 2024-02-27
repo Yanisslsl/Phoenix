@@ -3,9 +3,9 @@
 #pragma once
 #include <string>
 
-#include "../../../Core/Core.h"
-#include "../../Core/Utils/MouseCode.h"
-#include "../../Core/Utils/KeyCode.h"
+#include "Core.h"
+#include "Utils/MouseCode.h"
+#include "Utils/KeyCode.h"
 
 
 namespace Phoenix

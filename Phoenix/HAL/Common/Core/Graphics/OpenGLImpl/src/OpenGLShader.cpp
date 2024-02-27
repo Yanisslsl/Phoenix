@@ -4,8 +4,8 @@
 #include <fstream>
 
 #include "Log/include/Log.h"
-#include <glm/glm.hpp>
-#include <glm/gtc/type_ptr.hpp>
+#include "glm/glm.hpp"
+#include "glm/gtc/type_ptr.hpp"
 namespace Phoenix
 {
     	static GLenum ShaderTypeFromString(const std::string& type)

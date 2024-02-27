@@ -4,11 +4,9 @@ project(Phoenix VERSION 1.0 LANGUAGES CXX)
 # Use C++17 standard
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
-
-# Define configurations similar to Premake
-set(CMAKE_CONFIGURATION_TYPES "Debug;Release")
-
-
+# Set build types
+set(CMAKE_CONFIGURATION_TYPES "Debug;Release;RelWithDebInfo" CACHE STRING "Cutom" FORCE)
+message("Generated with config types: ${CMAKE_CONFIGURATION_TYPES}")
 # Find packages
 find_package(glm CONFIG REQUIRED)
 find_package(glad CONFIG REQUIRED)
@@ -30,15 +28,15 @@ file(GLOB_RECURSE PHOENIX_SOURCES
 
 # Phoenix Library
 add_library(Phoenix SHARED ${PHOENIX_SOURCES})
-
+# Set output directory for Phoenix library
 target_include_directories(Phoenix PRIVATE 
     "${CMAKE_SOURCE_DIR}/Phoenix/HAL"
     "${CMAKE_SOURCE_DIR}/Phoenix/Core"
     "${CMAKE_SOURCE_DIR}/Phoenix/vendor/spdlog/include"
 )
-#find_path(STB_INCLUDE_DIRS "stb_image")
+# Link Phoenix library to Game executable
 target_link_libraries(Phoenix PRIVATE 
-    glm:glm
+    glm::glm
     glad::glad
     nlohmann_json::nlohmann_json
     imgui::imgui
@@ -46,35 +44,60 @@ target_link_libraries(Phoenix PRIVATE
     spdlog::spdlog
 )
 
-target_compile_definitions(Phoenix PRIVATE 
-    PHOENIX_BUILD_DLL
-    PHOENIX_PLATFORM_WINDOWS
-    GLFW_INCLUDE_NONE
-)
-
-
 # Game executable source files
 file(GLOB_RECURSE GAME_SOURCES 
      "${CMAKE_SOURCE_DIR}/Game/*.h"
      "${CMAKE_SOURCE_DIR}/Game/*.cpp"
+      "${CMAKE_SOURCE_DIR}/Game/assets/"
 )
 
 # Game executable
 add_executable(Game ${GAME_SOURCES})
 
+# Set output directory for Game executable
 target_include_directories(Game PRIVATE 
     "${CMAKE_SOURCE_DIR}/Phoenix/HAL"
     "${CMAKE_SOURCE_DIR}/Phoenix"
     "${CMAKE_SOURCE_DIR}/Phoenix/vendor/spdlog/include"
+    "${CMAKE_SOURCE_DIR}/Phoenix/Core"
 )
 
+# Link Phoenix library to Game executable
 target_link_libraries(Game PRIVATE 
     Phoenix
-    glm:glm
+    glm::glm
     spdlog::spdlog
-    # Add other libraries your game depends on
 )
 
-target_compile_definitions(Game PRIVATE 
-    PHOENIX_PLATFORM_WINDOWS
+# Define macro for each build type
+target_compile_definitions(Phoenix PRIVATE
+  $<$<CONFIG:Debug>:PHOENIX_PLATFORM_WINDOWS>
+  $<$<CONFIG:Release>:PHOENIX_PLATFORM_WINDOWS>
+  $<$<CONFIG:RelWithDebInfo>:PHOENIX_PLATFORM_WINDOWS>
+  $<$<CONFIG:Debug>:PHOENIX_BUILD_DLL>
+  $<$<CONFIG:Release>:PHOENIX_BUILD_DLL>
+  $<$<CONFIG:RelWithDebInfo>:PHOENIX_BUILD_DLL>
 )
+
+# Define macro for each build type
+target_compile_definitions(Game PRIVATE
+  $<$<CONFIG:Debug>:PHOENIX_PLATFORM_WINDOWS>
+  $<$<CONFIG:Release>:PHOENIX_PLATFORM_WINDOWS> 
+  $<$<CONFIG:RelWithDebInfo>:PHOENIX_PLATFORM_WINDOWS>
+)
+
+# Copy assets to the build directory 
+add_custom_command(TARGET Game POST_BUILD
+                   COMMAND ${CMAKE_COMMAND} -E copy_directory
+                       ${CMAKE_SOURCE_DIR}/Game/assets ${CMAKE_BINARY_DIR}/assets)
+
+
+# Set compiler options for Debug build
+#set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -DDEBUG")
+
+# Set compiler options for Release build
+#set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -O3")
+
+
+
+
