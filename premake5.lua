@@ -14,14 +14,12 @@ outputdir = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
 IncludeDir = {}
 IncludeDir["GLFW"] = "Phoenix/vendor/GLFW/include"
 IncludeDir["GLAD"] = "Phoenix/vendor/GLAD/include"
-IncludeDir["ImGui"] = "Phoenix/vendor/imgui"
 IncludeDir["stb_image"] = "Phoenix/vendor/stb_image"
 IncludeDir["glm"] = "Phoenix/vendor/glm"
  
 -- Include GLFW premake file
 include "Phoenix/vendor/GLFW"
 include "Phoenix/vendor/GLAD"
-include "Phoenix/vendor/imgui"
 
 project "Phoenix"
 	location "Phoenix"
@@ -61,7 +59,6 @@ project "Phoenix"
 			"%{prj.name}/vendor/spdlog/include",
 			"%{IncludeDir.GLFW}",
 			"%{IncludeDir.GLAD}",
-			"%{IncludeDir.ImGui}",
 			"%{IncludeDir.stb_image}",
 			"%{IncludeDir.glm}"
 		}
@@ -71,7 +68,6 @@ project "Phoenix"
 		    "GLFW",
 		    "GLAD",
 		    "opengl32.lib",
-		    "ImGui",
 		}
 
 		postbuildcommands

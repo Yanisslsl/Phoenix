@@ -1,6 +1,5 @@
 #include "../include/ImGuiLayer.h"
 #include "imgui.h"
-#include "../Platform/OpenGL/ImGuiOpenGLRenderer.h"
 #include "Windows/Core/Application/include/Application.h"
 
 #include <GLFW/glfw3.h>
@@ -28,14 +27,14 @@ namespace Phoenix
         io.DeltaTime = m_Time > 0.0f ? (time - m_Time) : (1.0f / 60.0f);
         m_Time = time;
 
-        ImGui_ImplOpenGL3_NewFrame();
+        //ImGui_ImplOpenGL3_NewFrame();
         ImGui::NewFrame();
         
         static bool show = true;
         ImGui::ShowDemoWindow(&show);
 
         ImGui::Render();
-        ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+        //ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
     }
 
     void ImGuiLayer::OnAttach()
@@ -70,7 +69,7 @@ namespace Phoenix
         io.KeyMap[ImGuiKey_Y] = Key::Y;
         io.KeyMap[ImGuiKey_Z] = Key::Z;
 
-        ImGui_ImplOpenGL3_Init("#version 410");
+        //ImGui_ImplOpenGL3_Init("#version 410");
     }
 
     void ImGuiLayer::OnEvent(Event& e)
@@ -167,7 +166,7 @@ namespace Phoenix
 
     void ImGuiLayer::OnDetach()
     {
-        ImGui_ImplOpenGL3_Shutdown();
+        //ImGui_ImplOpenGL3_Shutdown();
         ImGui::DestroyContext();
     }
 
