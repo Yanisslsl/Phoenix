@@ -1,7 +1,7 @@
 #include "../include/Renderer.h"
 
-#include <glm/ext/matrix_clip_space.hpp>
 #include <glm/ext/matrix_transform.hpp>
+
 
 namespace Phoenix
 {
@@ -89,10 +89,10 @@ namespace Phoenix
                                                              }));
     }
 
-    void Renderer::CreateTexturedShape(std::string name, std::vector<float> vertices, std::vector<uint32_t> indices,
+    auto Renderer::CreateTexturedShape(std::string name, std::vector<float> vertices, std::vector<uint32_t> indices,
                                        const char* vertexShader, const char* fragmentShader,
                                        const BufferLayout bufferlayout, const char* texturePath,
-                                       const glm::vec2& transform)
+                                       const glm::vec2& transform) -> void
     {
         Ref<VertexArray> vertexArray = s_RendererAPI->CreateVertexArray();
         Ref<VertexBuffer> vertexBuffer = s_RendererAPI->CreateVertexBuffer(vertices);
