@@ -5,6 +5,8 @@
 #include <iostream>
 #include <stb_image.h>
 
+#include "Utils/FileSystem.h"
+
 namespace Phoenix
 {
 
@@ -15,23 +17,19 @@ namespace Phoenix
     
     OpenGLTexture2D::OpenGLTexture2D(const std::string& path): m_Path(path)
     {
-        std::string file_path = "assets/Isac.png"; // Replace with your file path
-        std::filesystem::path currentPath = std::filesystem::current_path();
-
+        std::string texturePath = FileSystem::GetAssetsPath() + "textures\\" + path;
         // Check if file exists
-        if (std::filesystem::exists(file_path)) {
-            std::cout << "File exists." << std::endl;
-        } else {
-            std::cout << "File does not exist." << std::endl;
+        if (!std::filesystem::exists(texturePath)) {
+            PX_CORE_ASSERT(false, "File does not exist!");
         }
         int width, height, channels;
         stbi_set_flip_vertically_on_load(1);
         char* data = nullptr;
         {
-            data = (char*)stbi_load(path.c_str(), &width, &height, &channels, 0);
+            data = (char*)stbi_load(texturePath.c_str(), &width, &height, &channels, 0);
         }
 
-        if(data)
+            if(data)
         {
             m_IsLoaded = true;
 

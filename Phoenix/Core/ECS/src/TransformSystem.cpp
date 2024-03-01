@@ -1,9 +1,9 @@
 #include "ECS/include/TransformSystem.h"
 
 #include <iostream>
-#include "../../Core/Log/include/Log.h"
 #include "ECS/include/EntityManager.h"
 #include "ECS/include/TransformsData.h"
+#include "Log/include/Log.h"
 
 
 namespace Phoenix

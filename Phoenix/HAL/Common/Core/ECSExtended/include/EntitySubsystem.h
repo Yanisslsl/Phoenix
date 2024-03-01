@@ -3,12 +3,12 @@
 #include <glm/vec2.hpp>
 #include <glm/detail/type_vec2.hpp>
 #include <glm/ext/matrix_transform.hpp>
-#include "../../Core/Log/include/Log.h"
-#include "../../Core/ECS/include/EntityManager.h"
-#include "../../Core/ECS/include/TransformSystem.h"
 
-#include "../../../Core/Core.h"
 #include "Common/Core/Graphics/Render/include/Renderer.h"
+#include "ECS/include/EntityComponent.h"
+#include "ECS/include/EntityManager.h"
+#include "ECS/include/TransformSystem.h"
+#include "Utils/Color.h"
 
 namespace Phoenix
 {
@@ -56,6 +56,8 @@ namespace Phoenix
         {
             m_children.push_back(child);
             child->m_parent = this;
+            RecomputeModelMatrix();
+            UdpateChildsModelMatrix();
         }
 
         void DeleteChild(Ref<Entity> child)
@@ -75,6 +77,23 @@ namespace Phoenix
         glm::mat4 GetTranslationMatrix() const;
         glm::mat4 GetLocalModelMatrix() const;
         glm::mat4 GetWorldModelMatrix() const;
+
+        void UdpateChildsModelMatrix()
+        {
+            for (auto& child : m_children)
+            {
+                child->RecomputeModelMatrix();
+                if(!child->m_children.empty())
+                {
+                    child->UdpateChildsModelMatrix();
+                }
+            }
+        }
+
+        void RecomputeModelMatrix()
+        {
+            Renderer::UpdateModelMatrix(m_name, GetWorldModelMatrix());
+        }
 
         template <typename T>
         void AddComponent(T component)
@@ -182,7 +201,7 @@ inline glm::mat4 Phoenix::Entity::GetWorldModelMatrix() const
 {
     if(m_parent)
    {
-           return m_parent->GetWorldModelMatrix() * GetWorldModelMatrix();
+           return m_parent->GetWorldModelMatrix() * GetLocalModelMatrix();
     } 
     return GetLocalModelMatrix();
 }
