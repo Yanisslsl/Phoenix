@@ -1,8 +1,7 @@
 ﻿#pragma once
+#define GLFW_INCLUDE_NONE
 #include <GLFW/glfw3.h>
-
 #include "Common/Core/Window/include/Window.h"
-
 
 namespace Phoenix {
 

@@ -1,6 +1,5 @@
 #include "../include/ImGuiLayer.h"
 #include "imgui.h"
-#include "../Platform/OpenGL/ImGuiOpenGLRenderer.h"
 #include "Windows/Core/Application/include/Application.h"
 
 #include <GLFW/glfw3.h>
@@ -10,6 +9,7 @@
 #include "Events/KeyEvent.h"
 #include "Events/MouseEvent.h"
 #include "../../Utils/KeyCode.h"
+#include "ImGui/include/ImGuiOpenGL.h"
 
 namespace Phoenix
 {
@@ -160,14 +160,13 @@ namespace Phoenix
 	
     void ImGuiLayer::Begin()
     {
-
-        // ImGui_ImplOpenGL3_NewFrame();
-        // ImGui::NewFrame();
+        ImGui_ImplOpenGL3_NewFrame();
+        ImGui::NewFrame();
     }
 
     void ImGuiLayer::OnDetach()
     {
-        ImGui_ImplOpenGL3_Shutdown();
+        //ImGui_ImplOpenGL3_Shutdown();
         ImGui::DestroyContext();
     }
 

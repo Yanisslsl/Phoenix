@@ -3,7 +3,8 @@
 #include <functional>
 #include <string>
 
-#include "../../../../../Core/Events/Event.h"
+#include "Events/Event.h"
+
 
 namespace Phoenix
 {

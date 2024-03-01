@@ -1,11 +1,11 @@
 #include "../include/Scene.h"
-
 #include "Common/Core/Graphics/Render/include/Renderer.h"
+#include "Windows/Core/Application/include/Application.h"
 
 namespace Phoenix
 {
     Scene::Scene(OrthographicCameraController cameraController)
-        : m_CameraController(cameraController), m_Entities(std::map<std::string, Entity*>())
+        : m_CameraController(cameraController)
     {
     }
 
@@ -16,10 +16,10 @@ namespace Phoenix
 
     void Scene::OnUpdate()
     {
-        Phoenix::Renderer::SetClearColor({ 0.0f, 0.0f, 0.0f, 1 });
-        Phoenix::Renderer::Clear();
-        Phoenix::Renderer::BeginScene(m_CameraController.GetCamera());
-        Phoenix::Renderer::OnUpdate();
+        Renderer::SetClearColor({ 0.0f, 0.0f, 0.0f, 1 });
+        Renderer::Clear();
+        Renderer::BeginScene(m_CameraController.GetCamera());
+        Renderer::OnUpdate();
     }
 
     void Scene::OnStop()
@@ -30,17 +30,5 @@ namespace Phoenix
     Scene::~Scene()
     {
         
-    }
-
-    Entity* Scene::CreateEntity(std::string name)
-    {
-        Entity* entity = new Entity(name);
-        m_Entities.insert(std::make_pair(name, entity));
-        return entity;
-    }
-
-    void Scene::DestroyEntity(std::string name)
-    {
-        m_Entities.erase(name);
     }
 }

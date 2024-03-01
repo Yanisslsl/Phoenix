@@ -1,7 +1,6 @@
-﻿#include "../include/Buffer.h"
-#include "../../Core/Base/Base.h"
-#include "../../OpenGLImpl/include/OpenGLBuffer.h"
-#include "../../Render/include/Renderer.h"
+﻿#include "Base/Base.h"
+#include "Common/Core/Graphics/OpenGLImpl/include/OpenGLBuffer.h"
+#include "Common/Core/Graphics/Render/include/Renderer.h"
 
 
 namespace Phoenix

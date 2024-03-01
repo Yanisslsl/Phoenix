@@ -85,6 +85,13 @@ namespace Phoenix
         virtual Ref<Shader> CreateShader(std::string name, const char* vertexShader, const char* fragmentShader) override;
 
         /**
+         * \brief Create a Shader
+         * \param name 
+         * \return 
+         */
+        virtual Ref<Shader> CreateShader(std::string name) override;
+     
+        /**
          * \brief Create a Texture2D
          * \param texturePath 
          * \return 

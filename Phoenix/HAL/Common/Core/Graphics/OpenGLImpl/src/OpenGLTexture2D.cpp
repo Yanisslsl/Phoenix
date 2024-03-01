@@ -1,8 +1,11 @@
 ﻿#include "../include/OpenGLTexture2D.h"
-// #include "stb_image"
+#include "Log/include/Log.h"
+#define STB_IMAGE_IMPLEMENTATION
+#include <filesystem>
+#include <iostream>
 #include <stb_image.h>
 
-#include "Log/include/Log.h"
+#include "Utils/FileSystem.h"
 
 namespace Phoenix
 {
@@ -14,14 +17,19 @@ namespace Phoenix
     
     OpenGLTexture2D::OpenGLTexture2D(const std::string& path): m_Path(path)
     {
+        std::string texturePath = FileSystem::GetAssetsPath() + "textures\\" + path;
+        // Check if file exists
+        if (!std::filesystem::exists(texturePath)) {
+            PX_CORE_ASSERT(false, "File does not exist!");
+        }
         int width, height, channels;
         stbi_set_flip_vertically_on_load(1);
         char* data = nullptr;
         {
-            data = (char*)stbi_load(path.c_str(), &width, &height, &channels, 0);
+            data = (char*)stbi_load(texturePath.c_str(), &width, &height, &channels, 0);
         }
 
-        if(data)
+            if(data)
         {
             m_IsLoaded = true;
 

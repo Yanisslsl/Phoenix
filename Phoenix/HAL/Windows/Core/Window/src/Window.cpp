@@ -1,11 +1,12 @@
-﻿#include "../include/Window.h"
+﻿#include "Windows/Core/Window/include/Window.h"
+
+#include <glad/glad.h>
 
 #include "Events/KeyEvent.h"
 #include "Events/MouseEvent.h"
 #include "Events/WindowEvent.h"
 #include "Log/include/Log.h"
-#include <glad/glad.h>
-
+#include <GLFW/glfw3.h>
 namespace Phoenix
 {
     static uint8_t s_GLFWWindowCount = 0;
@@ -51,9 +52,10 @@ namespace Phoenix
         m_Data.Title = props.Title;
         m_Data.Width = props.Width;
         m_Data.Height = props.Height;
-        
+
+#ifdef PX_DEBUG
         PX_CORE_INFO("Creating window {0} ({1}, {2})", props.Title, props.Width, props.Height);
-        
+#endif
         
         if(s_GLFWWindowCount == 0)
         {
