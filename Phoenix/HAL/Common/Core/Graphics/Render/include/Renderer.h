@@ -5,12 +5,10 @@
 
 #include <map>
 #include "RendererAPI.h"
-#include "../../DataObjects/include/Shader.h"
-#include "../../../Core/Maths/include/Maths.h"
-#include "../../../Core/Base/Base.h"
+#include "Common/Core/Graphics/DataObjects/include/Shader.h"
 #include "Common/Core/Graphics/DataObjects/include/Texture.h"
 #include "Common/Core/Scene/include/OrthographicCamera.h"
-#include "../../Core/Utils/Color.h"
+#include "Utils/Color.h"
 
 
 namespace Phoenix

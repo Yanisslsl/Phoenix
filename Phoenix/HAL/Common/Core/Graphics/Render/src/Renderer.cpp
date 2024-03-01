@@ -51,14 +51,12 @@ namespace Phoenix
 
     void Renderer::BeginScene()
     {
-        // s_SceneData->ViewProjectionMatrix = camera.GetViewProjectionMatrix();
-        s_RendererAPI->SetClearColor({0.1f, 0.1f, 0.1f, 1});
+        s_RendererAPI->SetClearColor({0., 0., 0., 1});
     }
 
     void Renderer::EndScene()
     {
     }
-
 
     // @TODO create base type maths type that encapsulates glm types
     void Renderer::Submit(const Ref<Shader>& shader, const Ref<VertexArray>& vertexArray, Ref<Texture> texture, ColorType color,

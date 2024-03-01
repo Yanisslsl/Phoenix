@@ -9,6 +9,7 @@
 #include "Events/KeyEvent.h"
 #include "Events/MouseEvent.h"
 #include "../../Utils/KeyCode.h"
+#include "ImGui/include/ImGuiOpenGL.h"
 
 namespace Phoenix
 {
@@ -27,14 +28,14 @@ namespace Phoenix
         io.DeltaTime = m_Time > 0.0f ? (time - m_Time) : (1.0f / 60.0f);
         m_Time = time;
 
-        //ImGui_ImplOpenGL3_NewFrame();
+        ImGui_ImplOpenGL3_NewFrame();
         ImGui::NewFrame();
         
         static bool show = true;
         ImGui::ShowDemoWindow(&show);
 
         ImGui::Render();
-        //ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+        ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
     }
 
     void ImGuiLayer::OnAttach()
@@ -69,7 +70,7 @@ namespace Phoenix
         io.KeyMap[ImGuiKey_Y] = Key::Y;
         io.KeyMap[ImGuiKey_Z] = Key::Z;
 
-        //ImGui_ImplOpenGL3_Init("#version 410");
+        ImGui_ImplOpenGL3_Init("#version 410");
     }
 
     void ImGuiLayer::OnEvent(Event& e)
@@ -159,9 +160,8 @@ namespace Phoenix
 	
     void ImGuiLayer::Begin()
     {
-
-        // ImGui_ImplOpenGL3_NewFrame();
-        // ImGui::NewFrame();
+        ImGui_ImplOpenGL3_NewFrame();
+        ImGui::NewFrame();
     }
 
     void ImGuiLayer::OnDetach()

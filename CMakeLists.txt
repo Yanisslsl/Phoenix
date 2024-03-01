@@ -79,6 +79,16 @@ target_compile_definitions(Phoenix PRIVATE
   $<$<CONFIG:RelWithDebInfo>:PHOENIX_BUILD_DLL>
 )
 
+# Define Debug Macro for Phoenix library
+target_compile_definitions(Phoenix PRIVATE
+  $<$<CONFIG:Debug>:PX_DEBUG>
+  $<$<CONFIG:RelWithDebInfo>:PX_DEBUG>
+) 
+
+# Disable debug symbols for RelWithDebInfo build
+#set(CMAKE_CXX_FLAGS_RELWITHDEBINFO "${CMAKE_CXX_FLAGS_RELWITHDEBINFO} -DNDEBUG")
+set(CMAKE_CXX_FLAGS_RELWITHDEBINFO "-O2 -DNDEBUG") 
+        
 # Define macro for each build type
 target_compile_definitions(Game PRIVATE
   $<$<CONFIG:Debug>:PHOENIX_PLATFORM_WINDOWS>
@@ -86,11 +96,21 @@ target_compile_definitions(Game PRIVATE
   $<$<CONFIG:RelWithDebInfo>:PHOENIX_PLATFORM_WINDOWS>
 )
 
-# Copy assets to the build directory 
+# For exe file but not working for texture
 add_custom_command(TARGET Game POST_BUILD
                    COMMAND ${CMAKE_COMMAND} -E copy_directory
-                       ${CMAKE_SOURCE_DIR}/Game/assets ${CMAKE_BINARY_DIR}/assets)
+                       ${CMAKE_SOURCE_DIR}/Game/assets/textures $<TARGET_FILE_DIR:Game>/assets/textures)
+add_custom_command(TARGET Game POST_BUILD
+                   COMMAND ${CMAKE_COMMAND} -E copy_directory
+                       ${CMAKE_SOURCE_DIR}/Phoenix/HAL/Common/Core/Graphics/Shaders $<TARGET_FILE_DIR:Game>/assets/shaders)
 
+# for building in visual studio                      
+add_custom_command(TARGET Game POST_BUILD
+                   COMMAND ${CMAKE_COMMAND} -E copy_directory
+                       ${CMAKE_SOURCE_DIR}/Game/assets/textures ${CMAKE_BINARY_DIR}/assets/textures)
+add_custom_command(TARGET Game POST_BUILD
+                   COMMAND ${CMAKE_COMMAND} -E copy_directory
+                       ${CMAKE_SOURCE_DIR}/Phoenix/HAL/Common/Core/Graphics/Shaders ${CMAKE_BINARY_DIR}/assets/shaders)
 
 # Set compiler options for Debug build
 #set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -DDEBUG")

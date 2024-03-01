@@ -20,7 +20,6 @@ namespace Phoenix
         void RegisterAction(const InputAction action, std::function<void()> callback);
         void UnregisterAction(const InputAction action);
         void OnEvent(Event& e);
-        void OnInputAction();
     private:
         //same for callbks
         std::map<InputAction, std::function<void()>> m_InputActions;

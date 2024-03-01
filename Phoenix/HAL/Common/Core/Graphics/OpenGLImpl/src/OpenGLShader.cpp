@@ -8,13 +8,15 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
+#include "Utils/FileSystem.h"
 #include "Utils/Timer.h"
 
 namespace Phoenix
 {
 
 		// @TODO: here the path is set relative to the location of the vcxproj file ine the exe location
-		std::string ShaderDirectory = "..\\Phoenix\\HAL\\Common\\Core\\Graphics\\Shaders";
+		std::string ShaderDirectory = FileSystem::GetAssetsPath() + "shaders\\";
+
     	static GLenum ShaderTypeFromString(const std::string& type)
 		{
 			if (type == "vertex")
@@ -87,8 +89,9 @@ namespace Phoenix
 	: m_FilePath(ShaderDirectory)
 	{
     	// find vertex shader in directory wutg .frag extension
-		std::string vertShader = ReadFile(ShaderDirectory + "/vertex.vert");
-    	std::string fragShader = ReadFile(ShaderDirectory + "/fragment.frag");
+    		PX_INFO("Current path: {0}", ShaderDirectory + "vertex.vert");
+		std::string vertShader = ReadFile(ShaderDirectory + "vertex.vert");
+    	std::string fragShader = ReadFile(ShaderDirectory + "fragment.frag");
     	std::cout << "Vertex shader: " << vertShader << std::endl;
     	const GLuint vertexShader = CompileShader(vertShader.c_str(), GL_VERTEX_SHADER);
     	const GLuint fragmentShader = CompileShader(fragShader.c_str(), GL_FRAGMENT_SHADER);
@@ -116,7 +119,13 @@ namespace Phoenix
 
 	std::string OpenGLShader::ReadFile(const std::string& filepath)
 	{
+    		auto u = std::filesystem::current_path().string();
+    		PX_INFO("Current path: {0}", u);
 		std::ifstream file(filepath);
+    	if(!file.is_open())
+		{
+    		PX_CORE_ASSERT(false, "Could not open file!");
+		}
     	std::string result((std::istreambuf_iterator<char>(file)), std::istreambuf_iterator<char>());
     	return result;
 	}
