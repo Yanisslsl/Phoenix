@@ -24,7 +24,7 @@ To get a local copy up and running follow these simple example steps.
       ```
 4. From the build directory generate the project with cmake
     ```sh
-    cmake -DCMAKE_TOOLCHAIN_FILE=C:/Users/yello/Dev/Libs/vcpkg/scripts/buildsystems/vcpkg.cmake ..
+     cmake -DCMAKE_TOOLCHAIN_FILE=${Path_To_vcpkg}/vcpkg/scripts/buildsystems/vcpkg.cmake ..
      ```
 5. Open the .sln file in the build directory
 
