@@ -1,8 +1,9 @@
 #include "Windows/Core/Application/include/Application.h"
 
 #include <cstdio>
+
+#include "Editor/include/EditorLayer.h"
 #include "Events/EventDispatcher.h"
-#include "ImGui/include/ImGuiLayer.h"
 #include "Utils/Timer.h"
 
 
@@ -19,10 +20,11 @@ namespace Phoenix
 		s_Instance = this;
 		m_InputActionRegistratorSubsystem = new InputActionRegistratorSubSystem();
 		m_EntityManagerSubsystem = new EntitySubsystem();
+		m_SceneManagerSubSystem = new SceneManagerSubSystem();
 		Renderer::Init();
 #ifdef PX_DEBUG
-		m_ImGuiLayer = new ImGuiLayer();
-		PushOverlay(m_ImGuiLayer);
+		m_Editor_Layer = new EditorLayer();
+		PushOverlay(m_Editor_Layer);
 #endif
 	}
 	

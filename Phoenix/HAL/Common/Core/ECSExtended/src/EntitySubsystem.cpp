@@ -29,4 +29,15 @@ namespace Phoenix
         return CreateRef<Entity>(Entity{ this, entityId, name });
     }
 
+    std::vector<Ref<Entity>> EntitySubsystem::GetEntities()
+    {
+        std::vector<Ref<Entity>> entities;
+        for (auto& entityName : m_EntityManager->GetEntitiesName())
+        {
+            auto entity = m_EntityManager->GetEntity(entityName);
+            entities.push_back(CreateRef<Entity>(Entity{ this, entity, entityName }));
+        }
+        return entities;
+    }
+
 }

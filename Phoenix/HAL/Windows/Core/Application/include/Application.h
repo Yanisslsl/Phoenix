@@ -4,9 +4,10 @@
 #include "Common/Core/Window/include/Window.h"
 #include "../../../../../Core/Layers/LayerStack/include/LayerStack.h"
 #include "../../../../../Core/Events/WindowEvent.h"
-#include "..\..\..\..\Common\Core\Input\include\InputActionRegistratorSubSystem.h"
 #include "Common/Core/ECSExtended/include/EntitySubsystem.h"
+#include "Common/Core/Input/include/InputActionRegistratorSubSystem.h"
 #include "Common/Core/Scene/include/Scene.h"
+#include "Common/Core/Scene/include/SceneManagerSubSystem.h"
 
 
 namespace Phoenix
@@ -81,7 +82,7 @@ namespace Phoenix
 		template <typename T>
 		T* GetSubSystem()
 		{
-			static_assert(sizeof(T) == 0, "Component not found");
+			static_assert(sizeof(T) == 0, "Subsytem not found");
 		}
 
 		template <>
@@ -96,6 +97,12 @@ namespace Phoenix
 			return m_InputActionRegistratorSubsystem;
 		}
 
+		template <>
+		SceneManagerSubSystem* GetSubSystem<SceneManagerSubSystem>()
+		{
+			return m_SceneManagerSubSystem;
+		}
+
 		
 	private:
 		// unqique ptr => une seule instance // si je veux passer cette instance il faut la move ce qui change l'ownership // ce qui veut dire que je ne peux pas la copier
@@ -104,9 +111,10 @@ namespace Phoenix
 		static Application* s_Instance;
 		bool m_Running = true;
 		LayerStack m_LayerStack;
-		Layer* m_ImGuiLayer;
+		Layer* m_Editor_Layer;
 		InputActionRegistratorSubSystem* m_InputActionRegistratorSubsystem;
 		EntitySubsystem* m_EntityManagerSubsystem;
+		SceneManagerSubSystem* m_SceneManagerSubSystem;
 	};
 
 	// To be defined in CLIENT

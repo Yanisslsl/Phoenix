@@ -17,10 +17,18 @@ namespace Phoenix
         void OnUpdate(TimeStep ts);
         void OnEvent(Event& event);
         void OnResize(float width, float height);
-        OrthographicCamera& GetCamera() { return m_Camera; }
-        const OrthographicCamera& GetCamera() const { return m_Camera; }
+        OrthographicCamera& GetCamera()
+        {
+            return m_Camera;
+        }
+        const OrthographicCamera& GetCamera() const
+        {
+            return m_Camera;
+        }
         float GetZoomLevel() const { return m_ZoomLevel; }
         void SetZoomLevel(float level) { m_ZoomLevel = level; }
+        void SetCameraPosition(const glm::vec3& position);
+        glm::vec2 GetCameraPosition() const { return { m_CameraPosition.x, m_CameraPosition.y }; }
     private:
         bool OnMouseScrolled(MouseScrolledEvent& event);
         bool OnWindowResized(WindowResizeEvent& event);

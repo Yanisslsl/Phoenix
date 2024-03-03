@@ -46,11 +46,17 @@ namespace Phoenix
             m_parent = nullptr;
             m_children = std::vector<Ref<Entity>>();
         }
-
+        glm::vec2 GetTransformPosition() const;
         void SetTransformPosition(glm::vec2 position);
+
+        glm::vec2 GetScale() const;
         void SetScale(glm::vec2 scale);
         void SetScale(int scale);
+
+        float GetRotation() const;
         void SetRotation(float rotation);
+
+        std::string GetName(){ return m_name; }
 
         void AddChild(Ref<Entity> child)
         {
@@ -127,6 +133,7 @@ namespace Phoenix
         Ref<Entity> CreateEntity(std::string name);
         void DestroyEntity(Entity entity);
         Ref<Entity> GetEntity(std::string name);
+        std::vector<Ref<Entity>> GetEntities();
     private:
         friend class Entity;
         EntityManager* m_EntityManager;
@@ -167,10 +174,21 @@ inline void Phoenix::Entity::AddComponent<Phoenix::SpriteComponent>(SpriteCompon
     }
 }
 
+
+inline glm::vec2 Phoenix::Entity::GetTransformPosition() const
+{
+    return m_owner->m_TransformSystem->GetEntityPosition(m_id);
+}
+
 inline void Phoenix::Entity::SetTransformPosition(glm::vec2 position)
 {
     m_owner->m_TransformSystem->SetEntityPostion(m_id, position);
     Renderer::UpdateModelMatrix(m_name, GetWorldModelMatrix());
+}
+
+inline float Phoenix::Entity::GetRotation() const
+{
+    return m_owner->m_TransformSystem->GetEntityRotation(m_id);
 }
 
 inline void Phoenix::Entity::SetRotation(float rotation)
@@ -179,6 +197,10 @@ inline void Phoenix::Entity::SetRotation(float rotation)
     Renderer::UpdateModelMatrix(m_name, GetWorldModelMatrix());
 }
 
+inline glm::vec2 Phoenix::Entity::GetScale() const
+{
+    return m_owner->m_TransformSystem->GetEntityScale(m_id);
+}
 inline void Phoenix::Entity::SetScale(glm::vec2 scale)
 {
     m_owner->m_TransformSystem->SetEntityScale(m_id, scale);

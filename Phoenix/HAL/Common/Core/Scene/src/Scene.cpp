@@ -4,9 +4,10 @@
 
 namespace Phoenix
 {
-    Scene::Scene(OrthographicCameraController cameraController)
-        : m_CameraController(cameraController)
+    Scene::Scene(std::string& name, OrthographicCameraController* cameraController)
+        : m_CameraController(cameraController), m_Name(name)
     {
+
     }
 
     void Scene::OnStart()
@@ -16,9 +17,9 @@ namespace Phoenix
 
     void Scene::OnUpdate()
     {
-        Renderer::SetClearColor({ 0.0f, 0.0f, 0.0f, 1 });
+        Renderer::SetClearColor({ 1.0f, 0.0f, 0.0f, 1 });
         Renderer::Clear();
-        Renderer::BeginScene(m_CameraController.GetCamera());
+        Renderer::BeginScene(m_CameraController->GetCamera());
         Renderer::OnUpdate();
     }
 
