@@ -17,7 +17,7 @@ namespace Phoenix
 
     void Scene::OnUpdate()
     {
-        Renderer::SetClearColor({ 1.0f, 0.0f, 0.0f, 1 });
+        Renderer::SetClearColor({ 0.0f, 0.0f, 0.0f, 1 });
         Renderer::Clear();
         Renderer::BeginScene(m_CameraController->GetCamera());
         Renderer::OnUpdate();

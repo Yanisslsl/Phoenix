@@ -4,8 +4,8 @@
 #include "Common/Core/Window/include/Window.h"
 #include "../../../../../Core/Layers/LayerStack/include/LayerStack.h"
 #include "../../../../../Core/Events/WindowEvent.h"
-#include "Common/Core/ECSExtended/include/EntitySubsystem.h"
 #include "Common/Core/Input/include/InputActionRegistratorSubSystem.h"
+#include "Common/Core/Physics/include/CollisionSubSytem.h"
 #include "Common/Core/Scene/include/Scene.h"
 #include "Common/Core/Scene/include/SceneManagerSubSystem.h"
 
@@ -85,12 +85,7 @@ namespace Phoenix
 			static_assert(sizeof(T) == 0, "Subsytem not found");
 		}
 
-		template <>
-		EntitySubsystem* GetSubSystem<EntitySubsystem>()
-		{
-			return m_EntityManagerSubsystem;
-		}
-
+	
 		template <>
 		InputActionRegistratorSubSystem* GetSubSystem<InputActionRegistratorSubSystem>()
 		{
@@ -101,6 +96,12 @@ namespace Phoenix
 		SceneManagerSubSystem* GetSubSystem<SceneManagerSubSystem>()
 		{
 			return m_SceneManagerSubSystem;
+		}
+
+		template <>
+		CollisionSubSytem* GetSubSystem<CollisionSubSytem>()
+		{
+			return m_CollisionSubSystem;
 		}
 
 		
@@ -115,8 +116,16 @@ namespace Phoenix
 		InputActionRegistratorSubSystem* m_InputActionRegistratorSubsystem;
 		EntitySubsystem* m_EntityManagerSubsystem;
 		SceneManagerSubSystem* m_SceneManagerSubSystem;
+		CollisionSubSytem* m_CollisionSubSystem;
 	};
 
 	// To be defined in CLIENT
 	Application* CreateApplication();	
+}
+
+
+template <>
+inline Phoenix::EntitySubsystem* Phoenix::Application::GetSubSystem<Phoenix::EntitySubsystem>()
+{
+	return m_EntityManagerSubsystem;
 }

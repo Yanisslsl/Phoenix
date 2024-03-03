@@ -1,7 +1,6 @@
 #include <glm/ext/matrix_transform.hpp>
 #include "Phoenix.h"
 #include "Common/Core/Graphics/Render/include/Renderer.h"
-#include "Common/Core/Scene/include/OrthographicCameraController.h"
 #include "Common/Core/Scene/include/Scene.h"
 
 class ExampleLayer : public Phoenix::Layer
@@ -11,38 +10,22 @@ public:
 		: Layer("Example")
 	{
 		m_Scene = Phoenix::Application::Get().GetSubSystem<Phoenix::SceneManagerSubSystem>()->LoadScene("Example");
-		x = 1280. / 2;
-		y = 720. / 2;
+		x = 1280. / 10;
+		y = 720. - 100;
 		scale = 1;
 		 auto square = app->GetSubSystem<Phoenix::EntitySubsystem>()->CreateEntity("square");
-		 square->AddComponent(Phoenix::SpriteComponent(Phoenix::Color::RED));
+		 square->AddComponent(Phoenix::SpriteComponent(Phoenix::Color::WHITE));
 		 square->AddComponent(Phoenix::TransformComponent{ glm::vec2(x, y), 0, glm::vec2(1, 1) });
 		 square->SetScale(20);
+
+
+		square->AddComponent(Phoenix::BoxCollider{ Phoenix::CollisionType::DYNAMIC, [](void* collider) -> void
+		{
+			Phoenix::BoxCollider* c = static_cast<Phoenix::BoxCollider*>(collider);
+			PX_INFO("Collision detected{0}", c->position.x);
+		}, Phoenix::CollisionShape::RECTANGLE, 20, 20 });
+
 		
-		auto square1 = app->GetSubSystem<Phoenix::EntitySubsystem>()->CreateEntity("square1");
-		square1->AddComponent(Phoenix::SpriteComponent(Phoenix::Color::GREEN));
-		square1->AddComponent(Phoenix::TransformComponent{ glm::vec2(20, 20), 0, glm::vec2(1, 1) });
-		square1->SetScale(20);
-
-		auto square2 = app->GetSubSystem<Phoenix::EntitySubsystem>()->CreateEntity("square2");
-		square2->AddComponent(Phoenix::SpriteComponent(Phoenix::Color::YELLOW));
-		square2->AddComponent(Phoenix::TransformComponent{ glm::vec2(20, 20), 0, glm::vec2(1, 1) });
-		square2->SetScale(20);
-
-		square1->SetRotation(45);
-
-		square2->SetRotation(150);
-
-		square->AddChild(square1);
-		square1->AddChild(square2);
-
-		//
-		// auto isac = app->GetSubSystem<Phoenix::EntitySubsystem>()->CreateEntity("isac");
-		// isac->AddComponent(Phoenix::SpriteComponent{  "Isac.png" });
-		// isac->AddComponent(Phoenix::TransformComponent{ glm::vec2(0,0), 0, glm::vec2(1, 1) });
-		// isac->SetScale(20);
-		// isac->SetTransformPosition(glm::vec2(10, 10));
-		// square1->AddChild(isac);
 	}
 
 	void OnUpdate() override
@@ -50,12 +33,15 @@ public:
 		direction++;
 		// x += velocity * direction;
 
+		// auto square = Phoenix::Application::Get().GetSubSystem<Phoenix::EntitySubsystem>()->GetEntity("square");
+		// Phoenix::Application::Get().GetSubSystem<Phoenix::CollisionSubSytem>()->GetColliders(square->GetCollider());
 		// @TODO add sceneManagement subsystem
 		// m_Scene->GetCameraController()->GetCamera().SetPosition(glm::vec3(x - direction,y,1));
 		// Phoenix::Application::Get().GetSubSystem<Phoenix::SceneManagerSubSystem>()->GetActiveScene()->GetCameraController()->SetCameraPosition(glm::vec3(x - direction, y, 1));
 		// auto isac = Phoenix::Application::Get().GetSubSystem<Phoenix::EntitySubsystem>()->GetEntity("square1");
 		// isac->SetTransformPosition(glm::vec2(x + direction, y));
 		m_Scene->OnUpdate();
+		
 	}
 	
 	
@@ -77,7 +63,6 @@ class GameApp : public Phoenix::Application
 public:
 	GameApp()
 	{
-		// m_InputActionRegistrator->RegisterAction(Phoenix::InputAction("move", Phoenix::Key::A), PX_BIND_EVENT_FN(GameApp::TestInputActionClbk));
 		PushLayer(new ExampleLayer(this));
 		this->GetWindow();
 	}

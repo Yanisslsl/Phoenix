@@ -21,6 +21,7 @@ namespace Phoenix
 		m_InputActionRegistratorSubsystem = new InputActionRegistratorSubSystem();
 		m_EntityManagerSubsystem = new EntitySubsystem();
 		m_SceneManagerSubSystem = new SceneManagerSubSystem();
+		m_CollisionSubSystem = new CollisionSubSytem();
 		Renderer::Init();
 #ifdef PX_DEBUG
 		m_Editor_Layer = new EditorLayer();

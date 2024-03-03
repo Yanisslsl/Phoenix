@@ -5,6 +5,7 @@
 #include <glm/ext/matrix_transform.hpp>
 
 #include "Common/Core/Graphics/Render/include/Renderer.h"
+#include "ECS/include/ColliderSystem.h"
 #include "ECS/include/EntityComponent.h"
 #include "ECS/include/EntityManager.h"
 #include "ECS/include/TransformSystem.h"
@@ -12,8 +13,10 @@
 
 namespace Phoenix
 {
+
+    inline int32_t NODE_WIDTH = 100;
+    inline int32_t NODE_HEIGHT = 100;
     struct EntitySubsystem;
-    
     struct TransformComponent
     {
         glm::vec2 position;
@@ -34,6 +37,49 @@ namespace Phoenix
             colorCode = color;
         }
     };
+    
+    
+    struct BoxCollider
+    {
+    public:
+        BoxCollider(CollisionType type, std::function<void(void*)> onHit, CollisionShape shape, float width, float height)
+        : type(type), OnHit(onHit), shape(shape), width(width), height(height)
+        {
+            position = glm::vec2(0, 0);
+        }
+        CollisionType type;
+        glm::vec2 position;
+        std::function<void(void*)> OnHit;
+        CollisionShape shape;
+        float width;
+        float height;
+      
+        //@TODO: create base collider class when adding more colliders types
+        bool CollidesWith(void* other)
+        {
+            switch (shape)
+            {
+            case CollisionShape::RECTANGLE:
+                {
+                    const auto otherCollider = *(static_cast<BoxCollider*>(other));
+                    if (otherCollider.shape == CollisionShape::RECTANGLE)
+                    {
+                      if(abs(position.x - otherCollider.position.x) < (width + otherCollider.width) / 2 ){
+                          return false;
+                      }
+                        if(abs(position.y - otherCollider.position.y) < (height + otherCollider.height) / 2 ){
+                            return false;
+                        }
+                        return true;
+                    }
+                }
+            default:
+                PX_CORE_ASSERT(false, "Collision shape not supported");
+            }
+        }
+    };
+
+    
     
     class PHOENIX_API Entity
     {
@@ -84,6 +130,8 @@ namespace Phoenix
         glm::mat4 GetLocalModelMatrix() const;
         glm::mat4 GetWorldModelMatrix() const;
 
+        BoxCollider GetCollider() const;
+
         void UdpateChildsModelMatrix()
         {
             for (auto& child : m_children)
@@ -102,11 +150,17 @@ namespace Phoenix
         }
 
         template <typename T>
-        void AddComponent(T component)
-        {
-            static_assert(sizeof(T) == 0, "Component not found");
-        }
+        void AddComponent(T component);
 
+        template <>
+        void AddComponent<Phoenix::TransformComponent>(TransformComponent component);
+
+        template <>
+        void AddComponent<Phoenix::SpriteComponent>(SpriteComponent component);
+
+        template <>
+        void Entity::AddComponent<Phoenix::BoxCollider>(BoxCollider component);
+        
         template <typename T>
         void OnComponentUpdated(T component)
         {
@@ -138,111 +192,7 @@ namespace Phoenix
         friend class Entity;
         EntityManager* m_EntityManager;
         TransformSystem* m_TransformSystem;
-        // @TODO: this should not be neccessary with the ECS data oriented design
-        // But for simplicity we will keep it for now to map the entity name to the entity id
+        ColliderSystem* m_ColliderSystem;
     };
-}
-
-template<>
-inline void Phoenix::Entity::OnComponentUpdated<Phoenix::TransformComponent>(Phoenix::TransformComponent component)
-{
-    Renderer::UpdateModelMatrix(m_name, GetWorldModelMatrix());
-}
-
-template <>
-inline void Phoenix::Entity::AddComponent<Phoenix::TransformComponent>(TransformComponent component)
-{
-    m_owner->m_TransformSystem->AddComponentTo(m_id);
-    m_owner->m_TransformSystem->SetEntityPostion(m_id, component.position);
-    m_owner->m_TransformSystem->SetEntityRotation(m_id, component.rotation);
-    m_owner->m_TransformSystem->SetEntityScale(m_id, component.scale);
-    OnComponentUpdated<TransformComponent>(component);
-}
-
-template <>
-inline void Phoenix::Entity::AddComponent<Phoenix::SpriteComponent>(SpriteComponent component)
-{
-    if(component.textureFilePath.empty())
-    {
-        Renderer::CreateQuad(m_name, Colors::GetColor(component.colorCode),glm::mat4(1));
-    } else if(!component.textureFilePath.empty())
-    {
-        Renderer::CreateQuad(m_name, component.textureFilePath.c_str(), glm::mat4(1));
-    } else
-    {
-        PX_CORE_ASSERT(false, "Sprite is not properly initialized");
-    }
-}
-
-
-inline glm::vec2 Phoenix::Entity::GetTransformPosition() const
-{
-    return m_owner->m_TransformSystem->GetEntityPosition(m_id);
-}
-
-inline void Phoenix::Entity::SetTransformPosition(glm::vec2 position)
-{
-    m_owner->m_TransformSystem->SetEntityPostion(m_id, position);
-    Renderer::UpdateModelMatrix(m_name, GetWorldModelMatrix());
-}
-
-inline float Phoenix::Entity::GetRotation() const
-{
-    return m_owner->m_TransformSystem->GetEntityRotation(m_id);
-}
-
-inline void Phoenix::Entity::SetRotation(float rotation)
-{
-    m_owner->m_TransformSystem->SetEntityRotation(m_id, rotation);
-    Renderer::UpdateModelMatrix(m_name, GetWorldModelMatrix());
-}
-
-inline glm::vec2 Phoenix::Entity::GetScale() const
-{
-    return m_owner->m_TransformSystem->GetEntityScale(m_id);
-}
-inline void Phoenix::Entity::SetScale(glm::vec2 scale)
-{
-    m_owner->m_TransformSystem->SetEntityScale(m_id, scale);
-    Renderer::UpdateModelMatrix(m_name, GetWorldModelMatrix());
-}
-
-inline void Phoenix::Entity::SetScale(int scale)
-{
-    const glm::vec2 scaleVec = glm::vec2((float)scale, (float)scale);
-    m_owner->m_TransformSystem->SetEntityScale(m_id, scaleVec);
-    Renderer::UpdateModelMatrix(m_name, GetWorldModelMatrix());
-}
-
-inline glm::mat4 Phoenix::Entity::GetLocalModelMatrix() const
-{
-    return GetTranslationMatrix() * GetRotationMatrix() * GetScaleMatrix();
-}
-
-inline glm::mat4 Phoenix::Entity::GetWorldModelMatrix() const
-{
-    return GetLocalModelMatrix();
-}
-inline glm::mat4 Phoenix::Entity::GetRotationMatrix() const
-{
-    const auto rotation = m_owner->m_TransformSystem->GetEntityRotation(m_id);
-    return glm::rotate(glm::mat4(1.0f), glm::radians(rotation), glm::vec3(0.0f, 0.0f, 1.0f));
-}
-
-inline glm::mat4 Phoenix::Entity::GetScaleMatrix() const
-{
-    const auto scale = m_owner->m_TransformSystem->GetEntityScale(m_id);
-    return glm::scale(glm::mat4(1.0f), glm::vec3(scale, 1.0f));
-}
-
-// Only take parent translation into account for computing the child position
-inline glm::mat4 Phoenix::Entity::GetTranslationMatrix() const
-{
-    const auto transform = m_owner->m_TransformSystem->GetEntityPosition(m_id);
-    if(m_parent)
-    {
-        return m_parent->GetTranslationMatrix() * translate(glm::mat4(1.0f), glm::vec3(transform.x, transform.y, 1.0f));
-    }
-    return translate(glm::mat4(1.0f), glm::vec3(transform.x, transform.y, 1.0f));
 }
 
