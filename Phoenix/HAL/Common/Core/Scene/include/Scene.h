@@ -24,7 +24,7 @@ namespace Phoenix
          * \brief 
          * \param cameraController Should be instanciate with the window size
          */
-         Scene(OrthographicCameraController cameraController);
+         Scene(std::string& name, OrthographicCameraController* cameraController);
          ~Scene();
      
         /**
@@ -39,6 +39,8 @@ namespace Phoenix
          */
          void OnStop();
 
+         std::string GetName() const { return m_Name; }
+
         /**
          * \brief Should be called every frame, should update all the entities, and all the systems
          */
@@ -46,10 +48,14 @@ namespace Phoenix
          bool IsRunning() const { return m_IsRunning; }
          bool IsPaused() const { return m_IsPaused; }
          void SetPaused(bool paused) { m_IsPaused = paused; }
-     OrthographicCameraController& GetCameraController() { return m_CameraController; }
+     OrthographicCameraController* GetCameraController()
+         {
+          return m_CameraController;
+         }
     private:
-        OrthographicCameraController m_CameraController;
+        OrthographicCameraController* m_CameraController;
         bool m_IsRunning = false;
         bool m_IsPaused = false;
+        std::string m_Name;
     };
 }

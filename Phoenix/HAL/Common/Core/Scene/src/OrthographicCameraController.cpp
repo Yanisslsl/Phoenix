@@ -55,6 +55,13 @@ namespace Phoenix
         m_CameraTranslationSpeed = m_ZoomLevel;
     }
 
+
+    void OrthographicCameraController::SetCameraPosition(const glm::vec3& position)
+    {
+        m_CameraPosition = position;
+        m_Camera.SetPosition(m_CameraPosition);
+    }
+    
     void OrthographicCameraController::OnEvent(Event& event)
     {
         EventDispatcher dispatcher(event);

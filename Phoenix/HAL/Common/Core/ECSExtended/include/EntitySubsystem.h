@@ -46,11 +46,17 @@ namespace Phoenix
             m_parent = nullptr;
             m_children = std::vector<Ref<Entity>>();
         }
-
+        glm::vec2 GetTransformPosition() const;
         void SetTransformPosition(glm::vec2 position);
+
+        glm::vec2 GetScale() const;
         void SetScale(glm::vec2 scale);
         void SetScale(int scale);
+
+        float GetRotation() const;
         void SetRotation(float rotation);
+
+        std::string GetName(){ return m_name; }
 
         void AddChild(Ref<Entity> child)
         {
@@ -127,6 +133,7 @@ namespace Phoenix
         Ref<Entity> CreateEntity(std::string name);
         void DestroyEntity(Entity entity);
         Ref<Entity> GetEntity(std::string name);
+        std::vector<Ref<Entity>> GetEntities();
     private:
         friend class Entity;
         EntityManager* m_EntityManager;
@@ -167,10 +174,21 @@ inline void Phoenix::Entity::AddComponent<Phoenix::SpriteComponent>(SpriteCompon
     }
 }
 
+
+inline glm::vec2 Phoenix::Entity::GetTransformPosition() const
+{
+    return m_owner->m_TransformSystem->GetEntityPosition(m_id);
+}
+
 inline void Phoenix::Entity::SetTransformPosition(glm::vec2 position)
 {
     m_owner->m_TransformSystem->SetEntityPostion(m_id, position);
     Renderer::UpdateModelMatrix(m_name, GetWorldModelMatrix());
+}
+
+inline float Phoenix::Entity::GetRotation() const
+{
+    return m_owner->m_TransformSystem->GetEntityRotation(m_id);
 }
 
 inline void Phoenix::Entity::SetRotation(float rotation)
@@ -179,6 +197,10 @@ inline void Phoenix::Entity::SetRotation(float rotation)
     Renderer::UpdateModelMatrix(m_name, GetWorldModelMatrix());
 }
 
+inline glm::vec2 Phoenix::Entity::GetScale() const
+{
+    return m_owner->m_TransformSystem->GetEntityScale(m_id);
+}
 inline void Phoenix::Entity::SetScale(glm::vec2 scale)
 {
     m_owner->m_TransformSystem->SetEntityScale(m_id, scale);
@@ -199,16 +221,12 @@ inline glm::mat4 Phoenix::Entity::GetLocalModelMatrix() const
 
 inline glm::mat4 Phoenix::Entity::GetWorldModelMatrix() const
 {
-    if(m_parent)
-   {
-           return m_parent->GetWorldModelMatrix() * GetLocalModelMatrix();
-    } 
     return GetLocalModelMatrix();
 }
 inline glm::mat4 Phoenix::Entity::GetRotationMatrix() const
 {
     const auto rotation = m_owner->m_TransformSystem->GetEntityRotation(m_id);
-    return glm::rotate(glm::mat4(1.0f), glm::radians(rotation / glm::pi<float>() / 2), glm::vec3(0.0f, 0.0f, 1.0f));
+    return glm::rotate(glm::mat4(1.0f), glm::radians(rotation), glm::vec3(0.0f, 0.0f, 1.0f));
 }
 
 inline glm::mat4 Phoenix::Entity::GetScaleMatrix() const
@@ -217,10 +235,14 @@ inline glm::mat4 Phoenix::Entity::GetScaleMatrix() const
     return glm::scale(glm::mat4(1.0f), glm::vec3(scale, 1.0f));
 }
 
-
+// Only take parent translation into account for computing the child position
 inline glm::mat4 Phoenix::Entity::GetTranslationMatrix() const
 {
     const auto transform = m_owner->m_TransformSystem->GetEntityPosition(m_id);
-    return glm::translate(glm::mat4(1.0f), glm::vec3(transform.x, transform.y, 1.0f));
+    if(m_parent)
+    {
+        return m_parent->GetTranslationMatrix() * translate(glm::mat4(1.0f), glm::vec3(transform.x, transform.y, 1.0f));
+    }
+    return translate(glm::mat4(1.0f), glm::vec3(transform.x, transform.y, 1.0f));
 }
 

@@ -2,7 +2,7 @@
 
 #pragma once
 
-
+//@TODO to delete
 namespace Phoenix
 {
     class TimeStep
@@ -12,10 +12,7 @@ namespace Phoenix
            : m_Time(time)
         {
         }
-
-        //@TODO why is this an operator?
         operator float() const { return m_Time; }
-
         float GetSeconds() const { return m_Time; }
         float GetMilliseconds() const { return m_Time * 1000.0f; }
     private:
