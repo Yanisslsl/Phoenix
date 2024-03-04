@@ -28,7 +28,7 @@ namespace Phoenix
             delete left;
             delete right;
         }
-        std::vector<BoxCollider*> colliders;
+        std::vector<BoxCollider> colliders;
         glm::vec2 topLeftPosition;
         float width;
         float height;
@@ -57,11 +57,12 @@ namespace Phoenix
         std::tuple<Node*, Node*> CollisionSubSytem::SetNodes(Node* current, Divide divide);
     
         void PrintBst(Node* node);
-        std::vector<BoxCollider*> GetColliders(BoxCollider& collider);
+        std::vector<BoxCollider> GetColliders(BoxCollider& collider);
         Node* SearchNode(BoxCollider& collider, Node* node, Divide divide);
-        void Insert(BoxCollider& collider);
-        void Remove(BoxCollider& collider);
-        
+        void Insert(BoxCollider collider);
+        void Update(BoxCollider& collider);
+        // void Remove(BoxCollider& collider);
+        void Remove(BoxCollider& collider, Node* node);
     private:
         Node* m_Root;
     };

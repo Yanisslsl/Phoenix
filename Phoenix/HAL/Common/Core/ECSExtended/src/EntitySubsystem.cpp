@@ -86,7 +86,7 @@ void Entity::AddComponent<Phoenix::BoxCollider>(BoxCollider component)
     m_owner->m_ColliderSystem->SetColliderCoordinates(m_id, {component.position, component.width, component.height});
     m_owner->m_ColliderSystem->SetOnHitCallback(m_id, component.OnHit);
     component.position = GetTransformPosition();
-    Application::Get().GetSubSystem<CollisionSubSytem>()->Insert(component);
+    Application::Get().GetSubSystem<CollisionSubSytem>()->Insert((component));
 }
 
 
@@ -99,6 +99,7 @@ void Entity::SetTransformPosition(glm::vec2 position)
 {
     m_owner->m_TransformSystem->SetEntityPostion(m_id, position);
     Renderer::UpdateModelMatrix(m_name, GetWorldModelMatrix());
+    Application::Get().GetSubSystem<CollisionSubSytem>()->Update(GetCollider());
 }
 
 float Entity::GetRotation() const

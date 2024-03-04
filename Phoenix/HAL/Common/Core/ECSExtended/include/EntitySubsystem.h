@@ -148,7 +148,11 @@ namespace Phoenix
         {
             Renderer::UpdateModelMatrix(m_name, GetWorldModelMatrix());
         }
-
+        
+        //#TODO change to
+        //template <T , typename ...args>
+        
+        
         template <typename T>
         void AddComponent(T component);
 
@@ -174,7 +178,6 @@ namespace Phoenix
         Entity* m_parent;
         std::vector<Ref<Entity>> m_children;
     };
-
     
     /**
      * \brief Wrapper around the entity creation and destruction.

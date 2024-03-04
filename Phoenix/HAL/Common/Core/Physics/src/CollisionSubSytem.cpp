@@ -61,7 +61,9 @@ namespace Phoenix
     void CollisionSubSytem::PrintBst(Node* node)
     {
     }
-    
+
+
+    //@TODO ad possibility to get multiples nodes if collider is in multiple nodes
     Node* CollisionSubSytem::SearchNode(BoxCollider& collider, Node* node, Divide divide)
     {
         if(node->width < MIN_COLLIDER_DIMENSION  || node->height < MIN_COLLIDER_DIMENSION)
@@ -95,15 +97,41 @@ namespace Phoenix
         }
     }
 
-    void CollisionSubSytem::Insert(BoxCollider& collider)
+    void CollisionSubSytem::Update(BoxCollider& collider)
     {
         auto node = SearchNode(collider, m_Root, Divide::VERTICAL);
-        node->colliders.push_back(&collider);
+        auto it = std::find(node->colliders.begin(), node->colliders.end(), &collider);
+        if(it == node->colliders.end())
+        {
+            PX_ERROR("Collider not found");
+        }
+        if(collider.position.x >= node->topLeftPosition.x && node->topLeftPosition.x + node->width &&
+            collider.position.y >= node->topLeftPosition.y && collider.position.y <= node->topLeftPosition.y + node->height)
+        {
+            return;
+        }
+        Remove(collider, node);
+        Insert(collider);
+    }
+
+    void CollisionSubSytem::Insert(BoxCollider collider)
+    {
+        auto node = SearchNode(collider, m_Root, Divide::VERTICAL);
+        node->colliders.push_back(collider);
     }
     
-    void CollisionSubSytem::Remove(BoxCollider& collider)
+    // void CollisionSubSytem::Remove(BoxCollider& collider)
+    // {
+    //     auto node = SearchNode(collider, m_Root,Divide::VERTICAL);
+    //     auto it = std::find(node->colliders.begin(), node->colliders.end(), &collider);
+    //     if(it != node->colliders.end())
+    //     {
+    //         node->colliders.erase(it);
+    //     }
+    // }
+
+    void CollisionSubSytem::Remove(BoxCollider& collider, Node* node)
     {
-        auto node = SearchNode(collider, m_Root,Divide::VERTICAL);
         auto it = std::find(node->colliders.begin(), node->colliders.end(), &collider);
         if(it != node->colliders.end())
         {
@@ -111,7 +139,7 @@ namespace Phoenix
         }
     }
     
-    std::vector<BoxCollider*> CollisionSubSytem::GetColliders(BoxCollider& collider)
+    std::vector<BoxCollider> CollisionSubSytem::GetColliders(BoxCollider& collider)
     {
         auto node = SearchNode(collider, m_Root, Divide::VERTICAL);
         return node->colliders;

@@ -32,6 +32,7 @@ namespace Phoenix
     public:
         ColliderData(size_t size);
         std::vector<CollisionType> m_types;
+        // @TODO: change to std::vector<glm::vec2> m_positions; std::vector<float> m_widths; std::vector<float> m_heights;
         std::vector<ColliderCoordinates> m_coordinates;
         std::vector<EntityId> m_parents;
         std::vector<std::function<void(void*)>> m_onHitCallbacks;
