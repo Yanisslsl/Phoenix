@@ -99,19 +99,19 @@ namespace Phoenix
 
     void CollisionSubSytem::Update(BoxCollider& collider)
     {
-        auto node = SearchNode(collider, m_Root, Divide::VERTICAL);
-        auto it = std::find(node->colliders.begin(), node->colliders.end(), &collider);
-        if(it == node->colliders.end())
-        {
-            PX_ERROR("Collider not found");
-        }
-        if(collider.position.x >= node->topLeftPosition.x && node->topLeftPosition.x + node->width &&
-            collider.position.y >= node->topLeftPosition.y && collider.position.y <= node->topLeftPosition.y + node->height)
-        {
-            return;
-        }
-        Remove(collider, node);
-        Insert(collider);
+        // auto node = SearchNode(collider, m_Root, Divide::VERTICAL);
+        // auto it = std::find(node->colliders.begin(), node->colliders.end(), &collider);
+        // if(it == node->colliders.end())
+        // {
+        //     PX_ERROR("Collider not found");
+        // }
+        // if(collider.position.x >= node->topLeftPosition.x && node->topLeftPosition.x + node->width &&
+        //     collider.position.y >= node->topLeftPosition.y && collider.position.y <= node->topLeftPosition.y + node->height)
+        // {
+        //     return;
+        // }
+        // Remove(collider, node);
+        // Insert(collider);
     }
 
     void CollisionSubSytem::Insert(BoxCollider collider)
@@ -132,16 +132,17 @@ namespace Phoenix
 
     void CollisionSubSytem::Remove(BoxCollider& collider, Node* node)
     {
-        auto it = std::find(node->colliders.begin(), node->colliders.end(), &collider);
-        if(it != node->colliders.end())
-        {
-            node->colliders.erase(it);
-        }
+        // auto it = std::find(node->colliders.begin(), node->colliders.end(), &collider);
+        // if(it != node->colliders.end())
+        // {
+        //     node->colliders.erase(it);
+        // }
     }
     
     std::vector<BoxCollider> CollisionSubSytem::GetColliders(BoxCollider& collider)
     {
-        auto node = SearchNode(collider, m_Root, Divide::VERTICAL);
-        return node->colliders;
+        // auto node = SearchNode(collider, m_Root, Divide::VERTICAL);
+        // return node->colliders;
+        return std::vector<BoxCollider>();
     }
 }

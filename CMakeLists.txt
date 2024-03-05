@@ -15,6 +15,7 @@ find_package(imgui CONFIG REQUIRED)
 find_package(glfw3 CONFIG REQUIRED)
 find_package(spdlog CONFIG REQUIRED)
 find_package(Stb REQUIRED)
+find_package(stduuid CONFIG REQUIRED)
 
 # Phoenix Library source files
 file(GLOB_RECURSE PHOENIX_SOURCES 
@@ -42,6 +43,7 @@ target_link_libraries(Phoenix PRIVATE
     imgui::imgui
     glfw
     spdlog::spdlog
+    stduuid
 )
 
 # Game executable source files

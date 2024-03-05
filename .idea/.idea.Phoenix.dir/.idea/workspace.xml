@@ -1,8 +1,70 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="29f0c53a-cdba-40d0-8f91-e07c36ed899a" name="Changes" comment="wip">
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.Phoenix.dir/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Phoenix.dir/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CMakeLists.txt" beforeDir="false" afterPath="$PROJECT_DIR$/CMakeLists.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Phoenix/Core/ECS/include/EntityManager.h" beforeDir="false" afterPath="$PROJECT_DIR$/Phoenix/Core/ECS/include/EntityManager.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Phoenix/Core/ECS/src/ColliderSystem.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Phoenix/Core/ECS/src/ColliderSystem.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Phoenix/Core/ECS/src/ComponentSystem.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Phoenix/Core/ECS/src/ComponentSystem.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Phoenix/Core/ECS/src/TransformSystem.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Phoenix/Core/ECS/src/TransformSystem.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Phoenix/HAL/Common/Core/Physics/src/CollisionSubSytem.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Phoenix/HAL/Common/Core/Physics/src/CollisionSubSytem.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/vcpkg.json" beforeDir="false" afterPath="$PROJECT_DIR$/vcpkg.json" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="HighlightingSettingsPerFile">
+    <setting file="mock://D:/Users/LYANISS/Desktop/Dev/PhoenixEngine/Phoenix/Game/GameApp.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock://D:/Users/LYANISS/Desktop/Dev/PhoenixEngine/Phoenix/Phoenix/Core/ECS/include/ColliderData.h" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock://D:/Users/LYANISS/Desktop/Dev/PhoenixEngine/Phoenix/Phoenix/Core/ECS/include/ColliderSystem.h" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock://D:/Users/LYANISS/Desktop/Dev/PhoenixEngine/Phoenix/Phoenix/Core/ECS/include/EntityManager.h" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock://D:/Users/LYANISS/Desktop/Dev/PhoenixEngine/Phoenix/Phoenix/Core/ECS/include/EntityManager.h" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock://D:/Users/LYANISS/Desktop/Dev/PhoenixEngine/Phoenix/Phoenix/Core/ECS/include/EntityManager.h" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock://D:/Users/LYANISS/Desktop/Dev/PhoenixEngine/Phoenix/Phoenix/Core/ECS/src/ColliderData.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock://D:/Users/LYANISS/Desktop/Dev/PhoenixEngine/Phoenix/Phoenix/Core/ECS/src/ColliderSystem.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock://D:/Users/LYANISS/Desktop/Dev/PhoenixEngine/Phoenix/Phoenix/Core/ECS/src/ColliderSystem.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock://D:/Users/LYANISS/Desktop/Dev/PhoenixEngine/Phoenix/Phoenix/Core/ECS/src/ComponentSystem.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock://D:/Users/LYANISS/Desktop/Dev/PhoenixEngine/Phoenix/Phoenix/Core/ECS/src/TransformSystem.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock://D:/Users/LYANISS/Desktop/Dev/PhoenixEngine/Phoenix/Phoenix/HAL/Common/Core/ECSExtended/include/EntitySubsystem.h" root0="FORCE_HIGHLIGHTING" />
+    <setting file="mock://D:/Users/LYANISS/Desktop/Dev/PhoenixEngine/Phoenix/Phoenix/HAL/Common/Core/ECSExtended/src/EntitySubsystem.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock://D:/Users/LYANISS/Desktop/Dev/PhoenixEngine/Phoenix/Phoenix/HAL/Common/Core/Physics/include/CollisionSubSytem.h" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock://D:/Users/LYANISS/Desktop/Dev/PhoenixEngine/Phoenix/Phoenix/HAL/Common/Core/Physics/src/CollisionSubSytem.cpp" root0="SKIP_HIGHLIGHTING" />
+  </component>
+  <component name="MetaFilesCheckinStateConfiguration" checkMetaFiles="false" />
   <component name="ProjectViewState">
     <option name="autoscrollFromSource" value="true" />
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "git-widget-placeholder": "feature/CollisionSystem",
+    "node.js.selected.package.tslint": "(autodetect)"
+  }
+}]]></component>
+  <component name="TaskManager">
+    <servers />
+  </component>
+  <component name="UnityCheckinConfiguration" checkUnsavedScenes="false" />
+  <component name="Vcs.Log.History.Properties">
+    <option name="COLUMN_ID_ORDER">
+      <list>
+        <option value="Default.Root" />
+        <option value="Default.Author" />
+        <option value="Default.Date" />
+        <option value="Default.Subject" />
+        <option value="Space.CommitStatus" />
+      </list>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="wip" />
+    <option name="LAST_COMMIT_MESSAGE" value="wip" />
   </component>
 </project>
