@@ -1,0 +1,105 @@
+﻿// Entity.h
+
+#pragma once
+#include "Common/Core/Graphics/Render/include/Renderer.h"
+#include "ECS/include/EntityComponent.h"
+#include "Common/Core/ECSExtended/include/TransformSubsytem.h"
+
+namespace Phoenix
+{
+    class EntitySubsystem;
+    class BoxCollider;
+    class SpriteComponent;
+    class PHOENIX_API Entity
+    {
+    public:
+        Entity(EntityId id, std::string name)
+        : m_id(id)
+        , m_name(name)
+        {
+            m_parent = nullptr;
+            m_children = std::vector<Ref<Entity>>();
+        }
+        glm::vec2 GetTransformPosition() const;
+        void SetTransformPosition(glm::vec2 position);
+
+        glm::vec2 GetScale() const;
+        void SetScale(glm::vec2 scale);
+        void SetScale(int scale);
+
+        float GetRotation() const;
+        void SetRotation(float rotation);
+
+        std::string GetName(){ return m_name; }
+
+        void AddChild(Ref<Entity> child)
+        {
+            m_children.push_back(child);
+            child->m_parent = this;
+            RecomputeModelMatrix();
+            UdpateChildsModelMatrix();
+        }
+
+        void DeleteChild(Ref<Entity> child)
+        {
+            for (auto it = m_children.begin(); it != m_children.end(); it++)
+            {
+                if (*it == child)
+                {
+                    m_children.erase(it);
+                    return;
+                }
+            }
+        }
+
+        glm::mat4 GetRotationMatrix() const;
+        glm::mat4 GetScaleMatrix() const;
+        glm::mat4 GetTranslationMatrix() const;
+        glm::mat4 GetLocalModelMatrix() const;
+        glm::mat4 GetWorldModelMatrix() const;
+
+        BoxCollider GetCollider() const;
+
+        void UdpateChildsModelMatrix()
+        {
+            for (auto& child : m_children)
+            {
+                child->RecomputeModelMatrix();
+                if(!child->m_children.empty())
+                {
+                    child->UdpateChildsModelMatrix();
+                }
+            }
+        }
+
+        void RecomputeModelMatrix()
+        {
+            Renderer::UpdateModelMatrix(m_name, GetWorldModelMatrix());
+        }
+        
+        
+        template <typename T>
+        void AddComponent(T component);
+
+        template <>
+        void AddComponent<Phoenix::TransformComponent>(TransformComponent component);
+
+        template <>
+        void AddComponent<Phoenix::SpriteComponent>(SpriteComponent component);
+
+        template <>
+        void AddComponent<Phoenix::BoxCollider>(BoxCollider component);
+        
+        template <typename T>
+        void OnComponentUpdated(T component)
+        {
+            static_assert(sizeof(T) == 0, "Component not found");
+        }
+    public:
+        std::string m_name;
+        EntityId m_id;
+    private:
+        Entity* m_parent;
+        std::vector<Ref<Entity>> m_children;
+    };
+}

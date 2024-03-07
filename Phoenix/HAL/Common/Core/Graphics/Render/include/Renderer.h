@@ -101,7 +101,7 @@ namespace Phoenix
          * \param bufferlayout 
          * \param transform 
          */
-        static void Renderer::CreateShape(std::string name, std::vector<float> vertices, std::vector<uint32_t> indices, const char* vertexShader, const char* fragmentShader, const BufferLayout bufferlayout ,const glm::mat4 modelMat);
+        static void CreateShape(std::string name, std::vector<float> vertices, std::vector<uint32_t> indices, const char* vertexShader, const char* fragmentShader, const BufferLayout bufferlayout ,const glm::mat4 modelMat);
 
         /**
          * \brief Create textured shape
@@ -114,7 +114,7 @@ namespace Phoenix
          * \param texturePath 
          * \param transform 
          */
-        static void Renderer::CreateTexturedShape(std::string name, std::vector<float> vertices, std::vector<uint32_t> indices, const char* vertexShader, const char* fragmentShader, const BufferLayout bufferlayout ,const char* texturePath, const glm::mat4 modelMat);
+        static void CreateTexturedShape(std::string name, std::vector<float> vertices, std::vector<uint32_t> indices, const char* vertexShader, const char* fragmentShader, const BufferLayout bufferlayout ,const char* texturePath, const glm::mat4 modelMat);
 
         /**
          * \brief 
@@ -127,7 +127,7 @@ namespace Phoenix
          * \param name 
          * \return 
          */
-        static Ref<Shader> Renderer::GetShader(std::string name);
+        static Ref<Shader> GetShader(std::string name);
 
         /**
          * \brief Update the Renderer

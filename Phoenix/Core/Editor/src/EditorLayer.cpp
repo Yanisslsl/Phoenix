@@ -11,6 +11,7 @@
 #include "Common/Core/Input/include/Input.h"
 #include "Editor/include/ImGuiOpenGL.h"
 #include "Utils/Timer.h"
+#include "Common/Core/ECSExtended/include/Entity.h"
 
 namespace Phoenix
 {

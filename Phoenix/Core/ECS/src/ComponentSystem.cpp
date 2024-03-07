@@ -27,7 +27,7 @@ namespace Phoenix
         {
             m_ComponentsId.push_back(m_ComponentsId.size());
             auto len = EntityManager::Get()->m_entitiesComponents;
-            auto s = EntityMgr.m_entitiesComponents.at(entity);
+            auto s = EntityManager::Get()->m_entitiesComponents.at(entity);
             EntityManager::Get()->m_entitiesComponents.at(entity).at(m_Id) = m_ComponentsId.back();
             //To Do : Call Init ?
         }

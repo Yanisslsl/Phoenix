@@ -16,9 +16,10 @@ namespace Phoenix
     {
         auto windowHeight = Application::Get().GetWindow()->GetHeight();
         auto windowWidth = Application::Get().GetWindow()->GetWidth();
-        m_Root = new Node(glm::vec2(0, 0), windowWidth, windowHeight);
+        m_Root = new Node(glm::vec2(0, 0), windowWidth, windowHeight, "SSSS");
         Init(m_Root, Divide::VERTICAL);
         PrintBst(m_Root);
+        m_ColliderSystem = new ColliderSystem(1, 1000);
     }
     
     CollisionSubSytem::~CollisionSubSytem()
@@ -48,12 +49,12 @@ namespace Phoenix
     {
         if (divide == Divide::VERTICAL)
         {
-            current->left = new Node(current->topLeftPosition, current->width/2.f, current->height);
-            current->right = new Node(glm::vec2(current->topLeftPosition.x + current->width /2., current->topLeftPosition.y), current->width / 2.f, current->height);
+            current->left = new Node(current->topLeftPosition, current->width/2.f, current->height, "SSSS");
+            current->right = new Node(glm::vec2(current->topLeftPosition.x + current->width /2., current->topLeftPosition.y), current->width / 2.f, current->height, "SSSS");
         } else
         {
-            current->left = new Node(current->topLeftPosition, current->width, current->height /2.);
-            current->right = new Node(glm::vec2(current->topLeftPosition.x, current->topLeftPosition.y + current->height /2.), current->width, current->height / 2.f);
+            current->left = new Node(current->topLeftPosition, current->width, current->height /2., "SSSS");
+            current->right = new Node(glm::vec2(current->topLeftPosition.x, current->topLeftPosition.y + current->height /2.), current->width, current->height / 2.f, "SSSS");
         }
         return std::make_tuple(current->left, current->right);
     }
@@ -97,7 +98,25 @@ namespace Phoenix
         }
     }
 
-    void CollisionSubSytem::Update(BoxCollider& collider)
+    void CollisionSubSytem::AddCollider(EntityId entityId, BoxCollider collider)
+    {
+        m_ColliderSystem->AddComponentTo(entityId);
+        m_ColliderSystem->SetColliderType(entityId, collider.type);
+        m_ColliderSystem->SetColliderCoordinates(entityId, {collider.position, collider.width, collider.height});
+        m_ColliderSystem->SetOnHitCallback(entityId, collider.OnHit);
+        Insert(collider);
+    }
+
+    BoxCollider CollisionSubSytem::GetCollider(EntityId entityId)
+    {
+        auto colliderType = m_ColliderSystem->GetColliderType(entityId);
+        auto colliderCoordinates = m_ColliderSystem->GetColliderCoordinates(entityId);
+        auto onHitCallback = m_ColliderSystem->GetOnHitCallback(entityId);
+        return BoxCollider(colliderType, onHitCallback, CollisionShape::RECTANGLE, colliderCoordinates.width, colliderCoordinates.height);
+    }
+
+
+    void CollisionSubSytem::Update(BoxCollider collider)
     {
         // auto node = SearchNode(collider, m_Root, Divide::VERTICAL);
         // auto it = std::find(node->colliders.begin(), node->colliders.end(), &collider);

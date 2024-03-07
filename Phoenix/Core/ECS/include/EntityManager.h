@@ -31,6 +31,4 @@ namespace Phoenix
         std::vector<EntityId> m_entitiesId;
         std::vector<std::string> m_entitiesName;
       };
-
-    inline EntityManager& EntityMgr = EntityManager();
 }

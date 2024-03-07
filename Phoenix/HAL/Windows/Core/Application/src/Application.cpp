@@ -5,6 +5,7 @@
 #include "Editor/include/EditorLayer.h"
 #include "Events/EventDispatcher.h"
 #include "Utils/Timer.h"
+#include "Common/Core/ECSExtended/include/TransformSubsytem.h"
 
 
 namespace Phoenix
@@ -22,6 +23,7 @@ namespace Phoenix
 		m_EntityManagerSubsystem = new EntitySubsystem();
 		m_SceneManagerSubSystem = new SceneManagerSubSystem();
 		m_CollisionSubSystem = new CollisionSubSytem();
+		m_TransformSubSystem = new TransformSubsytem();
 		Renderer::Init();
 #ifdef PX_DEBUG
 		m_Editor_Layer = new EditorLayer();

@@ -2,6 +2,7 @@
 
 #pragma once
 
+
 #include "Core.h"
 #include "Base/Base.h"
 #include "Common/Core/ECSExtended/include/EntitySubsystem.h"
@@ -14,11 +15,11 @@ namespace Phoenix
         HORIZONTAL,
         VERTICAL
     };
-    struct BoxCollider;
+    // struct BoxCollider;
     struct PHOENIX_API Node
     {
-        Node(glm::vec2 topLeftPosition, float width, float height)
-            : topLeftPosition(topLeftPosition), width(width), height(height)
+        Node(glm::vec2 topLeftPosition, float width, float height, std::string id)
+            : topLeftPosition(topLeftPosition), width(width), height(height), id(id)
         {
             colliders.reserve(MAX_COLLIDERS_BY_NODE);
         }
@@ -28,6 +29,8 @@ namespace Phoenix
             delete left;
             delete right;
         }
+
+        std::string id;
         std::vector<BoxCollider> colliders;
         glm::vec2 topLeftPosition;
         float width;
@@ -54,16 +57,19 @@ namespace Phoenix
          *        Init the BST
          */
         void Init(Node* node, Divide divide);
-        std::tuple<Node*, Node*> CollisionSubSytem::SetNodes(Node* current, Divide divide);
+        std::tuple<Node*, Node*> SetNodes(Node* current, Divide divide);
     
         void PrintBst(Node* node);
         std::vector<BoxCollider> GetColliders(BoxCollider& collider);
         Node* SearchNode(BoxCollider& collider, Node* node, Divide divide);
         void Insert(BoxCollider collider);
-        void Update(BoxCollider& collider);
+        void Update(BoxCollider collider);
         // void Remove(BoxCollider& collider);
         void Remove(BoxCollider& collider, Node* node);
+        void AddCollider(EntityId entityId, BoxCollider collider);
+        BoxCollider GetCollider(EntityId entityId);
     private:
         Node* m_Root;
+        ColliderSystem* m_ColliderSystem;
     };
 }

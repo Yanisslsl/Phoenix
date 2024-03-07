@@ -104,6 +104,11 @@ namespace Phoenix
 			return m_CollisionSubSystem;
 		}
 
+		template <>
+		TransformSubsytem* GetSubSystem<TransformSubsytem>()
+		{
+			return m_TransformSubSystem;
+		}
 		
 	private:
 		// unqique ptr => une seule instance // si je veux passer cette instance il faut la move ce qui change l'ownership // ce qui veut dire que je ne peux pas la copier
@@ -117,6 +122,7 @@ namespace Phoenix
 		EntitySubsystem* m_EntityManagerSubsystem;
 		SceneManagerSubSystem* m_SceneManagerSubSystem;
 		CollisionSubSytem* m_CollisionSubSystem;
+		TransformSubsytem* m_TransformSubSystem;
 	};
 
 	// To be defined in CLIENT
