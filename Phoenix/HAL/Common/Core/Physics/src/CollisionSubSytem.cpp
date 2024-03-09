@@ -4,6 +4,7 @@
 #include <queue>
 #include <tuple>
 
+#include "Utils/UUID.h"
 #include "Windows/Core/Application/include/Application.h"
 
 
@@ -11,22 +12,47 @@ namespace Phoenix
 {
 
     float MIN_COLLIDER_DIMENSION = 50;
-    uint32_t MAX_DEPTH = 5;
     CollisionSubSytem::CollisionSubSytem()
     {
         auto windowHeight = Application::Get().GetWindow()->GetHeight();
         auto windowWidth = Application::Get().GetWindow()->GetWidth();
-        m_Root = new Node(glm::vec2(0, 0), windowWidth, windowHeight, "SSSS");
+        
+        m_Root = new Node(glm::vec2(0, 0), windowWidth, windowHeight, UUID::GenerateUUID());
         Init(m_Root, Divide::VERTICAL);
         PrintBst(m_Root);
         m_ColliderSystem = new ColliderSystem(1, 1000);
+        m_Nodes_With_Colliders = std::vector<Node*>();
     }
     
     CollisionSubSytem::~CollisionSubSytem()
     {
         delete m_Root;
     }
-    
+
+    void CollisionSubSytem::Update()
+    {
+        for(auto node : m_Nodes_With_Colliders)
+        {
+            if(node->colliders.size() < 2) continue;
+            ChekCollision(node);
+        }
+    }
+
+    void CollisionSubSytem::ChekCollision(Node* node)
+    {
+        for(auto collider : node->colliders)
+        {
+            for(auto otherCollider: node->colliders)
+            {
+                if(collider.m_EntityId == otherCollider.m_EntityId) continue;
+                if(collider.CollidesWith(otherCollider))
+                {
+                    Ref<Entity> entity = Application::Get().GetSubSystem<EntitySubsystem>()->GetEntityById(otherCollider.m_EntityId);
+                    collider.OnHit(entity);
+                }
+            }
+        }
+    }
     
     void CollisionSubSytem::Init(Node* node, Divide divide)
     {
@@ -49,18 +75,31 @@ namespace Phoenix
     {
         if (divide == Divide::VERTICAL)
         {
-            current->left = new Node(current->topLeftPosition, current->width/2.f, current->height, "SSSS");
-            current->right = new Node(glm::vec2(current->topLeftPosition.x + current->width /2., current->topLeftPosition.y), current->width / 2.f, current->height, "SSSS");
+            current->left = new Node(current->topLeftPosition, current->width/2.f, current->height, UUID::GenerateUUID());
+            current->right = new Node(glm::vec2(current->topLeftPosition.x + current->width /2., current->topLeftPosition.y), current->width / 2.f, current->height, UUID::GenerateUUID());
         } else
         {
-            current->left = new Node(current->topLeftPosition, current->width, current->height /2., "SSSS");
-            current->right = new Node(glm::vec2(current->topLeftPosition.x, current->topLeftPosition.y + current->height /2.), current->width, current->height / 2.f, "SSSS");
+            current->left = new Node(current->topLeftPosition, current->width, current->height /2., UUID::GenerateUUID());
+            current->right = new Node(glm::vec2(current->topLeftPosition.x, current->topLeftPosition.y + current->height /2.), current->width, current->height / 2.f, UUID::GenerateUUID());
         }
         return std::make_tuple(current->left, current->right);
     }
     
     void CollisionSubSytem::PrintBst(Node* node)
     {
+    }
+
+    void RemoveNode(Node* node)
+    {
+        if(node->left != nullptr)
+        {
+            RemoveNode(node->left);
+        }
+        if(node->right != nullptr)
+        {
+            RemoveNode(node->right);
+        }
+        delete node;
     }
 
 
@@ -100,68 +139,137 @@ namespace Phoenix
 
     void CollisionSubSytem::AddCollider(EntityId entityId, BoxCollider collider)
     {
+        auto node = SearchNode(collider, m_Root, Divide::VERTICAL);
         m_ColliderSystem->AddComponentTo(entityId);
         m_ColliderSystem->SetColliderType(entityId, collider.type);
-        m_ColliderSystem->SetColliderCoordinates(entityId, {collider.position, collider.width, collider.height});
+        m_ColliderSystem->SetColliderHeight(entityId, collider.height);
+        m_ColliderSystem->SetColliderWidth(entityId, collider.width);
+        m_ColliderSystem->SetColliderPosition(entityId, collider.position);
         m_ColliderSystem->SetOnHitCallback(entityId, collider.OnHit);
+        m_ColliderSystem->SetColliderEntity(entityId, entityId);
+        m_ColliderSystem->SetColliderNodeId(entityId, node->id);
+        collider.m_EntityId = entityId;
+        collider.m_Node_Id = node->id;
         Insert(collider);
     }
 
     BoxCollider CollisionSubSytem::GetCollider(EntityId entityId)
     {
         auto colliderType = m_ColliderSystem->GetColliderType(entityId);
-        auto colliderCoordinates = m_ColliderSystem->GetColliderCoordinates(entityId);
         auto onHitCallback = m_ColliderSystem->GetOnHitCallback(entityId);
-        return BoxCollider(colliderType, onHitCallback, CollisionShape::RECTANGLE, colliderCoordinates.width, colliderCoordinates.height);
+        auto position = m_ColliderSystem->GetColliderPosition(entityId);
+        auto height = m_ColliderSystem->GetColliderHeight(entityId);
+        auto width = m_ColliderSystem->GetColliderWidth(entityId);
+        auto _entityId = m_ColliderSystem->GetColliderEntity(entityId);
+        auto nodeId = m_ColliderSystem->GetColliderNodeId(entityId);
+        auto collider = BoxCollider(colliderType, onHitCallback, CollisionShape::RECTANGLE, width, height);
+        collider.m_EntityId = _entityId;
+        collider.m_Node_Id = nodeId;
+        collider.position = position;
+        return collider;
     }
 
-
-    void CollisionSubSytem::Update(BoxCollider collider)
+    // not very efficient, O(n) where n is the number of nodes
+    Node* CollisionSubSytem::SearchNode(std::string id)
     {
-        // auto node = SearchNode(collider, m_Root, Divide::VERTICAL);
-        // auto it = std::find(node->colliders.begin(), node->colliders.end(), &collider);
-        // if(it == node->colliders.end())
-        // {
-        //     PX_ERROR("Collider not found");
-        // }
-        // if(collider.position.x >= node->topLeftPosition.x && node->topLeftPosition.x + node->width &&
-        //     collider.position.y >= node->topLeftPosition.y && collider.position.y <= node->topLeftPosition.y + node->height)
-        // {
-        //     return;
-        // }
-        // Remove(collider, node);
-        // Insert(collider);
+        auto node = FindNodeById(id, m_Root);
+        if(node == nullptr)
+        {
+            PX_ERROR("Node found");
+            return nullptr;
+        }
+        PX_WARN("Node found{0}", node->id);
+        return node;
+    }
+
+    // @TODO: this function check if a collider needs to change his node and if so, it removes it from the current node and adds it to the new node
+    // @REFACTOR: this function is not efficient, due to the fact that all colliders a passed by copy and not by reference
+    // so we need to manually updates all the the colliders position in the nodes
+    void CollisionSubSytem::Update(EntityId entityId, glm::vec2 position)
+    {
+        auto collider = GetCollider(entityId);
+        // get the node where the collider is
+        auto node = SearchNode(collider, m_Root, Divide::VERTICAL);
+        // update collider in ECS
+        m_ColliderSystem->SetColliderPosition(entityId, position);
+        // if the collider is in the same node, we just need to update the position of the collider in the node
+        if(node->id == collider.m_Node_Id)
+        {
+            // updates nodes colliders position
+            for(auto& c : node->colliders)
+            {
+                if(c.m_EntityId == entityId)
+                {
+                    c.position = position;
+                }
+            }
+            return;
+        }
+        // remove old collider from the previous node
+        Remove(collider);
+        // set collider new node id
+        m_ColliderSystem->SetColliderNodeId(entityId, node->id);
+        // fetch the updated collider
+        auto updatedCollider = GetCollider(entityId);
+        Insert(updatedCollider);
     }
 
     void CollisionSubSytem::Insert(BoxCollider collider)
     {
         auto node = SearchNode(collider, m_Root, Divide::VERTICAL);
+        collider.m_Node_Id = node->id;
         node->colliders.push_back(collider);
-    }
+        if(std::find(m_Nodes_With_Colliders.begin(), m_Nodes_With_Colliders.end(), node) != m_Nodes_With_Colliders.end())
+        {
+            return;
+        }
+        m_Nodes_With_Colliders.push_back(node);
+    }   
     
-    // void CollisionSubSytem::Remove(BoxCollider& collider)
-    // {
-    //     auto node = SearchNode(collider, m_Root,Divide::VERTICAL);
-    //     auto it = std::find(node->colliders.begin(), node->colliders.end(), &collider);
-    //     if(it != node->colliders.end())
-    //     {
-    //         node->colliders.erase(it);
-    //     }
-    // }
-
-    void CollisionSubSytem::Remove(BoxCollider& collider, Node* node)
+    Node* CollisionSubSytem::FindNodeById(std::string id, Node* node)
     {
-        // auto it = std::find(node->colliders.begin(), node->colliders.end(), &collider);
-        // if(it != node->colliders.end())
-        // {
-        //     node->colliders.erase(it);
-        // }
+        if(node == nullptr) return nullptr;
+        if(node->id == id)
+        {
+            return node;
+        }
+        auto left = FindNodeById(id, node->left);
+        if(left != nullptr)
+        {
+            return left;
+        }
+        auto right = FindNodeById(id, node->right);
+        if(right != nullptr)
+        {
+            return right;
+        }
+        return nullptr;
+    }
+
+    void CollisionSubSytem::Remove(BoxCollider& collider)
+    {
+        auto node = SearchNode(collider.m_Node_Id);
+        auto it = std::find_if(node->colliders.begin(), node->colliders.end(), [&collider](BoxCollider& c){
+            return c.m_EntityId == collider.m_EntityId;
+        });
+        if(it != node->colliders.end())
+        {
+            node->colliders.erase(it);
+        }
+        if(node->colliders.size() == 0)
+        {
+            auto it = std::find_if(m_Nodes_With_Colliders.begin(), m_Nodes_With_Colliders.end(), [&node](Node* n){
+                return n->id == node->id;
+            });
+            if(it != m_Nodes_With_Colliders.end())
+            {
+                m_Nodes_With_Colliders.erase(it);
+            }
+        }
     }
     
     std::vector<BoxCollider> CollisionSubSytem::GetColliders(BoxCollider& collider)
     {
-        // auto node = SearchNode(collider, m_Root, Divide::VERTICAL);
-        // return node->colliders;
         return std::vector<BoxCollider>();
     }
 }

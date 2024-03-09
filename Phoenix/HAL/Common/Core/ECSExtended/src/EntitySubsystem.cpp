@@ -21,10 +21,16 @@ namespace Phoenix
         m_EntityManager->Remove(entity.m_id);
     }
 
-    Ref<Entity> EntitySubsystem::GetEntity(std::string name)
+    Ref<Entity> EntitySubsystem::GetEntityByName(std::string name)
     {
         EntityId entityId  = m_EntityManager->GetEntity(name);
         return CreateRef<Entity>(Entity{ entityId, name });
+    }
+
+    Ref<Entity> EntitySubsystem::GetEntityById(EntityId id)
+    {
+        std::string name = m_EntityManager->GetEntityName(id);
+        return CreateRef<Entity>(Entity{ id, name });
     }
 
     std::vector<Ref<Entity>> EntitySubsystem::GetEntities()

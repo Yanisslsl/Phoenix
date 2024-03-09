@@ -17,37 +17,50 @@ public:
 		 square->AddComponent(Phoenix::SpriteComponent(Phoenix::Color::RED));
 		 square->AddComponent(Phoenix::TransformComponent{ glm::vec2(x, y), 0, glm::vec2(1, 1) });
 		 square->SetScale(20);
-		square->AddComponent(Phoenix::BoxCollider{ Phoenix::CollisionType::DYNAMIC, [](void* collider) -> void
+		square->AddComponent(Phoenix::BoxCollider{ Phoenix::CollisionType::DYNAMIC, [](Phoenix::Ref<Phoenix::Entity> entity) -> void
 		{
-			Phoenix::BoxCollider* c = static_cast<Phoenix::BoxCollider*>(collider);
-			PX_INFO("Collision detected{0}", c->position.x);
+			PX_INFO("Collision detected{0}", entity->GetName());
 		}, Phoenix::CollisionShape::RECTANGLE, 20, 20 });
 
 		auto square1 = app->GetSubSystem<Phoenix::EntitySubsystem>()->CreateEntity("square1");
 		square1->AddComponent(Phoenix::SpriteComponent(Phoenix::Color::BLUE));
-		square1->AddComponent(Phoenix::TransformComponent{ glm::vec2(x + 300, y), 0, glm::vec2(1, 1) });
+		square1->AddComponent(Phoenix::TransformComponent{ glm::vec2(300, y), 0, glm::vec2(1, 1) });
 		square1->SetScale(20);
-		// square1->AddComponent(Phoenix::BoxCollider{ Phoenix::CollisionType::STATIC, [](void* collider) -> void
-		// {
-		// 	Phoenix::BoxCollider* c = static_cast<Phoenix::BoxCollider*>(collider);
-		// 	PX_INFO("Collision detected{0}", c->position.x);
-		// }, Phoenix::CollisionShape::RECTANGLE, 20, 20 });
-		
-
-
+		square1->AddComponent(Phoenix::BoxCollider{ Phoenix::CollisionType::STATIC, [](Phoenix::Ref<Phoenix::Entity> entity) -> void
+		{
+			// PX_INFO("Collision detected{0}", collider.position.x);
+		}, Phoenix::CollisionShape::RECTANGLE, 20, 20 });
+	
+		//
+		// auto square2 = app->GetSubSystem<Phoenix::EntitySubsystem>()->CreateEntity("square2");
+		// square2->AddComponent(Phoenix::SpriteComponent(Phoenix::Color::BLUE));
+		// square2->AddComponent(Phoenix::TransformComponent{ glm::vec2(320, y), 0, glm::vec2(1, 1) });
+		// square2->SetScale(20);
 
 		
 	}
 
 	void OnUpdate() override
 	{
-		direction++;
+		auto square = Phoenix::Application::Get().GetSubSystem<Phoenix::EntitySubsystem>()->GetEntityByName("square");
+		auto sqaurePos = square->GetTransformPosition();
+		if(Phoenix::Input::IsKeyPressed(Phoenix::Key::Right))
+		{
+			square->SetTransformPosition(glm::vec2(sqaurePos.x + 1, sqaurePos.y));
+		} else if(Phoenix::Input::IsKeyPressed(Phoenix::Key::Left))
+		{
+			square->SetTransformPosition(glm::vec2(sqaurePos.x - 1, sqaurePos.y));
+		} else if(Phoenix::Input::IsKeyPressed(Phoenix::Key::Down))
+		{
+			square->SetTransformPosition(glm::vec2(sqaurePos.x, sqaurePos.y + 1));
+		} else if(Phoenix::Input::IsKeyPressed(Phoenix::Key::Up))
+		{
+			square->SetTransformPosition(glm::vec2(sqaurePos.x, sqaurePos.y - 1));
+		}
 		// x += velocity * direction;
 
-		auto square = Phoenix::Application::Get().GetSubSystem<Phoenix::EntitySubsystem>()->GetEntity("square");
 		// @TODO add sceneManagement subsystem
 		// Phoenix::Application::Get().GetSubSystem<Phoenix::SceneManagerSubSystem>()->GetActiveScene()->GetCameraController()->SetCameraPosition(glm::vec3(x - direction, y, 1));
-		square->SetTransformPosition(glm::vec2(x + direction, y));
 		m_Scene->OnUpdate();
 		
 	}

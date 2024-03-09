@@ -37,12 +37,29 @@ namespace Phoenix
         // ImGui::ShowDemoWindow(&show);
 
         ImGui::Render();
+        TriggerCameraMovement();
         ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
         UpdateCameraPosition();
     }
 
+    void EditorLayer::TriggerCameraMovement()
+    {
+        if(Input::IsKeyPressed(Key::M))
+        {
+            if(m_Trigger_Camera_Movement)
+            {
+                m_Trigger_Camera_Movement = false;
+            }
+            else
+            {
+                m_Trigger_Camera_Movement = true;
+            }
+        }
+    }
+
     void EditorLayer::UpdateCameraPosition()
     {
+        if(!m_Trigger_Camera_Movement) return;
         auto dt = Timer::GetDeltaTime();
         auto camera = Application::Get().GetSubSystem<SceneManagerSubSystem>()->GetActiveScene()->GetCameraController()->GetCamera();
         if(Input::IsKeyPressed(Key::A))

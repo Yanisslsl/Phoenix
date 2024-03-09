@@ -41,14 +41,10 @@ namespace Phoenix
     template <>
     void Entity::AddComponent<Phoenix::BoxCollider>(BoxCollider component)
     {
-        // m_owner->m_ColliderSystem->AddComponentTo(m_id);
-        // m_owner->m_ColliderSystem->SetColliderType(m_id, component.type);
-        // m_owner->m_ColliderSystem->SetColliderCoordinates(m_id, {component.position, component.width, component.height});
-        // m_owner->m_ColliderSystem->SetOnHitCallback(m_id, component.OnHit);
-        // component.position = GetTransformPosition();
+        auto position = GetTransformPosition();
+        component.position = position;
         Application::Get().GetSubSystem<CollisionSubSytem>()->AddCollider(m_id, component);
     }
-
 
     glm::vec2 Entity::GetTransformPosition() const
     {
@@ -59,7 +55,7 @@ namespace Phoenix
     {
         Application::Get().GetSubSystem<TransformSubsytem>()->SetTransformPosition(m_id, position);
         Renderer::UpdateModelMatrix(m_name, GetWorldModelMatrix());
-        // Application::Get().GetSubSystem<CollisionSubSytem>()->Update(GetCollider());
+        Application::Get().GetSubSystem<CollisionSubSytem>()->Update(m_id, position);
     }
 
     float Entity::GetRotation() const

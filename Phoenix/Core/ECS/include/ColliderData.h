@@ -2,12 +2,15 @@
 
 #pragma once
 #include <functional>
+#include <string>
 #include <glm/vec2.hpp>
 
 #include "ComponentsData.h"
+#include "Common/Core/ECSExtended/include/Entity.h"
 
 namespace Phoenix
 {
+    class BoxCollider;
     enum class CollisionType
     {
         STATIC,
@@ -20,12 +23,7 @@ namespace Phoenix
         RECTANGLE
     };
 
-    struct ColliderCoordinates
-    {
-        glm::vec2 position;
-        float width;
-        float height;
-    };
+
 
     class ColliderData: public ComponentsData
     {
@@ -33,10 +31,12 @@ namespace Phoenix
         ColliderData(size_t size);
         std::vector<CollisionType> m_types;
         // @TODO: change to std::vector<glm::vec2> m_positions; std::vector<float> m_widths; std::vector<float> m_heights;
-        std::vector<ColliderCoordinates> m_coordinates;
-        std::vector<EntityId> m_parents;
-        std::vector<std::function<void(void*)>> m_onHitCallbacks;
-        std::vector<std::vector<EntityId>> m_children;
+        std::vector<float> m_heights;
+        std::vector<float> m_widths;
+        std::vector<glm::vec2> m_positions;
+        std::vector<std::function<void(Ref<Entity>)>> m_onHitCallbacks;
         std::vector<CollisionShape> m_shapes;
+        std::vector<EntityId> m_entities;
+        std::vector<std::string> m_nodeIds;
     };
 }

@@ -19,15 +19,24 @@ namespace Phoenix
         void PrintEntityName(EntityId);
         EntityId Create(const std::string& name);
         EntityId GetEntity(const std::string& name);
+        std::string GetEntityName(EntityId id);
         std::vector<EntityId> GetEntities() const;
         std::vector<std::string> GetEntitiesName() const;
-        static EntityManager* Get() { return new EntityManager();};
+        static EntityManager* Get()
+        {
+            if(m_instance == nullptr)
+            {
+                m_instance = new EntityManager();
+            }
+            return m_instance;
+        }
         //The ComponentId for each entity ordered by ComponentSystemId
         std::vector<std::vector<ComponentId>> m_entitiesComponents; //So a ComponentSystem will access the componentId of an entity like this => EntityManager->m_entitiesComponents.at(EntityId).at(ComponentSystemId);
     protected:
         void AddComponent(EntityId Entity, ComponentSystemId ComponentSystem, ComponentId Component);
         
     private:
+        inline static EntityManager* m_instance = nullptr;
         std::vector<EntityId> m_entitiesId;
         std::vector<std::string> m_entitiesName;
       };

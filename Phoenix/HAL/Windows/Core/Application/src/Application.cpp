@@ -42,12 +42,15 @@ namespace Phoenix
 			for(Layer* layer : m_LayerStack.m_Overlays)
 				layer->OnUpdate();
 			m_Window->OnUpdate();
+			// @TODO: turn this into a layer
+			m_CollisionSubSystem->Update();
 		}
 	}
 
 	void Application::OnEvent(Event& e)
 	{
 		EventDispatcher dispatcher(e);
+		// @TODO: turn this into a layer
 		m_InputActionRegistratorSubsystem->OnEvent(e);
 		dispatcher.Dispatch<WindowCloseEvent>(PX_BIND_EVENT_FN(Application::OnWindowClose));
 		dispatcher.Dispatch<WindowResizeEvent>(PX_BIND_EVENT_FN(Application::OnWindowResize));

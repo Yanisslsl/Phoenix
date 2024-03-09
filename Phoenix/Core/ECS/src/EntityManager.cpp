@@ -83,6 +83,11 @@ namespace Phoenix
         PX_ERROR("Entity not found");
     }
 
+    std::string EntityManager::GetEntityName(EntityId id)
+    {
+        return m_entitiesName.at(id);
+    }
+
     std::vector<EntityId> EntityManager::GetEntities() const
     {
         return m_entitiesId;

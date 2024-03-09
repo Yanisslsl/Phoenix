@@ -21,6 +21,7 @@ namespace Phoenix
         void BlockEvents(bool block) { m_BlockEvents = block; }
         void SetDarkThemeColors();
         uint32_t GetActiveWidgetID() const;
+        void TriggerCameraMovement();
     private:
         void DrawEditor();
         void DrawSceneEditor();
@@ -34,6 +35,7 @@ namespace Phoenix
         bool OnKeyTypedEvent(KeyTypedEvent& e);
         bool OnWindowResizeEvent(WindowResizeEvent& e);
         bool m_BlockEvents = true;
+        bool m_Trigger_Camera_Movement = false;
         float m_Time = 0.0f;
     };
 }
