@@ -31,6 +31,8 @@ namespace Phoenix
             void SetOnHitCallback(EntityId entity, std::function<void(Ref<Entity>)> callback);
             void SetColliderEntity(EntityId entity, EntityId colliderEntity);
             void SetColliderNodeId(EntityId entity, std::string nodeId);
+            void SetColliderHitCalls(EntityId entity, int hitCalls);
+            int GetColliderHitCalls(EntityId entity);
             std::string GetColliderNodeId(EntityId entity);
             EntityId GetColliderEntity(EntityId entity);
             std::function<void(Ref<Entity>)> GetOnHitCallback(EntityId entity);

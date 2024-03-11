@@ -59,6 +59,18 @@ namespace Phoenix
         m_ColliderData->m_positions.at(colliderId) = position;
     }
 
+    void ColliderSystem::SetColliderHitCalls(EntityId entity, int hitCalls)
+    {
+        ComponentId colliderId = EntityManager::Get()->m_entitiesComponents.at(entity).at(m_Id);
+        m_ColliderData->m_hitCalls.at(colliderId) = hitCalls;
+    }
+
+    int ColliderSystem::GetColliderHitCalls(EntityId entity)
+    {
+        ComponentId colliderId = EntityManager::Get()->m_entitiesComponents.at(entity).at(m_Id);
+        return m_ColliderData->m_hitCalls.at(colliderId);
+    }
+
     void ColliderSystem::SetColliderWidth(EntityId entity, float width)
     {
         ComponentId colliderId = EntityManager::Get()->m_entitiesComponents.at(entity).at(m_Id);

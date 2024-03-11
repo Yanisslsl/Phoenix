@@ -116,6 +116,8 @@ namespace Phoenix
          */
         static void CreateTexturedShape(std::string name, std::vector<float> vertices, std::vector<uint32_t> indices, const char* vertexShader, const char* fragmentShader, const BufferLayout bufferlayout ,const char* texturePath, const glm::mat4 modelMat);
 
+
+        static void DeleteShape(std::string name);
         /**
          * \brief 
          * \return The rendered API, be cautious when using RendererAPI::API

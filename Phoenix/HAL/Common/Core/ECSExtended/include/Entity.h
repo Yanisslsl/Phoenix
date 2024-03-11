@@ -1,6 +1,7 @@
 ﻿// Entity.h
 
 #pragma once
+#include "Tag.h"
 #include "Common/Core/Graphics/Render/include/Renderer.h"
 #include "ECS/include/EntityComponent.h"
 #include "Common/Core/ECSExtended/include/TransformSubsytem.h"
@@ -20,8 +21,17 @@ namespace Phoenix
             m_parent = nullptr;
             m_children = std::vector<Ref<Entity>>();
         }
+        void BindUpdate(std::function<void()> updateFunction);
+        void Update();
+
+        
         glm::vec2 GetTransformPosition() const;
         void SetTransformPosition(glm::vec2 position);
+        void Destroy();
+
+        void AddTag(TagType tag);
+        void DeleteTag(TagType tag);
+        bool HasTag(TagType tag);
 
         glm::vec2 GetScale() const;
         void SetScale(glm::vec2 scale);
@@ -60,6 +70,12 @@ namespace Phoenix
 
         BoxCollider GetCollider() const;
 
+        /**
+         * \brief Bind a function to the entity update in client code
+         * \param updateFunction
+         */
+        void Update(std::function<void()> updateFunction);
+
         void UdpateChildsModelMatrix()
         {
             for (auto& child : m_children)
@@ -96,8 +112,11 @@ namespace Phoenix
             static_assert(sizeof(T) == 0, "Component not found");
         }
     public:
+        //@TODO: make encapsulation
         std::string m_name;
         EntityId m_id;
+        TagType m_Tag = 0;
+        std::function<void()> m_updateFunction;
     private:
         Entity* m_parent;
         std::vector<Ref<Entity>> m_children;

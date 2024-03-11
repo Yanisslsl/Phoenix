@@ -42,10 +42,16 @@ namespace Phoenix
     public:
         EntitySubsystem();
         Ref<Entity> CreateEntity(std::string name);
-        void DestroyEntity(Entity entity);
+        void DestroyEntity(EntityId id);
         Ref<Entity> GetEntityByName(std::string name);
+        void BindUpdate(EntityId entityId, std::function<void()> updateFunction);
+        void AddTag(EntityId entity, TagType tag);
+        void Update();
+        void DeleteTag(EntityId entity, TagType tag);
+        TagType GetTag(EntityId entity);
         Ref<Entity> GetEntityById(EntityId id);
         std::vector<Ref<Entity>> GetEntities();
+        std::vector<Ref<Entity>> GetEntitiesByTag(TagType tag);
     private:
         friend class Entity;
         EntityManager* m_EntityManager;

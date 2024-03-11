@@ -26,8 +26,8 @@ namespace Phoenix
     struct BoxCollider
     {
     public:
-        BoxCollider(CollisionType type, std::function<void(Ref<Entity>)> onHit, CollisionShape shape, float width, float height)
-        : type(type), OnHit(onHit), shape(shape), width(width), height(height)
+        BoxCollider(CollisionType type, std::function<void(Ref<Entity>)> onHit, CollisionShape shape, float width, float height, int maxHitCalls = 1)
+        : type(type), OnHit(onHit), shape(shape), width(width), height(height), maxHitCalls(maxHitCalls)
         {
             position = glm::vec2(0, 0);
         }
@@ -39,6 +39,8 @@ namespace Phoenix
         float height;
         std::string m_Node_Id;
         EntityId m_EntityId;
+        int maxHitCalls;
+        int hitCalls = 0;
 
         bool operator==(const BoxCollider& other) const
         {
@@ -121,6 +123,7 @@ namespace Phoenix
         // void Remove(BoxCollider& collider);
         void Remove(BoxCollider& collider);
         void AddCollider(EntityId entityId, BoxCollider collider);
+        bool HasCollider(EntityId entityId);
         BoxCollider GetCollider(EntityId entityId);
         void ChekCollision(Node* node);
         void Update();

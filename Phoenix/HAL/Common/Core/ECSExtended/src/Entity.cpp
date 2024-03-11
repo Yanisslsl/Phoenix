@@ -55,6 +55,7 @@ namespace Phoenix
     {
         Application::Get().GetSubSystem<TransformSubsytem>()->SetTransformPosition(m_id, position);
         Renderer::UpdateModelMatrix(m_name, GetWorldModelMatrix());
+        if(!Application::Get().GetSubSystem<CollisionSubSytem>()->HasCollider(m_id)) return;
         Application::Get().GetSubSystem<CollisionSubSytem>()->Update(m_id, position);
     }
 
@@ -77,6 +78,13 @@ namespace Phoenix
     {
         Application::Get().GetSubSystem<TransformSubsytem>()->SetTransformScale(m_id, scale);
         Renderer::UpdateModelMatrix(m_name, GetWorldModelMatrix());
+    }
+
+    void Entity::Destroy()
+    {
+        Application::Get().GetSubSystem<EntitySubsystem>()->DestroyEntity(m_id);
+        // @TODO: delete all registered components
+        Renderer::DeleteShape(m_name);
     }
 
     void Entity::SetScale(int scale)
@@ -121,5 +129,36 @@ namespace Phoenix
     BoxCollider Entity::GetCollider() const
     {
        return Application::Get().GetSubSystem<CollisionSubSytem>()->GetCollider(m_id);
+    }
+
+    void Entity::AddTag(TagType tag)
+    {
+        TagType entityTag =  Tags::AddTag(tag, m_Tag);
+        Application::Get().GetSubSystem<EntitySubsystem>()->AddTag(m_id, entityTag);
+    }
+
+    void Entity::DeleteTag(TagType tag)
+    {
+        TagType entityTag = Tags::RemoveTag(tag, m_Tag);
+        Application::Get().GetSubSystem<EntitySubsystem>()->DeleteTag(m_id, entityTag);
+    }
+
+    bool Entity::HasTag(TagType tag)
+    {
+        return Tags::HasTag(tag, m_Tag);
+    }
+
+    void Entity::BindUpdate(std::function<void()> updateFunction)
+    {
+        m_updateFunction = updateFunction;
+        Application::Get().GetSubSystem<EntitySubsystem>()->BindUpdate(m_id, updateFunction);
+    }
+
+    void Entity::Update()
+    {
+        if(m_updateFunction)
+        {
+            m_updateFunction();
+        }
     }
 }

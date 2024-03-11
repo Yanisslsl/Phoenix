@@ -38,5 +38,6 @@ namespace Phoenix
         std::vector<CollisionShape> m_shapes;
         std::vector<EntityId> m_entities;
         std::vector<std::string> m_nodeIds;
+        std::vector<int> m_hitCalls;
     };
 }

@@ -186,6 +186,11 @@ namespace Phoenix
                                                              }));
     }
 
+    void Renderer::DeleteShape(std::string name)
+    {
+        s_ShapeData.erase(name);
+    }
+
 
     Ref<Shader> Renderer::GetShader(std::string name)
     {
@@ -208,6 +213,7 @@ namespace Phoenix
 
     void Renderer::UpdateModelMatrix(std::string name, glm::mat4 modelMat)
     {
+        if(s_ShapeData.find(name) == s_ShapeData.end()) return;
         s_ShapeData.find(name)->second.modelMat = modelMat;
     }
 }

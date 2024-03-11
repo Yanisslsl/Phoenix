@@ -2,69 +2,62 @@
 #include "Phoenix.h"
 #include "Common/Core/Graphics/Render/include/Renderer.h"
 #include "Common/Core/Scene/include/Scene.h"
+#include "Entities/include/Isac.h"
+#include "Entities/include/Mob.h"
+#include "Utils/UUID.h"
 
-class ExampleLayer : public Phoenix::Layer
+class MainLayer : public Phoenix::Layer
 {
 public:
-	ExampleLayer(Phoenix::Application* app = nullptr)
-		: Layer("Example")
+	MainLayer(Phoenix::Application* app = nullptr)
+		: Layer("MainLayer")
 	{
-		m_Scene = Phoenix::Application::Get().GetSubSystem<Phoenix::SceneManagerSubSystem>()->LoadScene("Example");
-		x = 1280. / 10;
-		y = 720. - 100;
-		scale = 1;
-		 auto square = app->GetSubSystem<Phoenix::EntitySubsystem>()->CreateEntity("square");
-		 square->AddComponent(Phoenix::SpriteComponent(Phoenix::Color::RED));
-		 square->AddComponent(Phoenix::TransformComponent{ glm::vec2(x, y), 0, glm::vec2(1, 1) });
-		 square->SetScale(20);
-		square->AddComponent(Phoenix::BoxCollider{ Phoenix::CollisionType::DYNAMIC, [](Phoenix::Ref<Phoenix::Entity> entity) -> void
-		{
-			PX_INFO("Collision detected{0}", entity->GetName());
-		}, Phoenix::CollisionShape::RECTANGLE, 20, 20 });
+		Phoenix::Application::Get().GetSubSystem<Phoenix::SceneManagerSubSystem>()->LoadScene("MainLevel");
+		 new Isac();
+		new Mob(glm::vec2(500, 500));
 
-		auto square1 = app->GetSubSystem<Phoenix::EntitySubsystem>()->CreateEntity("square1");
-		square1->AddComponent(Phoenix::SpriteComponent(Phoenix::Color::BLUE));
-		square1->AddComponent(Phoenix::TransformComponent{ glm::vec2(300, y), 0, glm::vec2(1, 1) });
-		square1->SetScale(20);
-		square1->AddComponent(Phoenix::BoxCollider{ Phoenix::CollisionType::STATIC, [](Phoenix::Ref<Phoenix::Entity> entity) -> void
-		{
-			// PX_INFO("Collision detected{0}", collider.position.x);
-		}, Phoenix::CollisionShape::RECTANGLE, 20, 20 });
-	
+		// std::random_device rd; // obtain a random number from hardware
+		// std::mt19937 gen(rd()); // seed the generator
+		// std::uniform_int_distribution<> distr(50, 1200);
+		// std::uniform_int_distribution<> distr1(20, 600);
 		//
-		// auto square2 = app->GetSubSystem<Phoenix::EntitySubsystem>()->CreateEntity("square2");
-		// square2->AddComponent(Phoenix::SpriteComponent(Phoenix::Color::BLUE));
-		// square2->AddComponent(Phoenix::TransformComponent{ glm::vec2(320, y), 0, glm::vec2(1, 1) });
-		// square2->SetScale(20);
+		// for(int i = 0; i < 50; i++)
+		// {
+		// 	m_mob_positions.push_back(glm::vec2(distr(gen), distr1(gen)));
+		// }
+		// for(auto position: m_mob_positions)
+		// {
+		// 	m_mobs.push_back(new Mob(position));
+		// }
+	}
 
-		
+	void Benchmark()
+	{
+		// benchmarking max entities rendering performance now max is 200 without FPS drop
+		// need batch rendering or instancing
+		// for (int i = 0; i < 100; i++)
+		// {
+		// 	auto id = Phoenix::UUID::GenerateUUID();
+		// 	m_Ids.push_back(id);
+		// 	// xPos += 2;
+		// 	// yPos += 2;
+		// 	Phoenix::Ref<Phoenix::Entity> entity = Phoenix::Application::Get().GetSubSystem<Phoenix::EntitySubsystem>()->CreateEntity(id);
+		// 	entity->AddComponent(Phoenix::SpriteComponent(Phoenix::Color::RED));
+		// 	entity->AddComponent(Phoenix::TransformComponent{ glm::vec2(xPos, yPos), 180, glm::vec2(1, 1) });
+		// 	entity->SetScale(30);
+		// }
 	}
 
 	void OnUpdate() override
 	{
-		auto square = Phoenix::Application::Get().GetSubSystem<Phoenix::EntitySubsystem>()->GetEntityByName("square");
-		auto sqaurePos = square->GetTransformPosition();
-		if(Phoenix::Input::IsKeyPressed(Phoenix::Key::Right))
-		{
-			square->SetTransformPosition(glm::vec2(sqaurePos.x + 1, sqaurePos.y));
-		} else if(Phoenix::Input::IsKeyPressed(Phoenix::Key::Left))
-		{
-			square->SetTransformPosition(glm::vec2(sqaurePos.x - 1, sqaurePos.y));
-		} else if(Phoenix::Input::IsKeyPressed(Phoenix::Key::Down))
-		{
-			square->SetTransformPosition(glm::vec2(sqaurePos.x, sqaurePos.y + 1));
-		} else if(Phoenix::Input::IsKeyPressed(Phoenix::Key::Up))
-		{
-			square->SetTransformPosition(glm::vec2(sqaurePos.x, sqaurePos.y - 1));
-		}
-		// x += velocity * direction;
-
-		// @TODO add sceneManagement subsystem
-		// Phoenix::Application::Get().GetSubSystem<Phoenix::SceneManagerSubSystem>()->GetActiveScene()->GetCameraController()->SetCameraPosition(glm::vec3(x - direction, y, 1));
-		m_Scene->OnUpdate();
-		
+		// for(auto id: m_Ids)
+		// {
+		// 	auto entity = Phoenix::Application::Get().GetSubSystem<Phoenix::EntitySubsystem>()->GetEntityByName(id);
+		// 	auto position = entity->GetTransformPosition();
+		// 	entity->SetTransformPosition(glm::vec2(position.x + 1, position.y + 1));
+		// }
+		Phoenix::Application::Get().GetSubSystem<Phoenix::SceneManagerSubSystem>()->GetActiveScene()->OnUpdate();
 	}
-	
 	
 	void OnEvent(Phoenix::Event& event) override
 	{
@@ -73,29 +66,24 @@ public:
 	}
 	
 private:
-	Phoenix::Scene* m_Scene;
-	float x;
-	float y;
-	float scale;
-	float direction = 1;
+	Isac* m_player;
+	std::vector<Mob*> m_mobs;
+	std::vector<glm::vec2> m_mob_positions;
+	float xPos = 0;
+	float yPos = 0;
+	std::vector<std::string> m_Ids;
 };
 class GameApp : public Phoenix::Application
 {
 public:
 	GameApp()
 	{
-		PushLayer(new ExampleLayer(this));
-		this->GetWindow();
+		PushLayer(new MainLayer(this));
 	}
 
 	~GameApp()
 	{
 
-	}
-
-	void TestInputActionClbk()
-	{
-		PX_TRACE("Input action triggered");
 	}
 };
 

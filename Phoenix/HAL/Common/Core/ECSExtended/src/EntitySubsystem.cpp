@@ -16,9 +16,9 @@ namespace Phoenix
         return CreateRef<Entity>(Entity{ entityId,   name });
     }
 
-    void EntitySubsystem::DestroyEntity(Entity entity)
+    void EntitySubsystem::DestroyEntity(EntityId id)
     {
-        m_EntityManager->Remove(entity.m_id);
+        m_EntityManager->Remove(id);
     }
 
     Ref<Entity> EntitySubsystem::GetEntityByName(std::string name)
@@ -38,9 +38,63 @@ namespace Phoenix
         std::vector<Ref<Entity>> entities;
         for (auto& entityName : m_EntityManager->GetEntitiesName())
         {
-            auto entity = m_EntityManager->GetEntity(entityName);
-            entities.push_back(CreateRef<Entity>(Entity{ entity, entityName }));
+            EntityId entityId = m_EntityManager->GetEntity(entityName);
+            TagType tag = m_EntityManager->GetTag(entityId);
+            std::function<void()> updateBindedFunction = m_EntityManager->GetUpdateFunction(entityId);
+            Ref<Entity> entity = CreateRef<Entity>(Entity{ entityId, entityName });
+            entity->m_Tag = tag;
+            entity->m_updateFunction = updateBindedFunction;
+            entities.push_back(entity);
         }
         return entities;
+    }
+
+    std::vector<Ref<Entity>> EntitySubsystem::GetEntitiesByTag(TagType tag)
+    {
+        std::vector<Ref<Entity>> entities;
+        for (auto& entityName : m_EntityManager->GetEntitiesName())
+        {
+            EntityId entityId = m_EntityManager->GetEntity(entityName);
+            TagType entityTag = m_EntityManager->GetTag(entityId);
+            std::function<void()> updateBindedFunction = m_EntityManager->GetUpdateFunction(entityId);
+            if (Tags::HasTag(entityTag, tag))
+            {
+                Ref<Entity> entity = CreateRef<Entity>(Entity{ entityId, entityName });
+                entity->m_Tag = tag;
+                entity->m_updateFunction = updateBindedFunction;
+                entities.push_back(entity);
+            }
+        }
+        return entities;
+    }
+
+    void EntitySubsystem::BindUpdate(EntityId entityId, std::function<void()> updateFunction)
+    {
+        m_EntityManager->BindUpdate(entityId, updateFunction);
+    }
+
+
+    void EntitySubsystem::AddTag(EntityId entity, TagType tag)
+    {
+        m_EntityManager->AddTag(entity, tag);
+    }
+
+    void EntitySubsystem::DeleteTag(EntityId entity, TagType tag)
+    {
+        m_EntityManager->AddTag(entity, tag);
+    }
+
+    TagType EntitySubsystem::GetTag(EntityId entity)
+    {
+        return m_EntityManager->GetTag(entity);
+    }
+
+    void EntitySubsystem::Update()
+    {
+        std::vector<Ref<Entity>> entities = GetEntities();
+        for(auto& entity : entities)
+        {
+            entity->Update();
+        }
     }
 }

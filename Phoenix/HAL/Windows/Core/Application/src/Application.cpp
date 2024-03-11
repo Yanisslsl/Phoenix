@@ -44,6 +44,7 @@ namespace Phoenix
 			m_Window->OnUpdate();
 			// @TODO: turn this into a layer
 			m_CollisionSubSystem->Update();
+			m_EntityManagerSubsystem->Update();
 		}
 	}
 

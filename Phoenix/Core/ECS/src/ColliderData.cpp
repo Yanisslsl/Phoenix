@@ -12,5 +12,6 @@ namespace Phoenix
         m_onHitCallbacks.resize(size);
         m_entities.resize(size);
         m_nodeIds.resize(size);
+        m_hitCalls.resize(size);
     }
 }

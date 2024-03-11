@@ -40,15 +40,19 @@ namespace Phoenix
 
     void CollisionSubSytem::ChekCollision(Node* node)
     {
-        for(auto collider : node->colliders)
+        for(auto& collider : node->colliders)
         {
-            for(auto otherCollider: node->colliders)
+            for(auto& otherCollider: node->colliders)
             {
                 if(collider.m_EntityId == otherCollider.m_EntityId) continue;
                 if(collider.CollidesWith(otherCollider))
                 {
-                    Ref<Entity> entity = Application::Get().GetSubSystem<EntitySubsystem>()->GetEntityById(otherCollider.m_EntityId);
-                    collider.OnHit(entity);
+                    if(collider.hitCalls < 1)
+                    {
+                        Ref<Entity> entity = Application::Get().GetSubSystem<EntitySubsystem>()->GetEntityById(otherCollider.m_EntityId);
+                        collider.hitCalls++;
+                        collider.OnHit(entity);
+                    }
                 }
             }
         }
@@ -147,10 +151,18 @@ namespace Phoenix
         m_ColliderSystem->SetColliderPosition(entityId, collider.position);
         m_ColliderSystem->SetOnHitCallback(entityId, collider.OnHit);
         m_ColliderSystem->SetColliderEntity(entityId, entityId);
+        m_ColliderSystem->SetColliderHitCalls(entityId, 0);
         m_ColliderSystem->SetColliderNodeId(entityId, node->id);
         collider.m_EntityId = entityId;
         collider.m_Node_Id = node->id;
         Insert(collider);
+    }
+
+    bool CollisionSubSytem::HasCollider(EntityId entityId)
+    {
+        auto height = m_ColliderSystem->GetColliderHeight(entityId);
+        //@REFACTOR: this is not a good way to check if a collider has been added
+        return height != 0;
     }
 
     BoxCollider CollisionSubSytem::GetCollider(EntityId entityId)
@@ -162,10 +174,12 @@ namespace Phoenix
         auto width = m_ColliderSystem->GetColliderWidth(entityId);
         auto _entityId = m_ColliderSystem->GetColliderEntity(entityId);
         auto nodeId = m_ColliderSystem->GetColliderNodeId(entityId);
+        auto hitCalls = m_ColliderSystem->GetColliderHitCalls(entityId);
         auto collider = BoxCollider(colliderType, onHitCallback, CollisionShape::RECTANGLE, width, height);
         collider.m_EntityId = _entityId;
         collider.m_Node_Id = nodeId;
         collider.position = position;
+        collider.hitCalls = hitCalls;
         return collider;
     }
 
@@ -175,10 +189,9 @@ namespace Phoenix
         auto node = FindNodeById(id, m_Root);
         if(node == nullptr)
         {
-            PX_ERROR("Node found");
+            PX_ERROR("Node not found : {0}", node->id);
             return nullptr;
         }
-        PX_WARN("Node found{0}", node->id);
         return node;
     }
 

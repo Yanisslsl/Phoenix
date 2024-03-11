@@ -1,10 +1,12 @@
 #pragma once
+#include <functional>
 #include <map>
 #include <vector>
 #include <string>
 
 #include "EntityComponent.h"
 #include "../../../Core/Core.h"
+#include "Common/Core/ECSExtended/include/Tag.h"
 
 class ComponentSystem;
 
@@ -22,6 +24,10 @@ namespace Phoenix
         std::string GetEntityName(EntityId id);
         std::vector<EntityId> GetEntities() const;
         std::vector<std::string> GetEntitiesName() const;
+        void BindUpdate(EntityId entityId, std::function<void()> updateFunction);
+        std::function<void()> GetUpdateFunction(EntityId entityId);
+        void AddTag(EntityId entity, TagType tag);
+        TagType GetTag(EntityId entity);
         static EntityManager* Get()
         {
             if(m_instance == nullptr)
@@ -39,5 +45,7 @@ namespace Phoenix
         inline static EntityManager* m_instance = nullptr;
         std::vector<EntityId> m_entitiesId;
         std::vector<std::string> m_entitiesName;
+        std::vector<TagType> m_entitiesTags;
+        std::vector<std::function<void()>> m_updateFunctions;
       };
 }
