@@ -8,9 +8,9 @@
 
 Mob::Mob(glm::vec2 position)
 {
-    m_id = Phoenix::UUID::GenerateUUID();
+    m_id = "MOB";
     Phoenix::Ref<Phoenix::Entity> entity = Phoenix::Application::Get().GetSubSystem<Phoenix::EntitySubsystem>()->CreateEntity(m_id);
-    entity->AddComponent(Phoenix::SpriteComponent("Mob.png"));
+    entity->AddComponent(Phoenix::SpriteComponent("characters/mobs/mob_idle.png"));
     entity->AddComponent(Phoenix::TransformComponent{ position, 180, glm::vec2(1, 1) });
     entity->AddComponent(Phoenix::BoxCollider{ Phoenix::CollisionType::STATIC, PX_BIND_EVENT_FN(OnHit), Phoenix::CollisionShape::RECTANGLE, 50, 50 });
     entity->SetScale(30);

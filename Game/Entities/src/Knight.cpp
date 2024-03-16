@@ -1,22 +1,22 @@
-﻿#include "../include/Isac.h"
+﻿#include "..\include\Knight.h"
 
 #include "Common/Core/ECSExtended/include/Entity.h"
 #include "Common/Core/Input/include/Input.h"
 #include "Windows/Core/Application/include/Application.h"
 
 
-Isac::Isac()
+Knight::Knight()
 {
     m_Bullets = std::vector<Bullet*>();
-    Phoenix::Ref<Phoenix::Entity> entity = Phoenix::Application::Get().GetSubSystem<Phoenix::EntitySubsystem>()->CreateEntity("Isac");
-    entity->AddComponent(Phoenix::SpriteComponent("Isac.png"));
+    Phoenix::Ref<Phoenix::Entity> entity = Phoenix::Application::Get().GetSubSystem<Phoenix::EntitySubsystem>()->CreateEntity("Knight");
+    entity->AddComponent(Phoenix::SpriteComponent("characters/player/player_idle.png"));
     entity->AddComponent(Phoenix::TransformComponent{ glm::vec2(400, 400), 180, glm::vec2(1, 1) });
     entity->SetScale(30);
     entity->AddComponent(Phoenix::BoxCollider{ Phoenix::CollisionType::DYNAMIC, PX_BIND_EVENT_FN(OnHit), Phoenix::CollisionShape::RECTANGLE, 20, 20 });
     entity->BindUpdate(PX_BIND_EVENT_FN(Update));
 }
 
-void Isac::GetFireInput()
+void Knight::GetFireInput()
 {
     if(Phoenix::Input::IsKeyPressed(Phoenix::Key::Space))
     {
@@ -29,7 +29,7 @@ void Isac::GetFireInput()
 }
 
 
-void Isac::GetMovementInput()
+void Knight::GetMovementInput()
 {
     m_X_Direction = 0;
     m_Y_Direction = 0;
@@ -51,14 +51,14 @@ void Isac::GetMovementInput()
     }
 }
 
-void Isac::UpdateInput()
+void Knight::UpdateInput()
 {
     GetMovementInput();
     GetFireInput();
 }
 
 
-void Isac::Update()
+void Knight::Update()
 {
     UpdateInput();
     std::vector<Phoenix::Ref<Phoenix::Entity>> bullets = Phoenix::Application::Get().GetSubSystem<Phoenix::EntitySubsystem>()->GetEntitiesByTag(Phoenix::Tag::Bullet);
@@ -66,20 +66,20 @@ void Isac::Update()
     {
         bullet->Update();
     }
-    auto entity = Phoenix::Application::Get().GetSubSystem<Phoenix::EntitySubsystem>()->GetEntityByName("Isac");
+    auto entity = Phoenix::Application::Get().GetSubSystem<Phoenix::EntitySubsystem>()->GetEntityByName("Knight");
     auto sqaurePos = entity->GetTransformPosition();
     entity->SetTransformPosition(glm::vec2(sqaurePos.x + m_X_Direction * m_Speed, sqaurePos.y + m_Y_Direction * m_Speed));
 }
 
-void Isac::OnHit(Phoenix::Ref<Phoenix::Entity> entity)
+void Knight::OnHit(Phoenix::Ref<Phoenix::Entity> entity)
 {
     PX_INFO("Collision detected{0}", entity->GetName());
 }
 
 
-void Isac::Fire()
+void Knight::Fire()
 {
-    auto entity = Phoenix::Application::Get().GetSubSystem<Phoenix::EntitySubsystem>()->GetEntityByName("Isac");
+    auto entity = Phoenix::Application::Get().GetSubSystem<Phoenix::EntitySubsystem>()->GetEntityByName("Knight");
     auto sqaurePos = entity->GetTransformPosition();
     Bullet* bullet = new Bullet(sqaurePos, glm::vec2(m_X_Direction, m_Y_Direction));
 }

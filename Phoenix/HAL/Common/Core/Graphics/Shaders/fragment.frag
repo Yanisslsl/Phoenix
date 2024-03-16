@@ -11,7 +11,10 @@ void main()
     if(vColor != vec3(0.0, 0.0, 0.0)){
         FragColor = vec4(vColor, 1.0f);
     } else {
-        FragColor = texture(ourTexture, vTexCoord);
+        vec4 texColor = texture(ourTexture, vTexCoord);
+        if(texColor.a < 0.1)
+            discard;
+        FragColor = texColor;
     }
     
 }

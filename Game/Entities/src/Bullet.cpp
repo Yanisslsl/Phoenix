@@ -12,7 +12,7 @@ Bullet::Bullet(glm::vec2 position, glm::vec2 direction)
     m_Direction = direction;
     m_id = Phoenix::UUID::GenerateUUID();
     self = Phoenix::Application::Get().GetSubSystem<Phoenix::EntitySubsystem>()->CreateEntity(m_id);
-    self->AddComponent(Phoenix::SpriteComponent("bullet.png"));
+    self->AddComponent(Phoenix::SpriteComponent("ressources/bullet.png"));
     self->AddComponent(Phoenix::TransformComponent{ position, 180, glm::vec2(1, 1) });
     self->SetScale(10);
     self->AddComponent(Phoenix::BoxCollider{ Phoenix::CollisionType::DYNAMIC, PX_BIND_EVENT_FN(OnHit), Phoenix::CollisionShape::RECTANGLE, 20, 20 });
@@ -37,7 +37,7 @@ void Bullet::Update()
 void Bullet::OnHit(Phoenix::Ref<Phoenix::Entity> entity)
 {
     //@TODO: implements tags for entities
-    if(entity->m_name == "Isac") return;
+    if(entity->m_name == "Knight") return;
     PX_WARN("BULLET HIT");
     delete this;
 }

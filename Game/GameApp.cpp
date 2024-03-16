@@ -2,8 +2,9 @@
 #include "Phoenix.h"
 #include "Common/Core/Graphics/Render/include/Renderer.h"
 #include "Common/Core/Scene/include/Scene.h"
-#include "Entities/include/Isac.h"
+#include "Entities\include\Knight.h"
 #include "Entities/include/Mob.h"
+#include "Entities/include/Room.h"
 #include "Utils/UUID.h"
 
 class MainLayer : public Phoenix::Layer
@@ -13,8 +14,7 @@ public:
 		: Layer("MainLayer")
 	{
 		Phoenix::Application::Get().GetSubSystem<Phoenix::SceneManagerSubSystem>()->LoadScene("MainLevel");
-		 new Isac();
-		new Mob(glm::vec2(500, 500));
+		InitLevel();
 
 		// std::random_device rd; // obtain a random number from hardware
 		// std::mt19937 gen(rd()); // seed the generator
@@ -48,6 +48,15 @@ public:
 		// }
 	}
 
+	void InitLevel()
+	{
+		auto width = Phoenix::Application::Get().GetWindow()->GetWidth();
+		auto height = Phoenix::Application::Get().GetWindow()->GetHeight();
+		new Mob(glm::vec2(500, 500));
+		new Knight();
+		new Room(glm::vec2(width/2, height/2), glm::vec2(width, height));
+	}
+
 	void OnUpdate() override
 	{
 		// for(auto id: m_Ids)
@@ -66,7 +75,7 @@ public:
 	}
 	
 private:
-	Isac* m_player;
+	Knight* m_player;
 	std::vector<Mob*> m_mobs;
 	std::vector<glm::vec2> m_mob_positions;
 	float xPos = 0;

@@ -74,6 +74,8 @@ namespace Phoenix
         static void BeginScene();
         static void EndScene();
 
+        static void UpdateOrder(std::string& name);
+
         /**
          * \brief  Bind the shader and vertex array and draw the indexed vertex array
          * \param shader 
@@ -158,6 +160,8 @@ namespace Phoenix
             glm::mat4 ViewProjectionMatrix;
         };
         static Scope<SceneData> s_SceneData;
+
+        static std::map<uint32_t, std::string> s_Order_Shape;
      
         /**
          * \brief Internal renderer data for shapes, used to keep track of the shapes and their data
