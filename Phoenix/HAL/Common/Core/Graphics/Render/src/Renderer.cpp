@@ -11,7 +11,6 @@ namespace Phoenix
     Scope<Renderer::SceneData> Renderer::s_SceneData = CreateScope<Renderer::SceneData>();
     Scope<RendererAPI> Renderer::s_RendererAPI = RendererAPI::Create();
     std::map<std::string, ShapeData> Renderer::s_ShapeData = std::map<std::string, ShapeData>();
-	std::map<uint32_t, std::string> Renderer::s_Order_Shape = std::map<uint32_t, std::string>();
 
     void Renderer::Init()
     {
@@ -58,14 +57,7 @@ namespace Phoenix
     void Renderer::EndScene()
     {
     }
-
-	void Renderer::UpdateOrder(std::string& name)
-    {
-        auto i = s_Order_Shape.size() + 1;
-        s_Order_Shape.insert(std::pair<uint32_t, std::string>(i, name));
-        auto t = s_Order_Shape;
-    }
-
+    
     // @TODO create base type maths type that encapsulates glm types
     void Renderer::Submit(const Ref<Shader>& shader, const Ref<VertexArray>& vertexArray, Ref<Texture> texture, ColorType color,
                           const glm::mat4 modelMat)
@@ -100,7 +92,6 @@ namespace Phoenix
         vertexArray->SetIndexBuffer(indexBuffer);
         Ref<Shader> shader = s_RendererAPI->CreateShader(name, vertexShader, fragmentShader);
         shader->Bind();
-        UpdateOrder(name);
         s_ShapeData.insert(std::pair<std::string, ShapeData>(name, {
                                                                  vertexBuffer, indexBuffer, vertexArray, shader,
                                                                  bufferlayout, modelMat
@@ -122,7 +113,6 @@ namespace Phoenix
         Ref<Shader> shader = s_RendererAPI->CreateShader(name, vertexShader, fragmentShader);
         shader->Bind();
         shader->SetInt("u_Texture", 0);
-        UpdateOrder(name);
         s_ShapeData.insert(std::pair<std::string, ShapeData>(name, {
                                                                  vertexBuffer, indexBuffer, vertexArray, shader,
                                                                  bufferlayout, modelMat, texture
@@ -157,7 +147,6 @@ namespace Phoenix
         Ref<Shader> shader = s_RendererAPI->CreateShader(name);
         shader->Bind();
         shader->SetInt("u_Texture", 0);
-        UpdateOrder(name);
         s_ShapeData.insert(std::pair<std::string, ShapeData>(name, {
                                                                  vertexBuffer, indexBuffer, vertexArray, shader,
                                                                  layout, modelMat, texture 
@@ -191,7 +180,6 @@ namespace Phoenix
         Ref<Shader> shader = s_RendererAPI->CreateShader(name);
         shader->Bind();
         shader->SetInt("u_Texture", 0);
-        UpdateOrder(name);
         s_ShapeData.insert(std::pair<std::string, ShapeData>(name, {
                                                                  vertexBuffer, indexBuffer, vertexArray, shader,
                                                                  layout, modelMat, nullptr, color
@@ -200,18 +188,6 @@ namespace Phoenix
 
     void Renderer::DeleteShape(std::string name)
     {
-        int shapeToDelete = 0;
-        for(auto& orderShape: s_Order_Shape)
-        {
-            if(orderShape.second == name)
-            {
-                shapeToDelete = orderShape.first;
-            }
-        }
-        if(shapeToDelete)
-        {
-            s_Order_Shape.erase(shapeToDelete);
-        }
         s_ShapeData.erase(name);
     }
 
@@ -229,13 +205,9 @@ namespace Phoenix
 
     void Renderer::OnUpdate()
     {
-        auto u = s_Order_Shape;
-        auto  s = s_ShapeData;
-        for(int i = s_Order_Shape.begin()->first; i <= std::prev(s_Order_Shape.end())->first; i++)
+        for(auto& shape : s_ShapeData)
         {
-            if(s_Order_Shape.find(i) == s_Order_Shape.end()) continue;
-            auto shape = s_ShapeData.find(s_Order_Shape.find(i)->second);
-            Submit(shape->second.shader, shape->second.vertexArray, shape->second.texture, shape->second.color, shape->second.modelMat);
+            Submit(shape.second.shader, shape.second.vertexArray, shape.second.texture, shape.second.color, shape.second.modelMat);
         }
     }   
 

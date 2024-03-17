@@ -20,6 +20,7 @@ namespace Phoenix
         void Update() override;
 
         void AddComponentTo(EntityId entity);
+        virtual void DeleteComponentFrom(EntityId entity);
         virtual void InitComponents() = 0;
         virtual void StartComponents() = 0;
         virtual void UpdateComponents() = 0;

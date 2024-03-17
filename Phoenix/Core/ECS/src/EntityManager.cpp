@@ -18,8 +18,10 @@ namespace Phoenix
         m_updateFunctions.resize(size);
         for (std::vector<ComponentId>& c : m_entitiesComponents)
         {
+            //@TODO: might be too restrictive, client should be able to add components without the need to edit the engine
+            //@TODO: add method that allow to resize the vector when creating new ComponentSystem
             //Replace 3 by the number of ComponentSystem in the Engine
-            c.resize(3);
+            c.resize(5);
         }
     }
 
@@ -85,11 +87,6 @@ namespace Phoenix
     void EntityManager::PrintEntityName(EntityId entity)
     {
         std::cout<<m_entitiesName.at(entity)<<std::endl;
-    }
-
-    void EntityManager::AddComponent(EntityId Entity, ComponentSystemId ComponentSystem, ComponentId Component)
-    {
-        m_entitiesComponents.at(Entity).at(ComponentSystem) = Component;
     }
 
     // retrieve entity and components

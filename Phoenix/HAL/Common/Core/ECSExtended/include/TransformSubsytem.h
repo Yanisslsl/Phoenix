@@ -8,7 +8,7 @@ namespace Phoenix
 {
     struct TransformComponent
     {
-        glm::vec2 position;
+        glm::vec3 position;
         float rotation;
         glm::vec2 scale;
     };
@@ -19,10 +19,11 @@ namespace Phoenix
         TransformSubsytem();
         ~TransformSubsytem();
         void AddTransformComponent(EntityId id, TransformComponent component);
-        void SetTransformPosition(EntityId id, glm::vec2 position);
+        void DeleteTransformComponent(EntityId id);
+        void SetTransformPosition(EntityId id, glm::vec3 position);
         void SetTransformRotation(EntityId id, float rotation);
         void SetTransformScale(EntityId id, glm::vec2 scale);
-        glm::vec2 GetTransformPosition(EntityId id);
+        glm::vec3 GetTransformPosition(EntityId id);
         float GetTransformRotation(EntityId id);
         glm::vec2 GetTransformScale(EntityId id);
     private:

@@ -21,7 +21,12 @@ namespace Phoenix
         m_TransformSystem->SetEntityScale(id, component.scale);
     }
 
-    void TransformSubsytem::SetTransformPosition(EntityId id, glm::vec2 position)
+    void TransformSubsytem::DeleteTransformComponent(EntityId id)
+    {
+        m_TransformSystem->DeleteComponentFrom(id);
+    }
+
+    void TransformSubsytem::SetTransformPosition(EntityId id, glm::vec3 position)
     {
         m_TransformSystem->SetEntityPostion(id, position);
     }
@@ -36,7 +41,7 @@ namespace Phoenix
         m_TransformSystem->SetEntityScale(id, scale);
     }
 
-    glm::vec2 TransformSubsytem::GetTransformPosition(EntityId id)
+    glm::vec3 TransformSubsytem::GetTransformPosition(EntityId id)
     {
         return m_TransformSystem->GetEntityPosition(id);
     }

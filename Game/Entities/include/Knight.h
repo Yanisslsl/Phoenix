@@ -20,5 +20,6 @@ private:
     float m_Y_Direction = 0;
     float m_Speed = 3.0f;
     int m_count = 0;
+    int m_BulletCount = 0;
     std::vector<Bullet*> m_Bullets;
 };

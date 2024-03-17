@@ -22,6 +22,8 @@ namespace Phoenix
             virtual void Init() override;
             virtual void Start() override;
             virtual void Update() override;
+
+            virtual void DeleteComponentFrom(EntityId entity) override;
     
             CollisionType GetColliderType(EntityId entity);
             void SetColliderType(EntityId entity, CollisionType type);

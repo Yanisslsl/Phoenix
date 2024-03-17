@@ -123,6 +123,7 @@ namespace Phoenix
         // void Remove(BoxCollider& collider);
         void Remove(BoxCollider& collider);
         void AddCollider(EntityId entityId, BoxCollider collider);
+        void DeleteCollider(EntityId entityId);
         bool HasCollider(EntityId entityId);
         BoxCollider GetCollider(EntityId entityId);
         void ChekCollision(Node* node);

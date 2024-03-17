@@ -38,9 +38,6 @@ namespace Phoenix
         }
         //The ComponentId for each entity ordered by ComponentSystemId
         std::vector<std::vector<ComponentId>> m_entitiesComponents; //So a ComponentSystem will access the componentId of an entity like this => EntityManager->m_entitiesComponents.at(EntityId).at(ComponentSystemId);
-    protected:
-        void AddComponent(EntityId Entity, ComponentSystemId ComponentSystem, ComponentId Component);
-        
     private:
         inline static EntityManager* m_instance = nullptr;
         std::vector<EntityId> m_entitiesId;

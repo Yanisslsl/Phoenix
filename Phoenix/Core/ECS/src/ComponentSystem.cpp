@@ -20,7 +20,8 @@ namespace Phoenix
     
     void ComponentSystem::AddComponentTo(EntityId entity)
     {
-        // Ajouter à l'entityManager le componentId pour l'entité 
+        // Ajouter à l'entityManager le componentId pour l'entité
+        // find the first item that is not consecutive
          const auto it = std::adjacent_find(begin(m_ComponentsId), end(m_ComponentsId),
          [](ComponentId lhs, ComponentId rhs){ return (lhs+1 != rhs); });
          if (it == end(m_ComponentsId))
@@ -30,9 +31,16 @@ namespace Phoenix
          }
          else
          {
+             // if item is not consecutive, insert the new componentId at the position of the first item that is not consecutive
              const auto result = m_ComponentsId.insert(it+1, (*it)+1);
              EntityManager::Get()->m_entitiesComponents.at(entity).at(m_Id) = m_ComponentsId.at(*result);
          }
+    }
+
+    void ComponentSystem::DeleteComponentFrom(EntityId entity)
+    {
+        //@TODO: Refacto might be a order problem when deleting component and adding a new one, and maybe find other way to unset the componentId
+        EntityManager::Get()->m_entitiesComponents.at(entity).at(m_Id) = -1;
     }
 }
 

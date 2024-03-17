@@ -46,12 +46,12 @@ namespace Phoenix
         Application::Get().GetSubSystem<CollisionSubSytem>()->AddCollider(m_id, component);
     }
 
-    glm::vec2 Entity::GetTransformPosition() const
+    glm::vec3 Entity::GetTransformPosition() const
     {
         return Application::Get().GetSubSystem<TransformSubsytem>()->GetTransformPosition(m_id);
     }
 
-    void Entity::SetTransformPosition(glm::vec2 position)
+    void Entity::SetTransformPosition(glm::vec3 position)
     {
         Application::Get().GetSubSystem<TransformSubsytem>()->SetTransformPosition(m_id, position);
         Renderer::UpdateModelMatrix(m_name, GetWorldModelMatrix());
@@ -83,7 +83,8 @@ namespace Phoenix
     void Entity::Destroy()
     {
         Application::Get().GetSubSystem<EntitySubsystem>()->DestroyEntity(m_id);
-        // @TODO: delete all registered components
+        Application::Get().GetSubSystem<TransformSubsytem>()->DeleteTransformComponent(m_id);
+        Application::Get().GetSubSystem<CollisionSubSytem>()->DeleteCollider(m_id);
         Renderer::DeleteShape(m_name);
     }
 
@@ -121,9 +122,9 @@ namespace Phoenix
         const auto transform = Application::Get().GetSubSystem<TransformSubsytem>()->GetTransformPosition(m_id);
         if(m_parent)
         {
-            return m_parent->GetTranslationMatrix() * translate(glm::mat4(1.0f), glm::vec3(transform.x, transform.y, 1.0f));
+            return m_parent->GetTranslationMatrix() * translate(glm::mat4(1.0f), glm::vec3(transform.x, transform.y, transform.z));
         }
-        return translate(glm::mat4(1.0f), glm::vec3(transform.x, transform.y, 1.0f));
+        return translate(glm::mat4(1.0f), glm::vec3(transform.x, transform.y, transform.z));
     }
 
     BoxCollider Entity::GetCollider() const

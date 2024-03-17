@@ -9,7 +9,7 @@
 class Bullet
 {
 public:
-    Bullet(glm::vec2 position, glm::vec2 direction);
+    Bullet(std::string id, glm::vec2 position, glm::vec2 direction);
     ~Bullet();
     void Update();
     void OnHit(Phoenix::Ref<Phoenix::Entity> entity);

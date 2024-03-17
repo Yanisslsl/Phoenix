@@ -14,9 +14,10 @@ namespace Phoenix
     class PHOENIX_API Entity
     {
     public:
-        Entity(EntityId id, std::string name)
+        Entity(EntityId id, std::string name, TagType tag = 0)
         : m_id(id)
         , m_name(name)
+        , m_Tag(tag)
         {
             m_parent = nullptr;
             m_children = std::vector<Ref<Entity>>();
@@ -25,8 +26,8 @@ namespace Phoenix
         void Update();
 
         
-        glm::vec2 GetTransformPosition() const;
-        void SetTransformPosition(glm::vec2 position);
+        glm::vec3 GetTransformPosition() const;
+        void SetTransformPosition(glm::vec3 position);
         void Destroy();
 
         void AddTag(TagType tag);

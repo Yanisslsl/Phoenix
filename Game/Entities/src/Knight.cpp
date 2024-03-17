@@ -10,10 +10,11 @@ Knight::Knight()
     m_Bullets = std::vector<Bullet*>();
     Phoenix::Ref<Phoenix::Entity> entity = Phoenix::Application::Get().GetSubSystem<Phoenix::EntitySubsystem>()->CreateEntity("Knight");
     entity->AddComponent(Phoenix::SpriteComponent("characters/player/player_idle.png"));
-    entity->AddComponent(Phoenix::TransformComponent{ glm::vec2(400, 400), 180, glm::vec2(1, 1) });
+    entity->AddComponent(Phoenix::TransformComponent{ glm::vec3(400, 400, 1.), 180, glm::vec2(1, 1) });
     entity->SetScale(30);
     entity->AddComponent(Phoenix::BoxCollider{ Phoenix::CollisionType::DYNAMIC, PX_BIND_EVENT_FN(OnHit), Phoenix::CollisionShape::RECTANGLE, 20, 20 });
     entity->BindUpdate(PX_BIND_EVENT_FN(Update));
+    entity->AddTag(Phoenix::Tag::Player);
 }
 
 void Knight::GetFireInput()
@@ -61,14 +62,9 @@ void Knight::UpdateInput()
 void Knight::Update()
 {
     UpdateInput();
-    std::vector<Phoenix::Ref<Phoenix::Entity>> bullets = Phoenix::Application::Get().GetSubSystem<Phoenix::EntitySubsystem>()->GetEntitiesByTag(Phoenix::Tag::Bullet);
-    for(auto bullet: m_Bullets)
-    {
-        bullet->Update();
-    }
     auto entity = Phoenix::Application::Get().GetSubSystem<Phoenix::EntitySubsystem>()->GetEntityByName("Knight");
     auto sqaurePos = entity->GetTransformPosition();
-    entity->SetTransformPosition(glm::vec2(sqaurePos.x + m_X_Direction * m_Speed, sqaurePos.y + m_Y_Direction * m_Speed));
+    entity->SetTransformPosition(glm::vec3(sqaurePos.x + m_X_Direction * m_Speed, sqaurePos.y + m_Y_Direction * m_Speed, 1.));
 }
 
 void Knight::OnHit(Phoenix::Ref<Phoenix::Entity> entity)
@@ -81,5 +77,6 @@ void Knight::Fire()
 {
     auto entity = Phoenix::Application::Get().GetSubSystem<Phoenix::EntitySubsystem>()->GetEntityByName("Knight");
     auto sqaurePos = entity->GetTransformPosition();
-    Bullet* bullet = new Bullet(sqaurePos, glm::vec2(m_X_Direction, m_Y_Direction));
+    auto bulletId = "Bullet - " + std::to_string(++m_BulletCount);
+    Bullet* bullet = new Bullet(bulletId, sqaurePos, glm::vec2(m_X_Direction, m_Y_Direction));
 }

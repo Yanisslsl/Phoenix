@@ -24,13 +24,15 @@ namespace Phoenix
     Ref<Entity> EntitySubsystem::GetEntityByName(std::string name)
     {
         EntityId entityId  = m_EntityManager->GetEntity(name);
-        return CreateRef<Entity>(Entity{ entityId, name });
+        TagType tag = m_EntityManager->GetTag(entityId);
+        return CreateRef<Entity>(Entity{ entityId, name, tag });
     }
 
     Ref<Entity> EntitySubsystem::GetEntityById(EntityId id)
     {
         std::string name = m_EntityManager->GetEntityName(id);
-        return CreateRef<Entity>(Entity{ id, name });
+        TagType tag = m_EntityManager->GetTag(id);
+        return CreateRef<Entity>(Entity{ id, name, tag });
     }
 
     std::vector<Ref<Entity>> EntitySubsystem::GetEntities()

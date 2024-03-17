@@ -10,7 +10,7 @@
 
 namespace Phoenix
 {
-    class PHOENIX_API TransformSystem final : public Phoenix::ComponentSystem
+    class PHOENIX_API TransformSystem final : public ComponentSystem
     {
     public:
         void InitComponents() override;
@@ -19,6 +19,7 @@ namespace Phoenix
         
         TransformSystem(ComponentSystemId id, size_t dataSize);
         ~TransformSystem() override;
+        void DeleteComponentFrom(EntityId entity) override;
         
         virtual void Init() override;
         virtual void Start() override;
@@ -26,8 +27,8 @@ namespace Phoenix
 
         TransformsData* m_TransformsData;
 
-        glm::vec2 GetEntityPosition(EntityId entity);
-        void SetEntityPostion(EntityId entity, glm::vec2 position);
+        glm::vec3 GetEntityPosition(EntityId entity);
+        void SetEntityPostion(EntityId entity, glm::vec3 position);
         void PrintEntityPosition(EntityId entity);
 
         void SetEntityRotation(EntityId entity, float rotation);

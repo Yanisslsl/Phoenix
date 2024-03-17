@@ -47,7 +47,9 @@ namespace Phoenix
                 if(collider.m_EntityId == otherCollider.m_EntityId) continue;
                 if(collider.CollidesWith(otherCollider))
                 {
-                    if(collider.hitCalls < 1)
+                    // hitCalls defined the number of times the onHit callback will be called
+                    // disable this may be a performance bottleneck
+                    if(collider.hitCalls < 10)
                     {
                         Ref<Entity> entity = Application::Get().GetSubSystem<EntitySubsystem>()->GetEntityById(otherCollider.m_EntityId);
                         collider.hitCalls++;
@@ -131,14 +133,12 @@ namespace Phoenix
             } 
             
             return SearchNode(collider, node->right, newDivide);
-        } else
+        } 
+        if(colliderPosition.y > node->right->topLeftPosition.y)
         {
-            if(colliderPosition.y > node->right->topLeftPosition.y)
-            {
-                return SearchNode(collider, node->right, newDivide);
-            } 
-            return SearchNode(collider, node->left, newDivide);
-        }
+            return SearchNode(collider, node->right, newDivide);
+        } 
+        return SearchNode(collider, node->left, newDivide);
     }
 
     void CollisionSubSytem::AddCollider(EntityId entityId, BoxCollider collider)
@@ -156,6 +156,13 @@ namespace Phoenix
         collider.m_EntityId = entityId;
         collider.m_Node_Id = node->id;
         Insert(collider);
+    }
+
+    void CollisionSubSytem::DeleteCollider(EntityId entityId)
+    {
+        auto collider = GetCollider(entityId);
+        Remove(collider);
+        m_ColliderSystem->DeleteComponentFrom(entityId);
     }
 
     bool CollisionSubSytem::HasCollider(EntityId entityId)
