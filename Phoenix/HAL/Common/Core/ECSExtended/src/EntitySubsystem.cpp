@@ -7,7 +7,12 @@ namespace Phoenix
     {
         m_EntityManager = new EntityManager();
         m_TransformSystem = new TransformSystem(0, 1000);
-        // m_ColliderSystem = new ColliderSystem(1, 1000);
+    }
+
+    EntitySubsystem::~EntitySubsystem()
+    {
+        delete m_EntityManager;
+        delete m_TransformSystem;
     }
     
     Ref<Entity> EntitySubsystem::CreateEntity(std::string name)
@@ -30,6 +35,7 @@ namespace Phoenix
 
     Ref<Entity> EntitySubsystem::GetEntityById(EntityId id)
     {
+        //@TODO: ADD CATCHING ERROR
         std::string name = m_EntityManager->GetEntityName(id);
         TagType tag = m_EntityManager->GetTag(id);
         return CreateRef<Entity>(Entity{ id, name, tag });

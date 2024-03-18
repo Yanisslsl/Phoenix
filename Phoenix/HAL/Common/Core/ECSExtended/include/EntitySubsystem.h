@@ -41,6 +41,7 @@ namespace Phoenix
     {
     public:
         EntitySubsystem();
+        ~EntitySubsystem();
         Ref<Entity> CreateEntity(std::string name);
         void DestroyEntity(EntityId id);
         Ref<Entity> GetEntityByName(std::string name);

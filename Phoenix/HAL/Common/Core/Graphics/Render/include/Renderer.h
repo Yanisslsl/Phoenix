@@ -14,8 +14,34 @@
 namespace Phoenix
 {
 
+    struct TextureData
+    {
+       std::vector<Ref<Texture2D>> textures;
+       bool isEnable;
+       int currentTextureIndex;
+    };
+
     struct ShapeData
     {
+       ShapeData(Ref<VertexBuffer> vertexBuffer, Ref<IndexBuffer> indexBuffer, Ref<VertexArray> vertexArray, Ref<Shader> shader, BufferLayout bufferlayout, glm::mat4 modelMat)
+           : vertexBuffer(vertexBuffer), indexBuffer(indexBuffer), vertexArray(vertexArray), shader(shader), bufferlayout(bufferlayout), modelMat(modelMat)
+       {
+         texturesDatas = std::map<std::string, TextureData>();
+          currentTextureData = TextureData();
+       }
+        void EnableTextureData(std::string name)
+        {
+           for(auto& textureData : texturesDatas)
+           {
+               if(textureData.first == name)
+               {
+                 textureData.second.isEnable = true;
+                 currentTextureData = textureData.second;
+               }
+               textureData.second.isEnable = false;
+               textureData.second.currentTextureIndex = 0;
+           }
+        }
         Ref<VertexBuffer> vertexBuffer;
         Ref<IndexBuffer> indexBuffer;
         Ref<VertexArray> vertexArray;
@@ -23,6 +49,10 @@ namespace Phoenix
         BufferLayout bufferlayout;
         glm::mat4 modelMat;
         Ref<Texture2D> texture;
+        //  === Animation ===
+        std::map<std::string, TextureData> texturesDatas;
+        TextureData currentTextureData;
+        //  === Animation ===
         ColorType color;
     };
     class PHOENIX_API Renderer
@@ -82,7 +112,7 @@ namespace Phoenix
          * \param texture
          * \param transform 
          */
-        static void Submit(const Ref<Shader>& shader, const Ref<VertexArray>& vertexArray, Ref<Texture> texture, ColorType color, glm::mat4 modelMat);
+        static void Submit(const Ref<Shader>& shader, const Ref<VertexArray>& vertexArray, Ref<Texture> texture, ColorType color, glm::mat4 modelMat, TextureData textureData);
 
 
         /**
@@ -117,6 +147,13 @@ namespace Phoenix
          */
         static void CreateTexturedShape(std::string name, std::vector<float> vertices, std::vector<uint32_t> indices, const char* vertexShader, const char* fragmentShader, const BufferLayout bufferlayout ,const char* texturePath, const glm::mat4 modelMat);
 
+        static void SetTexturesPaths(std::string shapeName, std::string name, std::vector<std::string> texturesPaths);
+
+
+
+        static void SetTextureIndex(std::string shapeName, int textureIndex);
+
+        static void EnableShapeTexture(std::string shapeName, std::string name);
 
         static void DeleteShape(std::string name);
         /**
@@ -152,6 +189,7 @@ namespace Phoenix
          * \param modelMat 
          */
         static void UpdateModelMatrix(std::string name, glm::mat4 modelMat);
+
 
     private:
         struct SceneData

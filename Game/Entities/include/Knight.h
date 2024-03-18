@@ -6,13 +6,23 @@
 #include "Bullet.h"
 class Knight
 {
+    enum class State
+    {
+        IDLE,
+        RUN_RIGHT,
+        RUN_LEFT,
+        FIRE_RIGHT,
+        FIRE_LEFT,
+    };
 public:
     Knight();
     ~Knight();
     void UpdateInput();
     void GetMovementInput();
     void GetFireInput();
+    void Move();
     void Update();
+    void PlayAnimation();
     void OnHit(Phoenix::Ref<Phoenix::Entity> entity);
     void Fire();
 private:
@@ -22,4 +32,6 @@ private:
     int m_count = 0;
     int m_BulletCount = 0;
     std::vector<Bullet*> m_Bullets;
+    State m_State = State::IDLE;
+    bool m_isStateDirty = false;
 };

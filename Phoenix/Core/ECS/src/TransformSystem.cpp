@@ -87,7 +87,7 @@ namespace Phoenix
 
     void TransformSystem::SetEntityPostion(EntityId entity, glm::vec3 position)
     {
-        ComponentId transformId = EntityManager::Get()->m_entitiesComponents.at(entity).at(m_Id);
+         ComponentId transformId = EntityManager::Get()->m_entitiesComponents.at(entity).at(m_Id);
         m_TransformsData->m_positions.Get(transformId) = position;
     }
 

@@ -155,6 +155,16 @@ namespace Phoenix
         Application::Get().GetSubSystem<EntitySubsystem>()->BindUpdate(m_id, updateFunction);
     }
 
+    void Entity::Play(std::string animationName, std::function<void()> onAnimationEnd)
+    {
+        Application::Get().GetSubSystem<AnimationSubsystem>()->PlayAnimation(m_id, animationName, onAnimationEnd);
+    }
+
+    void Entity::CreateAnimation(std::string name, std::vector<std::string> paths, float duration, int totalFrames)
+    {
+        Application::Get().GetSubSystem<AnimationSubsystem>()->CreateAnimation(m_id, name, totalFrames, duration, paths);
+    }
+
     void Entity::Update()
     {
         if(m_updateFunction)

@@ -44,7 +44,7 @@ namespace Phoenix
         {
             float deltaTime =  std::chrono::duration_cast<std::chrono::nanoseconds>(std::chrono::high_resolution_clock::now() - m_DeltaTime).count() * 0.001f * 0.001f * 0.001f;
             m_DeltaTime  = std::chrono::high_resolution_clock::now();
-            return deltaTime * 1000;
+            return deltaTime;
         }
 
     private:

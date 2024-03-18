@@ -15,6 +15,15 @@ Knight::Knight()
     entity->AddComponent(Phoenix::BoxCollider{ Phoenix::CollisionType::DYNAMIC, PX_BIND_EVENT_FN(OnHit), Phoenix::CollisionShape::RECTANGLE, 20, 20 });
     entity->BindUpdate(PX_BIND_EVENT_FN(Update));
     entity->AddTag(Phoenix::Tag::Player);
+    std::vector<std::string> runAnimationsRightTextures = { "characters/player/animation_run/right/player_run_1.png", "characters/player/animation_run/right/player_run_2.png", "characters/player/animation_run/right/player_run_3.png", "characters/player/animation_run/right/player_run_4.png" };
+    std::vector<std::string> runAnimationsLeftTextures = { "characters/player/animation_run/left/player_run_1.png", "characters/player/animation_run/left/player_run_2.png", "characters/player/animation_run/left/player_run_3.png", "characters/player/animation_run/left/player_run_4.png" };
+    entity->CreateAnimation("RunRight", runAnimationsRightTextures, .3, 4);
+    entity->CreateAnimation("RunLeft", runAnimationsLeftTextures, .3, 4);
+    
+    std::vector<std::string> fireAnimationsRightTextures = { "characters/player/animation_fire/right/player_fire_1.png", "characters/player/animation_fire/right/player_fire_2.png", "characters/player/animation_fire/right/player_fire_3.png", "characters/player/animation_fire/right/player_fire_4.png" };
+    std::vector<std::string> fireAnimationsLeftTextures = { "characters/player/animation_fire/left/player_fire_1.png", "characters/player/animation_fire/left/player_fire_2.png", "characters/player/animation_fire/left/player_fire_3.png", "characters/player/animation_fire/left/player_fire_4.png" };
+    entity->CreateAnimation("FireRight", fireAnimationsRightTextures, .05, 4);
+    entity->CreateAnimation("FireLeft", fireAnimationsLeftTextures, .05, 4);
 }
 
 void Knight::GetFireInput()
@@ -58,13 +67,61 @@ void Knight::UpdateInput()
     GetFireInput();
 }
 
+void Knight::PlayAnimation()
+{
+    if(!m_isStateDirty) return;
+    auto entity = Phoenix::Application::Get().GetSubSystem<Phoenix::EntitySubsystem>()->GetEntityByName("Knight");
+    if(m_State == State::RUN_RIGHT)
+    {
+        entity->Play("RunRight");
+    }
+    else if (m_State == State::RUN_LEFT)
+    {
+        entity->Play("RunLeft");
+    }
+    // else if (m_State == State::FIRE_RIGHT)
+    // {
+    //     PX_WARN("FIRE RIGHT");
+    //     entity->Play("FireRight", [&](){
+    //         // m_State = State::RUN_RIGHT;
+    //         // m_isStateDirty = true;
+    //     });
+    // }
+    // else if (m_State == State::FIRE_LEFT)
+    // {
+    //     PX_WARN("FIRE LEFT");
+    //     entity->Play("FireLeft", [&](){
+    //         // m_State = State::RUN_LEFT;
+    //         // m_isStateDirty = true;
+    //     });
+    // }
+    m_isStateDirty = false;
+}
+
 
 void Knight::Update()
 {
     UpdateInput();
+    PlayAnimation();
+    Move();
+}
+
+void Knight::Move()
+{
+    if(m_X_Direction == 0 && m_Y_Direction == 0) return;
     auto entity = Phoenix::Application::Get().GetSubSystem<Phoenix::EntitySubsystem>()->GetEntityByName("Knight");
     auto sqaurePos = entity->GetTransformPosition();
     entity->SetTransformPosition(glm::vec3(sqaurePos.x + m_X_Direction * m_Speed, sqaurePos.y + m_Y_Direction * m_Speed, 1.));
+    if(m_State == State::FIRE_RIGHT || m_State == State::FIRE_RIGHT) return;
+    if(m_X_Direction == -1 && m_State != State::RUN_RIGHT)
+    {
+        m_State = State::RUN_RIGHT;
+        m_isStateDirty = true;
+    } else if(m_X_Direction == 1 && m_State != State::RUN_LEFT)
+    {
+        m_State = State::RUN_LEFT;
+        m_isStateDirty = true;
+    }
 }
 
 void Knight::OnHit(Phoenix::Ref<Phoenix::Entity> entity)
@@ -79,4 +136,18 @@ void Knight::Fire()
     auto sqaurePos = entity->GetTransformPosition();
     auto bulletId = "Bullet - " + std::to_string(++m_BulletCount);
     Bullet* bullet = new Bullet(bulletId, sqaurePos, glm::vec2(m_X_Direction, m_Y_Direction));
+    if(m_State == State::RUN_RIGHT)
+    {
+        entity->Play("FireRight", [&](){
+         m_State = State::RUN_RIGHT;
+         m_isStateDirty = true;
+     });
+    }
+    else if(m_State == State::RUN_LEFT)
+    {
+        entity->Play("FireLeft", [&](){
+         m_State = State::RUN_LEFT;
+         m_isStateDirty = true;
+     });
+    }
 }
