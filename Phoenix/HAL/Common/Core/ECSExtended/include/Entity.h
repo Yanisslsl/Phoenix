@@ -71,6 +71,9 @@ namespace Phoenix
 
         BoxCollider GetCollider() const;
 
+        void Play(std::string animationName, std::function<void()> onAnimationEnd = nullptr);
+        void CreateAnimation(std::string name, std::vector<std::string> paths, float duration, int totalFrames);
+
         /**
          * \brief Bind a function to the entity update in client code
          * \param updateFunction
@@ -99,13 +102,13 @@ namespace Phoenix
         void AddComponent(T component);
 
         template <>
-        void AddComponent<Phoenix::TransformComponent>(TransformComponent component);
+        void AddComponent<TransformComponent>(TransformComponent component);
 
         template <>
-        void AddComponent<Phoenix::SpriteComponent>(SpriteComponent component);
+        void AddComponent<SpriteComponent>(SpriteComponent component);
 
         template <>
-        void AddComponent<Phoenix::BoxCollider>(BoxCollider component);
+        void AddComponent<BoxCollider>(BoxCollider component);
         
         template <typename T>
         void OnComponentUpdated(T component)

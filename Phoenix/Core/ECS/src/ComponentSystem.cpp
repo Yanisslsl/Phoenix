@@ -20,6 +20,9 @@ namespace Phoenix
     
     void ComponentSystem::AddComponentTo(EntityId entity)
     {
+        // auto lastComponentId = EntityManager::Get()->m_entitiesComponents.at(entity).back();
+        // EntityManager::Get()->m_entitiesComponents.at(entity).at(m_Id) = m_Id;
+     
         // Ajouter à l'entityManager le componentId pour l'entité
         // find the first item that is not consecutive
          const auto it = std::adjacent_find(begin(m_ComponentsId), end(m_ComponentsId),

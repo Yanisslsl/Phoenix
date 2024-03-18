@@ -63,6 +63,7 @@ public:
 	{
 		auto width = Phoenix::Application::Get().GetWindow()->GetWidth();
 		auto height = Phoenix::Application::Get().GetWindow()->GetHeight();
+		// @TODO: FIX MEMORY LEAK
 		new Room(glm::vec2(width/2, height/2), glm::vec2(width, height));
 		new Knight();
 	}

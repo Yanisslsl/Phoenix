@@ -4,6 +4,7 @@
 #include "Common/Core/Window/include/Window.h"
 #include "../../../../../Core/Layers/LayerStack/include/LayerStack.h"
 #include "../../../../../Core/Events/WindowEvent.h"
+#include "Common/Core/Animation/include/AnimationSubsystem.h"
 #include "Common/Core/Input/include/InputActionRegistratorSubSystem.h"
 #include "Common/Core/Physics/include/CollisionSubSytem.h"
 #include "Common/Core/Scene/include/Scene.h"
@@ -110,6 +111,12 @@ namespace Phoenix
 		{
 			return m_TransformSubSystem;
 		}
+
+		template <>
+		AnimationSubsystem* GetSubSystem<AnimationSubsystem>()
+		{
+			return m_AnimationSubsystem;
+		}
 		
 	private:
 		// unqique ptr => une seule instance // si je veux passer cette instance il faut la move ce qui change l'ownership // ce qui veut dire que je ne peux pas la copier
@@ -124,6 +131,7 @@ namespace Phoenix
 		SceneManagerSubSystem* m_SceneManagerSubSystem;
 		CollisionSubSytem* m_CollisionSubSystem;
 		TransformSubsytem* m_TransformSubSystem;
+		AnimationSubsystem* m_AnimationSubsystem;
 	};
 
 	// To be defined in CLIENT

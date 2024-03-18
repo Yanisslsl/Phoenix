@@ -41,6 +41,7 @@ namespace Phoenix
             glm::vec2 GetColliderPosition(EntityId entity);
             float GetColliderWidth(EntityId entity);
             float GetColliderHeight(EntityId entity);
+        private: 
             ColliderData* m_ColliderData;
         };
     }

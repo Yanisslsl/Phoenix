@@ -27,6 +27,7 @@ namespace Phoenix
     CollisionSubSytem::~CollisionSubSytem()
     {
         delete m_Root;
+        delete m_ColliderSystem;
     }
 
     void CollisionSubSytem::Update()
@@ -47,6 +48,7 @@ namespace Phoenix
                 if(collider.m_EntityId == otherCollider.m_EntityId) continue;
                 if(collider.CollidesWith(otherCollider))
                 {
+                    //@TODO: ERROR WHEN TOO MANY COLLIDES
                     // hitCalls defined the number of times the onHit callback will be called
                     // disable this may be a performance bottleneck
                     if(collider.hitCalls < 1)
@@ -58,7 +60,10 @@ namespace Phoenix
                             continue;
                         }
                         collider.hitCalls++;
-                        collider.OnHit(entity);
+                        if(collider.OnHit != nullptr)
+                        {
+                            collider.OnHit(entity);
+                        }
                     }
                 }
             }

@@ -23,6 +23,7 @@ namespace Phoenix
 		m_SceneManagerSubSystem = new SceneManagerSubSystem();
 		m_CollisionSubSystem = new CollisionSubSytem();
 		m_TransformSubSystem = new TransformSubsytem();
+		m_AnimationSubsystem = new AnimationSubsystem();
 		Renderer::Init();
 #ifdef PX_DEBUG
 		m_Editor_Layer = new EditorLayer();
@@ -30,7 +31,15 @@ namespace Phoenix
 #endif
 	}
 	
-	Application::~Application()	{	}
+	Application::~Application()
+	{
+		delete m_InputActionRegistratorSubsystem;
+		delete m_EntityManagerSubsystem;
+		delete m_SceneManagerSubSystem;
+		delete m_CollisionSubSystem;
+		delete m_TransformSubSystem;
+		delete m_AnimationSubsystem;
+	}
 	void Application::Run()
 	{
 		while (m_Running)
@@ -45,6 +54,7 @@ namespace Phoenix
 			// @TODO: turn this into a layer
 			m_CollisionSubSystem->Update();
 			m_EntityManagerSubsystem->Update();
+			m_AnimationSubsystem->Update();
 		}
 	}
 
