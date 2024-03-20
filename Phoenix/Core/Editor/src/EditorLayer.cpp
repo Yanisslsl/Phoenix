@@ -34,7 +34,7 @@ namespace Phoenix
         
         static bool show = true;
         DrawEditor();
-        // ImGui::ShowDemoWindow(&show);
+        ImGui::ShowDemoWindow(&show);
 
         ImGui::Render();
         TriggerCameraMovement();

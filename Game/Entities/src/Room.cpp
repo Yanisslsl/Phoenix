@@ -1,5 +1,6 @@
 ﻿#include "../include/Room.h"
 
+#include "Common/Core/ECSExtended/include/TransformSubsytem.h"
 #include "Utils/UUID.h"
 #include "Windows/Core/Application/include/Application.h"
 

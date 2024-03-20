@@ -23,9 +23,10 @@ namespace Phoenix
         float height;
     };
 
-    struct BoxCollider
+    struct BoxCollider: public IComponent
     {
     public:
+        BoxCollider() = default;
         BoxCollider(CollisionType type, std::function<void(Ref<Entity>)> onHit, CollisionShape shape, float width, float height, int maxHitCalls = 1)
         : type(type), OnHit(onHit), shape(shape), width(width), height(height), maxHitCalls(maxHitCalls)
         {
@@ -68,6 +69,15 @@ namespace Phoenix
             default:
                 PX_CORE_ASSERT(false, "Collision shape not supported");
             }
+        }
+
+        virtual void Serialize(BlobSerializer& serializer) override
+        {
+            
+        }
+        virtual void Deserialize(BlobSerializer& serializer) override
+        {
+            
         }
     };
 

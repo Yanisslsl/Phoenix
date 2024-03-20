@@ -1,8 +1,5 @@
 #pragma once
 #include <string>
-#include <glm/detail/type_vec2.hpp>
-
-#include "Common/Core/Graphics/Render/include/Renderer.h"
 #include "ECS/include/ColliderSystem.h"
 #include "ECS/include/EntityManager.h"
 #include "ECS/include/TransformSystem.h"
@@ -18,10 +15,11 @@ namespace Phoenix
     struct EntitySubsystem;
 
 
-    struct SpriteComponent
+    struct SpriteComponent:  public IComponent
     {
         std::string textureFilePath;
         ColorCode colorCode;
+        SpriteComponent() = default;
         SpriteComponent(std::string texturePath)
         {
             textureFilePath = texturePath;
@@ -29,6 +27,14 @@ namespace Phoenix
         SpriteComponent(ColorCode color)
         {
             colorCode = color;
+        }
+        virtual void Serialize(BlobSerializer& serializer) override
+        {
+            
+        }
+        virtual void Deserialize(BlobSerializer& serializer) override
+        {
+            
         }
     };
     

@@ -2,6 +2,7 @@
 #include "Phoenix.h"
 #include "Common/Core/Graphics/Render/include/Renderer.h"
 #include "Common/Core/Scene/include/Scene.h"
+// #include "Common/Core/Serialization/include/BlobSerializer.h"
 #include "Entities\include\Knight.h"
 #include "Entities/include/Mob.h"
 #include "Entities/include/Room.h"
@@ -13,22 +14,15 @@ public:
 	MainLayer(Phoenix::Application* app = nullptr)
 		: Layer("MainLayer")
 	{
+		Phoenix::Application::Get().GetSubSystem<Phoenix::SceneManagerSubSystem>()->CreateScene("MainLevel");
+		Phoenix::Application::Get().GetSubSystem<Phoenix::SceneManagerSubSystem>()->SaveScene("MainLevel");
 		Phoenix::Application::Get().GetSubSystem<Phoenix::SceneManagerSubSystem>()->LoadScene("MainLevel");
-		InitLevel();
 
-		// std::random_device rd; // obtain a random number from hardware
-		// std::mt19937 gen(rd()); // seed the generator
-		// std::uniform_int_distribution<> distr(50, 1200);
-		// std::uniform_int_distribution<> distr1(20, 600);
-		//
-		// for(int i = 0; i < 50; i++)
-		// {
-		// 	m_mob_positions.push_back(glm::vec2(distr(gen), distr1(gen)));
-		// }
-		// for(auto position: m_mob_positions)
-		// {
-		// 	m_mobs.push_back(new Mob(position));
-		// }
+		// Phoenix::Ref<Phoenix::Entity> entity = Phoenix::Application::Get().GetSubSystem<Phoenix::EntitySubsystem>()->CreateEntity("Knight");
+		// auto serializer = Phoenix::BlobSerializer();
+		// entity->Serialize(serializer);
+		// Phoenix::Ref<Phoenix::Entity> entity1 = Phoenix::Application::Get().GetSubSystem<Phoenix::EntitySubsystem>()->CreateEntity("Knight");
+		// entity1->Deserialize(serializer);
 	}
 
 	void Benchmark()

@@ -3,14 +3,30 @@
 #pragma once
 #include "ECS/include/TransformSystem.h"
 #include "Core.h"
+#include "Entity.h"
+#include "Common/Core/Serialization/include/BlobSerializer.h"
 
 namespace Phoenix
 {
-    struct TransformComponent
+    class PHOENIX_API TransformComponent: public IComponent
     {
+    public:
+        TransformComponent() = default;
+        TransformComponent(glm::vec3 position, float rotation, glm::vec2 scale):
+        position(position), rotation(rotation), scale(scale)
+        {
+        }
         glm::vec3 position;
         float rotation;
         glm::vec2 scale;
+        virtual void Serialize(BlobSerializer& serializer) override
+        {
+            
+        }
+        virtual void Deserialize(BlobSerializer& serializer) override
+        {
+            
+        }
     };
     
     class PHOENIX_API TransformSubsytem
