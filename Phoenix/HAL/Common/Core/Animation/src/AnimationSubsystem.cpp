@@ -29,7 +29,7 @@ namespace Phoenix
         std::map<std::string, int> totalFrames = m_AnimationSystem->GetAnimationsTotalFrames(entity);
         std::map<std::string, std::vector<std::string>> texturesPaths = m_AnimationSystem->GetAnimationsTexturesPaths(entity);
         auto currentAnimation = m_AnimationSystem->GetCurrentAnimationName(entity);
-        AnimatorComponent animator = {currentAnimation, names, durations, currentTimes, currentFrames, totalFrames, texturesPaths};
+        AnimatorComponent animator = AnimatorComponent(currentAnimation, names, durations, currentTimes, currentFrames, totalFrames, texturesPaths);
         return animator;
     }
 

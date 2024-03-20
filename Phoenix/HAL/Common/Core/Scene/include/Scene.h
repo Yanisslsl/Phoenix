@@ -1,14 +1,9 @@
 // Scene.h
 
 #pragma once
-
-#include <map>
-#include <vector>
-#include <any>
 #include "OrthographicCameraController.h"
 #include "../../../../../Core/Core.h"
-#include "Common/Core/Graphics/DataObjects/include/Buffer.h"
-#include "Common/Core/Graphics/Render/include/Renderer.h"
+#include "Common/Core/Serialization/include/SerializerSubsystem.h"
 
 
 namespace Phoenix
@@ -17,9 +12,10 @@ namespace Phoenix
      * \brief Scene class, should contain all the entities and systems
      *        Only suited for 2D games for now with the OrthographicCameraController
      */
-    class PHOENIX_API Scene
+    class PHOENIX_API Scene: public ISerializable
     {
     public:
+         Scene() = default;
         /**
          * \brief 
          * \param cameraController Should be instanciate with the window size
@@ -48,6 +44,9 @@ namespace Phoenix
          bool IsRunning() const { return m_IsRunning; }
          bool IsPaused() const { return m_IsPaused; }
          void SetPaused(bool paused) { m_IsPaused = paused; }
+
+         virtual void Serialize(BlobSerializer& serializer) override;
+         virtual void Deserialize(BlobSerializer& serializer) override;
      OrthographicCameraController* GetCameraController()
          {
           return m_CameraController;

@@ -19,8 +19,9 @@ namespace Phoenix
             m_activeScene = nullptr;
             m_Scenes_map = std::map<std::string, Scene*>();
         }
-        Scene* LoadScene(std::string name)
+        Scene* CreateScene(std::string name)
         {
+            // Set as static for now
             auto cameraController = new OrthographicCameraController(0.0f, 1280, 720 , 1.0f, false);
             auto scene = new Scene(name, cameraController);
             m_Scenes_map.insert(std::pair<std::string, Scene*>(name, scene));
@@ -30,13 +31,32 @@ namespace Phoenix
             }
             return scene;
         }
-        void UnloadScene(std::string& name)
+        void DeleteScene(std::string& name)
         {
             if(m_activeScene->GetName() == name)
             {
                 PX_CORE_ASSERT(false, "You can't unload the active scene");
             }
             m_Scenes_map.erase(name);
+        }
+
+        void LoadScene(std::string name)
+        {
+            // auto filePath = Phoenix::FileSystem::GetAssetsPath() + "\\save\\" + "save.txt";
+            // auto serializer = Phoenix::BlobSerializer(filePath);
+            // auto header = serializer.ReadHeader();
+            // if(header.type != SceneSerializeType)
+            // {
+            //     PX_CORE_ASSERT(false, "This is not a scene file");
+            // }
+        }
+
+        void SaveScene(std::string name)
+        {
+            auto filePath = Phoenix::FileSystem::GetAssetsPath() + "\\save\\" + "save.txt";
+            auto serializer = Phoenix::BlobSerializer(filePath);
+            m_activeScene->Serialize(serializer);
+            serializer.Flush();
         }
 
         Scene* GetActiveScene()

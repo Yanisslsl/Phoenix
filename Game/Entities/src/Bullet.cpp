@@ -2,6 +2,7 @@
 
 #include "Base/Base.h"
 #include "Common/Core/ECSExtended/include/Entity.h"
+#include "Common/Core/ECSExtended/include/TransformSubsytem.h"
 #include "Common/Core/Input/include/Input.h"
 #include "Utils/UUID.h"
 #include "Windows/Core/Application/include/Application.h"

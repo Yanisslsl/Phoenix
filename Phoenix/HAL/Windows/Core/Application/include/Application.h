@@ -14,8 +14,8 @@
 
 namespace Phoenix
 {
-	// @TODO : find why we need to forward declare WindowResizeEvent and WindowCloseEvent
 	class Layer;
+	class TransformSubsytem;
 
 	class PHOENIX_API Application
 	{
@@ -87,37 +87,36 @@ namespace Phoenix
 			static_assert(sizeof(T) == 0, "Subsytem not found");
 		}
 
-	
 		template <>
-		InputActionRegistratorSubSystem* GetSubSystem<InputActionRegistratorSubSystem>()
+		InputActionRegistratorSubSystem* Application::GetSubSystem<InputActionRegistratorSubSystem>()
 		{
 			return m_InputActionRegistratorSubsystem;
 		}
 
 		template <>
-		SceneManagerSubSystem* GetSubSystem<SceneManagerSubSystem>()
+		SceneManagerSubSystem* Application::GetSubSystem<SceneManagerSubSystem>()
 		{
 			return m_SceneManagerSubSystem;
 		}
 
 		template <>
-		CollisionSubSytem* GetSubSystem<CollisionSubSytem>()
+		CollisionSubSytem* Application::GetSubSystem<CollisionSubSytem>()
 		{
 			return m_CollisionSubSystem;
 		}
 
 		template <>
-		TransformSubsytem* GetSubSystem<TransformSubsytem>()
+		TransformSubsytem* Application::GetSubSystem<TransformSubsytem>()
 		{
 			return m_TransformSubSystem;
 		}
 
 		template <>
-		AnimationSubsystem* GetSubSystem<AnimationSubsystem>()
+		AnimationSubsystem* Application::GetSubSystem<AnimationSubsystem>()
 		{
 			return m_AnimationSubsystem;
 		}
-		
+
 	private:
 		// unqique ptr => une seule instance // si je veux passer cette instance il faut la move ce qui change l'ownership // ce qui veut dire que je ne peux pas la copier
 		// c'est juste un pointeur dans une classe // quand la classe est detruite le pointeur est detruit

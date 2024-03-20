@@ -1,6 +1,9 @@
-#include "../include/Scene.h"
+
+
+#include "Common/Core/Scene/include/Scene.h"
+
 #include "Common/Core/Graphics/Render/include/Renderer.h"
-#include "Windows/Core/Application/include/Application.h"
+#include "Common/Core/Serialization/include/BlobSerializer.h"
 
 namespace Phoenix
 {
@@ -31,5 +34,16 @@ namespace Phoenix
     Scene::~Scene()
     {
         
+    }
+
+    void Scene::Serialize(BlobSerializer& serializer)
+    {
+        serializer.WriteHeader(SceneSerializeType);
+        serializer.Write(&m_Name, sizeof(m_Name));
+    }
+
+    void Scene::Deserialize(BlobSerializer& serializer)
+    {
+        serializer.Read(&m_Name, sizeof(m_Name));
     }
 }

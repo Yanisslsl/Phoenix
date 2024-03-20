@@ -1,5 +1,8 @@
 ﻿#include "../include/Entity.h"
 
+#include <fstream>
+
+#include "Common/Core/ECSExtended/include/TransformSubsytem.h"
 #include "Windows/Core/Application/include/Application.h"
 
 namespace Phoenix
@@ -17,14 +20,14 @@ namespace Phoenix
     }
 
     template <>
-    void Entity::AddComponent<TransformComponent>(TransformComponent component)
+    void PHOENIX_API Entity::AddComponent<TransformComponent>(TransformComponent component)
     {
         Application::Get().GetSubSystem<TransformSubsytem>()->AddTransformComponent(m_id, component);
         OnComponentUpdated<TransformComponent>(component);
     }
 
     template <>
-    void Entity::AddComponent<Phoenix::SpriteComponent>(SpriteComponent component)
+    void PHOENIX_API Entity::AddComponent<Phoenix::SpriteComponent>(SpriteComponent component)
     {
         if(component.textureFilePath.empty())
         {
@@ -39,7 +42,7 @@ namespace Phoenix
     }
 
     template <>
-    void Entity::AddComponent<Phoenix::BoxCollider>(BoxCollider component)
+    void PHOENIX_API Entity::AddComponent<Phoenix::BoxCollider>(BoxCollider component)
     {
         auto position = GetTransformPosition();
         component.position = position;
@@ -171,5 +174,28 @@ namespace Phoenix
         {
             m_updateFunction();
         }
+    }
+
+    void Entity::Serialize(BlobSerializer& serializer)
+    {
+        // auto filePath = FileSystem::GetAssetsPath() + "\\save\\" + "save.txt";
+        // std::ofstream file(filePath);
+        // serializer.Write(file, &m_id, sizeof(m_id));
+        // serializer.Write(file, &m_name, sizeof(m_name));
+        // serializer.Write(file, &m_Tag, sizeof(m_Tag));
+        // serializer.Write(file, &m_parent, sizeof(m_parent));
+        // serializer.Write(file, &m_children, sizeof(m_children));
+    }
+
+    void Entity::Deserialize(BlobSerializer& serializer)
+    {
+        // auto filePath = FileSystem::GetAssetsPath() + "\\save\\" + "save.txt";
+        // std::ifstream file(filePath);
+        // m_name = "Deserialized";
+        // serializer.Read(file, &m_id, sizeof(m_id));
+        // serializer.Read(file, &m_name, sizeof(m_name));
+        // serializer.Read(file, &m_Tag, sizeof(m_Tag));
+        // serializer.Read(file, &m_parent, sizeof(m_parent));
+        // serializer.Read(file, &m_children, sizeof(m_children));
     }
 }
