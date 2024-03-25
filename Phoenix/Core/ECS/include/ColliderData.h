@@ -34,6 +34,7 @@ namespace Phoenix
         ComponentsDataType<float> m_widths;
         ComponentsDataType<glm::vec2> m_positions;
         ComponentsDataType<std::function<void(Ref<Entity>)>> m_onHitCallbacks;
+        ComponentsDataType<unsigned int> m_onHitUuids;
         ComponentsDataType<CollisionShape> m_shapes;
         ComponentsDataType<EntityId> m_entities;
         ComponentsDataType<std::string> m_nodeIds;

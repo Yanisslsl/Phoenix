@@ -2,7 +2,9 @@
 
 #include <fstream>
 
+#include "Common/Core/ECSExtended/include/SpriteSubsystem.h"
 #include "Common/Core/ECSExtended/include/TransformSubsytem.h"
+#include "Utils/UUID.h"
 #include "Windows/Core/Application/include/Application.h"
 
 namespace Phoenix
@@ -27,13 +29,15 @@ namespace Phoenix
     }
 
     template <>
-    void PHOENIX_API Entity::AddComponent<Phoenix::SpriteComponent>(SpriteComponent component)
+    void PHOENIX_API Entity::AddComponent<SpriteComponent>(SpriteComponent component)
     {
         if(component.textureFilePath.empty())
         {
+            Application::Get().GetSubSystem<SpriteSubsystem>()->AddSpriteComponent(m_id, component);
             Renderer::CreateQuad(m_name, Colors::GetColor(component.colorCode),glm::mat4(1));
         } else if(!component.textureFilePath.empty())
         {
+            Application::Get().GetSubSystem<SpriteSubsystem>()->AddSpriteComponent(m_id, component);
             Renderer::CreateQuad(m_name, component.textureFilePath.c_str(), glm::mat4(1));
         } else
         {
@@ -42,7 +46,7 @@ namespace Phoenix
     }
 
     template <>
-    void PHOENIX_API Entity::AddComponent<Phoenix::BoxCollider>(BoxCollider component)
+    void PHOENIX_API Entity::AddComponent<BoxCollider>(BoxCollider component)
     {
         auto position = GetTransformPosition();
         component.position = position;
@@ -132,7 +136,12 @@ namespace Phoenix
 
     BoxCollider Entity::GetCollider() const
     {
-       return Application::Get().GetSubSystem<CollisionSubSytem>()->GetCollider(m_id);
+        return Application::Get().GetSubSystem<CollisionSubSytem>()->GetCollider(m_id);
+    }
+
+    TransformComponent Entity::GetTransformComponent() const
+    {
+        return Application::Get().GetSubSystem<TransformSubsytem>()->GetTransformComponent(m_id);
     }
 
     void Entity::AddTag(TagType tag)
@@ -178,24 +187,35 @@ namespace Phoenix
 
     void Entity::Serialize(BlobSerializer& serializer)
     {
-        // auto filePath = FileSystem::GetAssetsPath() + "\\save\\" + "save.txt";
-        // std::ofstream file(filePath);
-        // serializer.Write(file, &m_id, sizeof(m_id));
-        // serializer.Write(file, &m_name, sizeof(m_name));
-        // serializer.Write(file, &m_Tag, sizeof(m_Tag));
-        // serializer.Write(file, &m_parent, sizeof(m_parent));
-        // serializer.Write(file, &m_children, sizeof(m_children));
+        serializer.WriteHeader(EntitySerializeType);
+        serializer.Write(&m_id, sizeof(m_id));
+        serializer.Write(&m_name, sizeof(m_name));
+        serializer.Write(&m_Tag, sizeof(m_Tag));
+        serializer.Write(&m_parent, sizeof(m_parent));
+        serializer.Write(&m_children, sizeof(m_children));
+        if(Application::Get().GetSubSystem<SpriteSubsystem>()->HasSpriteComponent(m_id))
+        {
+            SpriteComponent sprite = Application::Get().GetSubSystem<SpriteSubsystem>()->GetSpriteComponent(m_id);
+            sprite.Serialize(serializer);
+        }
+        if(Application::Get().GetSubSystem<CollisionSubSytem>()->HasCollider(m_id))
+        {
+            BoxCollider collider = GetCollider();
+            collider.Serialize(serializer);
+        }
+        if(Application::Get().GetSubSystem<TransformSubsytem>()->HasTransformComponent(m_id))
+        {
+            TransformComponent transform = GetTransformComponent();
+            transform.Serialize(serializer);
+        }
     }
 
     void Entity::Deserialize(BlobSerializer& serializer)
     {
-        // auto filePath = FileSystem::GetAssetsPath() + "\\save\\" + "save.txt";
-        // std::ifstream file(filePath);
-        // m_name = "Deserialized";
-        // serializer.Read(file, &m_id, sizeof(m_id));
-        // serializer.Read(file, &m_name, sizeof(m_name));
-        // serializer.Read(file, &m_Tag, sizeof(m_Tag));
-        // serializer.Read(file, &m_parent, sizeof(m_parent));
-        // serializer.Read(file, &m_children, sizeof(m_children));
+        serializer.Read(&m_id, sizeof(m_id));
+        serializer.Read(&m_name, sizeof(m_name));
+        serializer.Read(&m_Tag, sizeof(m_Tag));
+        serializer.Read(&m_parent, sizeof(m_parent));
+        serializer.Read(&m_children, sizeof(m_children));
     }
 }

@@ -103,9 +103,6 @@ add_custom_command(TARGET Game POST_BUILD
 add_custom_command(TARGET Game POST_BUILD
                    COMMAND ${CMAKE_COMMAND} -E copy_directory
                        ${CMAKE_SOURCE_DIR}/Phoenix/HAL/Common/Core/Graphics/Shaders $<TARGET_FILE_DIR:Game>/assets/shaders)
-add_custom_command(TARGET Game POST_BUILD
-                  COMMAND ${CMAKE_COMMAND} -E copy_directory
-                       ${CMAKE_SOURCE_DIR}/Game/assets/save $<TARGET_FILE_DIR:Game>/assets/save)
 
 # for building in visual studio                      
 add_custom_command(TARGET Game POST_BUILD
@@ -114,9 +111,6 @@ add_custom_command(TARGET Game POST_BUILD
 add_custom_command(TARGET Game POST_BUILD
                    COMMAND ${CMAKE_COMMAND} -E copy_directory
                        ${CMAKE_SOURCE_DIR}/Phoenix/HAL/Common/Core/Graphics/Shaders ${CMAKE_BINARY_DIR}/assets/shaders)
-add_custom_command(TARGET Game POST_BUILD
-              COMMAND ${CMAKE_COMMAND} -E copy_directory
-                  ${CMAKE_SOURCE_DIR}/Game/assets/save ${CMAKE_BINARY_DIR}/assets/save)
 
 # Set compiler options for Debug build
 #set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -DDEBUG")

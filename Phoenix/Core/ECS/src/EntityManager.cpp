@@ -16,6 +16,7 @@ namespace Phoenix
         m_entitiesComponents.resize(size, {});
         m_entitiesTags.resize(size);
         m_updateFunctions.resize(size);
+        m_entitiesStandAlone.resize(size);
         for (std::vector<ComponentId>& c : m_entitiesComponents)
         {
             //@TODO: might be too restrictive, client should be able to add components without the need to edit the engine
@@ -51,7 +52,7 @@ namespace Phoenix
 
     void EntityManager::BindUpdate(EntityId entityId, std::function<void()> updateFunction)
     {
-        m_updateFunctions.at(entityId) = updateFunction;
+        m_updateFunctions.at(entityId) = std::move(updateFunction);
     }
 
     std::function<void()> EntityManager::GetUpdateFunction(EntityId entityId)
@@ -67,6 +68,16 @@ namespace Phoenix
     TagType EntityManager::GetTag(EntityId entity)
     {
         return m_entitiesTags.at(entity);
+    }
+
+    void EntityManager::SetIsStandAlone(EntityId entity, bool isStandAlone)
+    {
+        m_entitiesStandAlone.at(entity) = isStandAlone;
+    }
+
+    bool EntityManager::GetIsStandAlone(EntityId entity)
+    {
+        return m_entitiesStandAlone.at(entity);
     }
 
     /// Remove an entity given its ID

@@ -1,4 +1,5 @@
 #pragma once
+#include <string>
 #include <vector>
 #include <glm/fwd.hpp>
 #include <glm/vec2.hpp>
@@ -18,6 +19,7 @@ namespace Phoenix
         ComponentsDataType<glm::vec2> m_scales;
         ComponentsDataType<EntityId> m_parents;
         ComponentsDataType<std::vector<EntityId>> m_children;
+        ComponentsDataType<std::string> m_entitiesIds;
     };
 }
 

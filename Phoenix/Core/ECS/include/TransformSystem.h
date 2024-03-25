@@ -27,6 +27,9 @@ namespace Phoenix
 
         TransformsData* m_TransformsData;
 
+        void SetEntityId(EntityId entity);
+        bool HasTransform(EntityId entity);
+
         glm::vec3 GetEntityPosition(EntityId entity);
         void SetEntityPostion(EntityId entity, glm::vec3 position);
         void PrintEntityPosition(EntityId entity);

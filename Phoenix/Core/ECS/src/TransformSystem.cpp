@@ -59,6 +59,17 @@ namespace Phoenix
         ComponentSystem::Update();
     }
 
+    void TransformSystem::SetEntityId(EntityId entity)
+    {
+        ComponentId transformId = EntityManager::Get()->m_entitiesComponents.at(entity).at(m_Id);
+        m_TransformsData->m_entitiesIds.Get(transformId) = entity;
+    }
+
+    bool TransformSystem::HasTransform(EntityId entity)
+    {
+        return m_TransformsData->m_entitiesIds.Contains(entity);
+    }
+
     void TransformSystem::PrintEntityPosition(EntityId entity)
     {
         ComponentId transformId = EntityManager::Get()->m_entitiesComponents.at(entity).at(m_Id);

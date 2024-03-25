@@ -5,6 +5,7 @@
 #include "../../../../../Core/Layers/LayerStack/include/LayerStack.h"
 #include "../../../../../Core/Events/WindowEvent.h"
 #include "Common/Core/Animation/include/AnimationSubsystem.h"
+#include "Common/Core/ECSExtended/include/SpriteSubsystem.h"
 #include "Common/Core/Input/include/InputActionRegistratorSubSystem.h"
 #include "Common/Core/Physics/include/CollisionSubSytem.h"
 #include "Common/Core/Scene/include/Scene.h"
@@ -116,6 +117,18 @@ namespace Phoenix
 			return m_AnimationSubsystem;
 		}
 
+		template <>
+		SerializerSubsystem* Application::GetSubSystem<SerializerSubsystem>()
+		{
+			return m_SerializerSubsystem;
+		}
+
+		template <>
+		SpriteSubsystem* Application::GetSubSystem<SpriteSubsystem>()
+		{
+			return m_SpriteSubsystem;
+		}
+
 	private:
 		// unqique ptr => une seule instance // si je veux passer cette instance il faut la move ce qui change l'ownership // ce qui veut dire que je ne peux pas la copier
 		// c'est juste un pointeur dans une classe // quand la classe est detruite le pointeur est detruit
@@ -130,6 +143,8 @@ namespace Phoenix
 		CollisionSubSytem* m_CollisionSubSystem;
 		TransformSubsytem* m_TransformSubSystem;
 		AnimationSubsystem* m_AnimationSubsystem;
+		SerializerSubsystem* m_SerializerSubsystem;
+		SpriteSubsystem* m_SpriteSubsystem;
 	};
 
 	// To be defined in CLIENT

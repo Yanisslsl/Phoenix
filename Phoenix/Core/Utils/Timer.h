@@ -1,9 +1,7 @@
 // Timer.h
 #pragma once
 #include <chrono>
-
-#include "../../../Core/Core.h"
-
+#include "Core.h"
 
 namespace Phoenix
 {

@@ -116,10 +116,22 @@ namespace Phoenix
         return m_ColliderData->m_heights.Get(colliderId);
     }
 
-    void ColliderSystem::SetOnHitCallback(EntityId entity, std::function<void(Ref<Entity>)> callback)
+    void ColliderSystem::SetOnHitCallback(EntityId entity, std::function<void(Ref<Entity>)> functionUuid)
     {
         ComponentId colliderId = EntityManager::Get()->m_entitiesComponents.at(entity).at(m_Id);
-        m_ColliderData->m_onHitCallbacks.Get(colliderId) = callback;
+        m_ColliderData->m_onHitCallbacks.Get(colliderId) = functionUuid;
+    }
+
+    void ColliderSystem::SetOnHitUuid(EntityId entity, unsigned int functionUuid)
+    {
+        ComponentId colliderId = EntityManager::Get()->m_entitiesComponents.at(entity).at(m_Id);
+        m_ColliderData->m_onHitUuids.Get(colliderId) = functionUuid;
+    }
+
+    unsigned int ColliderSystem::GetOnHitUuid(EntityId entity)
+    {
+        ComponentId colliderId = EntityManager::Get()->m_entitiesComponents.at(entity).at(m_Id);
+        return m_ColliderData->m_onHitUuids.Get(colliderId);
     }
     
     std::function<void(Ref<Entity>)> ColliderSystem::GetOnHitCallback(EntityId entity)

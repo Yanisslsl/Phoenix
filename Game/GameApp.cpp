@@ -15,14 +15,14 @@ public:
 		: Layer("MainLayer")
 	{
 		Phoenix::Application::Get().GetSubSystem<Phoenix::SceneManagerSubSystem>()->CreateScene("MainLevel");
+		new Room(glm::vec2(0, 0), glm::vec2(100, 100));
 		Phoenix::Application::Get().GetSubSystem<Phoenix::SceneManagerSubSystem>()->SaveScene("MainLevel");
-		Phoenix::Application::Get().GetSubSystem<Phoenix::SceneManagerSubSystem>()->LoadScene("MainLevel");
+		// Phoenix::Application::Get().GetSubSystem<Phoenix::SceneManagerSubSystem>()->LoadScene("MainLevel");
+	}
 
-		// Phoenix::Ref<Phoenix::Entity> entity = Phoenix::Application::Get().GetSubSystem<Phoenix::EntitySubsystem>()->CreateEntity("Knight");
-		// auto serializer = Phoenix::BlobSerializer();
-		// entity->Serialize(serializer);
-		// Phoenix::Ref<Phoenix::Entity> entity1 = Phoenix::Application::Get().GetSubSystem<Phoenix::EntitySubsystem>()->CreateEntity("Knight");
-		// entity1->Deserialize(serializer);
+	void OnHit(Phoenix::Ref<Phoenix::Entity> entity)
+	{
+		PX_TRACE("HIT");
 	}
 
 	void Benchmark()
@@ -44,10 +44,8 @@ public:
 
 	void InitLevel()
 	{
-		auto width = Phoenix::Application::Get().GetWindow()->GetWidth();
-		auto height = Phoenix::Application::Get().GetWindow()->GetHeight();
+
 		// @TODO: FIX MEMORY LEAK
-		new Room(glm::vec2(width/2, height/2), glm::vec2(width, height));
 		new Knight();
 		new Mob(glm::vec2(500, 500));
 	}

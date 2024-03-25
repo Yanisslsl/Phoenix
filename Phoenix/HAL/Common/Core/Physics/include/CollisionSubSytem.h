@@ -9,6 +9,7 @@
 
 namespace Phoenix
 {
+    class CollisionSubSytem;
     inline uint32_t MAX_COLLIDERS_BY_NODE = 10;
     enum class PHOENIX_API Divide
     {
@@ -27,18 +28,33 @@ namespace Phoenix
     {
     public:
         BoxCollider() = default;
-        BoxCollider(CollisionType type, std::function<void(Ref<Entity>)> onHit, CollisionShape shape, float width, float height, int maxHitCalls = 1)
+        BoxCollider(CollisionType type, std::function<void(Ref<Entity>)> onHit, unsigned int onHitUUID, CollisionShape shape, float width, float height, int maxHitCalls = 1)
         : type(type), OnHit(onHit), shape(shape), width(width), height(height), maxHitCalls(maxHitCalls)
         {
+            OnHitUuid = onHitUUID;
             position = glm::vec2(0, 0);
+        }
+
+        BoxCollider(CollisionType type, std::function<void(Ref<Entity>)> onHit,CollisionShape shape, float width, float height, int maxHitCalls = 1)
+       : type(type), OnHit(onHit), shape(shape), width(width), height(height), maxHitCalls(maxHitCalls)
+        {
+            OnHitUuid = 0;
+            position = glm::vec2(0, 0);
+        }
+
+        ~BoxCollider()
+        {
+            
         }
         CollisionType type;
         glm::vec2 position;
-        std::function<void(Ref<Entity>)> OnHit;
+        // uuid used for serialization
+        unsigned int OnHitUuid;
+        std::function<void(Ref<Entity>)> OnHit = nullptr;
         CollisionShape shape;
         float width;
         float height;
-        std::string m_Node_Id;
+        std::string m_Node_Id = "";
         EntityId m_EntityId;
         int maxHitCalls;
         int hitCalls = 0;
@@ -73,11 +89,33 @@ namespace Phoenix
 
         virtual void Serialize(BlobSerializer& serializer) override
         {
-            
+            serializer.WriteHeader(BoxColliderComponentSerializeType);
+            serializer.Write(&type, sizeof(type));
+            serializer.Write(&position, sizeof(position));
+            serializer.Write(&shape, sizeof(shape));
+            serializer.Write(&width, sizeof(width));
+            serializer.Write(&height, sizeof(height));
+            serializer.Write(&m_EntityId, sizeof(m_EntityId));
+            serializer.Write(&maxHitCalls, sizeof(maxHitCalls));
+            serializer.Write(&hitCalls, sizeof(hitCalls));
+            serializer.Write(&OnHitUuid, sizeof(OnHitUuid));
         }
         virtual void Deserialize(BlobSerializer& serializer) override
         {
-            
+            serializer.Read(&type, sizeof(type));
+            serializer.Read(&position, sizeof(position));
+            serializer.Read(&shape, sizeof(shape));
+            serializer.Read(&width, sizeof(width));
+            serializer.Read(&height, sizeof(height));
+            serializer.Read(&m_EntityId, sizeof(m_EntityId));
+            serializer.Read(&maxHitCalls, sizeof(maxHitCalls));
+            serializer.Read(&hitCalls, sizeof(hitCalls));
+            serializer.Read(&OnHitUuid, sizeof(OnHitUuid));
+        }
+
+        virtual std::string GetStaticType() override
+        {
+            return "BoxCollider";
         }
     };
 
@@ -91,7 +129,6 @@ namespace Phoenix
         }
         ~Node()
         {
-            colliders.clear();
             delete left;
             delete right;
         }
