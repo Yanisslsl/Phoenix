@@ -7,6 +7,10 @@
 #include "Windows/Core/Application/include/Application.h"
 
 
+Mob::Mob(): Mob(glm::vec2(0, 0))
+{
+}
+
 Mob::Mob(glm::vec2 position)
 {
     m_id = "MOB";

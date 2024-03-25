@@ -8,7 +8,7 @@
 
 namespace Phoenix
 {
-    class PHOENIX_API TransformComponent: public IComponent
+    class PHOENIX_API TransformComponent: public IComponent, AutoRegister<TransformComponent>
     {
     public:
         TransformComponent() = default;
@@ -34,11 +34,6 @@ namespace Phoenix
             serializer.Read(&rotation, sizeof(rotation));
             serializer.Read(&scale, sizeof(scale));
             serializer.Read(&entityId, sizeof(entityId));
-        }
-
-        virtual std::string GetStaticType() override
-        {
-            return "TransformComponent";
         }
     };
     

@@ -24,7 +24,7 @@ namespace Phoenix
         float height;
     };
 
-    struct BoxCollider: public IComponent
+    struct BoxCollider: IComponent, AutoRegister<BoxCollider>
     {
     public:
         BoxCollider() = default;
@@ -112,11 +112,7 @@ namespace Phoenix
             serializer.Read(&hitCalls, sizeof(hitCalls));
             serializer.Read(&OnHitUuid, sizeof(OnHitUuid));
         }
-
-        virtual std::string GetStaticType() override
-        {
-            return "BoxCollider";
-        }
+        //REGISTER_CLASS_WITH_FACTORY(BoxCollider)
     };
 
     // struct BoxCollider;

@@ -1,5 +1,9 @@
 ﻿#pragma once
-#include "Common/Core/ECSExtended/include/TransformSubsytem.h"
+
+#include <memory>
+#include <unordered_map>
+#include <vector>
+#include "Base/Base.h"
 
 namespace Phoenix
 {
@@ -12,7 +16,7 @@ namespace Phoenix
     class BaseCreator
     {
     public:
-        using BasePtr = std::unique_ptr<BaseType>;
+        using BasePtr = std::shared_ptr<BaseType>;
 
         virtual ~BaseCreator() = default;
         virtual BasePtr Create(Args&&... args) = 0;
@@ -34,18 +38,43 @@ namespace Phoenix
     class AbstractFactory
     {
     public:
-        using BasePtr = std::unique_ptr<BaseType>;
-        using CreatorPtr = std::unique_ptr<BaseCreator<BaseType, Args...>>;
+        using BasePtr = std::shared_ptr<BaseType>;
+        using CreatorPtr = std::shared_ptr<BaseCreator<BaseType, Args...>>;
 
     public:
         AbstractFactory() = default;
         virtual ~AbstractFactory() = default;
 
         template<typename RegisteredType>
-        void RegisterType(const Key& key);
+        void RegisterType(const Key& key)
+        {
+            if (m_creators.find(key) != m_creators.end())
+            {
+                PX_CORE_ASSERT(false, "Key already exists in factory");
+                return;
+            }
+            m_creators[key] = std::make_shared<DerivedCreator<BaseType, RegisteredType, Args...>>();
+        }
 
-        BasePtr Create(const Key& key, Args&&... args) const;
-        std::vector<Key> RegisteredTypes() const;
+        BasePtr Create(const Key& key, Args&&... args) const
+        {
+            if(m_creators.find(key) == m_creators.end())
+            {
+                PX_CORE_ASSERT(false, "Key not found in factory");
+                return nullptr;
+            }
+            m_creators.at(key)->Create(std::forward<Args>(args)...);
+        }
+        
+        std::vector<Key> RegisteredTypes() const
+        {
+            std::vector<Key> keys;
+            for(auto& [key, _] : m_creators)
+            {
+                keys.push_back(key);
+            }
+            return keys;
+        }
     private:
         std::unordered_map<Key, CreatorPtr> m_creators;
     };

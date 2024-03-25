@@ -12,7 +12,7 @@ namespace Phoenix
      * \brief Scene class, should contain all the entities and systems
      *        Only suited for 2D games for now with the OrthographicCameraController
      */
-    class PHOENIX_API Scene: public ISerializable
+    class PHOENIX_API Scene: public ISerializable, public Phoenix::AutoRegister<Scene>
     {
     public:
          Scene() = default;
@@ -47,11 +47,11 @@ namespace Phoenix
 
          virtual void Serialize(BlobSerializer& serializer) override;
          virtual void Deserialize(BlobSerializer& serializer) override;
-         virtual std::string GetStaticType() override { return "Scene"; }
      OrthographicCameraController* GetCameraController()
          {
           return m_CameraController;
          }
+     //REGISTER_CLASS_WITH_FACTORY(Scene);
     private:
         OrthographicCameraController* m_CameraController;
         bool m_IsRunning = false;

@@ -8,8 +8,14 @@
 #include "Windows/Core/Application/include/Application.h"
 
 
+
+Bullet::Bullet():
+    Bullet("Bullet", glm::vec2(0, 0), glm::vec2(0, 0)){}
+
 Bullet::Bullet(std::string id, glm::vec2 position, glm::vec2 direction)
 {
+    //FUCK_COMPILER(Bullet)
+
     m_Direction = direction;
     m_id = id;
     self = Phoenix::Application::Get().GetSubSystem<Phoenix::EntitySubsystem>()->CreateEntity(m_id);
