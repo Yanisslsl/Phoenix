@@ -10,7 +10,7 @@
 namespace Phoenix
 {
 
-    struct AnimatorComponent: public IComponent
+    struct AnimatorComponent: IComponent, AutoRegister<AnimatorComponent>
     {
         AnimatorComponent() = default;
         AnimatorComponent(EntityId entityId, std::string name, std::vector<std::string> names, std::map<std::string, float> durations, std::map<std::string, float> currentTimes, std::map<std::string, int> currentFrames, std::map<std::string, int> totalFrames, std::map<std::string, std::vector<std::string>> texturesPaths):
@@ -48,11 +48,8 @@ namespace Phoenix
             serializer.Read(&texturesPaths, sizeof(texturesPaths));
             serializer.Read(&entityId, sizeof(entityId));
         }
-
-        virtual std::string GetStaticType() override
-        {
-            return "AnimatorComponent";
-        }
+    private:
+        //REGISTER_CLASS_WITH_FACTORY(AnimatorComponent)
     };
     
     class PHOENIX_API AnimationSubsystem

@@ -5,6 +5,12 @@
 #include "Windows/Core/Application/include/Application.h"
 
 
+Room::Room():
+    Room(glm::vec2(0, 0), glm::vec2(1, 1))
+{
+   
+}
+
 Room::Room(glm::vec2 position, glm::vec2 size)
 {
     m_name = "Room";
@@ -15,7 +21,11 @@ Room::Room(glm::vec2 position, glm::vec2 size)
     entity->SetScale(size);
     // entity->AddComponent(Phoenix::BoxCollider{ Phoenix::CollisionType::DYNAMIC, PX_BIND_EVENT_FN(OnHit), Phoenix::CollisionShape::RECTANGLE, 20, 20 });
     entity->BindUpdate(PX_BIND_EVENT_FN(Update));
-    Phoenix::Application::Get().GetSubSystem<Phoenix::SerializerSubsystem>()->RegisterType(m_name, this);
+}
+
+void OnStart()
+{
+    
 }
 
 void Room::Update()

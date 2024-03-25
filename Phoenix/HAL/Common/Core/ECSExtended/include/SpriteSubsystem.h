@@ -9,7 +9,7 @@
 
 namespace Phoenix
 {
-    struct SpriteComponent:  IComponent
+    struct SpriteComponent:  IComponent, public Phoenix::AutoRegister<SpriteComponent>
     {
     public:
         std::string textureFilePath;
@@ -37,11 +37,8 @@ namespace Phoenix
             serializer.Read(&colorCode, sizeof(colorCode));
             serializer.Read(&entityId, sizeof(entityId));
         }
-
-        virtual std::string GetStaticType() override
-        {
-            return "SpriteComponent";
-        } 
+    private:
+        //REGISTER_CLASS_WITH_FACTORY(SpriteComponent)
     };
     
     class PHOENIX_API SpriteSubsystem

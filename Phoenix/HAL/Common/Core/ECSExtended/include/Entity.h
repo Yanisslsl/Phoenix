@@ -19,12 +19,11 @@ namespace Phoenix
     public:
         IComponent() = default;
         virtual ~IComponent() = default;
-        
         virtual void Serialize(BlobSerializer& serializer) = 0;
         virtual void Deserialize(BlobSerializer& serializer) = 0;
     };
     
-    class PHOENIX_API Entity: public ISerializable
+    class PHOENIX_API Entity: public ISerializable, public Phoenix::AutoRegister<Entity>
     {
     public:
         Entity() = default;
@@ -37,6 +36,7 @@ namespace Phoenix
             m_parent = nullptr;
             m_children = std::vector<Ref<Entity>>();
         }
+
         void BindUpdate(std::function<void()> updateFunction);
         void Update();
 
@@ -124,7 +124,6 @@ namespace Phoenix
 
         void Serialize(BlobSerializer& serializer) override;
         void Deserialize(BlobSerializer& serializer) override;
-        std::string GetStaticType() override { return "Entity"; }
     public:
         //@TODO: make encapsulation
         std::string m_name;

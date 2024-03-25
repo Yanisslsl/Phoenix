@@ -3,6 +3,7 @@
 // DOC: bitwise operator shift one byte to the left so 00000001=1 becomes => 00000010=2 => 00000100=4
 #define BIT(x) (1 << x)
 #include <utility>
+#include "Log/include/Log.h"
 
 
 // A mediter [this](auto&&... args){ std::forward<decltype(args)>(args)...; }

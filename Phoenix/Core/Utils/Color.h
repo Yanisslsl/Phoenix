@@ -13,7 +13,7 @@ namespace Phoenix
 
     namespace Color
     {
-        PHOENIX_API enum : ColorCode
+         enum : ColorCode
         {
             RED,
           GREEN,

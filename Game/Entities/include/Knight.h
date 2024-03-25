@@ -4,7 +4,7 @@
 #include "Base/Base.h"
 #include "Common/Core/ECSExtended/include/Entity.h"
 #include "Bullet.h"
-class Knight
+class Knight: public Phoenix::ISerializable, public Phoenix::AutoRegister<Knight>
 {
     enum class State
     {
@@ -16,7 +16,7 @@ class Knight
     };
 public:
     Knight();
-    ~Knight();
+    ~Knight() = default;
     void UpdateInput();
     void GetMovementInput();
     void GetFireInput();
@@ -25,6 +25,8 @@ public:
     void PlayAnimation();
     void OnHit(Phoenix::Ref<Phoenix::Entity> entity);
     void Fire();
+    void Serialize(Phoenix::BlobSerializer& serializer) override {}
+    void Deserialize(Phoenix::BlobSerializer& serializer) override {}
 private:
     float m_X_Direction = 0;
     float m_Y_Direction = 0;
@@ -34,4 +36,5 @@ private:
     std::vector<Bullet*> m_Bullets;
     State m_State = State::IDLE;
     bool m_isStateDirty = false;
+    REGISTER_CLASS_WITH_FACTORY(Knight)
 };
