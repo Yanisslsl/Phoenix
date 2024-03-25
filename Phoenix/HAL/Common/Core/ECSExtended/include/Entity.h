@@ -28,10 +28,11 @@ namespace Phoenix
     {
     public:
         Entity() = default;
-        Entity(EntityId id, std::string name, TagType tag = 0)
+        Entity(EntityId id, std::string name, TagType tag = 0, bool isStandAlone = false)
         : m_id(id)
         , m_name(name)
         , m_Tag(tag)
+        , isStandAlone(isStandAlone)
         {
             m_parent = nullptr;
             m_children = std::vector<Ref<Entity>>();
@@ -84,6 +85,7 @@ namespace Phoenix
         glm::mat4 GetWorldModelMatrix() const;
 
         BoxCollider GetCollider() const;
+        TransformComponent GetTransformComponent() const;
 
         void Play(std::string animationName, std::function<void()> onAnimationEnd = nullptr);
         void CreateAnimation(std::string name, std::vector<std::string> paths, float duration, int totalFrames);
@@ -122,12 +124,14 @@ namespace Phoenix
 
         void Serialize(BlobSerializer& serializer) override;
         void Deserialize(BlobSerializer& serializer) override;
+        std::string GetStaticType() override { return "Entity"; }
     public:
         //@TODO: make encapsulation
         std::string m_name;
         EntityId m_id;
         TagType m_Tag = 0;
         std::function<void()> m_updateFunction;
+        bool isStandAlone = false;
     private:
         Entity* m_parent;
         std::vector<Ref<Entity>> m_children;

@@ -5,6 +5,7 @@
 #include "ECS/include/TransformSystem.h"
 #include "Utils/Color.h"
 #include "Common/Core/ECSExtended/include/Entity.h"
+#include "ECS/include/SpriteSystem.h"
 
 
 namespace Phoenix
@@ -15,30 +16,6 @@ namespace Phoenix
     struct EntitySubsystem;
 
 
-    struct SpriteComponent:  public IComponent
-    {
-        std::string textureFilePath;
-        ColorCode colorCode;
-        SpriteComponent() = default;
-        SpriteComponent(std::string texturePath)
-        {
-            textureFilePath = texturePath;
-        }
-        SpriteComponent(ColorCode color)
-        {
-            colorCode = color;
-        }
-        virtual void Serialize(BlobSerializer& serializer) override
-        {
-            
-        }
-        virtual void Deserialize(BlobSerializer& serializer) override
-        {
-            
-        }
-    };
-    
-
     /**
      * \brief Wrapper around the entity creation and destruction.
      *        Use EntityManager and systems to manage the entities.
@@ -48,7 +25,7 @@ namespace Phoenix
     public:
         EntitySubsystem();
         ~EntitySubsystem();
-        Ref<Entity> CreateEntity(std::string name);
+        Ref<Entity> CreateEntity(std::string name, bool isStandAlone = false);
         void DestroyEntity(EntityId id);
         Ref<Entity> GetEntityByName(std::string name);
         void BindUpdate(EntityId entityId, std::function<void()> updateFunction);

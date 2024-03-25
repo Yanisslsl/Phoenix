@@ -7,7 +7,7 @@ namespace Phoenix
 {
     AnimationSubsystem::AnimationSubsystem()
     {
-        m_AnimationSystem = new AnimationSystem(2, 1000);
+        m_AnimationSystem = new AnimationSystem(3, 1000);
     }
 
     AnimationSubsystem::~AnimationSubsystem()
@@ -20,6 +20,11 @@ namespace Phoenix
     //     texturesPaths.insert(std::pair<std::string, std::vector<std::string>>(name, paths));
     // }
 
+    bool AnimationSubsystem::HasAnimation(EntityId entity)
+    {
+        return m_AnimationSystem->HasAnimation(entity);
+    }
+
     AnimatorComponent AnimationSubsystem::GetAnimatorComponent(EntityId entity)
     {
         std::vector<std::string> names = m_AnimationSystem->GetAnimationsNames(entity);
@@ -29,7 +34,8 @@ namespace Phoenix
         std::map<std::string, int> totalFrames = m_AnimationSystem->GetAnimationsTotalFrames(entity);
         std::map<std::string, std::vector<std::string>> texturesPaths = m_AnimationSystem->GetAnimationsTexturesPaths(entity);
         auto currentAnimation = m_AnimationSystem->GetCurrentAnimationName(entity);
-        AnimatorComponent animator = AnimatorComponent(currentAnimation, names, durations, currentTimes, currentFrames, totalFrames, texturesPaths);
+        EntityId entityId = entity;
+        AnimatorComponent animator = AnimatorComponent(entityId, currentAnimation, names, durations, currentTimes, currentFrames, totalFrames, texturesPaths);
         return animator;
     }
 

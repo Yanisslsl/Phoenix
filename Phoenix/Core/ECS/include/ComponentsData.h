@@ -72,6 +72,10 @@ namespace Phoenix
             m_components.resize(size, value);
         }
 
+        bool Contains(size_t index)
+        {
+            return m_components[index] != T();
+        }
     private:
         std::vector<T> m_components;
     };

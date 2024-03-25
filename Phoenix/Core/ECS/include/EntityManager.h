@@ -28,6 +28,8 @@ namespace Phoenix
         std::function<void()> GetUpdateFunction(EntityId entityId);
         void AddTag(EntityId entity, TagType tag);
         TagType GetTag(EntityId entity);
+        void SetIsStandAlone(EntityId entity, bool isStandAlone);
+        bool GetIsStandAlone(EntityId entity);
         static EntityManager* Get()
         {
             if(m_instance == nullptr)
@@ -43,6 +45,7 @@ namespace Phoenix
         std::vector<EntityId> m_entitiesId;
         std::vector<std::string> m_entitiesName;
         std::vector<TagType> m_entitiesTags;
+        std::vector<bool> m_entitiesStandAlone;
         std::vector<std::function<void()>> m_updateFunctions;
       };
 }

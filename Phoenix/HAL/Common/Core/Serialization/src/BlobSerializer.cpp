@@ -1,14 +1,38 @@
 ﻿#include "Common/Core/Serialization/include/BlobSerializer.h"
 #include <fstream>
+
+#include "Base/Base.h"
 #include "Common/Core/Serialization/include/SerializerSubsystem.h"
+#include "Log/include/Log.h"
+#include <filesystem>
 
 
 namespace Phoenix
 {
-    BlobSerializer::BlobSerializer(std::string filePath)
+    BlobSerializer::BlobSerializer(Mode mode, std::string filePath)
     {
-        m_writeFile = new std::ofstream(filePath);
-        m_readFile = new std::ifstream(filePath);
+        m_mode = mode;
+        if(!std::filesystem::exists(filePath))
+        {
+            // get directory path
+            std::string directoryPath = filePath.substr(0, filePath.find_last_of("\\"));
+            std::filesystem::create_directories(directoryPath);
+        }
+        if(mode == Mode::Write)
+        {
+            m_writeFile = new std::ofstream(filePath);
+            if(!m_writeFile->is_open())
+            {
+                PX_CORE_ASSERT(false, "Could not open file!");
+            }
+        } else
+        {
+            m_readFile = new std::ifstream(filePath);
+            if (!m_readFile->is_open())
+            {
+                PX_CORE_ASSERT(false, "Could not open file!");
+            }
+        }
     }
     
     void BlobSerializer::Write( const void* data, size_t size)
@@ -42,12 +66,21 @@ namespace Phoenix
 
     BlobSerializer::~BlobSerializer()
     {
-        m_writeFile->close();
-        m_readFile->close();
-        delete m_writeFile;
-        delete m_readFile;
+        if(m_mode == Mode::Write)
+        {
+            m_writeFile->close();
+            delete m_writeFile;
+        } else
+        {
+            m_readFile->close();
+            delete m_readFile;
+        }
     }
 
+    bool BlobSerializer::HasData()
+    {
+        return m_readFile->peek() != EOF;
+    }
 
     // serialize header
     // void BlobSerializer::SerializeHeader(int data)

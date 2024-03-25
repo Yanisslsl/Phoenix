@@ -24,6 +24,8 @@ namespace Phoenix
 		m_CollisionSubSystem = new CollisionSubSytem();
 		m_TransformSubSystem = new TransformSubsytem();
 		m_AnimationSubsystem = new AnimationSubsystem();
+		m_SerializerSubsystem = new SerializerSubsystem();
+		m_SpriteSubsystem = new SpriteSubsystem();
 		Renderer::Init();
 #ifdef PX_DEBUG
 		m_Editor_Layer = new EditorLayer();
@@ -33,12 +35,14 @@ namespace Phoenix
 	
 	Application::~Application()
 	{
+		delete m_SerializerSubsystem;
 		delete m_InputActionRegistratorSubsystem;
 		delete m_EntityManagerSubsystem;
 		delete m_SceneManagerSubSystem;
 		delete m_CollisionSubSystem;
 		delete m_TransformSubSystem;
 		delete m_AnimationSubsystem;
+		delete m_SpriteSubsystem;
 	}
 	void Application::Run()
 	{

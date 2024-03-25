@@ -3,6 +3,7 @@
 #include "Common/Core/ECSExtended/include/Entity.h"
 #include "Common/Core/ECSExtended/include/TransformSubsytem.h"
 #include "Common/Core/Input/include/Input.h"
+#include "Utils/UUID.h"
 #include "Windows/Core/Application/include/Application.h"
 
 
@@ -13,7 +14,9 @@ Knight::Knight()
     entity->AddComponent(Phoenix::SpriteComponent("characters/player/player_idle.png"));
     entity->AddComponent(Phoenix::TransformComponent(glm::vec3(400, 400, 1.), 180, glm::vec2(1, 1) ));
     entity->SetScale(30);
-    entity->AddComponent(Phoenix::BoxCollider{ Phoenix::CollisionType::DYNAMIC, PX_BIND_EVENT_FN(OnHit), Phoenix::CollisionShape::RECTANGLE, 20, 20 });
+    auto hashedFunctionName = Phoenix::UUID::GenerateUniqueFunctionHash("Knight", "OnHit");
+    Phoenix::Application::Get().GetSubSystem<Phoenix::SerializerSubsystem>()->RegisterSerializableOnHitFunction(hashedFunctionName, PX_BIND_EVENT_FN(OnHit));
+    entity->AddComponent(Phoenix::BoxCollider{ Phoenix::CollisionType::DYNAMIC, PX_BIND_EVENT_FN(OnHit),hashedFunctionName, Phoenix::CollisionShape::RECTANGLE, 20, 20 });
     entity->BindUpdate(PX_BIND_EVENT_FN(Update));
     entity->AddTag(Phoenix::Tag::Player);
     std::vector<std::string> runAnimationsRightTextures = { "characters/player/animation_run/right/player_run_1.png", "characters/player/animation_run/right/player_run_2.png", "characters/player/animation_run/right/player_run_3.png", "characters/player/animation_run/right/player_run_4.png" };

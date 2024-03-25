@@ -47,6 +47,7 @@ namespace Phoenix
 
          virtual void Serialize(BlobSerializer& serializer) override;
          virtual void Deserialize(BlobSerializer& serializer) override;
+         virtual std::string GetStaticType() override { return "Scene"; }
      OrthographicCameraController* GetCameraController()
          {
           return m_CameraController;

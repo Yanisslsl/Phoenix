@@ -20,7 +20,7 @@ namespace Phoenix
         m_Root = new Node(glm::vec2(0, 0), windowWidth, windowHeight, UUID::GenerateUUID());
         Init(m_Root, Divide::VERTICAL);
         PrintBst(m_Root);
-        m_ColliderSystem = new ColliderSystem(1, 1000);
+        m_ColliderSystem = new ColliderSystem(2, 1000);
         m_Nodes_With_Colliders = std::vector<Node*>();
     }
     
@@ -60,10 +60,10 @@ namespace Phoenix
                             continue;
                         }
                         collider.hitCalls++;
-                        if(collider.OnHit != nullptr)
-                        {
-                            collider.OnHit(entity);
-                        }
+                        // if(collider.OnHit != nullptr)
+                        // {
+                        //     collider.OnHit(entity);
+                        // }
                     }
                 }
             }
@@ -160,6 +160,7 @@ namespace Phoenix
         m_ColliderSystem->SetColliderWidth(entityId, collider.width);
         m_ColliderSystem->SetColliderPosition(entityId, collider.position);
         m_ColliderSystem->SetOnHitCallback(entityId, collider.OnHit);
+        m_ColliderSystem->SetOnHitUuid(entityId, collider.OnHitUuid);
         m_ColliderSystem->SetColliderEntity(entityId, entityId);
         m_ColliderSystem->SetColliderHitCalls(entityId, 0);
         m_ColliderSystem->SetColliderNodeId(entityId, node->id);
@@ -192,8 +193,10 @@ namespace Phoenix
         auto _entityId = m_ColliderSystem->GetColliderEntity(entityId);
         auto nodeId = m_ColliderSystem->GetColliderNodeId(entityId);
         auto hitCalls = m_ColliderSystem->GetColliderHitCalls(entityId);
-        auto collider = BoxCollider(colliderType, onHitCallback, CollisionShape::RECTANGLE, width, height);
+        auto onHitUuid = m_ColliderSystem->GetOnHitUuid(entityId);
+        auto collider = BoxCollider(colliderType, onHitCallback, onHitUuid, CollisionShape::RECTANGLE, width, height);
         collider.m_EntityId = _entityId;
+        collider.OnHitUuid = onHitUuid;
         collider.m_Node_Id = nodeId;
         collider.position = position;
         collider.hitCalls = hitCalls;
