@@ -15,7 +15,6 @@ namespace Phoenix
 
 	Application::Application()
 	{
-		Timer::Reset();
 		m_Window = WindowHal::Create(WindowProps("Phoenix Engine", 1280, 720));
 		m_Window->SetEventCallback(PX_BIND_EVENT_FN(Application::OnEvent));
 		s_Instance = this;
@@ -36,6 +35,7 @@ namespace Phoenix
 	{
 		while (m_Running)
 		{
+			Timer::Reset();
 			// Update layers first then overlays 
 			for(Layer* layer: m_LayerStack.m_Layers)
 				layer->OnUpdate();
