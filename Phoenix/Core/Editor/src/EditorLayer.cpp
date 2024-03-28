@@ -116,16 +116,13 @@ namespace Phoenix
                 ImGui::SeparatorText("Rotation");
                 ImGui::Button("Edit");
                 ImGui::TreePop();
-            }
-            
+            }           
             ImGui::TreePop();
         }
         std::vector<Ref<Entity>> entities = Application::Get().GetSubSystem<EntitySubsystem>()->GetEntities();
         
         if (ImGui::TreeNode("Entities"))
         {
-            
-           
             for(auto entity : entities)
             {
                 if (ImGui::TreeNode((void*)(intptr_t)entity->m_id, entity->GetName().c_str()))
@@ -163,8 +160,7 @@ namespace Phoenix
                         if (ImGui::DragFloat("scale x", &scx, 1., 0.,1000.))
                         {
                             entity->SetScale(glm::vec2(scx, entity->GetScale().y));
-                        }
-                       
+                        }                      
                         ImGui::Text("Y: %f", entity->GetScale().y);
                         ImGui::SameLine();
                         float scy = entity->GetScale().y; // modify scale on y axis
@@ -172,98 +168,48 @@ namespace Phoenix
                         {
                             entity->SetScale(glm::vec2(entity->GetScale().x,scy));
                         }
-                      
-                        ImGui::TreePop();
-                    
-           
-                    }
-                    
+                        ImGui::TreePop();               
+                    } 
                     ImGui::TreePop();
                 }
-               
             }
-
         ImGui::TreePop();
-
         }
-
-
         if (ImGui::TreeNode("Entity Creation"))
-        {
-      
-          
+        {           
             std::string s = std::to_string(m_newentityindex); // new entity's name
             
-            if (ImGui::Button("Add") && m_newentity == false)
-               
+            if (ImGui::Button("Add") && m_newentity == false)              
             {
-                m_newentity = true; // allow the continuous display of settings that we be applied to the newly created entity instead 
+                m_newentity = true;
             }
             if (m_newentity == true)
-            {
-               // Ref<Entity> alastentity = Phoenix::Application::Get().GetSubSystem<Phoenix::EntitySubsystem>()->GetEntityByName(s);
-           
-               
-                ImGui::InputFloat("Position x", &posx, 1., .3);
-  
+            {    
+                ImGui::InputFloat("Position x", &posx, 1., .3); 
                 ImGui::InputFloat("Position y", &posy, 1., .3);
-
                 ImGui::InputFloat("Scale", &scale, 1., .3);
-
-                ImGui::InputFloat("Rotation", &rotation, 1., .3);
-              
+                ImGui::InputFloat("Rotation", &rotation, 1., .3);          
                 ImGui::Text("Select color ");
-                const char* items[] = { "Red","Green","Blue","Yellow","Orange","Purple" };
- 
-                static int item_selected = 0; //
+                const char* items[] = { "Red","Green","Blue","Yellow","Orange","Purple","White","Black","Grey","Brown","Pink","Cyan","Magenta","Lime",
+                "Teal","Olive","Maroon","Navy","Aqua","Silver","Gold","Crimson","Indigo","Turquoise","Violet","Lavender","Rose","Tan","Beige","Khaki",
+                "Coral","Salmon","Peach","Apricot","Mauve","Lilac","Plum","Lemon","Mint","Jade","Emerald","Forest","Pine","Sky","Azure","Cobalt","Sapphire",
+                "Tangerine","Amber","Honey","Sand","Scarlett" }; 
+                static int item_selected = 0; 
                 ImGui::ListBox("listbox", &item_selected, items, IM_ARRAYSIZE(items), 5);
 
-                if (ImGui::Button("Apply")) // create entity and give it a spritecomponent and transform component with values chosen above
+                if (ImGui::Button("Apply")) 
                 {
-                    m_newentityindex++; // new entities have an integer as name
+                    m_newentityindex++; 
                     Ref<Entity> newentity = Phoenix::Application::Get().GetSubSystem<Phoenix::EntitySubsystem>()->CreateEntity(s);
-                    newentity->AddComponent(Phoenix::TransformComponent{ glm::vec3(posx, posy, 1.), 180, glm::vec2(1, 1) });
-                
-                    // change color according to what was selected in the list box
-                    switch (item_selected)
-                    {
-                    case 0:
-                        newentity->AddComponent(Phoenix::SpriteComponent(Color::RED));
-                        break;
-                    case 1:
-                        newentity->AddComponent(Phoenix::SpriteComponent(Color::GREEN));
-                        break;
-                    case 2:
-                        newentity->AddComponent(Phoenix::SpriteComponent(Color::BLUE));
-                        break;
-                    case 3:
-                        newentity->AddComponent(Phoenix::SpriteComponent(Color::YELLOW));
-                        break;
-                    case 4:
-                        newentity->AddComponent(Phoenix::SpriteComponent(Color::ORANGE));
-                        break;
-                    case 5:
-                        newentity->AddComponent(Phoenix::SpriteComponent(Color::PURPLE));
-                        break;
-                      
-                    }
+                    newentity->AddComponent(Phoenix::TransformComponent{ glm::vec3(posx, posy, 1.), rotation, glm::vec2(1, 1) });
+                    newentity->AddComponent(Phoenix::SpriteComponent(Colors::GetColorFromMap(item_selected)));
                     newentity->SetScale(scale);
-
                     m_newentity = false; // hide the display of settings 
-                  
-
                 }
-            }
-                
-            
-            ImGui::TreePop();
-            //ImGui::ShowDemoWindow();
+            }     
+            ImGui::TreePop();      
         }
     }
-
- 
-    
-
 
     void EditorLayer::OnAttach()
     {

@@ -40,12 +40,14 @@ namespace Phoenix
         bool m_BlockEvents = true;
         bool m_Trigger_Camera_Movement = false;
         float m_Time = 0.0f;
-       
+
         bool m_newentity = false;
         int m_newentityindex = 1;
         float posx = 0.;
         float posy = 0.;
         float scale = 0;
         float rotation = 0;
+        
+     
     };
 }
