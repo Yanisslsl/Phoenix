@@ -74,14 +74,77 @@ namespace Phoenix
         class PHOENIX_API Colors
     {
     public:
+       
         inline static glm::vec3 GetColor(ColorCode color)
         {
             auto c = Color::RED;
             return colors[color];
         }
+
+        static int GetColorFromMap(ColorCode color)
+        {
+            auto c = Color::RED;
+            return mapcolors[color];
+        }
     private:
+        inline static std::map <ColorCode,int> mapcolors
+        {
+    {Color::RED, 0},
+    {Color::GREEN, 1},
+    {Color::BLUE, 2},
+    {Color::YELLOW, 3},
+    {Color::ORANGE, 4},
+    {Color::PURPLE, 5},
+    {Color::WHITE, 6},
+    {Color::BLACK, 7},
+    {Color::GREY, 8},
+    {Color::BROWN, 9},
+    {Color::PINK, 10},
+    {Color::CYAN, 11},
+    {Color::MAGENTA, 12},
+    {Color::LIME, 13},
+    {Color::TEAL, 14},
+    {Color::OLIVE, 15},
+    {Color::MAROON, 16},
+    {Color::NAVY, 17},
+    {Color::AQUA, 18},
+    {Color::SILVER, 19},
+    {Color::GOLD, 20},
+    {Color::CRIMSON, 21},
+    {Color::INDIGO, 22},
+    {Color::TURQUOISE, 23},
+    {Color::VIOLET, 24},
+    {Color::LAVENDER, 25},
+    {Color::ROSE, 26},
+    {Color::TAN, 27},
+    {Color::BEIGE, 28},
+    {Color::KHAKI, 29},
+    {Color::CORAL, 30},
+    {Color::SALMON, 31},
+    {Color::PEACH, 32},
+    {Color::APRICOT, 33},
+    {Color::MAUVE, 34},
+    {Color::LILAC, 35},
+    {Color::PLUM, 36},
+    {Color::LEMON, 37},
+    {Color::MINT, 38},
+    {Color::JADE, 39},
+    {Color::EMERALD, 40},
+    {Color::FOREST, 41},
+    {Color::PINE, 42},
+    {Color::SKY, 43},
+    {Color::AZURE, 44},
+    {Color::COBALT, 45},
+    {Color::SAPPHIRE, 46},
+    {Color::TANGERINE,47},
+    {Color::AMBER, 48},
+    {Color::HONEY, 49},
+    {Color::SAND, 50},
+    {Color::SCARLET, 51}
+        };
+
         inline static std::map<ColorCode, glm::vec3> colors {
-  {Color::RED, glm::vec3(1.0f, 0.0f, 0.0f)},
+    {Color::RED, glm::vec3(1.0f, 0.0f, 0.0f)},
     {Color::GREEN, glm::vec3(0.0f, 1.0f, 0.0f)},
     {Color::BLUE, glm::vec3(0.0f, 0.0f, 1.0f)},
     {Color::YELLOW, glm::vec3(1.0f, 1.0f, 0.0f)},

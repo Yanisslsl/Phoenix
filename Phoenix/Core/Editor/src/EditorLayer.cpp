@@ -3,6 +3,8 @@
 #include "Windows/Core/Application/include/Application.h"
 #include <GLFW/glfw3.h>
 
+#include"Base/Base.h"
+//#include
 #include "imgui_internal.h"
 #include "Events/EventDispatcher.h"
 #include "Events/KeyEvent.h"
@@ -11,6 +13,7 @@
 #include "Common/Core/Input/include/Input.h"
 #include "Editor/include/ImGuiOpenGL.h"
 #include "Utils/Timer.h"
+#include "Utils/Color.h"
 #include "Common/Core/ECSExtended/include/Entity.h"
 
 namespace Phoenix
@@ -91,28 +94,33 @@ namespace Phoenix
             }
         }
         ImGui::End();
+       
     }
 
     // init entites tree rendering
     void EditorLayer::DrawSceneEditor()
     {
+        
         if (ImGui::TreeNode("Camera"))
+           
         {
             // @TODO add uid for camera
             if (ImGui::TreeNode((void*)(intptr_t)(10000), "Transform Component"))
             {
                 auto camera = Application::Get().GetSubSystem<SceneManagerSubSystem>()->GetActiveScene()->GetCameraController()->GetCamera();
                 ImGui::SeparatorText("Position");
-                ImGui::Text("X: %f", camera.GetPosition().x);
+                ImGui::Text("X: %f", camera.GetPosition().x);          
                 ImGui::SameLine();
                 ImGui::Text("Y: %f", camera.GetPosition().y);
+                ImGui::Button("Edit");
                 ImGui::SeparatorText("Rotation");
+                ImGui::Button("Edit");
                 ImGui::TreePop();
-            }
-            
+            }           
             ImGui::TreePop();
         }
         std::vector<Ref<Entity>> entities = Application::Get().GetSubSystem<EntitySubsystem>()->GetEntities();
+        
         if (ImGui::TreeNode("Entities"))
         {
             for(auto entity : entities)
@@ -123,21 +131,83 @@ namespace Phoenix
                     if (ImGui::TreeNode((void*)(intptr_t)(entity->m_id * 100), "Transform Component"))
                     {
                         ImGui::SeparatorText("Position");
-                        ImGui::Text("X: %f", entity->GetTransformPosition().x);
+                        ImGui::Text("X: %f", entity->GetTransformPosition().x);                    
                         ImGui::SameLine();
+                        float posx = entity->GetTransformPosition().x;
+                        if(ImGui::DragFloat("position x", &posx,1., -100.f,1300.f)) //modify position on x axis
+                        {
+                            entity->SetTransformPosition(glm::vec3(posx,entity->GetTransformPosition().y, 0));
+                        }
                         ImGui::Text("Y: %f", entity->GetTransformPosition().y);
+                        ImGui::SameLine();
+                        float posy = entity->GetTransformPosition().y; //modify position on y axis
+                        if (ImGui::DragFloat("position y", &posy, 1., -100.f, 800.f))
+                        {
+                            entity->SetTransformPosition(glm::vec3(entity->GetTransformPosition().x,posy, 0));
+                        }
                         ImGui::SeparatorText("Rotation");
                         ImGui::Text("X: %f", entity->GetRotation());
+                        ImGui::SameLine();
+                        float rotation = entity->GetRotation(); // modify rotation
+                        if (ImGui::DragFloat("rotation", &rotation, 1., 0.,180.))
+                        {
+                            entity->SetRotation(rotation);
+                        }
                         ImGui::SeparatorText("Scale");
                         ImGui::Text("X: %f", entity->GetScale().x);
                         ImGui::SameLine();
+                        float scx = entity->GetScale().x; // modify scale on x axis
+                        if (ImGui::DragFloat("scale x", &scx, 1., 0.,1000.))
+                        {
+                            entity->SetScale(glm::vec2(scx, entity->GetScale().y));
+                        }                      
                         ImGui::Text("Y: %f", entity->GetScale().y);
-                        ImGui::TreePop();
-                    }
+                        ImGui::SameLine();
+                        float scy = entity->GetScale().y; // modify scale on y axis
+                        if (ImGui::DragFloat("scale y", &scy, 1., 0., 1000.))
+                        {
+                            entity->SetScale(glm::vec2(entity->GetScale().x,scy));
+                        }
+                        ImGui::TreePop();               
+                    } 
                     ImGui::TreePop();
                 }
             }
         ImGui::TreePop();
+        }
+        if (ImGui::TreeNode("Entity Creation"))
+        {           
+            std::string s = std::to_string(m_newentityindex); // new entity's name
+            
+            if (ImGui::Button("Add") && m_newentity == false)              
+            {
+                m_newentity = true;
+            }
+            if (m_newentity == true)
+            {    
+                ImGui::InputFloat("Position x", &posx, 1., .3); 
+                ImGui::InputFloat("Position y", &posy, 1., .3);
+                ImGui::InputFloat("Scale", &scale, 1., .3);
+                ImGui::InputFloat("Rotation", &rotation, 1., .3);          
+                ImGui::Text("Select color ");
+                const char* items[] = { "Red","Green","Blue","Yellow","Orange","Purple","White","Black","Grey","Brown","Pink","Cyan","Magenta","Lime",
+                "Teal","Olive","Maroon","Navy","Aqua","Silver","Gold","Crimson","Indigo","Turquoise","Violet","Lavender","Rose","Tan","Beige","Khaki",
+                "Coral","Salmon","Peach","Apricot","Mauve","Lilac","Plum","Lemon","Mint","Jade","Emerald","Forest","Pine","Sky","Azure","Cobalt","Sapphire",
+                "Tangerine","Amber","Honey","Sand","Scarlett" }; 
+                static int item_selected = 0; 
+                ImGui::ListBox("listbox", &item_selected, items, IM_ARRAYSIZE(items), 5);
+
+                if (ImGui::Button("Apply")) 
+                {
+                    m_newentityindex++; 
+                    Ref<Entity> newentity = Phoenix::Application::Get().GetSubSystem<Phoenix::EntitySubsystem>()->CreateEntity(s);
+                    newentity->AddComponent(Phoenix::TransformComponent{ glm::vec3(posx, posy, 1.), rotation, glm::vec2(1, 1) });
+                    newentity->AddComponent(Phoenix::SpriteComponent(Colors::GetColorFromMap(item_selected)));
+                    newentity->SetScale(scale);
+                    m_newentity = false; // hide the display of settings 
+                }
+            }     
+            ImGui::TreePop();      
         }
     }
 
@@ -263,6 +333,7 @@ namespace Phoenix
 	
     void EditorLayer::Begin()
     {
+       
         ImGui_ImplOpenGL3_NewFrame();
         ImGui::NewFrame();
     }
@@ -292,6 +363,8 @@ namespace Phoenix
         //     glfwMakeContextCurrent(backup_current_context);
         // }
     }
+
+
 
     void EditorLayer::SetDarkThemeColors()
     {
@@ -324,6 +397,8 @@ namespace Phoenix
         colors[ImGuiCol_TitleBg] = ImVec4{ 0.15f, 0.1505f, 0.151f, 1.0f };
         colors[ImGuiCol_TitleBgActive] = ImVec4{ 0.15f, 0.1505f, 0.151f, 1.0f };
         colors[ImGuiCol_TitleBgCollapsed] = ImVec4{ 0.15f, 0.1505f, 0.151f, 1.0f };
+
+        
     }
 
     uint32_t EditorLayer::GetActiveWidgetID() const
