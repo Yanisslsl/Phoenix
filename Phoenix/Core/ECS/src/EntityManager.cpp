@@ -20,7 +20,7 @@ namespace Phoenix
         {
             //@TODO: might be too restrictive, client should be able to add components without the need to edit the engine
             //@TODO: add method that allow to resize the vector when creating new ComponentSystem
-            //Replace 3 by the number of ComponentSystem in the Engine
+            //Replace 5 by the number of ComponentSystem in the Engine
             c.resize(5);
         }
     }
@@ -90,7 +90,7 @@ namespace Phoenix
     }
 
     // retrieve entity and components
-    EntityId EntityManager::GetEntity(const std::string& name)
+    EntityId EntityManager::GetEntityIdByName(const std::string& name)
     {
         for (std::size_t i = 0; i < m_entitiesName.size(); i++)
         {
@@ -102,8 +102,13 @@ namespace Phoenix
         PX_ERROR("Entity not found");
     }
 
-    std::string EntityManager::GetEntityName(EntityId id)
+    std::string EntityManager::GetEntityNameById(EntityId id)
     {
+        if (id > m_entitiesName.size()-1)
+        {
+            PX_WARN("Entity with id:"+std::to_string(id)+" couldn't be found.");
+            return "";
+        }
         return m_entitiesName.at(id);
     }
 

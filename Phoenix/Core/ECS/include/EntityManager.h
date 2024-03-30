@@ -20,8 +20,8 @@ namespace Phoenix
         void Remove(EntityId entity);
         void PrintEntityName(EntityId);
         EntityId Create(const std::string& name);
-        EntityId GetEntity(const std::string& name);
-        std::string GetEntityName(EntityId id);
+        EntityId GetEntityIdByName(const std::string& name);
+        std::string GetEntityNameById(EntityId id);
         std::vector<EntityId> GetEntities() const;
         std::vector<std::string> GetEntitiesName() const;
         void BindUpdate(EntityId entityId, std::function<void()> updateFunction);

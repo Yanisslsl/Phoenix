@@ -23,14 +23,16 @@ namespace Phoenix
 
     Ref<Entity> EntitySubsystem::GetEntityByName(std::string name)
     {
-        EntityId entityId  = m_EntityManager->GetEntity(name);
+        EntityId entityId  = m_EntityManager->GetEntityIdByName(name);
         TagType tag = m_EntityManager->GetTag(entityId);
         return CreateRef<Entity>(Entity{ entityId, name, tag });
     }
 
     Ref<Entity> EntitySubsystem::GetEntityById(EntityId id)
     {
-        std::string name = m_EntityManager->GetEntityName(id);
+        std::string name = m_EntityManager->GetEntityNameById(id);
+        //If Entity not found return nullptr
+        if (name == "") return nullptr;
         TagType tag = m_EntityManager->GetTag(id);
         return CreateRef<Entity>(Entity{ id, name, tag });
     }
@@ -40,7 +42,7 @@ namespace Phoenix
         std::vector<Ref<Entity>> entities;
         for (auto& entityName : m_EntityManager->GetEntitiesName())
         {
-            EntityId entityId = m_EntityManager->GetEntity(entityName);
+            EntityId entityId = m_EntityManager->GetEntityIdByName(entityName);
             TagType tag = m_EntityManager->GetTag(entityId);
             std::function<void()> updateBindedFunction = m_EntityManager->GetUpdateFunction(entityId);
             Ref<Entity> entity = CreateRef<Entity>(Entity{ entityId, entityName });
@@ -56,7 +58,7 @@ namespace Phoenix
         std::vector<Ref<Entity>> entities;
         for (auto& entityName : m_EntityManager->GetEntitiesName())
         {
-            EntityId entityId = m_EntityManager->GetEntity(entityName);
+            EntityId entityId = m_EntityManager->GetEntityIdByName(entityName);
             TagType entityTag = m_EntityManager->GetTag(entityId);
             std::function<void()> updateBindedFunction = m_EntityManager->GetUpdateFunction(entityId);
             if (Tags::HasTag(entityTag, tag))
