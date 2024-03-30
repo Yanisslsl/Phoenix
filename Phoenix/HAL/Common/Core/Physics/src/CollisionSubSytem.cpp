@@ -49,9 +49,14 @@ namespace Phoenix
                 {
                     // hitCalls defined the number of times the onHit callback will be called
                     // disable this may be a performance bottleneck
-                    if(collider.hitCalls < 10)
+                    if(collider.hitCalls < 1)
                     {
                         Ref<Entity> entity = Application::Get().GetSubSystem<EntitySubsystem>()->GetEntityById(otherCollider.m_EntityId);
+                        if (!entity)
+                        {
+                            PX_WARN("Coundn't call Collider.OnHit because entity is nullptr.");
+                            continue;
+                        }
                         collider.hitCalls++;
                         collider.OnHit(entity);
                     }

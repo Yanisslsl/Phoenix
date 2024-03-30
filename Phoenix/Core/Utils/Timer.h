@@ -16,6 +16,15 @@ namespace Phoenix
         static void Reset()
         {
             m_StartTime = std::chrono::high_resolution_clock::now();
+            m_DeltaTime = std::chrono::high_resolution_clock::now();
+            m_LastUpdateTime = std::chrono::high_resolution_clock::now();
+        }
+
+        static void Update()
+        {
+            auto now = std::chrono::high_resolution_clock::now();
+            //m_DeltaTime = std::chrono::duration<float, std::chrono::seconds::period>(now - m_LastUpdateTime).count();
+            
         }
 
         /**
@@ -42,13 +51,15 @@ namespace Phoenix
          */
         static float GetDeltaTime()
         {
+            auto u = m_DeltaTime;
+            auto s = std::chrono::high_resolution_clock::now();
             float deltaTime =  std::chrono::duration_cast<std::chrono::nanoseconds>(std::chrono::high_resolution_clock::now() - m_DeltaTime).count() * 0.001f * 0.001f * 0.001f;
-            m_DeltaTime  = std::chrono::high_resolution_clock::now();
-            return deltaTime * 1000;
+            return deltaTime;
         }
 
     private:
         inline static std::chrono::time_point<std::chrono::high_resolution_clock> m_StartTime;
         inline static std::chrono::time_point<std::chrono::steady_clock> m_DeltaTime;
+        inline static std::chrono::steady_clock::time_point m_LastUpdateTime;
     };
 }

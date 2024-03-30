@@ -5,6 +5,7 @@
 #include "Entities\include\Knight.h"
 #include "Entities/include/Mob.h"
 #include "Entities/include/Room.h"
+#include "Systems/include/MobManager.h"
 #include "Utils/UUID.h"
 
 class MainLayer : public Phoenix::Layer
@@ -16,6 +17,16 @@ public:
 		Phoenix::Application::Get().GetSubSystem<Phoenix::SceneManagerSubSystem>()->LoadScene("MainLevel");
 		InitLevel();
 
+		m_mobManager = new MobManager(7);
+		
+		m_mobManager->SpawnMob(glm::vec2(0, 0),Phoenix::Application::Get().GetSubSystem<Phoenix::EntitySubsystem>()->GetEntityByName("Knight"),"Mob1");
+		m_mobManager->SpawnMob(glm::vec2(1200, 700),Phoenix::Application::Get().GetSubSystem<Phoenix::EntitySubsystem>()->GetEntityByName("Knight"),"Mob2");
+		m_mobManager->SpawnMob(glm::vec2(600, 500),Phoenix::Application::Get().GetSubSystem<Phoenix::EntitySubsystem>()->GetEntityByName("Knight"),"Mob3");
+		m_mobManager->SpawnMob(glm::vec2(400, 600),Phoenix::Application::Get().GetSubSystem<Phoenix::EntitySubsystem>()->GetEntityByName("Knight"),"Mob4");
+		m_mobManager->SpawnMob(glm::vec2(600, 400),Phoenix::Application::Get().GetSubSystem<Phoenix::EntitySubsystem>()->GetEntityByName("Knight"),"Mob5");
+		m_mobManager->SpawnMob(glm::vec2(500, 400),Phoenix::Application::Get().GetSubSystem<Phoenix::EntitySubsystem>()->GetEntityByName("Knight"),"Mob6");
+		m_mobManager->SpawnMob(glm::vec2(400, 500),Phoenix::Application::Get().GetSubSystem<Phoenix::EntitySubsystem>()->GetEntityByName("Knight"),"Mob7");
+		
 		// std::random_device rd; // obtain a random number from hardware
 		// std::mt19937 gen(rd()); // seed the generator
 		// std::uniform_int_distribution<> distr(50, 1200);
@@ -54,7 +65,6 @@ public:
 		auto height = Phoenix::Application::Get().GetWindow()->GetHeight();
 		new Room(glm::vec2(width/2, height/2), glm::vec2(width, height));
 		new Knight();
-		new Mob(glm::vec2(500, 500));
 	}
 
 	void OnUpdate() override
@@ -65,7 +75,9 @@ public:
 		// 	auto position = entity->GetTransformPosition();
 		// 	entity->SetTransformPosition(glm::vec2(position.x + 1, position.y + 1));
 		// }
+		Phoenix::Timer::Update();
 		Phoenix::Application::Get().GetSubSystem<Phoenix::SceneManagerSubSystem>()->GetActiveScene()->OnUpdate();
+		m_mobManager->OnUpdate();
 	}
 	
 	void OnEvent(Phoenix::Event& event) override
@@ -76,11 +88,12 @@ public:
 	
 private:
 	Knight* m_player;
-	std::vector<Mob*> m_mobs;
+	MobManager* m_mobManager;
 	std::vector<glm::vec2> m_mob_positions;
 	float xPos = 0;
 	float yPos = 0;
 	std::vector<std::string> m_Ids;
+	
 };
 class GameApp : public Phoenix::Application
 {
