@@ -28,28 +28,13 @@ namespace Phoenix
     {
     public:
         BoxCollider() = default;
-        BoxCollider(CollisionType type, std::function<void(Ref<Entity>)> onHit, unsigned int onHitUUID, CollisionShape shape, float width, float height, int maxHitCalls = 1)
+        BoxCollider(CollisionType type, std::function<void(Ref<Entity>)> onHit, CollisionShape shape, float width, float height, int maxHitCalls = 1)
         : type(type), OnHit(onHit), shape(shape), width(width), height(height), maxHitCalls(maxHitCalls)
         {
-            OnHitUuid = onHitUUID;
             position = glm::vec2(0, 0);
-        }
-
-        BoxCollider(CollisionType type, std::function<void(Ref<Entity>)> onHit,CollisionShape shape, float width, float height, int maxHitCalls = 1)
-       : type(type), OnHit(onHit), shape(shape), width(width), height(height), maxHitCalls(maxHitCalls)
-        {
-            OnHitUuid = 0;
-            position = glm::vec2(0, 0);
-        }
-
-        ~BoxCollider()
-        {
-            
         }
         CollisionType type;
         glm::vec2 position;
-        // uuid used for serialization
-        unsigned int OnHitUuid;
         std::function<void(Ref<Entity>)> OnHit = nullptr;
         CollisionShape shape;
         float width;
@@ -98,7 +83,6 @@ namespace Phoenix
             serializer.Write(&m_EntityId, sizeof(m_EntityId));
             serializer.Write(&maxHitCalls, sizeof(maxHitCalls));
             serializer.Write(&hitCalls, sizeof(hitCalls));
-            serializer.Write(&OnHitUuid, sizeof(OnHitUuid));
         }
         virtual void Deserialize(BlobSerializer& serializer) override
         {
@@ -110,14 +94,12 @@ namespace Phoenix
             serializer.Read(&m_EntityId, sizeof(m_EntityId));
             serializer.Read(&maxHitCalls, sizeof(maxHitCalls));
             serializer.Read(&hitCalls, sizeof(hitCalls));
-            serializer.Read(&OnHitUuid, sizeof(OnHitUuid));
         }
-        //REGISTER_CLASS_WITH_FACTORY(BoxCollider)
     };
 
-    // struct BoxCollider;
-    struct PHOENIX_API Node
+    class PHOENIX_API Node
     {
+    public:
         Node(glm::vec2 topLeftPosition, float width, float height, std::string id)
             : topLeftPosition(topLeftPosition), width(width), height(height), id(id)
         {
@@ -133,15 +115,6 @@ namespace Phoenix
         glm::vec2 topLeftPosition;
         float width;
         float height;
-        bool Contains(BoxCollider& collider)
-        {
-            // if(collider.position.x > topLeftPosition.x &&
-            //     collider.position.y > topLeftPosition.y &&
-            //     collider.position.x < topLeftPosition.x + width &&
-            //     collider.position.y < topLeftPosition.y + height)
-            //     return true;
-            return false;
-        }
         Node* left = nullptr;
         Node* right = nullptr;
     };

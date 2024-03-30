@@ -21,7 +21,9 @@ namespace Phoenix
          * \param cameraController Should be instanciate with the window size
          */
          Scene(std::string& name, OrthographicCameraController* cameraController);
-         ~Scene();
+         ~Scene()
+         {
+         };
      
         /**
          * \brief Start the scene, should initialize all the entities (from serialization for example)

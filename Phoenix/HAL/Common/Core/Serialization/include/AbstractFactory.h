@@ -29,7 +29,7 @@ namespace Phoenix
     public:
         typename BaseCreator<BaseType, Args...>::BasePtr Create(Args&&... args) override
         {
-            return std::make_unique<DerivedType>(std::forward<Args>(args)...);
+            return std::make_shared<DerivedType>(std::forward<Args>(args)...);
         }
     };
 
@@ -63,7 +63,7 @@ namespace Phoenix
                 PX_CORE_ASSERT(false, "Key not found in factory");
                 return nullptr;
             }
-            m_creators.at(key)->Create(std::forward<Args>(args)...);
+            return m_creators.at(key)->Create(std::forward<Args>(args)...);
         }
         
         std::vector<Key> RegisteredTypes() const

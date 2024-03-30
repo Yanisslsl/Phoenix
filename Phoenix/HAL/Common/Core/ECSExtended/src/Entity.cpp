@@ -89,9 +89,10 @@ namespace Phoenix
 
     void Entity::Destroy()
     {
-        Application::Get().GetSubSystem<EntitySubsystem>()->DestroyEntity(m_id);
         Application::Get().GetSubSystem<TransformSubsytem>()->DeleteTransformComponent(m_id);
         Application::Get().GetSubSystem<CollisionSubSytem>()->DeleteCollider(m_id);
+        Application::Get().GetSubSystem<AnimationSubsystem>()->DeleteAnimation(m_id);
+        Application::Get().GetSubSystem<EntitySubsystem>()->DestroyEntity(m_id);
         Renderer::DeleteShape(m_name);
     }
 
@@ -189,10 +190,10 @@ namespace Phoenix
     {
         serializer.WriteHeader(EntitySerializeType);
         serializer.Write(&m_id, sizeof(m_id));
-        serializer.Write(&m_name, sizeof(m_name));
+        serializer.WriteString(m_name);
         serializer.Write(&m_Tag, sizeof(m_Tag));
-        serializer.Write(&m_parent, sizeof(m_parent));
-        serializer.Write(&m_children, sizeof(m_children));
+        // serializer.Write(&m_parent, sizeof(m_parent));
+        // serializer.Write(&m_children, sizeof(m_children));
         if(Application::Get().GetSubSystem<SpriteSubsystem>()->HasSpriteComponent(m_id))
         {
             SpriteComponent sprite = Application::Get().GetSubSystem<SpriteSubsystem>()->GetSpriteComponent(m_id);
@@ -213,9 +214,10 @@ namespace Phoenix
     void Entity::Deserialize(BlobSerializer& serializer)
     {
         serializer.Read(&m_id, sizeof(m_id));
-        serializer.Read(&m_name, sizeof(m_name));
+        serializer.ReadString(m_name);
         serializer.Read(&m_Tag, sizeof(m_Tag));
-        serializer.Read(&m_parent, sizeof(m_parent));
-        serializer.Read(&m_children, sizeof(m_children));
+        // serializer.Read(&m_parent, sizeof(m_parent));
+        // serializer.Read(&m_children, sizeof(m_children));
     }
+
 }

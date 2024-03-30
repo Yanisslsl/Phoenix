@@ -15,11 +15,6 @@ namespace Phoenix
         delete m_AnimationSystem;
     }
 
-    // AnimatorComponent::AnimatorComponent(std::string name, int totalFrames, float duration, std::vector<std::string> paths)
-    // {
-    //     texturesPaths.insert(std::pair<std::string, std::vector<std::string>>(name, paths));
-    // }
-
     bool AnimationSubsystem::HasAnimation(EntityId entity)
     {
         return m_AnimationSystem->HasAnimation(entity);
@@ -89,6 +84,11 @@ namespace Phoenix
             if(m_AnimationSystem->GetCurrentAnimationName(entity) == "NONE") continue;
             UpdateAnimation(entity);
         }
+    }
+
+    void AnimationSubsystem::DeleteAnimation(EntityId entityId)
+    {
+        m_AnimationSystem->DeleteComponent(entityId);
     }
 
     void AnimationSubsystem::UpdateAnimation(EntityId entityId)

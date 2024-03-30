@@ -14,6 +14,7 @@ public:
     Room();
     Room(glm::vec2 position, glm::vec2 size);
     ~Room();
+    void OnStart();
     void Update();
     void OnHit(Phoenix::Ref<Phoenix::Entity> entity);
     std::string m_name;
@@ -22,5 +23,5 @@ public:
     glm::vec2 m_position;
     int x = 0;
     int y = 0;
-    REGISTER_CLASS_WITH_FACTORY(Room);
+    REGISTER_CLASS_WITH_FACTORY(Room)
 };

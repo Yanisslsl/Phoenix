@@ -63,9 +63,7 @@ namespace Phoenix
         void UpdateAnimation(EntityId entity);
         void PlayAnimation(EntityId entity, std::string name, std::function<void()> onAnimationEnd);
         void Update();
-        // void StopAnimation(EntityId entity);
-        // void PauseAnimation(EntityId entity);
-        // void ResumeAnimation(EntityId entity);
+        void DeleteAnimation(EntityId entityId);
 
     private:
         AnimationSystem* m_AnimationSystem;

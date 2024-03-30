@@ -24,14 +24,4 @@ namespace Phoenix
         }
         m_Scenes_map.erase(name);
     }
-
-    void SceneManagerSubSystem::LoadScene(std::string name)
-    {
-        Application::Get().GetSubSystem<SerializerSubsystem>()->LoadScene(name);
-    }
-
-    void SceneManagerSubSystem::SaveScene(std::string name)
-    {
-        Application::Get().GetSubSystem<SerializerSubsystem>()->SaveScene(m_activeScene);
-    }
 }

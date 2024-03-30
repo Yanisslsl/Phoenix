@@ -9,21 +9,30 @@
 
 Knight::Knight()
 {
-    m_Bullets = std::vector<Bullet*>();
-    Phoenix::Ref<Phoenix::Entity> entity = Phoenix::Application::Get().GetSubSystem<Phoenix::EntitySubsystem>()->CreateEntity("Knight");
+    m_name = "Knight";
+    m_Position = glm::vec2(400, 400);
+    Phoenix::Application::Get().GetSubSystem<Phoenix::EntitySubsystem>()->BindOnStart(PX_BIND_EVENT_FN(OnStart));
+}
+
+Knight::~Knight()
+{
+    Phoenix::Application::Get().GetSubSystem<Phoenix::EntitySubsystem>()->GetEntityByName(m_name)->Destroy();
+}
+
+void Knight::OnStart()
+{
+    Phoenix::Application::Get().GetSubSystem<Phoenix::SerializerSubsystem>()->RegisterEntityForSerialization(m_name, this);
+    Phoenix::Ref<Phoenix::Entity> entity = Phoenix::Application::Get().GetSubSystem<Phoenix::EntitySubsystem>()->CreateEntity("Knight", false);
     entity->AddComponent(Phoenix::SpriteComponent("characters/player/player_idle.png"));
-    entity->AddComponent(Phoenix::TransformComponent(glm::vec3(400, 400, 1.), 180, glm::vec2(1, 1) ));
+    entity->AddComponent(Phoenix::TransformComponent(glm::vec3(m_Position.x, m_Position.y, 1.), 180, glm::vec2(1, 1) ));
     entity->SetScale(30);
-    auto hashedFunctionName = Phoenix::UUID::GenerateUniqueFunctionHash("Knight", "OnHit");
-    Phoenix::Application::Get().GetSubSystem<Phoenix::SerializerSubsystem>()->RegisterSerializableOnHitFunction(hashedFunctionName, PX_BIND_EVENT_FN(OnHit));
-    entity->AddComponent(Phoenix::BoxCollider{ Phoenix::CollisionType::DYNAMIC, PX_BIND_EVENT_FN(OnHit),hashedFunctionName, Phoenix::CollisionShape::RECTANGLE, 20, 20 });
+    entity->AddComponent(Phoenix::BoxCollider{ Phoenix::CollisionType::DYNAMIC, PX_BIND_EVENT_FN(OnHit), Phoenix::CollisionShape::RECTANGLE, 20, 20 });
     entity->BindUpdate(PX_BIND_EVENT_FN(Update));
     entity->AddTag(Phoenix::Tag::Player);
     std::vector<std::string> runAnimationsRightTextures = { "characters/player/animation_run/right/player_run_1.png", "characters/player/animation_run/right/player_run_2.png", "characters/player/animation_run/right/player_run_3.png", "characters/player/animation_run/right/player_run_4.png" };
     std::vector<std::string> runAnimationsLeftTextures = { "characters/player/animation_run/left/player_run_1.png", "characters/player/animation_run/left/player_run_2.png", "characters/player/animation_run/left/player_run_3.png", "characters/player/animation_run/left/player_run_4.png" };
     entity->CreateAnimation("RunRight", runAnimationsRightTextures, .3, 4);
     entity->CreateAnimation("RunLeft", runAnimationsLeftTextures, .3, 4);
-    
     std::vector<std::string> fireAnimationsRightTextures = { "characters/player/animation_fire/right/player_fire_1.png", "characters/player/animation_fire/right/player_fire_2.png", "characters/player/animation_fire/right/player_fire_3.png", "characters/player/animation_fire/right/player_fire_4.png" };
     std::vector<std::string> fireAnimationsLeftTextures = { "characters/player/animation_fire/left/player_fire_1.png", "characters/player/animation_fire/left/player_fire_2.png", "characters/player/animation_fire/left/player_fire_3.png", "characters/player/animation_fire/left/player_fire_4.png" };
     entity->CreateAnimation("FireRight", fireAnimationsRightTextures, .05, 4);
@@ -41,7 +50,6 @@ void Knight::GetFireInput()
         }
     }
 }
-
 
 void Knight::GetMovementInput()
 {
@@ -83,25 +91,8 @@ void Knight::PlayAnimation()
     {
         entity->Play("RunLeft");
     }
-    // else if (m_State == State::FIRE_RIGHT)
-    // {
-    //     PX_WARN("FIRE RIGHT");
-    //     entity->Play("FireRight", [&](){
-    //         // m_State = State::RUN_RIGHT;
-    //         // m_isStateDirty = true;
-    //     });
-    // }
-    // else if (m_State == State::FIRE_LEFT)
-    // {
-    //     PX_WARN("FIRE LEFT");
-    //     entity->Play("FireLeft", [&](){
-    //         // m_State = State::RUN_LEFT;
-    //         // m_isStateDirty = true;
-    //     });
-    // }
     m_isStateDirty = false;
 }
-
 
 void Knight::Update()
 {
@@ -114,8 +105,8 @@ void Knight::Move()
 {
     if(m_X_Direction == 0 && m_Y_Direction == 0) return;
     auto entity = Phoenix::Application::Get().GetSubSystem<Phoenix::EntitySubsystem>()->GetEntityByName("Knight");
-    auto sqaurePos = entity->GetTransformPosition();
-    entity->SetTransformPosition(glm::vec3(sqaurePos.x + m_X_Direction * m_Speed, sqaurePos.y + m_Y_Direction * m_Speed, 1.));
+    m_Position = entity->GetTransformPosition();
+    entity->SetTransformPosition(glm::vec3(m_Position.x + m_X_Direction * m_Speed, m_Position.y + m_Y_Direction * m_Speed, 1.));
     if(m_State == State::FIRE_RIGHT || m_State == State::FIRE_RIGHT) return;
     if(m_X_Direction == -1 && m_State != State::RUN_RIGHT)
     {
@@ -155,3 +146,32 @@ void Knight::Fire()
      });
     }
 }
+
+void Knight::Serialize(Phoenix::BlobSerializer& serializer)
+{
+    auto typeId = Phoenix::Application::Get().GetSubSystem<Phoenix::SerializerSubsystem>()->GetSerializableType(m_name);
+    serializer.WriteHeader(typeId);
+    serializer.Write(&m_Position, sizeof(m_Position));
+    serializer.Write(&m_X_Direction, sizeof(m_X_Direction));
+    serializer.Write(&m_Y_Direction, sizeof(m_Y_Direction));
+    serializer.Write(&m_Speed, sizeof(m_Speed));
+    serializer.Write(&m_count, sizeof(m_count));
+    serializer.Write(&m_BulletCount, sizeof(m_BulletCount));
+    serializer.WriteString(m_name);
+    serializer.Write(&m_State, sizeof(m_State));
+    serializer.Write(&m_isStateDirty, sizeof(m_isStateDirty));
+}
+
+void Knight::Deserialize(Phoenix::BlobSerializer& serializer)
+{
+    serializer.Read(&m_Position, sizeof(m_Position));
+    serializer.Read(&m_X_Direction, sizeof(m_X_Direction));
+    serializer.Read(&m_Y_Direction, sizeof(m_Y_Direction));
+    serializer.Read(&m_Speed, sizeof(m_Speed));
+    serializer.Read(&m_count, sizeof(m_count));
+    serializer.Read(&m_BulletCount, sizeof(m_BulletCount));
+    serializer.ReadString(m_name);
+    serializer.Read(&m_State, sizeof(m_State));
+    serializer.Read(&m_isStateDirty, sizeof(m_isStateDirty));
+}
+

@@ -31,19 +31,14 @@ namespace Phoenix
         
     }
 
-    Scene::~Scene()
-    {
-        
-    }
-
     void Scene::Serialize(BlobSerializer& serializer)
     {
         serializer.WriteHeader(SceneSerializeType);
-        serializer.Write(&m_Name, sizeof(m_Name));
+        serializer.WriteString(m_Name);
     }
 
     void Scene::Deserialize(BlobSerializer& serializer)
     {
-        serializer.Read(&m_Name, sizeof(m_Name));
+        serializer.ReadString(m_Name);
     }
 }

@@ -27,13 +27,13 @@ namespace Phoenix
         virtual void Serialize(BlobSerializer& serializer) override
         {
             serializer.WriteHeader(SpriteComponentSerializeType);
-            serializer.Write(&textureFilePath, sizeof(textureFilePath));
+            serializer.WriteString(textureFilePath);
             serializer.Write(&colorCode, sizeof(colorCode));
             serializer.Write(&entityId, sizeof(entityId));
         }
         virtual void Deserialize(BlobSerializer& serializer) override
         {
-            serializer.Read(&textureFilePath, sizeof(textureFilePath));
+            serializer.ReadString(textureFilePath);
             serializer.Read(&colorCode, sizeof(colorCode));
             serializer.Read(&entityId, sizeof(entityId));
         }

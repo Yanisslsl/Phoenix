@@ -13,7 +13,7 @@ namespace Phoenix
 
 	Application* Application::s_Instance = nullptr;
 
-	Application::Application()
+	Application::Application(ApplicationMode mode): m_Mode(mode)
 	{
 		m_Window = WindowHal::Create(WindowProps("Phoenix Engine", 1280, 720));
 		m_Window->SetEventCallback(PX_BIND_EVENT_FN(Application::OnEvent));
@@ -44,7 +44,18 @@ namespace Phoenix
 		delete m_AnimationSubsystem;
 		delete m_SpriteSubsystem;
 	}
+
 	void Application::Run()
+	{
+		m_Running = true;
+		if(!m_EntityManagerSubsystem->IsInitialized())
+		{
+			m_EntityManagerSubsystem->Initalize();
+		}
+		Update();
+	}
+
+	void Application::Update()
 	{
 		while (m_Running)
 		{
@@ -100,9 +111,4 @@ namespace Phoenix
 		m_LayerStack.PushOverlay(overlay);
 		overlay->OnAttach();
 	}
-
-	
-	
-
-		
 }

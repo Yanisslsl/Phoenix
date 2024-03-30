@@ -35,7 +35,7 @@ namespace Phoenix
         
     }
 
-    void ColliderSystem::DeleteComponentFrom(EntityId entity)
+    void ColliderSystem::DeleteComponent(EntityId entity)
     {
         ComponentId componentId = EntityManager::Get()->m_entitiesComponents.at(entity).at(m_Id);
         m_ColliderData->m_types.Remove(componentId);
@@ -47,7 +47,7 @@ namespace Phoenix
         m_ColliderData->m_entities.Remove(componentId);
         m_ColliderData->m_nodeIds.Remove(componentId);
         m_ColliderData->m_shapes.Remove(componentId);
-        ComponentSystem::DeleteComponentFrom(entity);
+        ComponentSystem::DeleteComponent(entity);
     }
 
     ColliderSystem::ColliderSystem(ComponentSystemId id, size_t dataSize)
@@ -116,22 +116,10 @@ namespace Phoenix
         return m_ColliderData->m_heights.Get(colliderId);
     }
 
-    void ColliderSystem::SetOnHitCallback(EntityId entity, std::function<void(Ref<Entity>)> functionUuid)
+    void ColliderSystem::SetOnHitCallback(EntityId entity, std::function<void(Ref<Entity>)> onHitCallback)
     {
         ComponentId colliderId = EntityManager::Get()->m_entitiesComponents.at(entity).at(m_Id);
-        m_ColliderData->m_onHitCallbacks.Get(colliderId) = functionUuid;
-    }
-
-    void ColliderSystem::SetOnHitUuid(EntityId entity, unsigned int functionUuid)
-    {
-        ComponentId colliderId = EntityManager::Get()->m_entitiesComponents.at(entity).at(m_Id);
-        m_ColliderData->m_onHitUuids.Get(colliderId) = functionUuid;
-    }
-
-    unsigned int ColliderSystem::GetOnHitUuid(EntityId entity)
-    {
-        ComponentId colliderId = EntityManager::Get()->m_entitiesComponents.at(entity).at(m_Id);
-        return m_ColliderData->m_onHitUuids.Get(colliderId);
+        m_ColliderData->m_onHitCallbacks.Get(colliderId) = onHitCallback;
     }
     
     std::function<void(Ref<Entity>)> ColliderSystem::GetOnHitCallback(EntityId entity)

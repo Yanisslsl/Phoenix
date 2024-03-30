@@ -59,14 +59,14 @@ namespace Phoenix
     {
         return m_updateFunctions.at(entityId);
     }
-
+    
     void EntityManager::AddTag(EntityId entity, TagType tag)
     {
         m_entitiesTags.at(entity) = tag;
     }
 
     TagType EntityManager::GetTag(EntityId entity)
-    {
+{
         return m_entitiesTags.at(entity);
     }
 

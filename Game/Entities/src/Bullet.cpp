@@ -14,23 +14,15 @@ Bullet::Bullet():
 
 Bullet::Bullet(std::string id, glm::vec2 position, glm::vec2 direction)
 {
-    //FUCK_COMPILER(Bullet)
-
     m_Direction = direction;
     m_id = id;
     self = Phoenix::Application::Get().GetSubSystem<Phoenix::EntitySubsystem>()->CreateEntity(m_id);
     self->AddComponent(Phoenix::SpriteComponent("ressources/laser_beam.png"));
     self->AddComponent(Phoenix::TransformComponent{ {position.x, position.y, 1.}, 180, glm::vec2(1, 1) });
     self->SetScale(10);
-    // auto hashedFunctionName = Phoenix::Hash::GenerateUniqueFunctionHash("Bullet", "OnHit");
-    // Phoenix::Application::Get().GetSubSystem<Phoenix::SerializerSubsystem>()->RegisterSerializableOnHitFunction(hashedFunctionName, PX_BIND_EVENT_FN(OnHit));
-    // self->AddComponent(Phoenix::BoxCollider{ Phoenix::CollisionType::DYNAMIC, PX_BIND_EVENT_FN(OnHit), hashedFunctionName, Phoenix::CollisionShape::RECTANGLE, 20, 20 });
+    self->AddComponent(Phoenix::BoxCollider{ Phoenix::CollisionType::DYNAMIC, PX_BIND_EVENT_FN(OnHit), Phoenix::CollisionShape::RECTANGLE, 20, 20 });
     self->AddTag(Phoenix::Tag::Bullet);
     self->BindUpdate(PX_BIND_EVENT_FN(Update));
-}
-
-Bullet::~Bullet()
-{
 }
 
 void Bullet::Update()
@@ -49,6 +41,19 @@ void Bullet::OnHit(Phoenix::Ref<Phoenix::Entity> entity)
     auto t = entity->HasTag(Phoenix::Tag::Player);
     auto m = entity->HasTag(Phoenix::Tag::Mob);
     PX_WARN("BULLET HIT");
+    if(entity->HasTag(Phoenix::Tag::Bullet))
+    {
+        PX_WARN("BULLET HIT BULLET");
+    }
+    if(entity->HasTag(Phoenix::Tag::Mob))
+    {
+        PX_WARN("BULLET HIT MOB");
+    }
+    if(entity->HasTag(Phoenix::Tag::Player))
+    {
+        PX_WARN("BULLET HIT PLAYER");
+    }
+
     if(entity->HasTag(Phoenix::Tag::Bullet) || entity->HasTag(Phoenix::Tag::Player)) return;
     if(entity->HasTag(Phoenix::Tag::Mob))
     {

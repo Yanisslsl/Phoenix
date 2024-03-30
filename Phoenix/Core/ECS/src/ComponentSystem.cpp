@@ -40,10 +40,10 @@ namespace Phoenix
          }
     }
 
-    void ComponentSystem::DeleteComponentFrom(EntityId entity)
+    void ComponentSystem::DeleteComponent(EntityId entity)
     {
-        //@TODO: Refacto might be a order problem when deleting component and adding a new one, and maybe find other way to unset the componentId
-        EntityManager::Get()->m_entitiesComponents.at(entity).at(m_Id) = -1;
+        m_ComponentsId.erase(std::remove(m_ComponentsId.begin(), m_ComponentsId.end(), EntityManager::Get()->m_entitiesComponents.at(entity).at(m_Id));, m_ComponentsId.end());
+        EntityManager::Get()->m_entitiesComponents.at(entity).at(m_Id) = 0;
     }
 }
 

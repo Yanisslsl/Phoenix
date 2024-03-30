@@ -20,9 +20,6 @@ namespace Phoenix
         }
         Scene* CreateScene(std::string name);
         void DeleteScene(std::string& name);
-        void LoadScene(std::string name);
-        void SaveScene(std::string name);
-
         Scene* GetActiveScene()
         {
             return m_activeScene;

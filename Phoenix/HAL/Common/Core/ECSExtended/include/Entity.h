@@ -18,7 +18,6 @@ namespace Phoenix
     {
     public:
         IComponent() = default;
-        virtual ~IComponent() = default;
         virtual void Serialize(BlobSerializer& serializer) = 0;
         virtual void Deserialize(BlobSerializer& serializer) = 0;
     };
@@ -26,8 +25,11 @@ namespace Phoenix
     class PHOENIX_API Entity: public ISerializable, public Phoenix::AutoRegister<Entity>
     {
     public:
-        Entity() = default;
-        Entity(EntityId id, std::string name, TagType tag = 0, bool isStandAlone = false)
+        Entity()
+        {
+            
+        }
+        Entity(EntityId id, std::string name, TagType tag = 0, bool isStandAlone = true)
         : m_id(id)
         , m_name(name)
         , m_Tag(tag)
@@ -36,10 +38,11 @@ namespace Phoenix
             m_parent = nullptr;
             m_children = std::vector<Ref<Entity>>();
         }
-
+        
+        // FOR WRAPPED MODE ONLY
         void BindUpdate(std::function<void()> updateFunction);
         void Update();
-
+        // FOR WRAPPED MODE ONLY
         
         glm::vec3 GetTransformPosition() const;
         void SetTransformPosition(glm::vec3 position);

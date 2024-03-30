@@ -6,12 +6,16 @@
 #include "Core.h"
 #include "Base/Base.h"
 
+class Room;
+
 namespace Phoenix
 {
     #define REGISTER_CLASS_WITH_FACTORY(TYPE) \
     inline static bool Register_##TYPE = AutoRegister<TYPE>::Register(#TYPE);
 
-#define REGISTER_CORE_CLASS_WITH_FACTORY(TYPE) static bool a##TYPE = [](){bool Register = AutoRegister<TYPE>::Register(#TYPE); return true;}();
+    // workaround for static initialization order problem
+    // https://isocpp.org/wiki/faq/ctors#static-init-order-on-first-use
+    #define REGISTER_CORE_CLASS_WITH_FACTORY(TYPE) static bool Register_Static_##TYPE = [](){bool Register = AutoRegister<TYPE>::Register(#TYPE); return true;}();
 
     class Entity;
     class BlobSerializer;
@@ -29,19 +33,22 @@ namespace Phoenix
         AnimatorComponentSerializeType
     };
 
-
     class PHOENIX_API ISerializable
     {
     public:
         ISerializable() = default;
         virtual void Serialize(BlobSerializer& serializer) = 0;
         virtual void Deserialize(BlobSerializer& serializer) = 0;
+        virtual ~ISerializable()
+        {
+                
+        };
     };
 
-    class MyEngineFactory : public AbstractFactory<std::string, ISerializable>
+    class TypeRegistrator : public AbstractFactory<std::string, ISerializable>
     {
     public:
-        MyEngineFactory();
+        TypeRegistrator();
     };
     
     class PHOENIX_API SerializerSubsystem
@@ -50,55 +57,40 @@ namespace Phoenix
         SerializerSubsystem();
         ~SerializerSubsystem();
         static void RegisterType(std::string id);
-        ISerializable* GetType(std::string id);
         bool HasWrappedType(std::string id);
-        void LoadScene(std::string name);
-        void SaveScene(Scene* scene);
-        void RegisterSerializableUpdateFunction(unsigned int uuid, std::function<void()> func)
-        {
-            m_SerializableMapUpdateFunctions[uuid] = func;
-        }
-        void RegisterSerializableOnHitFunction(unsigned int uuid, std::function<void(Ref<Entity>)> func)
-        {
-            m_SerializableMapOnHitFunctions[uuid] = func;
-        }
+        /**
+         * \brief Standalone serializer, should be used to serialize and deserialize entities
+         * \param name 
+         */
 
+        void SaveCurrentScene();
+        void LoadScene();
+        
+        void DeserializeStandAloneObjects(BlobSerializer& serializer);
+        void SerializeStandAloneObjects(BlobSerializer& serializer);
+        
+        std::map<std::string, Ref<ISerializable>>* DeserializeWrappedObjects();
+        void SerializeWrappedObjects(BlobSerializer& serializer);
+
+        void RegisterEntityForSerialization(std::string name, ISerializable* entity);
+        ISerializable* GetRegisteredEntityToSerialize(std::string name);
+        
         SerializableType GetSerializableType(std::string type)
         {
             return m_SerializableTypes[type];
         }
 
-        std::function<void(Ref<Entity>)> GetSerializableOnHitFunction(unsigned int uuid)
-        {
-            return m_SerializableMapOnHitFunctions[uuid];
-        }
-        
         SerializableType GetCoreType(std::string type)
         {
             return m_SerializableTypes[type];
         }
-
-        std::function<void()> GetSerializableUpdateFunction(unsigned int uuid)
-        {
-            return m_SerializableMapUpdateFunctions[uuid];
-        }
-        using FactoryFunc = std::function<std::unique_ptr<ISerializable>()>;
-        static std::unordered_map<std::string, FactoryFunc> classRegistry;
-        static MyEngineFactory factory;
+        static TypeRegistrator factory;
     private:
-        static inline std::map<std::string, SerializableType> m_SerializableTypes = {
-            {"Scene", SceneSerializeType},
-            {"Entity", EntitySerializeType},
-            {"TransformComponent", TransformComponentSerializeType},
-            {"BoxColliderComponent", BoxColliderComponentSerializeType},
-            {"SpriteComponent", SpriteComponentSerializeType},
-            {"AnimatorComponent", AnimatorComponentSerializeType}
-        };
-        // std::map<std::string, std::function<ISerializable*>> m_Custom_SerializableTypes;
-        std::map<unsigned int, std::function<void()>> m_SerializableMapUpdateFunctions;
-        std::map<unsigned int, std::function<void(Ref<Entity>)>> m_SerializableMapOnHitFunctions;
+        static inline std::map<std::string, SerializableType> m_SerializableTypes = {};
+        std::map<std::string, ISerializable*> m_Entities_To_Serialize = {};
     };
 
+    
     template <typename T>
     class AutoRegister {
     public:

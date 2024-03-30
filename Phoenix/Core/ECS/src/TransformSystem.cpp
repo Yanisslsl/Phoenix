@@ -20,7 +20,7 @@ namespace Phoenix
     {
     }
 
-    void TransformSystem::DeleteComponentFrom(EntityId entity)
+    void TransformSystem::DeleteComponent(EntityId entity)
     {
         ComponentId transformId = EntityManager::Get()->m_entitiesComponents.at(entity).at(m_Id);
         auto d = m_TransformsData->m_positions.begin();
@@ -29,7 +29,7 @@ namespace Phoenix
         m_TransformsData->m_scales.Remove(transformId);
         m_TransformsData->m_children.Remove(transformId);
         m_TransformsData->m_parents.Remove(transformId);
-        ComponentSystem::DeleteComponentFrom(entity);
+        ComponentSystem::DeleteComponent(entity);
     }
 
     TransformSystem::TransformSystem(ComponentSystemId id, size_t dataSize)

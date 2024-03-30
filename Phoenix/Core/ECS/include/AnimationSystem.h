@@ -19,7 +19,7 @@ namespace Phoenix
         virtual void Start() override;
         virtual void Update() override;
 
-        void DeleteComponentFrom(EntityId entity) override;
+        void DeleteComponent(EntityId entity) override;
 
         bool HasAnimation(EntityId entity);
         void SetAnimationsEntityId(EntityId entity);

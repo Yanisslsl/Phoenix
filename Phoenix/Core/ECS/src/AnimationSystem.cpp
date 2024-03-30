@@ -62,7 +62,7 @@ namespace Phoenix
         return entities;
     }
 
-    void AnimationSystem::DeleteComponentFrom(EntityId entity)
+    void AnimationSystem::DeleteComponent(EntityId entity)
     {
         ComponentId componentId = EntityManager::Get()->m_entitiesComponents.at(entity).at(m_Id);
         m_AnimationData->m_durations.Remove(componentId);
@@ -70,6 +70,11 @@ namespace Phoenix
         m_AnimationData->m_currentFrames.Remove(componentId);
         m_AnimationData->m_totalFrames.Remove(componentId);
         m_AnimationData->m_names.Remove(componentId);
+        m_AnimationData->m_texturesPaths.Remove(componentId);
+        m_AnimationData->m_onAnimationEnd.Remove(componentId);
+        m_AnimationData->m_entitiesIds.Get(componentId) = -1;
+        m_AnimationData->m_currentAnimationNames.Remove(componentId);
+        ComponentSystem::DeleteComponent(entity);
     }
 
     void AnimationSystem::SetCurrentAnimationName(EntityId entity, std::string name)

@@ -23,7 +23,7 @@ namespace Phoenix
             virtual void Start() override;
             virtual void Update() override;
 
-            virtual void DeleteComponentFrom(EntityId entity) override;
+            virtual void DeleteComponent(EntityId entity) override;
     
             CollisionType GetColliderType(EntityId entity);
             void SetColliderType(EntityId entity, CollisionType type);
@@ -31,8 +31,6 @@ namespace Phoenix
             void SetColliderWidth(EntityId entity, float width);
             void SetColliderHeight(EntityId entity, float height);
             void SetOnHitCallback(EntityId entity, std::function<void(Ref<Entity>)> onHitCallback);
-            void SetOnHitUuid(EntityId entity, unsigned int functionUuid);
-            unsigned int GetOnHitUuid(EntityId entity);
             void SetColliderEntity(EntityId entity, EntityId colliderEntity);
             void SetColliderNodeId(EntityId entity, std::string nodeId);
             void SetColliderHitCalls(EntityId entity, int hitCalls);

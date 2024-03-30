@@ -18,16 +18,39 @@ namespace Phoenix
 	class Layer;
 	class TransformSubsytem;
 
+	enum class ApplicationMode
+	{
+		Standalone,
+		Wrapped,
+	};
+
 	class PHOENIX_API Application
 	{
 	public:
-		Application();
+		Application(ApplicationMode mode);
 		~Application();
 
+		bool IsRunning()
+		{
+			return m_Running;
+		}
+
+		void SetIsRunning()
+		{
+			m_Running = true;
+			Run();
+		}
+
+		ApplicationMode GetMode()
+		{
+			return m_Mode;
+		}
 		/**
 		 * \brief Run the application
 		 */
 		void Run();
+
+		void Update();
 
 		/**
 		 * \brief Main OnEvent listener that receives all events and dispatches them to appropriate specific event listeners
@@ -131,11 +154,12 @@ namespace Phoenix
 		}
 
 	private:
-		// unqique ptr => une seule instance // si je veux passer cette instance il faut la move ce qui change l'ownership // ce qui veut dire que je ne peux pas la copier
-		// c'est juste un pointeur dans une classe // quand la classe est detruite le pointeur est detruit
+		ApplicationMode m_Mode;
+
+	private:
 		std::unique_ptr<WindowHal> m_Window;
 		static Application* s_Instance;
-		bool m_Running = true;
+		bool m_Running = false;
 		LayerStack m_LayerStack;
 		Layer* m_Editor_Layer;
 		InputActionRegistratorSubSystem* m_InputActionRegistratorSubsystem;

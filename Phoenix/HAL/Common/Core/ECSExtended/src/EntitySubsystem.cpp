@@ -12,7 +12,12 @@ namespace Phoenix
     {
         delete m_EntityManager;
     }
-    
+
+    void EntitySubsystem::Initalize()
+    {
+        OnStart();
+    }
+
     Ref<Entity> EntitySubsystem::CreateEntity(std::string name, bool isStandAlone)
     {
         EntityId entityId = m_EntityManager->Create(name);
@@ -23,6 +28,10 @@ namespace Phoenix
     void EntitySubsystem::DestroyEntity(EntityId id)
     {
         m_EntityManager->Remove(id);
+        if(m_EntityManager->GetEntities().size() == 0)
+        {
+            m_Binded_OnStarts.clear();
+        }
     }
 
     Ref<Entity> EntitySubsystem::GetEntityByName(std::string name)
@@ -45,6 +54,9 @@ namespace Phoenix
     std::vector<Ref<Entity>> EntitySubsystem::GetEntities()
     {
         std::vector<Ref<Entity>> entities;
+        auto entitiess = m_EntityManager->GetEntities();
+        auto names =  m_EntityManager->GetEntitiesName();
+
         for (auto& entityName : m_EntityManager->GetEntitiesName())
         {
             EntityId entityId = m_EntityManager->GetEntity(entityName);
@@ -77,9 +89,24 @@ namespace Phoenix
         return entities;
     }
 
+    void EntitySubsystem::SetIsInitialized(bool value)
+    {
+        if(value)
+        {
+            Initalize();
+        }
+        is_Initialized = value;
+    }
+
     void EntitySubsystem::BindUpdate(EntityId entityId, std::function<void()> updateFunction)
     {
         m_EntityManager->BindUpdate(entityId, updateFunction);
+    }
+
+    
+    void EntitySubsystem::BindOnStart(std::function<void()> onStartFunction)
+    {
+        m_Binded_OnStarts.push_back(onStartFunction);
     }
 
 
@@ -104,6 +131,14 @@ namespace Phoenix
         for(auto& entity : entities)
         {
             entity->Update();
+        }
+    }
+
+    void EntitySubsystem::OnStart()
+    {
+        for(auto& onStartFunction: m_Binded_OnStarts)
+        {
+            onStartFunction();
         }
     }
 }

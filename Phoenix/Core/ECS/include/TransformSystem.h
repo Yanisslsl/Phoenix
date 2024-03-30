@@ -19,7 +19,7 @@ namespace Phoenix
         
         TransformSystem(ComponentSystemId id, size_t dataSize);
         ~TransformSystem() override;
-        void DeleteComponentFrom(EntityId entity) override;
+        void DeleteComponent(EntityId entity) override;
         
         virtual void Init() override;
         virtual void Start() override;

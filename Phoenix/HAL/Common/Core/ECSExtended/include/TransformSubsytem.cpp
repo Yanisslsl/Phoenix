@@ -42,7 +42,7 @@ namespace Phoenix
 
     void TransformSubsytem::DeleteTransformComponent(EntityId id)
     {
-        m_TransformSystem->DeleteComponentFrom(id);
+        m_TransformSystem->DeleteComponent(id);
     }
 
     void TransformSubsytem::SetTransformPosition(EntityId id, glm::vec3 position)

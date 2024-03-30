@@ -27,7 +27,9 @@ namespace Phoenix
         BlobSerializer(Mode mode, std::string filePath);
         ~BlobSerializer();
         void Write(const void* data, size_t size);
+        void WriteString(const std::string& data);
         void Read(void* data, size_t size);
+        void ReadString(std::string& data);
         void WriteHeader(uint32_t type, uint32_t version = 1.0);
         bool HasData();
         BlobHeader ReadHeader();

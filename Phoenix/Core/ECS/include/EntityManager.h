@@ -25,6 +25,7 @@ namespace Phoenix
         std::vector<EntityId> GetEntities() const;
         std::vector<std::string> GetEntitiesName() const;
         void BindUpdate(EntityId entityId, std::function<void()> updateFunction);
+        void BindOnStart(EntityId entityId, std::function<void()> onStartFunction);
         std::function<void()> GetUpdateFunction(EntityId entityId);
         void AddTag(EntityId entity, TagType tag);
         TagType GetTag(EntityId entity);
