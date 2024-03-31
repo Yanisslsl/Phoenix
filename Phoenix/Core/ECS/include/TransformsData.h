@@ -14,7 +14,7 @@ namespace Phoenix
     {
     public:
         /**
-         * Create the holder of transforms data with the max number of transform it can handle
+         * \brief Create the holder of transforms data with the max number of transform it can handle
          */
         TransformsData(size_t size);
         ComponentsDataType<glm::vec3> m_positions;

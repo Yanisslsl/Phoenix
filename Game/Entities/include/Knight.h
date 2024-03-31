@@ -18,7 +18,7 @@ public:
     Knight();
     ~Knight();
     /**
-     * Call all the method related to player input
+     * \brief Call all the method related to player input
      */
     void UpdateInput();
     void GetMovementInput();

@@ -15,41 +15,41 @@ namespace Phoenix
     {
     public:
         /**
-         * Init method for all component systems
+         * \brief Init method for all component systems
          */
         void Init() override;
         /**
-         * Start method for all component systems
+         * \brief Start method for all component systems
          */
         void Start() override;
         /**
-         * Update method for all component systems
+         * \brief Update method for all component systems
          */
         void Update() override;
 
         /**
-         * Add the component to the passed entity
+         * \brief Add the component to the passed entity
          */
         void AddComponentTo(EntityId entity);
         /**
-         * Remove the component from the passed entity
+         * \brief Remove the component from the passed entity
          */
         virtual void DeleteComponent(EntityId entity);
         /**
-         * Init method for all components of the system
+         * \brief Init method for all components of the system
          */
         virtual void InitComponents() = 0;
         /**
-         * Start method for all components of the system
+         * \brief Start method for all components of the system
          */
         virtual void StartComponents() = 0;
         /**
-         * Update method for all components of the system
+         * \brief Update method for all components of the system
          */
         virtual void UpdateComponents() = 0;
 
         /**
-         * Create a component system with his id and the number of component it can handle
+         * \brief Create a component system with his id and the number of component it can handle
          */
         ComponentSystem(size_t id, size_t dataSize)
             : m_Id(id)

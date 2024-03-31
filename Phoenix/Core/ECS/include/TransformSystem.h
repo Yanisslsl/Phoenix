@@ -18,12 +18,12 @@ namespace Phoenix
         void UpdateComponents() override;
 
         /**
-         * The System that manipulate entities positions, rotations and scales
+         * \brief The System that manipulate entities positions, rotations and scales
          */
         TransformSystem(ComponentSystemId id, size_t dataSize);
         ~TransformSystem() override;
         /**
-         * Delete the component from the passed entity
+         * \brief Delete the component from the passed entity
          */
         void DeleteComponent(EntityId entity) override;
         
@@ -37,31 +37,31 @@ namespace Phoenix
         bool HasTransform(EntityId entity);
 
         /**
-         * Get the position for the passed entity
+         * \brief Get the position for the passed entity
          */
         glm::vec3 GetEntityPosition(EntityId entity);
         /**
-         * Set the postion for the passed entity
+         * \brief Set the postion for the passed entity
          */
         void SetEntityPostion(EntityId entity, glm::vec3 position);
         /**
-         * Print the position for the passed entity
+         * \brief Print the position for the passed entity
          */
         void PrintEntityPosition(EntityId entity);
         /**
-         * Set the rotation for the passed entity
+         * \brief Set the rotation for the passed entity
          */
         void SetEntityRotation(EntityId entity, float rotation);
         /**
-         * Get the rotation for the passed entity
+         * \brief Get the rotation for the passed entity
          */
         float GetEntityRotation(EntityId entity);
         /**
-         * Set the scale for the passed entity
+         * \brief Set the scale for the passed entity
          */
         void SetEntityScale(EntityId entity, glm::vec2 scale);
         /**
-         * Get the scale for the passed entity
+         * \brief Get the scale for the passed entity
          */
         glm::vec2 GetEntityScale(EntityId entity);
     }; 

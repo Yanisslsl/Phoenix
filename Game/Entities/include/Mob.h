@@ -10,20 +10,20 @@ class Mob: public Phoenix::ISerializable, public Phoenix::AutoRegister<Mob>
 {
 public:
     /**
-     * Instantiate a new mob with position, target and name
+     * \brief Instantiate a new mob with position, target and name
      */
     Mob();
     Mob(std::string& id, glm::vec2 position);
     ~Mob();
     void OnUpdate();
     /**
-     * Method called when the mob collide with something. This something is passed as parameter.
+     * \brief Method called when the mob collide with something. This something is passed as parameter.
      */
     void OnHit(Phoenix::Ref<Phoenix::Entity> entity);
     void OnStart();
     void OnDeath();
     /**
-     * Return if the entity is dead or not
+     * \brief Return if the entity is dead or not
      */
     bool GetIsDead();
     std::string GetId()
@@ -31,7 +31,7 @@ public:
         return m_id;
     }
     /**
-     * Return the entity name
+     * \brief Return the entity name
      */
     std::string GetEntityName();
     virtual void Serialize(Phoenix::BlobSerializer& serializer);

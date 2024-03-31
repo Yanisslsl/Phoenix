@@ -10,7 +10,7 @@ namespace Phoenix
     class ComponentSystem;
     
     /**
-     * @brief Base class for all components data
+     * \brief Base class for all components data
      * 
      */ 
     class ComponentsData
@@ -20,7 +20,7 @@ namespace Phoenix
         virtual ~ComponentsData() = default;
 
         /**
-         * The holder of component data
+         * \brief The holder of component data
          */
         ComponentsData() = default;
     };

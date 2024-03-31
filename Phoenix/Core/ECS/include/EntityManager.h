@@ -17,52 +17,52 @@ namespace Phoenix
         friend ComponentSystem;
     public:
         /**
-         * Create an entity manager with the max number of entity it can hold
+         * \brief Create an entity manager with the max number of entity it can hold
          */
         EntityManager(size_t size = 1000);
         /**
-         * Remove the passed entity from the manager
+         * \brief Remove the passed entity from the manager
          */
         void Remove(EntityId entity);
         /**
-         * Print the name of the passed entity
+         * \brief Print the name of the passed entity
          */
         void PrintEntityName(EntityId);
         /**
-         * Create a new entity by passing it's name
+         * \brief Create a new entity by passing it's name
          */
         EntityId Create(const std::string& name);
         /**
-         * Get an entity id by it's name
+         * \brief Get an entity id by it's name
          */
         EntityId GetEntityIdByName(const std::string& name);
         /**
-         * Get an entity name by it's Id
+         * \brief Get an entity name by it's Id
          */
         std::string GetEntityNameById(EntityId id);
         /**
-         * Get all entities
+         * \brief Get all entities
          */
         std::vector<EntityId> GetEntities() const;
         /**
-         * Get all entities name
+         * \brief Get all entities name
          */
         std::vector<std::string> GetEntitiesName() const;
         /**
-         * Method to bind game update method to backend update
+         * \brief Method to bind game update method to backend update
          */
         void BindUpdate(EntityId entityId, std::function<void()> updateFunction);
         void BindOnStart(EntityId entityId, std::function<void()> onStartFunction);
         /**
-         * Get the binded game method
+         * \brief Get the binded game method
          */
         std::function<void()> GetUpdateFunction(EntityId entityId);
         /**
-         * Add tag to the entity
+         * \brief Add tag to the entity
          */
         void AddTag(EntityId entity, TagType tag);
         /**
-         * Get entity tag
+         * \brief Get entity tag
          */
         TagType GetTag(EntityId entity);
         void SetIsStandAlone(EntityId entity, bool isStandAlone);
