@@ -15,7 +15,6 @@ public:
     void OnUpdate();
     void OnHit(Phoenix::Ref<Phoenix::Entity> entity);
     void OnStart();
-    void OnDeath();
     bool GetIsDead();
     std::string GetId()
     {

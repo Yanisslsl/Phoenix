@@ -46,7 +46,6 @@ namespace Phoenix
         while(serializer.HasData()) 
         {
             BlobHeader header = serializer.ReadHeader();
-            // @REFACTO: just get the header type and retrieve the string to pass to the factory
             if(header.type == EntitySerializeType)
             {
                 Ref<ISerializable> entityFromSave = factory.Create("Entity");
@@ -118,7 +117,8 @@ namespace Phoenix
         BlobHeader header = serializer.ReadHeader();
         if(header.type != SceneSerializeType)
         {
-            PX_CORE_ASSERT(false, "Error while trying to deserialize scene. Header type is not SceneSerializeType.");
+            PX_ERROR("Error while trying to deserialize scene. Header type is not SceneSerializeType. Aborting deserialization.");
+            return deserializedVec;
         }
         Ref<ISerializable> scene = factory.Create("Scene");
         scene->Deserialize(serializer);

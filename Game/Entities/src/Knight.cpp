@@ -57,18 +57,26 @@ void Knight::GetMovementInput()
     if(Phoenix::Input::IsKeyPressed(Phoenix::Key::Right))
     {
         m_X_Direction = 1;
+        m_Last_Y_Direction = 0;
+        m_Last_X_Direction = 1;
     } 
     if(Phoenix::Input::IsKeyPressed(Phoenix::Key::Left))
     {
+        m_Last_Y_Direction = 0;
+        m_Last_X_Direction = -1;
         m_X_Direction = -1;
     } 
     if(Phoenix::Input::IsKeyPressed(Phoenix::Key::Down))
     {
         m_Y_Direction = 1;
+        m_Last_Y_Direction = 1;
+        m_Last_X_Direction = 0;
     } 
     if(Phoenix::Input::IsKeyPressed(Phoenix::Key::Up))
     {
         m_Y_Direction = -1;
+        m_Last_Y_Direction = -1;
+        m_Last_X_Direction = 0;
     }
 }
 
@@ -143,10 +151,21 @@ void Knight::OnHit(Phoenix::Ref<Phoenix::Entity> entity)
 
 void Knight::Fire()
 {
+    int directionX = 0;
+    int directionY = 0;
+    if(m_X_Direction == 0 && m_Y_Direction == 0)
+    {
+        directionX = m_Last_X_Direction;
+        directionY = m_Last_Y_Direction;
+    } else
+    {
+        directionX = m_X_Direction;
+        directionY = m_Y_Direction;
+    }
     auto entity = Phoenix::Application::Get().GetSubSystem<Phoenix::EntitySubsystem>()->GetEntityByName("Knight");
     auto sqaurePos = entity->GetTransformPosition();
     auto bulletId = "Bullet - " + std::to_string(++m_BulletCount);
-    Bullet* bullet = new Bullet(bulletId, sqaurePos, glm::vec2(m_X_Direction, m_Y_Direction));
+    Bullet* bullet = new Bullet(bulletId, sqaurePos, glm::vec2(directionX, directionY));
     if(m_State == State::RUN_RIGHT)
     {
         entity->Play("FireRight", [&](){

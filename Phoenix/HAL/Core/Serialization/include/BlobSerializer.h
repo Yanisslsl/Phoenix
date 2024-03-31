@@ -1,6 +1,4 @@
-﻿// BlobSerializer.h
-
-#pragma once
+﻿#pragma once
 #include <cstdint>
 #include "Core.h"
 #include "Utils/FileSystem.h"

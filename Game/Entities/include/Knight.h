@@ -30,6 +30,8 @@ public:
 private:
     float m_X_Direction = 0;
     float m_Y_Direction = 0;
+    float m_Last_X_Direction = -1;
+    float m_Last_Y_Direction = 0;
     float m_Speed = 3.0f;
     int m_count = 0;
     int m_BulletCount = 0;

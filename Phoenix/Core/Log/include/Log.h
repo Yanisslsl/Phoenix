@@ -19,7 +19,6 @@ namespace Phoenix
 }
 
 
-// Define in separate file
 #define PX_CORE_TRACE(...)	::Phoenix::Log::GetCoreLogger()->trace(__VA_ARGS__)
 #define PX_CORE_WARN(...)	::Phoenix::Log::GetCoreLogger()->warn(__VA_ARGS__)
 #define PX_CORE_INFO(...)	::Phoenix::Log::GetCoreLogger()->info(__VA_ARGS__)

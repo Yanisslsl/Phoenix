@@ -49,6 +49,11 @@ namespace Phoenix
 
 	void Application::Run()
 	{
+		if(GetErrorCode() != ErrorCode::NO_ERROR)
+		{
+			PX_CORE_ERROR("Application failed to start, an error occured during initialization please refer to the log for more information.");
+			return;
+		}
 		m_Running = true;
 		if(!m_EntityManagerSubsystem->IsInitialized())
 		{

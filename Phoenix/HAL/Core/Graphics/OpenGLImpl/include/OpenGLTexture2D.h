@@ -1,6 +1,4 @@
-﻿// OpenGLTexture2D.h
-
-#pragma once
+﻿#pragma once
 #include "Core/Graphics/DataObjects/include/Texture.h"
 #include "glad/glad.h"
 

@@ -1,6 +1,4 @@
-﻿// UUID.h
-
-#pragma once
+﻿#pragma once
 #include <random>
 #include <sstream>
 

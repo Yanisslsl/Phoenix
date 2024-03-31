@@ -42,7 +42,7 @@ public:
 	{
 		float dt = Phoenix::Timer::GetDeltaTime() * 100;
 		m_Delta += dt;
-		if(m_Delta > 30)
+		if(m_Delta > 25)
 		{
 			SpawnMob();
 			m_Delta = 0;
@@ -81,8 +81,7 @@ public:
 
 	void OnEvent(Phoenix::Event& event) override
 	{
-		// m_CameraController.OnEvent(event);
-		// PX_TRACE("Event catched {0}", event.GetName());
+	
 	}
 	
 private:

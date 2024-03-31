@@ -4,6 +4,7 @@
 #include <filesystem>
 #include <stb_image.h>
 
+#include "Core/Application/include/Application.h"
 #include "Utils/FileSystem.h"
 
 namespace Phoenix
@@ -19,7 +20,9 @@ namespace Phoenix
         std::string texturePath = FileSystem::GetAssetsPath() + "textures\\" + path;
         // Check if file exists
         if (!std::filesystem::exists(texturePath)) {
-            PX_CORE_ASSERT(false, "File does not exist!");
+            PX_ERROR("Texture file does not exist: {0}", texturePath);
+            Application::Get().SetErrorCode(ErrorCode::LOADING_ASSET_ERROR);
+            return;
         }
         int width, height, channels;
         stbi_set_flip_vertically_on_load(1);

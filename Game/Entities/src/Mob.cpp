@@ -63,7 +63,6 @@ void Mob::OnHit(Phoenix::Ref<Phoenix::Entity> entity)
 {
     if (entity->HasTag(Phoenix::Tag::Bullet))
     {
-        PX_INFO("MOB HIT");
         auto entity = Phoenix::Application::Get().GetSubSystem<Phoenix::EntitySubsystem>()->GetEntityByName(m_id);
         entity->Destroy();
         isDead = true;
@@ -85,21 +84,17 @@ void Mob::Serialize(Phoenix::BlobSerializer& serializer)
     auto typeId = Phoenix::Application::Get().GetSubSystem<Phoenix::SerializerSubsystem>()->GetSerializableType("Mob");
     serializer.WriteHeader(typeId);
     serializer.WriteString(m_id);
-    // serializer.Write(&speed, sizeof(speed));
     serializer.Write(&health, sizeof(health));
     serializer.Write(&damage, sizeof(damage));
     serializer.Write(&isDead, sizeof(isDead));
-    // serializer.Write(&dt, sizeof(dt));
     serializer.Write(&m_Position, sizeof(m_Position));
 }
 
 void Mob::Deserialize(Phoenix::BlobSerializer& serializer)
 {
     serializer.ReadString(m_id);
-    // serializer.Read(&speed, sizeof(speed));
     serializer.Read(&health, sizeof(health));
     serializer.Read(&damage, sizeof(damage));
     serializer.Read(&isDead, sizeof(isDead));
-    // serializer.Read(&dt, sizeof(dt));
     serializer.Read(&m_Position, sizeof(m_Position));
 }

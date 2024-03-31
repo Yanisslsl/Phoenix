@@ -13,7 +13,6 @@ namespace Phoenix
         m_mode = mode;
         if(!std::filesystem::exists(filePath))
         {
-            // get directory path
             std::string directoryPath = filePath.substr(0, filePath.find_last_of("\\"));
             std::filesystem::create_directories(directoryPath);
         }

@@ -122,12 +122,14 @@ namespace Phoenix
     float ColliderSystem::GetColliderWidth(EntityId entity)
     {
         ComponentId colliderId = EntityManager::Get()->m_entitiesComponents.at(entity).at(m_Id);
+        if(colliderId == -1) return 0;
         return m_ColliderData->m_widths.Get(colliderId);
     }
 
     float ColliderSystem::GetColliderHeight(EntityId entity)
     {
         ComponentId colliderId = EntityManager::Get()->m_entitiesComponents.at(entity).at(m_Id);
+        if(colliderId == -1) return 0;
         return m_ColliderData->m_heights.Get(colliderId);
     }
 

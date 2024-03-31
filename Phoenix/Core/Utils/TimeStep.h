@@ -1,8 +1,5 @@
-﻿// TimeStep.h
+﻿#pragma once
 
-#pragma once
-
-//@TODO to delete
 namespace Phoenix
 {
     class TimeStep

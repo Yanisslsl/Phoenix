@@ -17,6 +17,17 @@ namespace Phoenix
 	class Layer;
 	class TransformSubsytem;
 
+
+	/**
+     * \brief Error codes that can be set by the application, only critical errors should be set to prevent the application from running
+     
+     */
+	enum class ErrorCode
+    {
+        NO_ERROR,
+		LOADING_ASSET_ERROR,
+    };
+
 	/**
      * \brief Application mode
      *		  The engine accepts two modes, standalone and wrapped
@@ -63,6 +74,16 @@ namespace Phoenix
 			Run();
 		}
 
+		
+
+		/** 
+         * \brief Stop the application
+         */
+		void Stop()
+		{
+			m_Running = false;
+		}
+
 		/** 
          * \brief Get the application mode
          * \return ApplicationMode
@@ -71,6 +92,24 @@ namespace Phoenix
 		{
 			return m_Mode;
 		}
+
+		/** 
+         * \brief Set the application error code, only critical errors should be set to prevent the application from running
+         * \param errorCode error code to set 
+         */
+		void SetErrorCode(ErrorCode errorCode)
+        {
+            m_ErrorCode = errorCode;
+        }
+
+		/** 
+         * \brief Get the application error code, 
+         * \return ErrorCode
+         */
+		ErrorCode GetErrorCode()
+        {
+            return m_ErrorCode;
+        }
 		
 		/**
 		 * \brief Run the application
@@ -182,7 +221,7 @@ namespace Phoenix
 
 	private:
 		ApplicationMode m_Mode;
-
+		ErrorCode m_ErrorCode = ErrorCode::NO_ERROR;
 	private:
 		std::unique_ptr<WindowHal> m_Window;
 		static Application* s_Instance;

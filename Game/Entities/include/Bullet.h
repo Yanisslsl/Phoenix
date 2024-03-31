@@ -1,6 +1,4 @@
-﻿// Bullet.h
-
-#pragma once
+﻿#pragma once
 #include <glm/vec2.hpp>
 
 #include "Base/Base.h"
@@ -21,5 +19,4 @@ private:
     glm::vec2 m_Direction;
     float m_Speed = 5.0f;
     Phoenix::Ref<Phoenix::Entity> self;
-    // REGISTER_CLASS_WITH_FACTORY(Bullet);
 };

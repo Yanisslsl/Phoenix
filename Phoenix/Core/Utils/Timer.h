@@ -1,4 +1,3 @@
-// Timer.h
 #pragma once
 #include <chrono>
 #include "Core.h"
@@ -20,9 +19,6 @@ namespace Phoenix
 
         static void Update()
         {
-            auto now = std::chrono::high_resolution_clock::now();
-            //m_DeltaTime = std::chrono::duration<float, std::chrono::seconds::period>(now - m_LastUpdateTime).count();
-            
         }
 
         /**

@@ -8,88 +8,27 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
+#include "Core/Application/include/Application.h"
 #include "Utils/FileSystem.h"
 #include "Utils/Timer.h"
 
 namespace Phoenix
 {
-
-		// @TODO: here the path is set relative to the location of the vcxproj file ine the exe location
-		std::string ShaderDirectory = FileSystem::GetAssetsPath() + "shaders\\";
-
-    	static GLenum ShaderTypeFromString(const std::string& type)
-		{
-			if (type == "vertex")
-				return GL_VERTEX_SHADER;
-			if (type == "fragment" || type == "pixel")
-				return GL_FRAGMENT_SHADER;
-
-			// PX_CORE_ASSERT(false, "Unknown shader type!");
-			return 0;
-		}
-
-		// static shaderc_shader_kind GLShaderStageToShaderC(GLenum stage)
-		// {
-		// 	switch (stage)
-		// 	{
-		// 		case GL_VERTEX_SHADER:   return shaderc_glsl_vertex_shader;
-		// 		case GL_FRAGMENT_SHADER: return shaderc_glsl_fragment_shader;
-		// 	}
-		// 	PX_CORE_ASSERT(false);
-		// 	return (shaderc_shader_kind)0;
-		// }
-
-		static const char* GLShaderStageToString(GLenum stage)
-		{
-			switch (stage)
-			{
-				case GL_VERTEX_SHADER:   return "GL_VERTEX_SHADER";
-				case GL_FRAGMENT_SHADER: return "GL_FRAGMENT_SHADER";
-			}
-			// PX_CORE_ASSERT(false);
-			return nullptr;
-		}
-
-		static const char* GetCacheDirectory()
-		{
-			// TODO: make sure the assets directory is valid
-			return "assets/cache/shader/opengl";
-		}
-
-		static void CreateCacheDirectoryIfNeeded()
-		{
-			std::string cacheDirectory = GetCacheDirectory();
-			if (!std::filesystem::exists(cacheDirectory))
-				std::filesystem::create_directories(cacheDirectory);
-		}
-
-		static const char* GLShaderStageCachedOpenGLFileExtension(uint32_t stage)
-		{
-			switch (stage)
-			{
-				case GL_VERTEX_SHADER:    return ".cached_opengl.vert";
-				case GL_FRAGMENT_SHADER:  return ".cached_opengl.frag";
-			}
-			// PX_CORE_ASSERT(false);
-			return "";
-		}
-
-		static const char* GLShaderStageCachedVulkanFileExtension(uint32_t stage)
-		{
-			switch (stage)
-			{
-			case GL_VERTEX_SHADER:    return ".cached_vulkan.vert";
-			case GL_FRAGMENT_SHADER:  return ".cached_vulkan.frag";
-			}
-			// PX_CORE_ASSERT(false);
-			return "";
-		}
+	std::string ShaderDirectory = FileSystem::GetAssetsPath() + "shaders\\";
 
 	OpenGLShader::OpenGLShader(const std::string& name)
 	: m_FilePath(ShaderDirectory)
 	{
 		std::string vertShader = ReadFile(ShaderDirectory + "vertex.vert");
-    	std::string fragShader = ReadFile(ShaderDirectory + "fragment.frag");
+		if(vertShader == "")
+		{
+			return;
+		}
+		std::string fragShader = ReadFile(ShaderDirectory + "fragment.frag");
+		if(fragShader == "")
+		{
+			return;
+		}
     	const GLuint vertexShader = CompileShader(vertShader.c_str(), GL_VERTEX_SHADER);
     	const GLuint fragmentShader = CompileShader(fragShader.c_str(), GL_FRAGMENT_SHADER);
     	m_RendererID = CreateProgram(vertexShader, fragmentShader);
@@ -98,12 +37,16 @@ namespace Phoenix
 	OpenGLShader::OpenGLShader(const std::string& name, const std::string& vertexSrc, const std::string& fragmentSrc)
 		: m_Name(name)
 	{
-		// std::unordered_map<GLenum, std::string> sources;
-		// sources[GL_VERTEX_SHADER] = vertexSrc;
-		// sources[GL_FRAGMENT_SHADER] = fragmentSrc;
-		//
-		// CompileOrGetVulkanBinaries(sources);
-		// CompileOrGetOpenGLBinaries();
+		std::string vertShader = ReadFile(ShaderDirectory + "vertex.vert");
+		if(vertShader == "")
+		{
+			return;
+		}
+		std::string fragShader = ReadFile(ShaderDirectory + "fragment.frag");
+		if(fragShader == "")
+		{
+			return;
+		}
     	const GLuint vertexShader = CompileShader(vertexSrc.c_str(), GL_VERTEX_SHADER);
     	const GLuint fragmentShader = CompileShader(fragmentSrc.c_str(), GL_FRAGMENT_SHADER);
     	m_RendererID = CreateProgram(vertexShader, fragmentShader);
@@ -119,7 +62,9 @@ namespace Phoenix
 		std::ifstream file(filepath);
     	if(!file.is_open())
 		{
-    		PX_CORE_ASSERT(false, "Could not open file!");
+    		PX_ERROR("Could not open shader file!");
+    		Application::Get().SetErrorCode(ErrorCode::LOADING_ASSET_ERROR);
+    		return "";
 		}
     	std::string result((std::istreambuf_iterator<char>(file)), std::istreambuf_iterator<char>());
     	return result;

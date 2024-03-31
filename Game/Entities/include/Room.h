@@ -1,6 +1,4 @@
-﻿// Room.h
-
-#pragma once
+﻿#pragma once
 #include <string>
 #include <glm/vec2.hpp>
 #include "Base/Base.h"

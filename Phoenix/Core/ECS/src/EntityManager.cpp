@@ -82,7 +82,6 @@ namespace Phoenix
         }
         else
         {
-            PX_ERROR("Entity not found");
         }
     }
 
@@ -102,7 +101,6 @@ namespace Phoenix
                 return m_entitiesId.at(i);
             } 
         }
-        PX_ERROR("Entity not found");
         return -1;
     }
 

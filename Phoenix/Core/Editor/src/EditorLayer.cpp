@@ -102,7 +102,6 @@ namespace Phoenix
         if (ImGui::TreeNode("Camera"))
            
         {
-            // @TODO add uid for camera
             if (ImGui::TreeNode((void*)(intptr_t)(10000), "Transform Component"))
             {
                 auto camera = Application::Get().GetSubSystem<SceneManagerSubSystem>()->GetActiveScene()->GetCameraController()->GetCamera();
@@ -125,7 +124,6 @@ namespace Phoenix
             {
                 if (ImGui::TreeNode((void*)(intptr_t)entity->m_id, entity->GetName().c_str()))
                 {
-                    // @TODO: change to component id
                     if (ImGui::TreeNode((void*)(intptr_t)(entity->m_id * 100), "Transform Component"))
                     {
                         ImGui::SeparatorText("Position");
@@ -234,7 +232,6 @@ namespace Phoenix
         io.KeyMap[ImGuiKey_Space] = Key::Space;
         io.KeyMap[ImGuiKey_Enter] = Key::Enter;
         io.KeyMap[ImGuiKey_Escape] = Key::Escape;
-        // io.KeyMap[ImGuiKey_KeyPadEnter] = Key::Enter;
         io.KeyMap[ImGuiKey_A] = Key::A;
         io.KeyMap[ImGuiKey_C] = Key::C;
         io.KeyMap[ImGuiKey_V] = Key::V;
@@ -339,28 +336,11 @@ namespace Phoenix
 
     void EditorLayer::OnDetach()
     {
-        //ImGui_ImplOpenGL3_Shutdown();
         ImGui::DestroyContext();
     }
 
     void EditorLayer::End()
     {
-
-        // ImGuiIO& io = ImGui::GetIO();
-        // Application& app = Application::Get();
-        // io.DisplaySize = ImVec2((float)app.GetWindow()->GetWidth(), (float)app.GetWindow()->GetHeight());
-        //
-        // // Rendering
-        // ImGui::Render();
-        // ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
-        //
-        // if (io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable)
-        // {
-        //     GLFWwindow* backup_current_context = glfwGetCurrentContext();
-        //     ImGui::UpdatePlatformWindows();
-        //     ImGui::RenderPlatformWindowsDefault();
-        //     glfwMakeContextCurrent(backup_current_context);
-        // }
     }
 
 
