@@ -1,12 +1,10 @@
 #include <glm/ext/matrix_transform.hpp>
 #include "Phoenix.h"
-#include "Common/Core/Graphics/Render/include/Renderer.h"
-#include "Common/Core/Scene/include/Scene.h"
 #include "Entities\include\Knight.h"
 #include "Entities/include/Mob.h"
 #include "Entities/include/Room.h"
 #include "Utils/UUID.h"
-
+#include "Core/ECSExtended/include/EntitySubsystem.h"
 class MainLayer : public Phoenix::Layer
 {
 public:

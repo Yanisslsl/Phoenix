@@ -15,7 +15,7 @@ namespace Phoenix
 
         static unsigned int GenerateUniqueFunctionHash(const std::string& className, const std::string& functionName) {
             std::string uniqueIdentifier = className + "::" + functionName;
-            return BasicHash(uniqueIdentifier.c_str(), uniqueIdentifier.length());
+            return BasicHash(uniqueIdentifier.c_str(), (unsigned int)uniqueIdentifier.length());
         }
         inline static std::string GenerateUUID()
         {

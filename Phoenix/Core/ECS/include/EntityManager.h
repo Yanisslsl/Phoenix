@@ -3,15 +3,18 @@
 #include <map>
 #include <vector>
 #include <string>
-
 #include "EntityComponent.h"
-#include "../../../Core/Core.h"
-#include "Common/Core/ECSExtended/include/Tag.h"
+#include "Core/ECSExtended/include/Tag.h"
 
 class ComponentSystem;
 
 namespace Phoenix
 {
+    /**
+     * @brief EntityManager class
+     *         Base registry for all entities, used by the EntitySubsystem to create, remove and get entities
+     * 
+     */
     class PHOENIX_API EntityManager
     {
         friend ComponentSystem;
@@ -40,7 +43,8 @@ namespace Phoenix
             return m_instance;
         }
         //The ComponentId for each entity ordered by ComponentSystemId
-        std::vector<std::vector<ComponentId>> m_entitiesComponents; //So a ComponentSystem will access the componentId of an entity like this => EntityManager->m_entitiesComponents.at(EntityId).at(ComponentSystemId);
+        //So a ComponentSystem will access the componentId of an entity like this => EntityManager->m_entitiesComponents.at(EntityId).at(ComponentSystemId);
+        std::vector<std::vector<ComponentId>> m_entitiesComponents;
     private:
         inline static EntityManager* m_instance = nullptr;
         std::vector<EntityId> m_entitiesId;

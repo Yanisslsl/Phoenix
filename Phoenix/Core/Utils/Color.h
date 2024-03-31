@@ -6,6 +6,10 @@
 
 namespace Phoenix
 {
+    struct ColorRGBA
+    {
+        float r, g, b, a;
+    };
     using ColorCode = uint16_t;
 
     using ColorType = glm::vec3;

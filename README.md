@@ -37,6 +37,15 @@ Leverages OpenGL's rendering capabilities to offer high-performance graphics out
 ### Extensible Framework: 
 Designed with extensibility in mind, allowing for easy integration of additional features like particle systems, advanced animations, and more.
 
+
+## Architecture
+
+`Phoenix/Core` - Contains the core engine components at the lowest level, including the event dispatcher, events, log system, utils class...
+
+`Phoenix/HAL/Core` - Contains the core components of the Hardware Abstraction Layer, including the window, input, application, renderer, and more.
+
+`Phoenix/HAL/Windows` - Contains the Windows-specific implementation of the HAL.
+
 <!-- ROADMAP -->
 ## Roadmap
 

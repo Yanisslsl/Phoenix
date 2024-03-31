@@ -1,6 +1,6 @@
 #pragma once
-#include "HAL/Windows/Core/Application/include/Application.h"
 #include "Core/Log/include/Log.h"
+#include "Core/Application/include/Application.h"
 
 #ifdef PHOENIX_PLATFORM_WINDOWS
 

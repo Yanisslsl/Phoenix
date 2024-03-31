@@ -1,9 +1,8 @@
-﻿// Isac.h
-
-#pragma once
+﻿#pragma once
 #include "Base/Base.h"
-#include "Common/Core/ECSExtended/include/Entity.h"
+#include "Core/ECSExtended/include/Entity.h"
 #include "Bullet.h"
+
 class Knight: public Phoenix::ISerializable, public Phoenix::AutoRegister<Knight>
 {
     enum class State

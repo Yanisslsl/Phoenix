@@ -10,6 +10,10 @@
 
 namespace Phoenix
 {
+    /**
+     * @brief TransformsData class
+     *         TransformsData class is a class that holds the data for the transform component
+     */
     class TransformsData : public Phoenix::ComponentsData
     {
     public:
@@ -19,7 +23,7 @@ namespace Phoenix
         ComponentsDataType<glm::vec2> m_scales;
         ComponentsDataType<EntityId> m_parents;
         ComponentsDataType<std::vector<EntityId>> m_children;
-        ComponentsDataType<std::string> m_entitiesIds;
+        ComponentsDataType<EntityId> m_entitiesIds;
     };
 }
 

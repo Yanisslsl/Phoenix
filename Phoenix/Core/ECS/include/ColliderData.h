@@ -1,16 +1,14 @@
-﻿// ColliderData.h
-
-#pragma once
+﻿#pragma once
 #include <functional>
 #include <string>
 #include <glm/vec2.hpp>
 
 #include "ComponentsData.h"
-#include "Common/Core/ECSExtended/include/Entity.h"
+#include "Core/ECSExtended/include/Entity.h"
 
 namespace Phoenix
 {
-    class BoxCollider;
+    struct BoxCollider;
     enum class CollisionType
     {
         STATIC,
@@ -23,8 +21,10 @@ namespace Phoenix
         RECTANGLE
     };
 
-
-
+    /**
+       * @brief ColliderData class
+       * 
+       */
     class ColliderData: public ComponentsData
     {
     public:
@@ -35,7 +35,7 @@ namespace Phoenix
         ComponentsDataType<glm::vec2> m_positions;
         ComponentsDataType<std::function<void(Ref<Entity>)>> m_onHitCallbacks;
         ComponentsDataType<CollisionShape> m_shapes;
-        ComponentsDataType<EntityIdExtended> m_entities;
+        ComponentsDataType<EntityId> m_entities;
         ComponentsDataType<std::string> m_nodeIds;
         ComponentsDataType<int> m_hitCalls;
     };

@@ -1,21 +1,20 @@
-#include "../include/EditorLayer.h"
 #include "imgui.h"
-#include "Windows/Core/Application/include/Application.h"
 #include <GLFW/glfw3.h>
-
 #include"Base/Base.h"
-//#include
+#include "Editor/include/EditorLayer.h"
 #include "imgui_internal.h"
+#include "Core/Application/include/Application.h"
 #include "Events/EventDispatcher.h"
 #include "Events/KeyEvent.h"
 #include "Events/MouseEvent.h"
-#include "../../Utils/KeyCode.h"
-#include "Common/Core/Input/include/Input.h"
 #include "Editor/include/ImGuiOpenGL.h"
 #include "Utils/Timer.h"
 #include "Utils/Color.h"
-#include "Common/Core/ECSExtended/include/Entity.h"
-#include "Common/Core/ECSExtended/include/TransformSubsytem.h"
+#include "Core/ECSExtended/include/Entity.h"
+#include "Core/Input/include/Input.h"
+#include "Core/ECSExtended/include/EntitySubsystem.h"
+#include "Core/Scene/include/SceneManagerSubSystem.h"
+#include "Core/ECSExtended/include/TransformSubsytem.h"
 
 namespace Phoenix
 {
@@ -27,7 +26,7 @@ namespace Phoenix
     {
         ImGuiIO& io = ImGui::GetIO();
         Application& app = Application::Get();
-        io.DisplaySize = ImVec2(app.GetWindow()->GetWidth(), app.GetWindow()->GetHeight());
+        io.DisplaySize = ImVec2((float)app.GetWindow()->GetWidth(), (float)app.GetWindow()->GetHeight());
         
         float time = (float)glfwGetTime();
         io.DeltaTime = m_Time > 0.0f ? (time - m_Time) : (1.0f / 60.0f);
@@ -36,7 +35,6 @@ namespace Phoenix
         ImGui_ImplOpenGL3_NewFrame();
         ImGui::NewFrame();
         
-        static bool show = true;
         DrawEditor();
 
         ImGui::Render();
@@ -185,10 +183,10 @@ namespace Phoenix
             }
             if (m_newentity == true)
             {    
-                ImGui::InputFloat("Position x", &posx, 1., .3); 
-                ImGui::InputFloat("Position y", &posy, 1., .3);
-                ImGui::InputFloat("Scale", &scale, 1., .3);
-                ImGui::InputFloat("Rotation", &rotation, 1., .3);          
+                ImGui::InputFloat("Position x", &posx, 1., (float).3); 
+                ImGui::InputFloat("Position y", &posy, 1., (float).3);
+                ImGui::InputFloat("Scale", &scale, 1., (float).3);
+                ImGui::InputFloat("Rotation", &rotation, 1., (float).3);          
                 ImGui::Text("Select color ");
                 const char* items[] = { "Red","Green","Blue","Yellow","Orange","Purple","White","Black","Grey","Brown","Pink","Cyan","Magenta","Lime",
                 "Teal","Olive","Maroon","Navy","Aqua","Silver","Gold","Crimson","Indigo","Turquoise","Violet","Lavender","Rose","Tan","Beige","Khaki",
@@ -201,7 +199,7 @@ namespace Phoenix
                 {
                     m_newentityindex++; 
                     Ref<Entity> newEntity = Application::Get().GetSubSystem<EntitySubsystem>()->CreateEntity(s);
-                    const auto colorVec = Colors::GetColorFromMap(item_selected);
+                    const auto colorVec = Colors::GetColorFromMap((ColorCode)item_selected);
                     newEntity->AddComponent(SpriteComponent(colorVec));
                     newEntity->AddComponent(TransformComponent(glm::vec3(posx, posy, 1.), rotation, glm::vec2(1, 1)));
                     newEntity->SetScale((int)scale);
@@ -327,7 +325,7 @@ namespace Phoenix
     bool EditorLayer::OnWindowResizeEvent(WindowResizeEvent& e)
     {
         ImGuiIO& io = ImGui::GetIO();
-        io.DisplaySize = ImVec2(e.GetWidth(), e.GetHeight());
+        io.DisplaySize = ImVec2((float)e.GetWidth(), (float)e.GetHeight());
 
         return false;
     }

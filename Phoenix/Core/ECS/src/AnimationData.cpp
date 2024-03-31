@@ -1,4 +1,4 @@
-﻿#include "../include/AnimationData.h"
+﻿#include "ECS/include/AnimationData.h"
 
 namespace Phoenix
 {
@@ -12,6 +12,7 @@ namespace Phoenix
         m_totalFrames.resize(size);
         m_names.resize(size);
         m_texturesPaths.resize(size);
+        // set entitiesIds to -1
         m_entitiesIds.resize(size, -1);
         m_onAnimationEnd.resize(size);
     }

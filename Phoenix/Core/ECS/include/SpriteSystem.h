@@ -5,6 +5,10 @@
 
 namespace Phoenix
 {
+    /**
+     * @brief SpriteSystem class
+     *        SpriteSystem class is a class that holds the data for the sprite component
+     */
     class PHOENIX_API SpriteSystem final: public ComponentSystem
     {
     public:

@@ -1,6 +1,4 @@
-﻿// ColliderSystem.h
-
-#pragma once
+﻿#pragma once
 #include <string>
 
 #include "ColliderData.h"
@@ -9,7 +7,11 @@
 
 namespace Phoenix
 {
-        class BoxCollider;
+        struct BoxCollider;
+
+        /**
+         * \brief The ColliderSystem class registry
+         */
         class PHOENIX_API ColliderSystem final: public ComponentSystem
         {
         public:

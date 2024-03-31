@@ -1,11 +1,13 @@
-﻿// AnimationSystem.h
-
-#pragma once
+﻿#pragma once
 #include "AnimationData.h"
 #include "ComponentSystem.h"
 #include "Core.h"
 namespace Phoenix
 {
+    /**
+     * @brief AnimationSystem class registry
+     * 
+     */
     class PHOENIX_API AnimationSystem final: public ComponentSystem
     {
     public:

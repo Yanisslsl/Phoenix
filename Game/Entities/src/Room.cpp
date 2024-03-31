@@ -1,9 +1,9 @@
 ﻿#include "../include/Room.h"
 
-#include "Common/Core/ECSExtended/include/TransformSubsytem.h"
+#include "Core/Application/include/Application.h"
 #include "Utils/UUID.h"
-#include "Windows/Core/Application/include/Application.h"
-
+#include "Core/ECSExtended/include/EntitySubsystem.h"
+#include "Core/ECSExtended/include/TransformSubsytem.h"
 
 Room::Room():
     Room(glm::vec2(0, 0), glm::vec2(1, 1))

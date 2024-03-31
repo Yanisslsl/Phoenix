@@ -4,8 +4,7 @@
 #include <glm/vec2.hpp>
 
 #include "Base/Base.h"
-#include "Common/Core/ECSExtended/include/Entity.h"
-#include "Common/Core/Serialization/include/SerializerSubsystem.h"
+#include "Core/ECSExtended/include/Entity.h"
 
 class Bullet : public Phoenix::ISerializable, public Phoenix::AutoRegister<Bullet>
 {

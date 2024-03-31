@@ -1,15 +1,18 @@
-﻿// AnimationData.h
-
-#pragma once
+﻿#pragma once
 #include <functional>
 #include <map>
 #include <string>
 
 #include "ComponentsData.h"
+#include "EntityComponent.h"
 
 
 namespace Phoenix
 {
+    /**
+     * @brief AnimationData class
+     * 
+     */
     class AnimationData: public ComponentsData
     {
     public:
@@ -18,8 +21,7 @@ namespace Phoenix
         ComponentsDataType<std::map<std::string, float>> m_durations;
         ComponentsDataType<std::map<std::string, float>> m_currentTimes;
         ComponentsDataType<std::map<std::string, int>> m_currentFrames;
-        ComponentsDataType<EntityIdExtended> m_entitiesIds;
-        // maybe instead of map use vector and take animations counts to offset the index
+        ComponentsDataType<EntityId> m_entitiesIds;
         ComponentsDataType<std::map<std::string, int>> m_totalFrames;
         ComponentsDataType<std::vector<std::string>> m_names;
         ComponentsDataType<std::map<std::string, std::vector<std::string>>> m_texturesPaths;

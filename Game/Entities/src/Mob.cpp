@@ -1,13 +1,12 @@
 ﻿#include "../include/Mob.h"
-
 #include <iostream>
-
 #include "Base/Base.h"
-#include "Common/Core/ECSExtended/include/Entity.h"
+#include "Core/Application/include/Application.h"
+#include "Core/ECSExtended/include/Entity.h"
 #include "Utils/Timer.h"
 #include "Utils/UUID.h"
-#include "Windows/Core/Application/include/Application.h"
-#include "Common/Core/ECSExtended/include/TransformSubsytem.h"
+#include "Core/ECSExtended/include/EntitySubsystem.h"
+#include "Core/ECSExtended/include/TransformSubsytem.h"
 
 
 

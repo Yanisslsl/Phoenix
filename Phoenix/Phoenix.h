@@ -1,5 +1,4 @@
 #pragma once
-// Entry Point
 #include "EntryPoint.h"
 #include <cstdio>
 #include "HAL/HAL.h"
@@ -7,7 +6,6 @@
 #include "Core/Layers/Layer/include/Layer.h"
 #include "Core/Events/Event.h"
 #include "Core/Editor/include/EditorLayer.h"
-#include "HAL/Common/Core/Input/include/Input.h"
 #include "Core/Utils/KeyCode.h"
 #include "Core/Utils/MouseCode.h"
 #include "Core/Utils/Timer.h"

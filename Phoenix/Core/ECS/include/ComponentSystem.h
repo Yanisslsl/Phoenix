@@ -1,20 +1,22 @@
 #pragma once
-#include <algorithm>
 #include <vector>
 
-#include "ComponentsData.h"
 #include "EntityComponent.h"
 #include "ISystem.h"
-#include "../../../Core/Core.h"
+#include "Core.h"
 
 
 namespace Phoenix
 {
+    /**
+     * @brief Base class for all component systems
+     *        Each base class must implement the InitComponents, StartComponents and UpdateComponents methods
+     *        This class holds number entities that have the the specific component
+     */
     class PHOENIX_API ComponentSystem
         : public ISystem
     {
     public:
-        //Comment forcer l'appel de ces méthodes par les enfants ComponentSystem
         void Init() override;
         void Start() override;
         void Update() override;
@@ -30,8 +32,6 @@ namespace Phoenix
         {
             m_ComponentsId.reserve(dataSize);
         }
-
-        // runtime error when error occurs in the destructor
         ~ComponentSystem() noexcept
         {
         }
@@ -41,9 +41,5 @@ namespace Phoenix
     private:
         std::vector<ComponentId> m_ComponentsId;
     };
-
-  
-
-    //#include "ComponentSystem.hxx"
 }
 

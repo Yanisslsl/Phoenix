@@ -1,5 +1,4 @@
 #include "ECS/include/TransformSystem.h"
-
 #include <iostream>
 #include "ECS/include/EntityManager.h"
 #include "ECS/include/TransformsData.h"

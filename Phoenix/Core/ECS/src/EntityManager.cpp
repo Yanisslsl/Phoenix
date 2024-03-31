@@ -1,5 +1,4 @@
 #include "ECS/include/EntityManager.h"
-
 #include <algorithm>
 #include <vector>
 #include <iostream>

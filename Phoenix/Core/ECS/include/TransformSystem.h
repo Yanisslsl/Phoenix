@@ -1,12 +1,10 @@
 #pragma once
 #include <glm/vec2.hpp>
-
 #include "ComponentSystem.h"
 #include "TransformsData.h"
-#include "../../../Core/Core.h"
 #include <glm/ext/matrix_transform.hpp>
+#include "Core.h"
 
-//class TransformsData;
 
 namespace Phoenix
 {

@@ -1,7 +1,5 @@
-﻿#include "../include/AnimationSystem.h"
-
+﻿#include "ECS/include/AnimationSystem.h"
 #include "ECS/include/EntityManager.h"
-
 
 namespace Phoenix
 {

@@ -7,7 +7,7 @@ namespace Phoenix
 	
 	namespace Key
 	{
-		PHOENIX_API enum :  KeyCode
+		enum :  KeyCode
 		{
 			// From glfw3.h
 			Space               = 32,

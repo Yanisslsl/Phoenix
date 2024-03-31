@@ -4,7 +4,7 @@
 #include <string>
 
 #include "Base/Base.h"
-#include "Common/Core/ECSExtended/include/Entity.h"
+#include "Core/ECSExtended/include/Entity.h"
 
 class Mob: public Phoenix::ISerializable, public Phoenix::AutoRegister<Mob>
 {

@@ -1,18 +1,10 @@
 #pragma once
 #include <vector>
 
-#include "EntityComponent.h"
-
-
-
 namespace Phoenix
 {
     class ComponentSystem;
     
-    /**
-     * @brief Base class for all components data
-     * 
-     */ 
     class ComponentsData
     {
     public:
@@ -21,7 +13,11 @@ namespace Phoenix
 
         ComponentsData() = default;
     };
-
+    
+    /**
+       * @brief Base class for all components data
+       * 
+       */ 
     template <typename T>
     class ComponentsDataType
     {

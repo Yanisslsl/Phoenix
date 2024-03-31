@@ -1,11 +1,10 @@
-﻿#include "..\include\Knight.h"
-
-#include "Common/Core/ECSExtended/include/Entity.h"
-#include "Common/Core/ECSExtended/include/TransformSubsytem.h"
-#include "Common/Core/Input/include/Input.h"
+﻿#include "Core/Application/include/Application.h"
+#include "Core/ECSExtended/include/Entity.h"
+#include "Core/Input/include/Input.h"
 #include "Utils/UUID.h"
-#include "Windows/Core/Application/include/Application.h"
-
+#include "../include/Knight.h"
+#include "Core/ECSExtended/include/EntitySubsystem.h"
+#include "Core/ECSExtended/include/TransformSubsytem.h"
 
 Knight::Knight()
 {
@@ -31,12 +30,12 @@ void Knight::OnStart()
     entity->AddTag(Phoenix::Tag::Player);
     std::vector<std::string> runAnimationsRightTextures = { "characters/player/animation_run/right/player_run_1.png", "characters/player/animation_run/right/player_run_2.png", "characters/player/animation_run/right/player_run_3.png", "characters/player/animation_run/right/player_run_4.png" };
     std::vector<std::string> runAnimationsLeftTextures = { "characters/player/animation_run/left/player_run_1.png", "characters/player/animation_run/left/player_run_2.png", "characters/player/animation_run/left/player_run_3.png", "characters/player/animation_run/left/player_run_4.png" };
-    entity->CreateAnimation("RunRight", runAnimationsRightTextures, .3, 4);
-    entity->CreateAnimation("RunLeft", runAnimationsLeftTextures, .3, 4);
+    entity->CreateAnimation("RunRight", runAnimationsRightTextures, (float).3, (float)4);
+    entity->CreateAnimation("RunLeft", runAnimationsLeftTextures, (float).3, (float)4);
     std::vector<std::string> fireAnimationsRightTextures = { "characters/player/animation_fire/right/player_fire_1.png", "characters/player/animation_fire/right/player_fire_2.png", "characters/player/animation_fire/right/player_fire_3.png", "characters/player/animation_fire/right/player_fire_4.png" };
     std::vector<std::string> fireAnimationsLeftTextures = { "characters/player/animation_fire/left/player_fire_1.png", "characters/player/animation_fire/left/player_fire_2.png", "characters/player/animation_fire/left/player_fire_3.png", "characters/player/animation_fire/left/player_fire_4.png" };
-    entity->CreateAnimation("FireRight", fireAnimationsRightTextures, .05, 4);
-    entity->CreateAnimation("FireLeft", fireAnimationsLeftTextures, .05, 4);
+    entity->CreateAnimation("FireRight", fireAnimationsRightTextures, (float).05, 4);
+    entity->CreateAnimation("FireLeft", fireAnimationsLeftTextures, (float).05, 4);
 }
 
 void Knight::GetFireInput()
