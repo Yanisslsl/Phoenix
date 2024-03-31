@@ -50,6 +50,13 @@ namespace Phoenix
         ComponentSystem::DeleteComponent(entity);
     }
 
+    bool ColliderSystem::HasCollider(EntityId entity)
+    {
+        ComponentId componentId = EntityManager::Get()->m_entitiesComponents.at(entity).at(m_Id);
+        if(componentId == -1) return false;
+        return m_ColliderData->m_entities.Get(componentId) != -1;
+    }
+
     ColliderSystem::ColliderSystem(ComponentSystemId id, size_t dataSize)
         : ComponentSystem(id, dataSize)
     {

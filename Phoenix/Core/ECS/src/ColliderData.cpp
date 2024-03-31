@@ -10,7 +10,7 @@ namespace Phoenix
         m_positions.resize(size);
         m_shapes.resize(size);
         m_onHitCallbacks.resize(size);
-        m_entities.resize(size);
+        m_entities.resize(size, -1);
         m_nodeIds.resize(size);
         m_hitCalls.resize(size);
     }

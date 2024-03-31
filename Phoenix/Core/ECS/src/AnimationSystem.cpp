@@ -48,6 +48,7 @@ namespace Phoenix
     bool AnimationSystem::HasAnimation(EntityId entity)
     {
         ComponentId componentId = EntityManager::Get()->m_entitiesComponents.at(entity).at(m_Id);
+        if(componentId == -1) return false;
         return m_AnimationData->m_entitiesIds.Get(componentId) != -1;
     }
 
@@ -56,7 +57,7 @@ namespace Phoenix
         std::vector<EntityId> entities;
         for(auto entityId: m_AnimationData->m_entitiesIds)
         {
-            if(entityId == -1) return entities;
+            if(entityId == -1) continue;
             entities.push_back(entityId);
         }
         return entities;

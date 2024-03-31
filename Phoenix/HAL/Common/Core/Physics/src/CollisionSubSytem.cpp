@@ -170,6 +170,7 @@ namespace Phoenix
 
     void CollisionSubSytem::DeleteCollider(EntityId entityId)
     {
+        if(!m_ColliderSystem->HasCollider(entityId)) return;
         auto collider = GetCollider(entityId);
         Remove(collider);
         m_ColliderSystem->DeleteComponent(entityId);
@@ -206,7 +207,7 @@ namespace Phoenix
         auto node = FindNodeById(id, m_Root);
         if(node == nullptr)
         {
-            PX_ERROR("Node not found : {0}", node->id);
+            PX_ERROR("Node not found");
             return nullptr;
         }
         return node;
@@ -279,6 +280,11 @@ namespace Phoenix
     void CollisionSubSytem::Remove(BoxCollider& collider)
     {
         auto node = SearchNode(collider.m_Node_Id);
+        if(node == nullptr)
+        {
+            PX_ERROR("Node not found");
+            return;
+        }
         auto it = std::find_if(node->colliders.begin(), node->colliders.end(), [&collider](BoxCollider& c){
             return c.m_EntityId == collider.m_EntityId;
         });

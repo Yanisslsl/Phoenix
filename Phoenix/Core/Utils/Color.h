@@ -77,13 +77,11 @@ namespace Phoenix
        
         inline static glm::vec3 GetColor(ColorCode color)
         {
-            auto c = Color::RED;
             return colors[color];
         }
 
-        static int GetColorFromMap(ColorCode color)
+        static ColorCode GetColorFromMap(ColorCode color)
         {
-            auto c = Color::RED;
             return mapcolors[color];
         }
     private:

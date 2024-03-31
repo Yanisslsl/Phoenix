@@ -15,6 +15,7 @@
 #include "Utils/Timer.h"
 #include "Utils/Color.h"
 #include "Common/Core/ECSExtended/include/Entity.h"
+#include "Common/Core/ECSExtended/include/TransformSubsytem.h"
 
 namespace Phoenix
 {
@@ -199,10 +200,11 @@ namespace Phoenix
                 if (ImGui::Button("Apply")) 
                 {
                     m_newentityindex++; 
-                    Ref<Entity> newentity = Phoenix::Application::Get().GetSubSystem<Phoenix::EntitySubsystem>()->CreateEntity(s);
-                    newentity->AddComponent(Phoenix::TransformComponent{ glm::vec3(posx, posy, 1.), rotation, glm::vec2(1, 1) });
-                    newentity->AddComponent(Phoenix::SpriteComponent(Colors::GetColorFromMap(item_selected)));
-                    newentity->SetScale(scale);
+                    Ref<Entity> newEntity = Application::Get().GetSubSystem<EntitySubsystem>()->CreateEntity(s);
+                    const auto colorVec = Colors::GetColorFromMap(item_selected);
+                    newEntity->AddComponent(SpriteComponent(colorVec));
+                    newEntity->AddComponent(TransformComponent(glm::vec3(posx, posy, 1.), rotation, glm::vec2(1, 1)));
+                    newEntity->SetScale((int)scale);
                     m_newentity = false; // hide the display of settings 
                 }
             }     

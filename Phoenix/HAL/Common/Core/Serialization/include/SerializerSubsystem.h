@@ -69,7 +69,7 @@ namespace Phoenix
         void DeserializeStandAloneObjects(BlobSerializer& serializer);
         void SerializeStandAloneObjects(BlobSerializer& serializer);
         
-        std::map<std::string, Ref<ISerializable>>* DeserializeWrappedObjects();
+        std::vector<Ref<ISerializable>>* DeserializeWrappedObjects();
         void SerializeWrappedObjects(BlobSerializer& serializer);
 
         void RegisterEntityForSerialization(std::string name, ISerializable* entity);

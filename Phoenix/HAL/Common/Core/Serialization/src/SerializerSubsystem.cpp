@@ -110,9 +110,9 @@ namespace Phoenix
         serializer.Flush();
     }
 
-    std::map<std::string, Ref<ISerializable>>* SerializerSubsystem::DeserializeWrappedObjects()
+    std::vector<Ref<ISerializable>>* SerializerSubsystem::DeserializeWrappedObjects()
     {
-        std::map<std::string, Ref<ISerializable>>* deserializedMap = new std::map<std::string, Ref<ISerializable>>();
+        std::vector<Ref<ISerializable>>* deserializedVec = new std::vector<Ref<ISerializable>>();
         std::string filePath = FileSystem::GetAssetsPath() + "\\save\\" + "save.txt";
         BlobSerializer serializer = BlobSerializer(Mode::Read, filePath);
         BlobHeader header = serializer.ReadHeader();
@@ -131,12 +131,12 @@ namespace Phoenix
                 {
                     Ref<ISerializable> customSerializable = factory.Create(serializableType.first);
                     customSerializable->Deserialize(serializer);
-                    deserializedMap->insert({ serializableType.first, customSerializable});
+                    deserializedVec->push_back(customSerializable);
                 }
             }
         }
         Application::Get().GetSubSystem<EntitySubsystem>()->SetIsInitialized(true);
-        return deserializedMap;
+        return deserializedVec;
     }
 
     void SerializerSubsystem::SerializeWrappedObjects(BlobSerializer& serializer)

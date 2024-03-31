@@ -88,6 +88,7 @@ namespace Phoenix
 
     void AnimationSubsystem::DeleteAnimation(EntityId entityId)
     {
+        if(!m_AnimationSystem->HasAnimation(entityId)) return;
         m_AnimationSystem->DeleteComponent(entityId);
     }
 

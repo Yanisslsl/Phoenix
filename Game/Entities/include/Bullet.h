@@ -11,8 +11,8 @@ class Bullet : public Phoenix::ISerializable, public Phoenix::AutoRegister<Bulle
 {
 public:
     Bullet();
+    ~Bullet();
     Bullet(std::string id, glm::vec2 position, glm::vec2 direction);
-    ~Bullet() = default;
     void Update();
     void OnHit(Phoenix::Ref<Phoenix::Entity> entity);
     std::string m_id;

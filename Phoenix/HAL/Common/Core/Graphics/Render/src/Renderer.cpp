@@ -218,6 +218,7 @@ namespace Phoenix
 
     void Renderer::DeleteShape(std::string name)
     {
+        auto u = s_ShapeData;
         s_ShapeData.erase(name);
     }
 

@@ -49,7 +49,12 @@ namespace Phoenix
         /**
          * \brief Used to initalized entities in their onStartMethod;
          */
-        std::vector<std::function<void()>> m_Binded_OnStarts;
+        struct BindedOnStart
+        {
+            bool isCalled = false;
+            std::function<void()> onStartFunction;
+        };
+        std::vector<BindedOnStart> m_Binded_OnStarts;
     };
 }
 

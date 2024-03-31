@@ -35,6 +35,7 @@ namespace Phoenix
 	
 	Application::~Application()
 	{
+		m_LayerStack.~LayerStack();
 		delete m_SerializerSubsystem;
 		delete m_InputActionRegistratorSubsystem;
 		delete m_EntityManagerSubsystem;

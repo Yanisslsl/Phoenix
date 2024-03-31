@@ -6,23 +6,32 @@
 #include "Base/Base.h"
 #include "Common/Core/ECSExtended/include/Entity.h"
 
-class Mob
+class Mob: public Phoenix::ISerializable, public Phoenix::AutoRegister<Mob>
 {
 public:
-    Mob(glm::vec2 position, Phoenix::Ref<Phoenix::Entity> target, std::string _name);
+    Mob();
+    Mob(std::string& id, glm::vec2 position);
     ~Mob();
     void OnUpdate();
     void OnHit(Phoenix::Ref<Phoenix::Entity> entity);
+    void OnStart();
     void OnDeath();
     bool GetIsDead();
+    std::string GetId()
+    {
+        return m_id;
+    }
     std::string GetEntityName();
+    virtual void Serialize(Phoenix::BlobSerializer& serializer);
+    virtual void Deserialize(Phoenix::BlobSerializer& serializer);
 private:
-    std::string m_name;
+    bool isDead;
     float speed;
     int health;
     std::string m_id;
     int damage;
     Phoenix::Ref<Phoenix::Entity> m_target;
-    bool isDead;
     float dt;
+    glm::vec3 m_Position;
+    REGISTER_CLASS_WITH_FACTORY(Mob)
 };

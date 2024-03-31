@@ -24,7 +24,7 @@ namespace Phoenix
             virtual void Update() override;
 
             virtual void DeleteComponent(EntityId entity) override;
-    
+            bool HasCollider(EntityId entity);
             CollisionType GetColliderType(EntityId entity);
             void SetColliderType(EntityId entity, CollisionType type);
             void SetColliderPosition(EntityId entity, glm::vec2 position);

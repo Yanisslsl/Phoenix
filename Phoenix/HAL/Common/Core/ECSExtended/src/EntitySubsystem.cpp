@@ -36,7 +36,7 @@ namespace Phoenix
 
     Ref<Entity> EntitySubsystem::GetEntityByName(std::string name)
     {
-        EntityId entityId  = m_EntityManager->GetEntity(name);
+        EntityId entityId  = m_EntityManager->GetEntityIdByName(name);
         TagType tag = m_EntityManager->GetTag(entityId);
         bool isStandAlone = m_EntityManager->GetIsStandAlone(entityId);
         return CreateRef<Entity>(Entity{ entityId, name, tag, isStandAlone });
@@ -44,8 +44,7 @@ namespace Phoenix
 
     Ref<Entity> EntitySubsystem::GetEntityById(EntityId id)
     {
-        //@TODO: ADD CATCHING ERROR
-        std::string name = m_EntityManager->GetEntityName(id);
+        std::string name = m_EntityManager->GetEntityNameById(id);
         TagType tag = m_EntityManager->GetTag(id);
         bool isStandAlone = m_EntityManager->GetIsStandAlone(id);
         return CreateRef<Entity>(Entity{ id, name, tag, isStandAlone });
@@ -59,7 +58,8 @@ namespace Phoenix
 
         for (auto& entityName : m_EntityManager->GetEntitiesName())
         {
-            EntityId entityId = m_EntityManager->GetEntity(entityName);
+            if(entityName == "") continue;
+            EntityId entityId = m_EntityManager->GetEntityIdByName(entityName);
             TagType tag = m_EntityManager->GetTag(entityId);
             bool isStandAlone = m_EntityManager->GetIsStandAlone(entityId);
             std::function<void()> updateBindedFunction = m_EntityManager->GetUpdateFunction(entityId);
@@ -75,7 +75,7 @@ namespace Phoenix
         std::vector<Ref<Entity>> entities;
         for (auto& entityName : m_EntityManager->GetEntitiesName())
         {
-            EntityId entityId = m_EntityManager->GetEntity(entityName);
+            EntityId entityId = m_EntityManager->GetEntityIdByName(entityName);
             TagType entityTag = m_EntityManager->GetTag(entityId);
             bool isStandAlone = m_EntityManager->GetIsStandAlone(entityId);
             std::function<void()> updateBindedFunction = m_EntityManager->GetUpdateFunction(entityId);
@@ -106,7 +106,7 @@ namespace Phoenix
     
     void EntitySubsystem::BindOnStart(std::function<void()> onStartFunction)
     {
-        m_Binded_OnStarts.push_back(onStartFunction);
+        m_Binded_OnStarts.push_back({false, onStartFunction});
     }
 
 
@@ -138,7 +138,11 @@ namespace Phoenix
     {
         for(auto& onStartFunction: m_Binded_OnStarts)
         {
-            onStartFunction();
+            if(!onStartFunction.isCalled)
+            {
+                onStartFunction.onStartFunction();
+                onStartFunction.isCalled = true;
+            }
         }
     }
 }
