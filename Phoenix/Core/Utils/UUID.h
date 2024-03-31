@@ -9,6 +9,14 @@ namespace Phoenix
     class UUID
     {
     public:
+        static unsigned int BasicHash(const char* str, const unsigned int length, unsigned int hash = 5381) {
+            return (length == 0) ? hash : BasicHash(str, length - 1, (hash * 33) ^ str[length - 1]);
+        }
+
+        static unsigned int GenerateUniqueFunctionHash(const std::string& className, const std::string& functionName) {
+            std::string uniqueIdentifier = className + "::" + functionName;
+            return BasicHash(uniqueIdentifier.c_str(), uniqueIdentifier.length());
+        }
         inline static std::string GenerateUUID()
         {
             std::random_device rd; // Obtain a random number from hardware

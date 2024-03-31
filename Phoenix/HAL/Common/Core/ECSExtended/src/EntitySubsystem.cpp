@@ -6,47 +6,64 @@ namespace Phoenix
     EntitySubsystem::EntitySubsystem()
     {
         m_EntityManager = new EntityManager();
-        m_TransformSystem = new TransformSystem(0, 1000);
-        // m_ColliderSystem = new ColliderSystem(1, 1000);
     }
-    
-    Ref<Entity> EntitySubsystem::CreateEntity(std::string name)
+
+    EntitySubsystem::~EntitySubsystem()
+    {
+        delete m_EntityManager;
+    }
+
+    void EntitySubsystem::Initalize()
+    {
+        OnStart();
+    }
+
+    Ref<Entity> EntitySubsystem::CreateEntity(std::string name, bool isStandAlone)
     {
         EntityId entityId = m_EntityManager->Create(name);
-        return CreateRef<Entity>(Entity{ entityId,   name });
+        m_EntityManager->SetIsStandAlone(entityId, isStandAlone);
+        return CreateRef<Entity>(Entity( entityId,   name, 0, isStandAlone ));
     }
 
     void EntitySubsystem::DestroyEntity(EntityId id)
     {
         m_EntityManager->Remove(id);
+        if(m_EntityManager->GetEntities().size() == 0)
+        {
+            m_Binded_OnStarts.clear();
+        }
     }
 
     Ref<Entity> EntitySubsystem::GetEntityByName(std::string name)
     {
         EntityId entityId  = m_EntityManager->GetEntityIdByName(name);
         TagType tag = m_EntityManager->GetTag(entityId);
-        return CreateRef<Entity>(Entity{ entityId, name, tag });
+        bool isStandAlone = m_EntityManager->GetIsStandAlone(entityId);
+        return CreateRef<Entity>(Entity{ entityId, name, tag, isStandAlone });
     }
 
     Ref<Entity> EntitySubsystem::GetEntityById(EntityId id)
     {
         std::string name = m_EntityManager->GetEntityNameById(id);
-        //If Entity not found return nullptr
-        if (name == "") return nullptr;
         TagType tag = m_EntityManager->GetTag(id);
-        return CreateRef<Entity>(Entity{ id, name, tag });
+        bool isStandAlone = m_EntityManager->GetIsStandAlone(id);
+        return CreateRef<Entity>(Entity{ id, name, tag, isStandAlone });
     }
 
     std::vector<Ref<Entity>> EntitySubsystem::GetEntities()
     {
         std::vector<Ref<Entity>> entities;
+        auto entitiess = m_EntityManager->GetEntities();
+        auto names =  m_EntityManager->GetEntitiesName();
+
         for (auto& entityName : m_EntityManager->GetEntitiesName())
         {
+            if(entityName == "") continue;
             EntityId entityId = m_EntityManager->GetEntityIdByName(entityName);
             TagType tag = m_EntityManager->GetTag(entityId);
+            bool isStandAlone = m_EntityManager->GetIsStandAlone(entityId);
             std::function<void()> updateBindedFunction = m_EntityManager->GetUpdateFunction(entityId);
-            Ref<Entity> entity = CreateRef<Entity>(Entity{ entityId, entityName });
-            entity->m_Tag = tag;
+            Ref<Entity> entity = CreateRef<Entity>(Entity( entityId, entityName, tag, isStandAlone ));
             entity->m_updateFunction = updateBindedFunction;
             entities.push_back(entity);
         }
@@ -60,11 +77,11 @@ namespace Phoenix
         {
             EntityId entityId = m_EntityManager->GetEntityIdByName(entityName);
             TagType entityTag = m_EntityManager->GetTag(entityId);
+            bool isStandAlone = m_EntityManager->GetIsStandAlone(entityId);
             std::function<void()> updateBindedFunction = m_EntityManager->GetUpdateFunction(entityId);
             if (Tags::HasTag(entityTag, tag))
             {
-                Ref<Entity> entity = CreateRef<Entity>(Entity{ entityId, entityName });
-                entity->m_Tag = tag;
+                Ref<Entity> entity = CreateRef<Entity>(Entity{ entityId, entityName, tag, isStandAlone });
                 entity->m_updateFunction = updateBindedFunction;
                 entities.push_back(entity);
             }
@@ -72,9 +89,24 @@ namespace Phoenix
         return entities;
     }
 
+    void EntitySubsystem::SetIsInitialized(bool value)
+    {
+        if(value)
+        {
+            Initalize();
+        }
+        is_Initialized = value;
+    }
+
     void EntitySubsystem::BindUpdate(EntityId entityId, std::function<void()> updateFunction)
     {
         m_EntityManager->BindUpdate(entityId, updateFunction);
+    }
+
+    
+    void EntitySubsystem::BindOnStart(std::function<void()> onStartFunction)
+    {
+        m_Binded_OnStarts.push_back({false, onStartFunction});
     }
 
 
@@ -99,6 +131,18 @@ namespace Phoenix
         for(auto& entity : entities)
         {
             entity->Update();
+        }
+    }
+
+    void EntitySubsystem::OnStart()
+    {
+        for(auto& onStartFunction: m_Binded_OnStarts)
+        {
+            if(!onStartFunction.isCalled)
+            {
+                onStartFunction.onStartFunction();
+                onStartFunction.isCalled = true;
+            }
         }
     }
 }

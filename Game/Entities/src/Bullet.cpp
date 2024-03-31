@@ -1,11 +1,19 @@
 ﻿#include "../include/Bullet.h"
-
 #include "Base/Base.h"
 #include "Common/Core/ECSExtended/include/Entity.h"
-#include "Common/Core/Input/include/Input.h"
+#include "Common/Core/ECSExtended/include/TransformSubsytem.h"
 #include "Utils/UUID.h"
 #include "Windows/Core/Application/include/Application.h"
 
+
+
+Bullet::Bullet():
+    Bullet("Bullet", glm::vec2(0, 0), glm::vec2(0, 0)){}
+
+Bullet::~Bullet()
+{
+    Phoenix::Application::Get().GetSubSystem<Phoenix::EntitySubsystem>()->GetEntityByName(m_id)->Destroy();
+}
 
 Bullet::Bullet(std::string id, glm::vec2 position, glm::vec2 direction)
 {
@@ -20,32 +28,22 @@ Bullet::Bullet(std::string id, glm::vec2 position, glm::vec2 direction)
     self->BindUpdate(PX_BIND_EVENT_FN(Update));
 }
 
-Bullet::~Bullet()
-{
-}
-
 void Bullet::Update()
 {
-   
     auto entity = Phoenix::Application::Get().GetSubSystem<Phoenix::EntitySubsystem>()->GetEntityByName(m_id);
     if(entity == nullptr) return;
     auto position = entity->GetTransformPosition();
+    if(position.x > 1280 || position.x < 0 || position.y > 720 || position.y < 0)
+    {
+        delete this;
+        return;
+    }
     entity->SetTransformPosition(glm::vec3(position.x + m_Direction.x * m_Speed, position.y + m_Direction.y * m_Speed, 1.));
 }
 
 void Bullet::OnHit(Phoenix::Ref<Phoenix::Entity> entity)
 {
-    //@TODO: implements tags for entities
-    auto i = entity->HasTag(Phoenix::Tag::Bullet);
-    auto t = entity->HasTag(Phoenix::Tag::Player);
-    auto m = entity->HasTag(Phoenix::Tag::Mob);
-    PX_WARN("BULLET HIT");
     if(entity->HasTag(Phoenix::Tag::Bullet) || entity->HasTag(Phoenix::Tag::Player)) return;
-    if(entity->HasTag(Phoenix::Tag::Mob))
-    {
-        entity->Destroy();
-    }
-    self->Destroy();
     delete this;
 }
 

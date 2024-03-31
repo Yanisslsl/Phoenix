@@ -20,7 +20,7 @@ namespace Phoenix
     {
     }
 
-    void TransformSystem::DeleteComponentFrom(EntityId entity)
+    void TransformSystem::DeleteComponent(EntityId entity)
     {
         ComponentId transformId = EntityManager::Get()->m_entitiesComponents.at(entity).at(m_Id);
         auto d = m_TransformsData->m_positions.begin();
@@ -29,7 +29,7 @@ namespace Phoenix
         m_TransformsData->m_scales.Remove(transformId);
         m_TransformsData->m_children.Remove(transformId);
         m_TransformsData->m_parents.Remove(transformId);
-        ComponentSystem::DeleteComponentFrom(entity);
+        ComponentSystem::DeleteComponent(entity);
     }
 
     TransformSystem::TransformSystem(ComponentSystemId id, size_t dataSize)
@@ -57,6 +57,17 @@ namespace Phoenix
     void TransformSystem::Update()
     {
         ComponentSystem::Update();
+    }
+
+    void TransformSystem::SetEntityId(EntityId entity)
+    {
+        ComponentId transformId = EntityManager::Get()->m_entitiesComponents.at(entity).at(m_Id);
+        m_TransformsData->m_entitiesIds.Get(transformId) = entity;
+    }
+
+    bool TransformSystem::HasTransform(EntityId entity)
+    {
+        return m_TransformsData->m_entitiesIds.Contains(entity);
     }
 
     void TransformSystem::PrintEntityPosition(EntityId entity)
@@ -87,7 +98,7 @@ namespace Phoenix
 
     void TransformSystem::SetEntityPostion(EntityId entity, glm::vec3 position)
     {
-        ComponentId transformId = EntityManager::Get()->m_entitiesComponents.at(entity).at(m_Id);
+         ComponentId transformId = EntityManager::Get()->m_entitiesComponents.at(entity).at(m_Id);
         m_TransformsData->m_positions.Get(transformId) = position;
     }
 

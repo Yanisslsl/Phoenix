@@ -28,7 +28,8 @@ namespace Phoenix
             /**
              * Delete the component from the passed entity
              */
-            virtual void DeleteComponentFrom(EntityId entity) override;
+            virtual void DeleteComponent(EntityId entity) override;
+            bool HasCollider(EntityId entity);
 
             /**
              * Returns the collider type for the passed entity
@@ -53,7 +54,8 @@ namespace Phoenix
             /**
              * Set a callback method when the collider hits another
              */
-            void SetOnHitCallback(EntityId entity, std::function<void(Ref<Entity>)> callback);
+            void SetOnHitCallback(EntityId entity, std::function<void(Ref<Entity>)> onHitCallback);
+            
             void SetColliderEntity(EntityId entity, EntityId colliderEntity);
             void SetColliderNodeId(EntityId entity, std::string nodeId);
             void SetColliderHitCalls(EntityId entity, int hitCalls);
@@ -82,6 +84,7 @@ namespace Phoenix
              * Returns the collider height for the passed entity
              */
             float GetColliderHeight(EntityId entity);
+        private: 
             ColliderData* m_ColliderData;
         };
     }

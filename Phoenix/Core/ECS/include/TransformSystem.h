@@ -25,13 +25,16 @@ namespace Phoenix
         /**
          * Delete the component from the passed entity
          */
-        void DeleteComponentFrom(EntityId entity) override;
+        void DeleteComponent(EntityId entity) override;
         
         virtual void Init() override;
         virtual void Start() override;
         virtual void Update() override;
 
         TransformsData* m_TransformsData;
+
+        void SetEntityId(EntityId entity);
+        bool HasTransform(EntityId entity);
 
         /**
          * Get the position for the passed entity

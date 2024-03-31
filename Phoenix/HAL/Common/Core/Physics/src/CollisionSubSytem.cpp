@@ -20,13 +20,14 @@ namespace Phoenix
         m_Root = new Node(glm::vec2(0, 0), windowWidth, windowHeight, UUID::GenerateUUID());
         Init(m_Root, Divide::VERTICAL);
         PrintBst(m_Root);
-        m_ColliderSystem = new ColliderSystem(1, 1000);
+        m_ColliderSystem = new ColliderSystem(2, 1000);
         m_Nodes_With_Colliders = std::vector<Node*>();
     }
     
     CollisionSubSytem::~CollisionSubSytem()
     {
         delete m_Root;
+        delete m_ColliderSystem;
     }
 
     void CollisionSubSytem::Update()
@@ -47,6 +48,7 @@ namespace Phoenix
                 if(collider.m_EntityId == otherCollider.m_EntityId) continue;
                 if(collider.CollidesWith(otherCollider))
                 {
+                    //@TODO: ERROR WHEN TOO MANY COLLIDES
                     // hitCalls defined the number of times the onHit callback will be called
                     // disable this may be a performance bottleneck
                     if(collider.hitCalls < 1)
@@ -58,7 +60,10 @@ namespace Phoenix
                             continue;
                         }
                         collider.hitCalls++;
-                        collider.OnHit(entity);
+                        if(collider.OnHit != nullptr)
+                        {
+                            collider.OnHit(entity);
+                        }
                     }
                 }
             }
@@ -165,9 +170,10 @@ namespace Phoenix
 
     void CollisionSubSytem::DeleteCollider(EntityId entityId)
     {
+        if(!m_ColliderSystem->HasCollider(entityId)) return;
         auto collider = GetCollider(entityId);
         Remove(collider);
-        m_ColliderSystem->DeleteComponentFrom(entityId);
+        m_ColliderSystem->DeleteComponent(entityId);
     }
 
     bool CollisionSubSytem::HasCollider(EntityId entityId)
@@ -187,7 +193,7 @@ namespace Phoenix
         auto _entityId = m_ColliderSystem->GetColliderEntity(entityId);
         auto nodeId = m_ColliderSystem->GetColliderNodeId(entityId);
         auto hitCalls = m_ColliderSystem->GetColliderHitCalls(entityId);
-        auto collider = BoxCollider(colliderType, onHitCallback, CollisionShape::RECTANGLE, width, height);
+        auto collider = BoxCollider(colliderType, onHitCallback,CollisionShape::RECTANGLE, width, height);
         collider.m_EntityId = _entityId;
         collider.m_Node_Id = nodeId;
         collider.position = position;
@@ -201,7 +207,7 @@ namespace Phoenix
         auto node = FindNodeById(id, m_Root);
         if(node == nullptr)
         {
-            PX_ERROR("Node not found : {0}", node->id);
+            PX_ERROR("Node not found");
             return nullptr;
         }
         return node;
@@ -274,6 +280,11 @@ namespace Phoenix
     void CollisionSubSytem::Remove(BoxCollider& collider)
     {
         auto node = SearchNode(collider.m_Node_Id);
+        if(node == nullptr)
+        {
+            PX_ERROR("Node not found");
+            return;
+        }
         auto it = std::find_if(node->colliders.begin(), node->colliders.end(), [&collider](BoxCollider& c){
             return c.m_EntityId == collider.m_EntityId;
         });

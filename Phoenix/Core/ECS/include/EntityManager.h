@@ -52,7 +52,7 @@ namespace Phoenix
          * Method to bind game update method to backend update
          */
         void BindUpdate(EntityId entityId, std::function<void()> updateFunction);
-
+        void BindOnStart(EntityId entityId, std::function<void()> onStartFunction);
         /**
          * Get the binded game method
          */
@@ -65,6 +65,8 @@ namespace Phoenix
          * Get entity tag
          */
         TagType GetTag(EntityId entity);
+        void SetIsStandAlone(EntityId entity, bool isStandAlone);
+        bool GetIsStandAlone(EntityId entity);
         static EntityManager* Get()
         {
             if(m_instance == nullptr)
@@ -80,6 +82,7 @@ namespace Phoenix
         std::vector<EntityId> m_entitiesId;
         std::vector<std::string> m_entitiesName;
         std::vector<TagType> m_entitiesTags;
+        std::vector<bool> m_entitiesStandAlone;
         std::vector<std::function<void()>> m_updateFunctions;
       };
 }

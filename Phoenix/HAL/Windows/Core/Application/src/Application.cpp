@@ -13,7 +13,7 @@ namespace Phoenix
 
 	Application* Application::s_Instance = nullptr;
 
-	Application::Application()
+	Application::Application(ApplicationMode mode): m_Mode(mode)
 	{
 		m_Window = WindowHal::Create(WindowProps("Phoenix Engine", 1280, 720));
 		m_Window->SetEventCallback(PX_BIND_EVENT_FN(Application::OnEvent));
@@ -23,6 +23,9 @@ namespace Phoenix
 		m_SceneManagerSubSystem = new SceneManagerSubSystem();
 		m_CollisionSubSystem = new CollisionSubSytem();
 		m_TransformSubSystem = new TransformSubsytem();
+		m_AnimationSubsystem = new AnimationSubsystem();
+		m_SerializerSubsystem = new SerializerSubsystem();
+		m_SpriteSubsystem = new SpriteSubsystem();
 		Renderer::Init();
 #ifdef PX_DEBUG
 		m_Editor_Layer = new EditorLayer();
@@ -30,8 +33,30 @@ namespace Phoenix
 #endif
 	}
 	
-	Application::~Application()	{	}
+	Application::~Application()
+	{
+		m_LayerStack.~LayerStack();
+		delete m_SerializerSubsystem;
+		delete m_InputActionRegistratorSubsystem;
+		delete m_EntityManagerSubsystem;
+		delete m_SceneManagerSubSystem;
+		delete m_CollisionSubSystem;
+		delete m_TransformSubSystem;
+		delete m_AnimationSubsystem;
+		delete m_SpriteSubsystem;
+	}
+
 	void Application::Run()
+	{
+		m_Running = true;
+		if(!m_EntityManagerSubsystem->IsInitialized())
+		{
+			m_EntityManagerSubsystem->Initalize();
+		}
+		Update();
+	}
+
+	void Application::Update()
 	{
 		while (m_Running)
 		{
@@ -45,6 +70,7 @@ namespace Phoenix
 			// @TODO: turn this into a layer
 			m_CollisionSubSystem->Update();
 			m_EntityManagerSubsystem->Update();
+			m_AnimationSubsystem->Update();
 		}
 	}
 

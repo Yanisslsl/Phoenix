@@ -4,27 +4,45 @@
 #include "Tag.h"
 #include "Common/Core/Graphics/Render/include/Renderer.h"
 #include "ECS/include/EntityComponent.h"
-#include "Common/Core/ECSExtended/include/TransformSubsytem.h"
+#include "Common/Core/Serialization/include/BlobSerializer.h"
+#include "Common/Core/Serialization/include/SerializerSubsystem.h"
 
 namespace Phoenix
 {
     class EntitySubsystem;
     class BoxCollider;
     class SpriteComponent;
-    class PHOENIX_API Entity
+    class TransformComponent;
+
+    class PHOENIX_API IComponent: public ISerializable
     {
     public:
-        Entity(EntityId id, std::string name, TagType tag = 0)
+        IComponent() = default;
+        virtual void Serialize(BlobSerializer& serializer) = 0;
+        virtual void Deserialize(BlobSerializer& serializer) = 0;
+    };
+    
+    class PHOENIX_API Entity: public ISerializable, public Phoenix::AutoRegister<Entity>
+    {
+    public:
+        Entity()
+        {
+            
+        }
+        Entity(EntityId id, std::string name, TagType tag = 0, bool isStandAlone = true)
         : m_id(id)
         , m_name(name)
         , m_Tag(tag)
+        , isStandAlone(isStandAlone)
         {
             m_parent = nullptr;
             m_children = std::vector<Ref<Entity>>();
         }
+        
+        // FOR WRAPPED MODE ONLY
         void BindUpdate(std::function<void()> updateFunction);
         void Update();
-
+        // FOR WRAPPED MODE ONLY
         
         glm::vec3 GetTransformPosition() const;
         void SetTransformPosition(glm::vec3 position);
@@ -70,6 +88,10 @@ namespace Phoenix
         glm::mat4 GetWorldModelMatrix() const;
 
         BoxCollider GetCollider() const;
+        TransformComponent GetTransformComponent() const;
+
+        void Play(std::string animationName, std::function<void()> onAnimationEnd = nullptr);
+        void CreateAnimation(std::string name, std::vector<std::string> paths, float duration, int totalFrames);
 
         /**
          * \brief Bind a function to the entity update in client code
@@ -94,32 +116,36 @@ namespace Phoenix
             Renderer::UpdateModelMatrix(m_name, GetWorldModelMatrix());
         }
         
-        
         template <typename T>
         void AddComponent(T component);
 
-        template <>
-        void AddComponent<Phoenix::TransformComponent>(TransformComponent component);
-
-        template <>
-        void AddComponent<Phoenix::SpriteComponent>(SpriteComponent component);
-
-        template <>
-        void AddComponent<Phoenix::BoxCollider>(BoxCollider component);
-        
         template <typename T>
         void OnComponentUpdated(T component)
         {
             static_assert(sizeof(T) == 0, "Component not found");
         }
+
+        void Serialize(BlobSerializer& serializer) override;
+        void Deserialize(BlobSerializer& serializer) override;
     public:
         //@TODO: make encapsulation
         std::string m_name;
         EntityId m_id;
         TagType m_Tag = 0;
         std::function<void()> m_updateFunction;
+        bool isStandAlone = false;
     private:
         Entity* m_parent;
         std::vector<Ref<Entity>> m_children;
     };
 }
+
+
+template<>
+void PHOENIX_API Phoenix::Entity::AddComponent<Phoenix::SpriteComponent>(SpriteComponent component);
+
+template<>
+void PHOENIX_API Phoenix::Entity::AddComponent<Phoenix::BoxCollider>(BoxCollider component);
+
+template<>
+void PHOENIX_API Phoenix::Entity::AddComponent<Phoenix::TransformComponent>(TransformComponent component);

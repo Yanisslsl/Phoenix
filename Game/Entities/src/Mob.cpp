@@ -7,55 +7,72 @@
 #include "Utils/Timer.h"
 #include "Utils/UUID.h"
 #include "Windows/Core/Application/include/Application.h"
+#include "Common/Core/ECSExtended/include/TransformSubsytem.h"
 
 
-Mob::Mob(glm::vec2 position, Phoenix::Ref<Phoenix::Entity> _target, std::string _name)
+
+Mob::Mob()
 {
-    m_id = "MOB_" + Phoenix::UUID::GenerateUUID();
-    Phoenix::Ref<Phoenix::Entity> entity = Phoenix::Application::Get().GetSubSystem<Phoenix::EntitySubsystem>()->CreateEntity(m_id);
-    entity->AddComponent(Phoenix::SpriteComponent("characters/mobs/mob_idle.png"));
-    entity->AddComponent(Phoenix::TransformComponent{ { position.x , position.y, 1.} , 180, glm::vec2(1, 1) });
-    entity->AddComponent(Phoenix::BoxCollider{ Phoenix::CollisionType::STATIC, PX_BIND_EVENT_FN(OnHit), Phoenix::CollisionShape::RECTANGLE, 50, 50 });
-    entity->SetScale(30);
-    entity->BindUpdate(PX_BIND_EVENT_FN(OnUpdate));
-    entity->AddTag(Phoenix::Tag::Mob);
-    m_target = _target;
-    m_name = _name;
-    speed = 50;
+    Phoenix::Application::Get().GetSubSystem<Phoenix::EntitySubsystem>()->BindOnStart(PX_BIND_EVENT_FN(OnStart));
+    m_Position = glm::vec3(450, 450, 1);
     isDead = false;
+}
+
+Mob::Mob(std::string& id, glm::vec2 position)
+{
+    isDead = false;
+    m_id = id;
+    m_Position = glm::vec3(position.x, position.y, 1);
+    Phoenix::Application::Get().GetSubSystem<Phoenix::EntitySubsystem>()->BindOnStart(PX_BIND_EVENT_FN(OnStart));
 }
 
 Mob::~Mob()
 {
+    auto entity = Phoenix::Application::Get().GetSubSystem<Phoenix::EntitySubsystem>()->GetEntityByName(m_id);
+    entity->Destroy();
+}
+
+void Mob::OnStart()
+{
+    Phoenix::Application::Get().GetSubSystem<Phoenix::SerializerSubsystem>()->RegisterEntityForSerialization(m_id, this);
+    Phoenix::Ref<Phoenix::Entity> entity = Phoenix::Application::Get().GetSubSystem<Phoenix::EntitySubsystem>()->CreateEntity(m_id, false);
+    entity->AddComponent(Phoenix::SpriteComponent("characters/mobs/mob_idle.png"));
+    entity->AddComponent(Phoenix::TransformComponent( { m_Position.x , m_Position.y, 1.} , 180, glm::vec2(1, 1) ));
+    entity->AddComponent(Phoenix::BoxCollider{ Phoenix::CollisionType::DYNAMIC, PX_BIND_EVENT_FN(OnHit), Phoenix::CollisionShape::RECTANGLE, 50, 50 });
+    entity->SetScale(30);
+    entity->BindUpdate(PX_BIND_EVENT_FN(OnUpdate));
+    entity->AddTag(Phoenix::Tag::Mob);
+    speed = 50;
+    isDead = false;
 }
 
 void Mob::OnUpdate()
 {
     //We get the target position, where we want to go
-    glm::vec3 targetPos = Phoenix::Application::Get().GetSubSystem<Phoenix::EntitySubsystem>()->GetEntityById(m_target->m_id)->GetTransformPosition();
+    glm::vec3 playerPosition = Phoenix::Application::Get().GetSubSystem<Phoenix::EntitySubsystem>()->GetEntityByName("Knight")->GetTransformPosition();
     //Get self backend entity
-    auto entity = Phoenix::Application::Get().GetSubSystem<Phoenix::EntitySubsystem>()->GetEntityByName(m_id);
+    auto self = Phoenix::Application::Get().GetSubSystem<Phoenix::EntitySubsystem>()->GetEntityByName(m_id);
     //Get self position
-    glm::vec3 myPos = entity->GetTransformPosition();
+    glm::vec3 selfPosition = self->GetTransformPosition();
     //Calculate distane between target and self
-    auto distance = glm::distance(myPos,targetPos);
+    float distance = glm::distance(selfPosition,playerPosition);
     //Calculate the direction
-    glm::vec3 direction = glm::normalize(targetPos - myPos);
+    glm::vec3 direction = glm::normalize(playerPosition - selfPosition);
     //Calculate new position with direction, speed and delta time
-    glm::vec3 newPos = myPos + (direction * speed * Phoenix::Timer::GetDeltaTime());
+    m_Position = selfPosition + (direction * speed * Phoenix::Timer::GetDeltaTime());
     //Set new position
-    entity->SetTransformPosition(newPos);
+    self->SetTransformPosition(m_Position); //=> multiply per delta time
 }
 
 void Mob::OnHit(Phoenix::Ref<Phoenix::Entity> entity)
 {
-    //check if mob collide with player or bullet
-    if (entity->HasTag(Phoenix::Tag::Player) || entity->HasTag(Phoenix::Tag::Bullet))
-    {
-        PX_INFO("MOB HIT");
+    //return if mob not collide with bullet
+    if (entity->HasTag(Phoenix::Tag::Bullet))
+
+        //Set Entity to dead
+        //auto self = Phoenix::Application::Get().GetSubSystem<Phoenix::EntitySubsystem>()->GetEntityByName(m_id);
         //Set Entity to dead
         isDead = true;
-    }
 }
 
 bool Mob::GetIsDead()
@@ -66,4 +83,28 @@ bool Mob::GetIsDead()
 std::string Mob::GetEntityName()
 {
     return m_id;
+}
+
+void Mob::Serialize(Phoenix::BlobSerializer& serializer)
+{
+    auto typeId = Phoenix::Application::Get().GetSubSystem<Phoenix::SerializerSubsystem>()->GetSerializableType("Mob");
+    serializer.WriteHeader(typeId);
+    serializer.WriteString(m_id);
+    // serializer.Write(&speed, sizeof(speed));
+    serializer.Write(&health, sizeof(health));
+    serializer.Write(&damage, sizeof(damage));
+    serializer.Write(&isDead, sizeof(isDead));
+    // serializer.Write(&dt, sizeof(dt));
+    serializer.Write(&m_Position, sizeof(m_Position));
+}
+
+void Mob::Deserialize(Phoenix::BlobSerializer& serializer)
+{
+    serializer.ReadString(m_id);
+    // serializer.Read(&speed, sizeof(speed));
+    serializer.Read(&health, sizeof(health));
+    serializer.Read(&damage, sizeof(damage));
+    serializer.Read(&isDead, sizeof(isDead));
+    // serializer.Read(&dt, sizeof(dt));
+    serializer.Read(&m_Position, sizeof(m_Position));
 }

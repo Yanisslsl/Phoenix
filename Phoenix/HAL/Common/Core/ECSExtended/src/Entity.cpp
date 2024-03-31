@@ -1,5 +1,10 @@
 ﻿#include "../include/Entity.h"
 
+#include <fstream>
+
+#include "Common/Core/ECSExtended/include/SpriteSubsystem.h"
+#include "Common/Core/ECSExtended/include/TransformSubsytem.h"
+#include "Utils/UUID.h"
 #include "Windows/Core/Application/include/Application.h"
 
 namespace Phoenix
@@ -17,20 +22,22 @@ namespace Phoenix
     }
 
     template <>
-    void Entity::AddComponent<TransformComponent>(TransformComponent component)
+    void PHOENIX_API Entity::AddComponent<TransformComponent>(TransformComponent component)
     {
         Application::Get().GetSubSystem<TransformSubsytem>()->AddTransformComponent(m_id, component);
         OnComponentUpdated<TransformComponent>(component);
     }
 
     template <>
-    void Entity::AddComponent<Phoenix::SpriteComponent>(SpriteComponent component)
+    void PHOENIX_API Entity::AddComponent<SpriteComponent>(SpriteComponent component)
     {
         if(component.textureFilePath.empty())
         {
+            Application::Get().GetSubSystem<SpriteSubsystem>()->AddSpriteComponent(m_id, component);
             Renderer::CreateQuad(m_name, Colors::GetColor(component.colorCode),glm::mat4(1));
         } else if(!component.textureFilePath.empty())
         {
+            Application::Get().GetSubSystem<SpriteSubsystem>()->AddSpriteComponent(m_id, component);
             Renderer::CreateQuad(m_name, component.textureFilePath.c_str(), glm::mat4(1));
         } else
         {
@@ -39,7 +46,7 @@ namespace Phoenix
     }
 
     template <>
-    void Entity::AddComponent<Phoenix::BoxCollider>(BoxCollider component)
+    void PHOENIX_API Entity::AddComponent<BoxCollider>(BoxCollider component)
     {
         auto position = GetTransformPosition();
         component.position = position;
@@ -82,9 +89,10 @@ namespace Phoenix
 
     void Entity::Destroy()
     {
-        Application::Get().GetSubSystem<EntitySubsystem>()->DestroyEntity(m_id);
         Application::Get().GetSubSystem<TransformSubsytem>()->DeleteTransformComponent(m_id);
         Application::Get().GetSubSystem<CollisionSubSytem>()->DeleteCollider(m_id);
+        Application::Get().GetSubSystem<AnimationSubsystem>()->DeleteAnimation(m_id);
+        Application::Get().GetSubSystem<EntitySubsystem>()->DestroyEntity(m_id);
         Renderer::DeleteShape(m_name);
     }
 
@@ -129,7 +137,12 @@ namespace Phoenix
 
     BoxCollider Entity::GetCollider() const
     {
-       return Application::Get().GetSubSystem<CollisionSubSytem>()->GetCollider(m_id);
+        return Application::Get().GetSubSystem<CollisionSubSytem>()->GetCollider(m_id);
+    }
+
+    TransformComponent Entity::GetTransformComponent() const
+    {
+        return Application::Get().GetSubSystem<TransformSubsytem>()->GetTransformComponent(m_id);
     }
 
     void Entity::AddTag(TagType tag)
@@ -155,6 +168,16 @@ namespace Phoenix
         Application::Get().GetSubSystem<EntitySubsystem>()->BindUpdate(m_id, updateFunction);
     }
 
+    void Entity::Play(std::string animationName, std::function<void()> onAnimationEnd)
+    {
+        Application::Get().GetSubSystem<AnimationSubsystem>()->PlayAnimation(m_id, animationName, onAnimationEnd);
+    }
+
+    void Entity::CreateAnimation(std::string name, std::vector<std::string> paths, float duration, int totalFrames)
+    {
+        Application::Get().GetSubSystem<AnimationSubsystem>()->CreateAnimation(m_id, name, totalFrames, duration, paths);
+    }
+
     void Entity::Update()
     {
         if(m_updateFunction)
@@ -162,4 +185,39 @@ namespace Phoenix
             m_updateFunction();
         }
     }
+
+    void Entity::Serialize(BlobSerializer& serializer)
+    {
+        serializer.WriteHeader(EntitySerializeType);
+        serializer.Write(&m_id, sizeof(m_id));
+        serializer.WriteString(m_name);
+        serializer.Write(&m_Tag, sizeof(m_Tag));
+        // serializer.Write(&m_parent, sizeof(m_parent));
+        // serializer.Write(&m_children, sizeof(m_children));
+        if(Application::Get().GetSubSystem<SpriteSubsystem>()->HasSpriteComponent(m_id))
+        {
+            SpriteComponent sprite = Application::Get().GetSubSystem<SpriteSubsystem>()->GetSpriteComponent(m_id);
+            sprite.Serialize(serializer);
+        }
+        if(Application::Get().GetSubSystem<CollisionSubSytem>()->HasCollider(m_id))
+        {
+            BoxCollider collider = GetCollider();
+            collider.Serialize(serializer);
+        }
+        if(Application::Get().GetSubSystem<TransformSubsytem>()->HasTransformComponent(m_id))
+        {
+            TransformComponent transform = GetTransformComponent();
+            transform.Serialize(serializer);
+        }
+    }
+
+    void Entity::Deserialize(BlobSerializer& serializer)
+    {
+        serializer.Read(&m_id, sizeof(m_id));
+        serializer.ReadString(m_name);
+        serializer.Read(&m_Tag, sizeof(m_Tag));
+        // serializer.Read(&m_parent, sizeof(m_parent));
+        // serializer.Read(&m_children, sizeof(m_children));
+    }
+
 }

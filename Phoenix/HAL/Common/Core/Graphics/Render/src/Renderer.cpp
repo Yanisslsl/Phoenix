@@ -4,6 +4,7 @@
 #include <glm/ext/matrix_transform.hpp>
 
 #include "Utils/Color.h"
+#include "Utils/Timer.h"
 
 
 namespace Phoenix
@@ -60,19 +61,25 @@ namespace Phoenix
     
     // @TODO create base type maths type that encapsulates glm types
     void Renderer::Submit(const Ref<Shader>& shader, const Ref<VertexArray>& vertexArray, Ref<Texture> texture, ColorType color,
-                          const glm::mat4 modelMat)
+                          const glm::mat4 modelMat, TextureData textureData)
     {
         shader->SetMat4("u_ViewProjection", s_SceneData->ViewProjectionMatrix);
         shader->SetFloat3("u_Color", {0.2f, 0.3f, 0.8f});
         shader->Bind();
         // we set the model matrix to the shader by using the transform vector with z = 1.0f for the 2D rendering
         shader->SetMat4("u_Model", modelMat);
-        if(texture != nullptr)
+
+        if(texture != nullptr && !textureData.isEnable)
         {
             texture->Bind();
             shader->SetFloat3("u_Color", glm::vec3(0.0f, 0.0f, 0.0f));
-
-        } else
+        }
+        else if(textureData.isEnable)
+        {
+            textureData.textures[textureData.currentTextureIndex]->Bind();
+            shader->SetFloat3("u_Color", glm::vec3(0.0f, 0.0f, 0.0f));
+        }
+        else
         {
             shader->SetFloat3("u_Color", color);
         }
@@ -113,10 +120,12 @@ namespace Phoenix
         Ref<Shader> shader = s_RendererAPI->CreateShader(name, vertexShader, fragmentShader);
         shader->Bind();
         shader->SetInt("u_Texture", 0);
-        s_ShapeData.insert(std::pair<std::string, ShapeData>(name, {
-                                                                 vertexBuffer, indexBuffer, vertexArray, shader,
-                                                                 bufferlayout, modelMat, texture
-                                                             }));
+        ShapeData shape = ShapeData{
+            vertexBuffer, indexBuffer, vertexArray, shader,
+            bufferlayout, modelMat 
+        };
+        shape.texture = texture;
+        s_ShapeData.insert(std::pair<std::string, ShapeData>(name, shape));
     }
 
     void Renderer::CreateQuad(std::string name, const char* texturePath, const glm::mat4 modelMat)
@@ -147,10 +156,12 @@ namespace Phoenix
         Ref<Shader> shader = s_RendererAPI->CreateShader(name);
         shader->Bind();
         shader->SetInt("u_Texture", 0);
-        s_ShapeData.insert(std::pair<std::string, ShapeData>(name, {
-                                                                 vertexBuffer, indexBuffer, vertexArray, shader,
-                                                                 layout, modelMat, texture 
-                                                             }));
+        ShapeData shape = ShapeData{
+            vertexBuffer, indexBuffer, vertexArray, shader,
+            layout, modelMat 
+        };
+        shape.texture = texture;
+        s_ShapeData.insert(std::pair<std::string, ShapeData>(name, shape));
     }
 
     void Renderer::CreateQuad(std::string name, const ColorType color , const glm::mat4 modelMat)
@@ -180,14 +191,34 @@ namespace Phoenix
         Ref<Shader> shader = s_RendererAPI->CreateShader(name);
         shader->Bind();
         shader->SetInt("u_Texture", 0);
-        s_ShapeData.insert(std::pair<std::string, ShapeData>(name, {
-                                                                 vertexBuffer, indexBuffer, vertexArray, shader,
-                                                                 layout, modelMat, nullptr, color
-                                                             }));
+        ShapeData shape = ShapeData{
+            vertexBuffer, indexBuffer, vertexArray, shader,
+            layout, modelMat 
+        };
+        shape.color = color;
+        s_ShapeData.insert(std::pair<std::string, ShapeData>(name, shape));
+    }
+
+    void Renderer::SetTexturesPaths(std::string shapeName, std::string name, std::vector<std::string> texturesPaths)
+    {
+        std::vector<Ref<Texture2D>> textures;
+        for(auto texturePath : texturesPaths)
+        {
+            Ref<Texture2D> texture = s_RendererAPI->CreateTexture2D(texturePath);
+            textures.push_back(texture);
+        }
+        if(s_ShapeData.find(shapeName) == s_ShapeData.end())
+        {
+            PX_CORE_ASSERT(false, "Shape not found");
+            return;
+        }
+        TextureData textureData = TextureData{textures, false, 0};
+        s_ShapeData.find(shapeName)->second.texturesDatas[name] = textureData;
     }
 
     void Renderer::DeleteShape(std::string name)
     {
+        auto u = s_ShapeData;
         s_ShapeData.erase(name);
     }
 
@@ -203,17 +234,42 @@ namespace Phoenix
     }
 
 
+    // enable texture data
+    void Renderer::SetTextureIndex(std::string shapeName, int textureIndex)
+    {
+        if(s_ShapeData.find(shapeName) == s_ShapeData.end())
+        {
+            PX_CORE_ASSERT(false, "Shape not found");
+            return;
+        }
+        s_ShapeData.find(shapeName)->second.currentTextureData.currentTextureIndex = textureIndex;
+    }
+
+    void Renderer::EnableShapeTexture(std::string shapeName, std::string name)
+    {
+        if(s_ShapeData.find(shapeName) == s_ShapeData.end())
+        {
+            PX_CORE_ASSERT(false, "Shape not found");
+            return;
+        }
+        s_ShapeData.find(shapeName)->second.EnableTextureData(name);
+    }
+
     void Renderer::OnUpdate()
     {
         for(auto& shape : s_ShapeData)
         {
-            Submit(shape.second.shader, shape.second.vertexArray, shape.second.texture, shape.second.color, shape.second.modelMat);
+            Submit(shape.second.shader, shape.second.vertexArray, shape.second.texture, shape.second.color, shape.second.modelMat, shape.second.currentTextureData);
         }
     }   
 
     void Renderer::UpdateModelMatrix(std::string name, glm::mat4 modelMat)
     {
-        if(s_ShapeData.find(name) == s_ShapeData.end()) return;
+        if(s_ShapeData.find(name) == s_ShapeData.end())
+        {
+            PX_CORE_ASSERT(false, "Shape not found");
+            return;
+        }
         s_ShapeData.find(name)->second.modelMat = modelMat;
     }
 }

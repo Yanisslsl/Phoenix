@@ -1,13 +1,11 @@
 #pragma once
 #include <string>
-#include <glm/detail/type_vec2.hpp>
-
-#include "Common/Core/Graphics/Render/include/Renderer.h"
 #include "ECS/include/ColliderSystem.h"
 #include "ECS/include/EntityManager.h"
 #include "ECS/include/TransformSystem.h"
 #include "Utils/Color.h"
 #include "Common/Core/ECSExtended/include/Entity.h"
+#include "ECS/include/SpriteSystem.h"
 
 
 namespace Phoenix
@@ -18,21 +16,6 @@ namespace Phoenix
     struct EntitySubsystem;
 
 
-    struct SpriteComponent
-    {
-        std::string textureFilePath;
-        ColorCode colorCode;
-        SpriteComponent(std::string texturePath)
-        {
-            textureFilePath = texturePath;
-        }
-        SpriteComponent(ColorCode color)
-        {
-            colorCode = color;
-        }
-    };
-    
-
     /**
      * \brief Wrapper around the entity creation and destruction.
      *        Use EntityManager and systems to manage the entities.
@@ -41,21 +24,37 @@ namespace Phoenix
     {
     public:
         EntitySubsystem();
-        Ref<Entity> CreateEntity(std::string name);
+        ~EntitySubsystem();
+        void Initalize();
+        Ref<Entity> CreateEntity(std::string name, bool isStandAlone = true);
         void DestroyEntity(EntityId id);
         Ref<Entity> GetEntityByName(std::string name);
         void BindUpdate(EntityId entityId, std::function<void()> updateFunction);
+        void BindOnStart(std::function<void()> onStartFunction);
         void AddTag(EntityId entity, TagType tag);
         void Update();
+        void OnStart();
         void DeleteTag(EntityId entity, TagType tag);
         TagType GetTag(EntityId entity);
         Ref<Entity> GetEntityById(EntityId id);
         std::vector<Ref<Entity>> GetEntities();
         std::vector<Ref<Entity>> GetEntitiesByTag(TagType tag);
+        bool IsInitialized() { return is_Initialized; }
+        void SetIsInitialized(bool value);
     private:
         friend class Entity;
         EntityManager* m_EntityManager;
         TransformSystem* m_TransformSystem;
+        bool is_Initialized = false;
+        /**
+         * \brief Used to initalized entities in their onStartMethod;
+         */
+        struct BindedOnStart
+        {
+            bool isCalled = false;
+            std::function<void()> onStartFunction;
+        };
+        std::vector<BindedOnStart> m_Binded_OnStarts;
     };
 }
 

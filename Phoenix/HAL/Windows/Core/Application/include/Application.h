@@ -4,6 +4,8 @@
 #include "Common/Core/Window/include/Window.h"
 #include "../../../../../Core/Layers/LayerStack/include/LayerStack.h"
 #include "../../../../../Core/Events/WindowEvent.h"
+#include "Common/Core/Animation/include/AnimationSubsystem.h"
+#include "Common/Core/ECSExtended/include/SpriteSubsystem.h"
 #include "Common/Core/Input/include/InputActionRegistratorSubSystem.h"
 #include "Common/Core/Physics/include/CollisionSubSytem.h"
 #include "Common/Core/Scene/include/Scene.h"
@@ -13,19 +15,42 @@
 
 namespace Phoenix
 {
-	// @TODO : find why we need to forward declare WindowResizeEvent and WindowCloseEvent
 	class Layer;
+	class TransformSubsytem;
+
+	enum class ApplicationMode
+	{
+		Standalone,
+		Wrapped,
+	};
 
 	class PHOENIX_API Application
 	{
 	public:
-		Application();
+		Application(ApplicationMode mode);
 		~Application();
 
+		bool IsRunning()
+		{
+			return m_Running;
+		}
+
+		void SetIsRunning()
+		{
+			m_Running = true;
+			Run();
+		}
+
+		ApplicationMode GetMode()
+		{
+			return m_Mode;
+		}
 		/**
 		 * \brief Run the application
 		 */
 		void Run();
+
+		void Update();
 
 		/**
 		 * \brief Main OnEvent listener that receives all events and dispatches them to appropriate specific event listeners
@@ -86,37 +111,55 @@ namespace Phoenix
 			static_assert(sizeof(T) == 0, "Subsytem not found");
 		}
 
-	
 		template <>
-		InputActionRegistratorSubSystem* GetSubSystem<InputActionRegistratorSubSystem>()
+		InputActionRegistratorSubSystem* Application::GetSubSystem<InputActionRegistratorSubSystem>()
 		{
 			return m_InputActionRegistratorSubsystem;
 		}
 
 		template <>
-		SceneManagerSubSystem* GetSubSystem<SceneManagerSubSystem>()
+		SceneManagerSubSystem* Application::GetSubSystem<SceneManagerSubSystem>()
 		{
 			return m_SceneManagerSubSystem;
 		}
 
 		template <>
-		CollisionSubSytem* GetSubSystem<CollisionSubSytem>()
+		CollisionSubSytem* Application::GetSubSystem<CollisionSubSytem>()
 		{
 			return m_CollisionSubSystem;
 		}
 
 		template <>
-		TransformSubsytem* GetSubSystem<TransformSubsytem>()
+		TransformSubsytem* Application::GetSubSystem<TransformSubsytem>()
 		{
 			return m_TransformSubSystem;
 		}
-		
+
+		template <>
+		AnimationSubsystem* Application::GetSubSystem<AnimationSubsystem>()
+		{
+			return m_AnimationSubsystem;
+		}
+
+		template <>
+		SerializerSubsystem* Application::GetSubSystem<SerializerSubsystem>()
+		{
+			return m_SerializerSubsystem;
+		}
+
+		template <>
+		SpriteSubsystem* Application::GetSubSystem<SpriteSubsystem>()
+		{
+			return m_SpriteSubsystem;
+		}
+
 	private:
-		// unqique ptr => une seule instance // si je veux passer cette instance il faut la move ce qui change l'ownership // ce qui veut dire que je ne peux pas la copier
-		// c'est juste un pointeur dans une classe // quand la classe est detruite le pointeur est detruit
+		ApplicationMode m_Mode;
+
+	private:
 		std::unique_ptr<WindowHal> m_Window;
 		static Application* s_Instance;
-		bool m_Running = true;
+		bool m_Running = false;
 		LayerStack m_LayerStack;
 		Layer* m_Editor_Layer;
 		InputActionRegistratorSubSystem* m_InputActionRegistratorSubsystem;
@@ -124,6 +167,9 @@ namespace Phoenix
 		SceneManagerSubSystem* m_SceneManagerSubSystem;
 		CollisionSubSytem* m_CollisionSubSystem;
 		TransformSubsytem* m_TransformSubSystem;
+		AnimationSubsystem* m_AnimationSubsystem;
+		SerializerSubsystem* m_SerializerSubsystem;
+		SpriteSubsystem* m_SpriteSubsystem;
 	};
 
 	// To be defined in CLIENT

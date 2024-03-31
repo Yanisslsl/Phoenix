@@ -34,7 +34,7 @@ namespace Phoenix
         /**
          * Remove the component from the passed entity
          */
-        virtual void DeleteComponentFrom(EntityId entity);
+        virtual void DeleteComponent(EntityId entity);
         /**
          * Init method for all components of the system
          */

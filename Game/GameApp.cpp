@@ -5,7 +5,6 @@
 #include "Entities\include\Knight.h"
 #include "Entities/include/Mob.h"
 #include "Entities/include/Room.h"
-#include "Systems/include/MobManager.h"
 #include "Utils/UUID.h"
 
 class MainLayer : public Phoenix::Layer
@@ -14,72 +13,113 @@ public:
 	MainLayer(Phoenix::Application* app = nullptr)
 		: Layer("MainLayer")
 	{
-		Phoenix::Application::Get().GetSubSystem<Phoenix::SceneManagerSubSystem>()->LoadScene("MainLevel");
+		m_Entities = new std::vector<Phoenix::Ref<Phoenix::ISerializable>>();
+		Phoenix::Application::Get().GetSubSystem<Phoenix::SceneManagerSubSystem>()->CreateScene("MainLevel");
 		InitLevel();
-
-		m_mobManager = new MobManager(7);
-		
-		m_mobManager->SpawnMob(glm::vec2(0, 0),Phoenix::Application::Get().GetSubSystem<Phoenix::EntitySubsystem>()->GetEntityByName("Knight"),"Mob1");
-		m_mobManager->SpawnMob(glm::vec2(0, 0),Phoenix::Application::Get().GetSubSystem<Phoenix::EntitySubsystem>()->GetEntityByName("Knight"),"Mob2");
-		m_mobManager->SpawnMob(glm::vec2(0, 0),Phoenix::Application::Get().GetSubSystem<Phoenix::EntitySubsystem>()->GetEntityByName("Knight"),"Mob3");
-		m_mobManager->SpawnMob(glm::vec2(0, 0),Phoenix::Application::Get().GetSubSystem<Phoenix::EntitySubsystem>()->GetEntityByName("Knight"),"Mob4");
-		m_mobManager->SpawnMob(glm::vec2(0, 0),Phoenix::Application::Get().GetSubSystem<Phoenix::EntitySubsystem>()->GetEntityByName("Knight"),"Mob5");
-		m_mobManager->SpawnMob(glm::vec2(0, 0),Phoenix::Application::Get().GetSubSystem<Phoenix::EntitySubsystem>()->GetEntityByName("Knight"),"Mob6");
-		m_mobManager->SpawnMob(glm::vec2(0, 0),Phoenix::Application::Get().GetSubSystem<Phoenix::EntitySubsystem>()->GetEntityByName("Knight"),"Mob7");
-		
-		// std::random_device rd; // obtain a random number from hardware
-		// std::mt19937 gen(rd()); // seed the generator
-		// std::uniform_int_distribution<> distr(50, 1200);
-		// std::uniform_int_distribution<> distr1(20, 600);
-		//
-		// for(int i = 0; i < 50; i++)
-		// {
-		// 	m_mob_positions.push_back(glm::vec2(distr(gen), distr1(gen)));
-		// }
-		// for(auto position: m_mob_positions)
-		// {
-		// 	m_mobs.push_back(new Mob(position));
-		// }
+		SpawnMob();
+		SpawnMob();
+		SpawnMob();
+		SpawnMob();
+		SpawnMob();
+		SpawnMob();
+		SpawnMob();
+		Phoenix::Application::Get().GetSubSystem<Phoenix::InputActionRegistratorSubSystem>()->RegisterAction(Phoenix::InputAction("SaveGame", Phoenix::Key::S), PX_BIND_EVENT_FN(SaveGame));
+		Phoenix::Application::Get().GetSubSystem<Phoenix::InputActionRegistratorSubSystem>()->RegisterAction(Phoenix::InputAction("Delete", Phoenix::Key::D), PX_BIND_EVENT_FN(Delete));
+		Phoenix::Application::Get().GetSubSystem<Phoenix::InputActionRegistratorSubSystem>()->RegisterAction(Phoenix::InputAction("LoadGame", Phoenix::Key::L), PX_BIND_EVENT_FN(LoadGame));
 	}
 
-	void Benchmark()
+	~MainLayer()
 	{
-		// benchmarking max entities rendering performance now max is 200 without FPS drop
-		// need batch rendering or instancing
-		// for (int i = 0; i < 100; i++)
-		// {
-		// 	auto id = Phoenix::UUID::GenerateUUID();
-		// 	m_Ids.push_back(id);
-		// 	// xPos += 2;
-		// 	// yPos += 2;
-		// 	Phoenix::Ref<Phoenix::Entity> entity = Phoenix::Application::Get().GetSubSystem<Phoenix::EntitySubsystem>()->CreateEntity(id);
-		// 	entity->AddComponent(Phoenix::SpriteComponent(Phoenix::Color::RED));
-		// 	entity->AddComponent(Phoenix::TransformComponent{ glm::vec2(xPos, yPos), 180, glm::vec2(1, 1) });
-		// 	entity->SetScale(30);
-		// }
+		delete m_Entities;
+	}
+
+	void SpawnMob()
+	{
+		std::random_device rd; // obtain a random number from hardware
+		std::mt19937 gen(rd()); // seed the generator
+		std::uniform_int_distribution<> distr(50, 1200);
+		std::uniform_int_distribution<> distr1(20, 600);
+		std::string mobId = "MOB_" + Phoenix::UUID::GenerateUUID();
+		m_Entities->push_back(std::make_shared<Mob>(mobId, glm::vec2(distr(gen), distr1(gen))));
+	}
+
+	void Delete()
+	{
+		m_Entities->clear();
+	}
+
+	void SaveGame()
+	{
+		Phoenix::Application::Get().GetSubSystem<Phoenix::SerializerSubsystem>()->SaveCurrentScene();
+	}
+
+	void LoadGame()
+	{
+		Delete();
+		m_Entities = Phoenix::Application::Get().GetSubSystem<Phoenix::SerializerSubsystem>()->DeserializeWrappedObjects();
 	}
 
 	void InitLevel()
 	{
-		auto width = Phoenix::Application::Get().GetWindow()->GetWidth();
-		auto height = Phoenix::Application::Get().GetWindow()->GetHeight();
-		new Room(glm::vec2(width/2, height/2), glm::vec2(width, height));
-		new Knight();
+		m_Entities->push_back(std::make_shared<Room>());
+		m_Entities->push_back(std::make_shared<Knight>());
+	}
+
+	void DeleteMobs()
+	{
+		for(auto entity: *m_Entities)
+		{
+			Mob *mob = dynamic_cast<Mob*>(entity.get());
+			if(mob != nullptr)
+			{
+				if(entitiesToDelete.size() > 0)
+				{
+					for(auto id: entitiesToDelete)
+					{
+						if(mob->GetId() == id)
+						{
+							m_Entities->erase(std::remove(m_Entities->begin(), m_Entities->end(), entity), m_Entities->end());
+						}
+					}
+				}
+			}
+		}
 	}
 
 	void OnUpdate() override
 	{
-		// for(auto id: m_Ids)
-		// {
-		// 	auto entity = Phoenix::Application::Get().GetSubSystem<Phoenix::EntitySubsystem>()->GetEntityByName(id);
-		// 	auto position = entity->GetTransformPosition();
-		// 	entity->SetTransformPosition(glm::vec2(position.x + 1, position.y + 1));
-		// }
 		Phoenix::Timer::Update();
 		Phoenix::Application::Get().GetSubSystem<Phoenix::SceneManagerSubSystem>()->GetActiveScene()->OnUpdate();
-		m_mobManager->OnUpdate();
+		int index = 0;
+		for(auto entity: *m_Entities)
+		{
+			Mob *mob = dynamic_cast<Mob*>(entity.get());
+			if(mob != nullptr)
+			{
+				if(mob->GetIsDead())
+				{
+					entitiesToDelete.push_back(mob->GetId());
+				}
+			}
+		}
+		DeleteMobs();
+		PX_INFO(entitiesToDelete.size());
+		// for(auto entity: entitiesToDelete)
+		// {
+		// 	m_Entities->erase(m_Entities->begin() + entity);
+		// }
+		// for(int i = 0; i < entitiesToDelete.size(); i++)
+		// {
+		// 	SpawnMob();
+		// 	Phoenix::Application::Get().GetSubSystem<Phoenix::EntitySubsystem>()->SetIsInitialized(true);
+		// }
+		// std::vector<Phoenix::Ref<Phoenix::Entity>> mobsEntities = Phoenix::Application::Get().GetSubSystem<Phoenix::EntitySubsystem>()->GetEntitiesByTag(Phoenix::Tag::Mob);
+		// if(mobsEntities.size() <=5)
+		// {
+		// 	SpawnMob();
+		// }
 	}
-	
+
 	void OnEvent(Phoenix::Event& event) override
 	{
 		// m_CameraController.OnEvent(event);
@@ -88,24 +128,28 @@ public:
 	
 private:
 	Knight* m_player;
-	MobManager* m_mobManager;
 	std::vector<glm::vec2> m_mob_positions;
 	float xPos = 0;
 	float yPos = 0;
 	std::vector<std::string> m_Ids;
+	std::vector<Phoenix::Ref<Phoenix::ISerializable>>* m_Entities;
+	std::vector<Mob*> m_mobs;
+	float m_Delta = 0;
+	std::vector<std::string> entitiesToDelete;
 	
 };
 class GameApp : public Phoenix::Application
 {
 public:
-	GameApp()
+	GameApp(): Application(Phoenix::ApplicationMode::Wrapped)
 	{
 		PushLayer(new MainLayer(this));
+		Run();
 	}
 
 	~GameApp()
 	{
-
+		
 	}
 };
 

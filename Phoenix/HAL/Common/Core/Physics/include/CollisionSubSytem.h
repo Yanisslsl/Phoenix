@@ -9,6 +9,7 @@
 
 namespace Phoenix
 {
+    class CollisionSubSytem;
     inline uint32_t MAX_COLLIDERS_BY_NODE = 10;
     enum class PHOENIX_API Divide
     {
@@ -23,9 +24,10 @@ namespace Phoenix
         float height;
     };
 
-    struct BoxCollider
+    struct BoxCollider: IComponent, AutoRegister<BoxCollider>
     {
     public:
+        BoxCollider() = default;
         BoxCollider(CollisionType type, std::function<void(Ref<Entity>)> onHit, CollisionShape shape, float width, float height, int maxHitCalls = 1)
         : type(type), OnHit(onHit), shape(shape), width(width), height(height), maxHitCalls(maxHitCalls)
         {
@@ -33,11 +35,11 @@ namespace Phoenix
         }
         CollisionType type;
         glm::vec2 position;
-        std::function<void(Ref<Entity>)> OnHit;
+        std::function<void(Ref<Entity>)> OnHit = nullptr;
         CollisionShape shape;
         float width;
         float height;
-        std::string m_Node_Id;
+        std::string m_Node_Id = "";
         EntityId m_EntityId;
         int maxHitCalls;
         int hitCalls = 0;
@@ -69,11 +71,35 @@ namespace Phoenix
                 PX_CORE_ASSERT(false, "Collision shape not supported");
             }
         }
+
+        virtual void Serialize(BlobSerializer& serializer) override
+        {
+            serializer.WriteHeader(BoxColliderComponentSerializeType);
+            serializer.Write(&type, sizeof(type));
+            serializer.Write(&position, sizeof(position));
+            serializer.Write(&shape, sizeof(shape));
+            serializer.Write(&width, sizeof(width));
+            serializer.Write(&height, sizeof(height));
+            serializer.Write(&m_EntityId, sizeof(m_EntityId));
+            serializer.Write(&maxHitCalls, sizeof(maxHitCalls));
+            serializer.Write(&hitCalls, sizeof(hitCalls));
+        }
+        virtual void Deserialize(BlobSerializer& serializer) override
+        {
+            serializer.Read(&type, sizeof(type));
+            serializer.Read(&position, sizeof(position));
+            serializer.Read(&shape, sizeof(shape));
+            serializer.Read(&width, sizeof(width));
+            serializer.Read(&height, sizeof(height));
+            serializer.Read(&m_EntityId, sizeof(m_EntityId));
+            serializer.Read(&maxHitCalls, sizeof(maxHitCalls));
+            serializer.Read(&hitCalls, sizeof(hitCalls));
+        }
     };
 
-    // struct BoxCollider;
-    struct PHOENIX_API Node
+    class PHOENIX_API Node
     {
+    public:
         Node(glm::vec2 topLeftPosition, float width, float height, std::string id)
             : topLeftPosition(topLeftPosition), width(width), height(height), id(id)
         {
@@ -81,7 +107,6 @@ namespace Phoenix
         }
         ~Node()
         {
-            colliders.clear();
             delete left;
             delete right;
         }
@@ -90,15 +115,6 @@ namespace Phoenix
         glm::vec2 topLeftPosition;
         float width;
         float height;
-        bool Contains(BoxCollider& collider)
-        {
-            // if(collider.position.x > topLeftPosition.x &&
-            //     collider.position.y > topLeftPosition.y &&
-            //     collider.position.x < topLeftPosition.x + width &&
-            //     collider.position.y < topLeftPosition.y + height)
-            //     return true;
-            return false;
-        }
         Node* left = nullptr;
         Node* right = nullptr;
     };

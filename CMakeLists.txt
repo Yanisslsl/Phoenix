@@ -96,7 +96,7 @@ target_compile_definitions(Game PRIVATE
   $<$<CONFIG:RelWithDebInfo>:PHOENIX_PLATFORM_WINDOWS>
 )
 
-# For exe file but not working for texture
+# For exe file
 add_custom_command(TARGET Game POST_BUILD
                    COMMAND ${CMAKE_COMMAND} -E copy_directory
                        ${CMAKE_SOURCE_DIR}/Game/assets/textures $<TARGET_FILE_DIR:Game>/assets/textures)
