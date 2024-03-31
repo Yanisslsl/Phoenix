@@ -190,13 +190,13 @@ namespace Phoenix
         BlobHeader header = serializer.ReadHeader();
         if(header.type != SceneSerializeType)
         {
-            PX_CORE_ASSERT(false, "Error while trying to deserialize scene. Header type is not SceneSerializeType.");
+            PX_ERROR("Error while trying to deserialize scene. Header type is not SceneSerializeType.");
         }
         Ref<ISerializable> scene = factory.Create("Scene");
         scene->Deserialize(serializer);
         if(Application::Get().GetMode() == ApplicationMode::Wrapped)
         {
-            PX_CORE_ERROR("You are trying to load scene as standalone but the application mode is set to Wrapped, deserialzation aborted");
+            PX_ERROR("You are trying to load scene as standalone but the application mode is set to Wrapped, deserialzation aborted");
             return;
         }
         DeserializeStandAloneObjects(serializer);

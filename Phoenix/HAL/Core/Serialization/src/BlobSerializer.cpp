@@ -21,14 +21,14 @@ namespace Phoenix
             m_writeFile = new std::ofstream(filePath);
             if(!m_writeFile->is_open())
             {
-                PX_CORE_ASSERT(false, "Could not open file!");
+                PX_ERROR("Could not open file!");
             }
         } else
         {
             m_readFile = new std::ifstream(filePath);
             if (!m_readFile->is_open())
             {
-                PX_CORE_ASSERT(false, "Could not open file!");
+                PX_ERROR("Could not open file!");
             }
         }
     }

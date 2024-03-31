@@ -21,7 +21,7 @@ namespace Phoenix
     {
         if(m_activeScene->GetName() == name)
         {
-            PX_CORE_ASSERT(false, "You can't unload the active scene");
+            PX_ERROR("You can't unload the active scene");
         }
         m_Scenes_map.erase(name);
     }

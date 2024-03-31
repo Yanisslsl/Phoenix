@@ -78,7 +78,7 @@ namespace Phoenix
         {
             if (m_creators.find(key) != m_creators.end())
             {
-                PX_CORE_ASSERT(false, "Key already exists in factory");
+                PX_ERROR("Key already exists in factory");
                 return;
             }
             m_creators[key] = std::make_shared<DerivedCreator<BaseType, RegisteredType, Args...>>();
@@ -94,7 +94,7 @@ namespace Phoenix
         {
             if(m_creators.find(key) == m_creators.end())
             {
-                PX_CORE_ASSERT(false, "Key not found in factory");
+                PX_ERROR("Key not found in factory");
                 return nullptr;
             }
             return m_creators.at(key)->Create(std::forward<Args>(args)...);

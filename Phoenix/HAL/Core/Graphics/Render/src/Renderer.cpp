@@ -207,7 +207,7 @@ namespace Phoenix
         }
         if(s_ShapeData.find(shapeName) == s_ShapeData.end())
         {
-            PX_CORE_ASSERT(false, "Shape not found");
+            PX_ERROR("Shape not found");
             return;
         }
         TextureData textureData = TextureData{textures, false, 0};
@@ -237,7 +237,7 @@ namespace Phoenix
     {
         if(s_ShapeData.find(shapeName) == s_ShapeData.end())
         {
-            PX_CORE_ASSERT(false, "Shape not found");
+            PX_ERROR("Shape not found");
             return;
         }
         s_ShapeData.find(shapeName)->second.currentTextureData.currentTextureIndex = textureIndex;
@@ -247,7 +247,7 @@ namespace Phoenix
     {
         if(s_ShapeData.find(shapeName) == s_ShapeData.end())
         {
-            PX_CORE_ASSERT(false, "Shape not found");
+            PX_ERROR("Shape not found");
             return;
         }
         s_ShapeData.find(shapeName)->second.EnableTextureData(name);
@@ -265,7 +265,7 @@ namespace Phoenix
     {
         if(s_ShapeData.find(name) == s_ShapeData.end())
         {
-            PX_CORE_ASSERT(false, "Shape not found");
+            PX_ERROR("Shape not found");
             return;
         }
         s_ShapeData.find(name)->second.modelMat = modelMat;
