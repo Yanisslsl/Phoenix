@@ -5,6 +5,7 @@
 
 #include "Utils/Color.h"
 #include "Utils/Timer.h"
+#include "Windows/Core/Application/include/Application.h"
 
 
 namespace Phoenix

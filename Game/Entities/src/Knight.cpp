@@ -106,22 +106,39 @@ void Knight::Move()
     if(m_X_Direction == 0 && m_Y_Direction == 0) return;
     auto entity = Phoenix::Application::Get().GetSubSystem<Phoenix::EntitySubsystem>()->GetEntityByName("Knight");
     m_Position = entity->GetTransformPosition();
-    entity->SetTransformPosition(glm::vec3(m_Position.x + m_X_Direction * m_Speed, m_Position.y + m_Y_Direction * m_Speed, 1.));
-    if(m_State == State::FIRE_RIGHT || m_State == State::FIRE_RIGHT) return;
-    if(m_X_Direction == -1 && m_State != State::RUN_RIGHT)
+    if(m_Position.x <= 1280 && m_Position.x >= 0 && m_Position.y <= 720 && m_Position.y >= 0)
     {
-        m_State = State::RUN_RIGHT;
-        m_isStateDirty = true;
-    } else if(m_X_Direction == 1 && m_State != State::RUN_LEFT)
+        entity->SetTransformPosition(glm::vec3(m_Position.x + m_X_Direction * m_Speed, m_Position.y + m_Y_Direction * m_Speed, 1.));
+        if(m_State == State::FIRE_RIGHT || m_State == State::FIRE_RIGHT) return;
+        if(m_X_Direction == -1 && m_State != State::RUN_RIGHT)
+        {
+            m_State = State::RUN_RIGHT;
+            m_isStateDirty = true;
+        } else if(m_X_Direction == 1 && m_State != State::RUN_LEFT)
+        {
+            m_State = State::RUN_LEFT;
+            m_isStateDirty = true;
+        }
+    } else
     {
-        m_State = State::RUN_LEFT;
-        m_isStateDirty = true;
+        if(m_Position.x >= 1280)
+        {
+            entity->SetTransformPosition(glm::vec3(1279, m_Position.y, 1.));
+        } else if(m_Position.x <= 0)
+        {
+            entity->SetTransformPosition(glm::vec3(1, m_Position.y, 1.));
+        } else if(m_Position.y >= 720)
+        {
+            entity->SetTransformPosition(glm::vec3(m_Position.x, 719, 1.));
+        } else if(m_Position.y <= 0)
+        {
+            entity->SetTransformPosition(glm::vec3(m_Position.x, 1, 1.));
+        }
     }
 }
 
 void Knight::OnHit(Phoenix::Ref<Phoenix::Entity> entity)
 {
-    PX_INFO("Collision detected{0}", entity->GetName());
 }
 
 

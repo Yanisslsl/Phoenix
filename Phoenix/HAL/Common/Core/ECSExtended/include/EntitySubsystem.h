@@ -13,7 +13,7 @@ namespace Phoenix
 
     inline int32_t NODE_WIDTH = 100;
     inline int32_t NODE_HEIGHT = 100;
-    struct EntitySubsystem;
+    class EntitySubsystem;
 
 
     /**

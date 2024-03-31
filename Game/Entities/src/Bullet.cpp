@@ -44,7 +44,7 @@ void Bullet::Update()
 void Bullet::OnHit(Phoenix::Ref<Phoenix::Entity> entity)
 {
     if(entity->HasTag(Phoenix::Tag::Bullet) || entity->HasTag(Phoenix::Tag::Player)) return;
-    delete this;
+    // delete this;
 }
 
 

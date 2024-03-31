@@ -30,6 +30,17 @@ namespace Phoenix
     {
     }
 
+    std::vector<EntityId> ColliderSystem::GetCollidersEntitiesIds()
+    {
+        std::vector<EntityId> entities;
+        for (auto& entity : m_ColliderData->m_entities)
+        {
+            if(entity == -1) continue;
+            entities.push_back(entity);
+        }
+        return entities;
+    }
+
     ColliderSystem::~ColliderSystem()
     {
         
@@ -44,7 +55,7 @@ namespace Phoenix
         m_ColliderData->m_heights.Remove(componentId);
         m_ColliderData->m_hitCalls.Remove(componentId);
         m_ColliderData->m_onHitCallbacks.Remove(componentId);
-        m_ColliderData->m_entities.Remove(componentId);
+        m_ColliderData->m_entities.Remove(componentId, -1);
         m_ColliderData->m_nodeIds.Remove(componentId);
         m_ColliderData->m_shapes.Remove(componentId);
         ComponentSystem::DeleteComponent(entity);

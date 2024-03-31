@@ -20,30 +20,13 @@ namespace Phoenix
     
     void ComponentSystem::AddComponentTo(EntityId entity)
     {
-        // auto lastComponentId = EntityManager::Get()->m_entitiesComponents.at(entity).back();
-        // EntityManager::Get()->m_entitiesComponents.at(entity).at(m_Id) = m_Id;
-     
-        // Ajouter à l'entityManager le componentId pour l'entité
-        // find the first item that is not consecutive
-         const auto it = std::adjacent_find(begin(m_ComponentsId), end(m_ComponentsId),
-         [](ComponentId lhs, ComponentId rhs){ return (lhs+1 != rhs); });
-         // if (it == end(m_ComponentsId))
-         // {
-             m_ComponentsId.push_back(m_ComponentsId.size());
-                 EntityManager::Get()->m_entitiesComponents.at(entity).at(m_Id) = m_ComponentsId.back();
-         // }
-         // else
-         // {
-         //     // if item is not consecutive, insert the new componentId at the position of the first item that is not consecutive
-         //     const auto result = m_ComponentsId.insert(it+1, (*it)+1);
-         //     EntityManager::Get()->m_entitiesComponents.at(entity).at(m_Id) = m_ComponentsId.at(*result);
-         // }
+         m_ComponentsId.push_back(m_ComponentsId.size());
+             EntityManager::Get()->m_entitiesComponents.at(entity).at(m_Id) = m_ComponentsId.back();
     }
 
     void ComponentSystem::DeleteComponent(EntityId entity)
     {
-        m_ComponentsId.erase(std::remove(m_ComponentsId.begin(), m_ComponentsId.end(), EntityManager::Get()->m_entitiesComponents.at(entity).at(m_Id)), m_ComponentsId.end());
-        EntityManager::Get()->m_entitiesComponents.at(entity).at(m_Id) = 0;
+       
     }
 }
 

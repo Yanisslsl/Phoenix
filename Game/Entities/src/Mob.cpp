@@ -29,6 +29,7 @@ Mob::Mob(std::string& id, glm::vec2 position)
 Mob::~Mob()
 {
     auto entity = Phoenix::Application::Get().GetSubSystem<Phoenix::EntitySubsystem>()->GetEntityByName(m_id);
+    if(entity == nullptr) return;
     entity->Destroy();
 }
 
@@ -42,13 +43,13 @@ void Mob::OnStart()
     entity->SetScale(30);
     entity->BindUpdate(PX_BIND_EVENT_FN(OnUpdate));
     entity->AddTag(Phoenix::Tag::Mob);
-    speed = 50;
+    speed = 30;
     dt = 0;
 }
 
 void Mob::OnUpdate()
 {
-    dt += Phoenix::Timer::GetDeltaTime();
+    dt = Phoenix::Timer::GetDeltaTime();
     //We get the target position, where we want to go
     glm::vec3 playerPosition = Phoenix::Application::Get().GetSubSystem<Phoenix::EntitySubsystem>()->GetEntityByName("Knight")->GetTransformPosition();
     auto self = Phoenix::Application::Get().GetSubSystem<Phoenix::EntitySubsystem>()->GetEntityByName(m_id);
@@ -57,7 +58,6 @@ void Mob::OnUpdate()
     glm::vec3 direction = glm::normalize(playerPosition - selfPosition);
     m_Position = selfPosition + (direction * speed * dt);
     self->SetTransformPosition(m_Position); //=> multiply per delta time
-    dt = 0;
 }
 
 void Mob::OnHit(Phoenix::Ref<Phoenix::Entity> entity)
@@ -65,6 +65,8 @@ void Mob::OnHit(Phoenix::Ref<Phoenix::Entity> entity)
     if (entity->HasTag(Phoenix::Tag::Bullet))
     {
         PX_INFO("MOB HIT");
+        auto entity = Phoenix::Application::Get().GetSubSystem<Phoenix::EntitySubsystem>()->GetEntityByName(m_id);
+        entity->Destroy();
         isDead = true;
     }
 }

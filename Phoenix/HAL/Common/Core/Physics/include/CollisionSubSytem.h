@@ -24,7 +24,7 @@ namespace Phoenix
         float height;
     };
 
-    struct BoxCollider: IComponent, AutoRegister<BoxCollider>
+    struct PHOENIX_API BoxCollider: IComponent, AutoRegister<BoxCollider>
     {
     public:
         BoxCollider() = default;
@@ -129,7 +129,7 @@ namespace Phoenix
          */
         void Init(Node* node, Divide divide);
         std::tuple<Node*, Node*> SetNodes(Node* current, Divide divide);
-    
+        std::vector<BoxCollider> GetColliders();
         void PrintBst(Node* node);
         Node* SearchNode(BoxCollider& collider, Node* node, Divide divide);
         Node* SearchNode(std::string id);
@@ -144,10 +144,12 @@ namespace Phoenix
         BoxCollider GetCollider(EntityId entityId);
         void ChekCollision(Node* node);
         void Update();
+        void UpdateBasic();
     private:
         std::vector<Node*> m_Nodes_With_Colliders;
         Node* FindNodeById(std::string id, Node* node);
         Node* m_Root;
         ColliderSystem* m_ColliderSystem;
+        std::vector<BoxCollider> m_Colliders;
     };
 }

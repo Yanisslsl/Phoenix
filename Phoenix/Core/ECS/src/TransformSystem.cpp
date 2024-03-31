@@ -23,7 +23,6 @@ namespace Phoenix
     void TransformSystem::DeleteComponent(EntityId entity)
     {
         ComponentId transformId = EntityManager::Get()->m_entitiesComponents.at(entity).at(m_Id);
-        auto d = m_TransformsData->m_positions.begin();
         m_TransformsData->m_positions.Remove(transformId);
         m_TransformsData->m_rotations.Remove(transformId);
         m_TransformsData->m_scales.Remove(transformId);
@@ -93,6 +92,10 @@ namespace Phoenix
     glm::vec2 TransformSystem::GetEntityScale(EntityId entity)
     {
         ComponentId transformId = EntityManager::Get()->m_entitiesComponents.at(entity).at(m_Id);
+        if(m_TransformsData->m_scales.Get(transformId) == glm::vec2(0.0f,0.0f))
+        {
+            return glm::vec2(1.0f,1.0f);
+        }
         return m_TransformsData->m_scales.Get(transformId);
     }
 

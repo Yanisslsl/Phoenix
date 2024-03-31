@@ -37,6 +37,10 @@ namespace Phoenix
     Ref<Entity> EntitySubsystem::GetEntityByName(std::string name)
     {
         EntityId entityId  = m_EntityManager->GetEntityIdByName(name);
+        if(entityId == -1)
+        {
+            return nullptr;
+        }
         TagType tag = m_EntityManager->GetTag(entityId);
         bool isStandAlone = m_EntityManager->GetIsStandAlone(entityId);
         return CreateRef<Entity>(Entity{ entityId, name, tag, isStandAlone });
@@ -76,6 +80,7 @@ namespace Phoenix
         for (auto& entityName : m_EntityManager->GetEntitiesName())
         {
             EntityId entityId = m_EntityManager->GetEntityIdByName(entityName);
+            if(entityId == -1) continue;
             TagType entityTag = m_EntityManager->GetTag(entityId);
             bool isStandAlone = m_EntityManager->GetIsStandAlone(entityId);
             std::function<void()> updateBindedFunction = m_EntityManager->GetUpdateFunction(entityId);

@@ -11,7 +11,7 @@
 namespace Phoenix
 {
 
-    float MIN_COLLIDER_DIMENSION = 50;
+    float MIN_COLLIDER_DIMENSION = 500;
     CollisionSubSytem::CollisionSubSytem()
     {
         auto windowHeight = Application::Get().GetWindow()->GetHeight();

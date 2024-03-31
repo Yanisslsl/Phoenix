@@ -19,10 +19,6 @@ public:
 		SpawnMob();
 		SpawnMob();
 		SpawnMob();
-		SpawnMob();
-		SpawnMob();
-		SpawnMob();
-		SpawnMob();
 		Phoenix::Application::Get().GetSubSystem<Phoenix::InputActionRegistratorSubSystem>()->RegisterAction(Phoenix::InputAction("SaveGame", Phoenix::Key::S), PX_BIND_EVENT_FN(SaveGame));
 		Phoenix::Application::Get().GetSubSystem<Phoenix::InputActionRegistratorSubSystem>()->RegisterAction(Phoenix::InputAction("Delete", Phoenix::Key::D), PX_BIND_EVENT_FN(Delete));
 		Phoenix::Application::Get().GetSubSystem<Phoenix::InputActionRegistratorSubSystem>()->RegisterAction(Phoenix::InputAction("LoadGame", Phoenix::Key::L), PX_BIND_EVENT_FN(LoadGame));
@@ -41,6 +37,18 @@ public:
 		std::uniform_int_distribution<> distr1(20, 600);
 		std::string mobId = "MOB_" + Phoenix::UUID::GenerateUUID();
 		m_Entities->push_back(std::make_shared<Mob>(mobId, glm::vec2(distr(gen), distr1(gen))));
+		Phoenix::Application::Get().GetSubSystem<Phoenix::EntitySubsystem>()->SetIsInitialized(true);
+	}
+
+	void SpawnMobOnInterval()
+	{
+		float dt = Phoenix::Timer::GetDeltaTime() * 100;
+		m_Delta += dt;
+		if(m_Delta > 30)
+		{
+			SpawnMob();
+			m_Delta = 0;
+		}
 	}
 
 	void Delete()
@@ -65,59 +73,12 @@ public:
 		m_Entities->push_back(std::make_shared<Knight>());
 	}
 
-	void DeleteMobs()
-	{
-		for(auto entity: *m_Entities)
-		{
-			Mob *mob = dynamic_cast<Mob*>(entity.get());
-			if(mob != nullptr)
-			{
-				if(entitiesToDelete.size() > 0)
-				{
-					for(auto id: entitiesToDelete)
-					{
-						if(mob->GetId() == id)
-						{
-							m_Entities->erase(std::remove(m_Entities->begin(), m_Entities->end(), entity), m_Entities->end());
-						}
-					}
-				}
-			}
-		}
-	}
 
 	void OnUpdate() override
 	{
 		Phoenix::Timer::Update();
 		Phoenix::Application::Get().GetSubSystem<Phoenix::SceneManagerSubSystem>()->GetActiveScene()->OnUpdate();
-		int index = 0;
-		for(auto entity: *m_Entities)
-		{
-			Mob *mob = dynamic_cast<Mob*>(entity.get());
-			if(mob != nullptr)
-			{
-				if(mob->GetIsDead())
-				{
-					entitiesToDelete.push_back(mob->GetId());
-				}
-			}
-		}
-		DeleteMobs();
-		PX_INFO(entitiesToDelete.size());
-		// for(auto entity: entitiesToDelete)
-		// {
-		// 	m_Entities->erase(m_Entities->begin() + entity);
-		// }
-		// for(int i = 0; i < entitiesToDelete.size(); i++)
-		// {
-		// 	SpawnMob();
-		// 	Phoenix::Application::Get().GetSubSystem<Phoenix::EntitySubsystem>()->SetIsInitialized(true);
-		// }
-		// std::vector<Phoenix::Ref<Phoenix::Entity>> mobsEntities = Phoenix::Application::Get().GetSubSystem<Phoenix::EntitySubsystem>()->GetEntitiesByTag(Phoenix::Tag::Mob);
-		// if(mobsEntities.size() <=5)
-		// {
-		// 	SpawnMob();
-		// }
+		SpawnMobOnInterval();
 	}
 
 	void OnEvent(Phoenix::Event& event) override

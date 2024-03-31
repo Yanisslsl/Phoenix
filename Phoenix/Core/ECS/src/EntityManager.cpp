@@ -99,10 +99,12 @@ namespace Phoenix
         {
             if (m_entitiesName.at(i) == name)
             {
+                if(m_entitiesId.at(i) == -1) continue;
                 return m_entitiesId.at(i);
             } 
         }
         PX_ERROR("Entity not found");
+        return -1;
     }
 
     std::string EntityManager::GetEntityNameById(EntityId id)

@@ -36,6 +36,12 @@ namespace Phoenix
             if(index < 0 || index >= m_components.size()) return;
             m_components[index] = T();
         }
+
+        void Remove(size_t index, T value)
+        {
+            if(index < 0 || index >= m_components.size()) return;
+            m_components[index] = value;
+        }
         
         T& Get(size_t index)
         {

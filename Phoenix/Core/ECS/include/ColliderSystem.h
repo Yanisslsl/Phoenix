@@ -22,7 +22,7 @@ namespace Phoenix
             virtual void Init() override;
             virtual void Start() override;
             virtual void Update() override;
-
+            std::vector<EntityId> GetCollidersEntitiesIds();
             virtual void DeleteComponent(EntityId entity) override;
             bool HasCollider(EntityId entity);
             CollisionType GetColliderType(EntityId entity);
