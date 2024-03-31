@@ -19,6 +19,9 @@ namespace Phoenix
         friend ComponentSystem;
         virtual ~ComponentsData() = default;
 
+        /**
+         * The holder of component data
+         */
         ComponentsData() = default;
     };
 

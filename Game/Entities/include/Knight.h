@@ -9,6 +9,9 @@ class Knight
 public:
     Knight();
     ~Knight();
+    /**
+     * Call all the method related to player input
+     */
     void UpdateInput();
     void GetMovementInput();
     void GetFireInput();

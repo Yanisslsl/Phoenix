@@ -20,12 +20,12 @@ public:
 		m_mobManager = new MobManager(7);
 		
 		m_mobManager->SpawnMob(glm::vec2(0, 0),Phoenix::Application::Get().GetSubSystem<Phoenix::EntitySubsystem>()->GetEntityByName("Knight"),"Mob1");
-		m_mobManager->SpawnMob(glm::vec2(1200, 700),Phoenix::Application::Get().GetSubSystem<Phoenix::EntitySubsystem>()->GetEntityByName("Knight"),"Mob2");
-		m_mobManager->SpawnMob(glm::vec2(600, 500),Phoenix::Application::Get().GetSubSystem<Phoenix::EntitySubsystem>()->GetEntityByName("Knight"),"Mob3");
-		m_mobManager->SpawnMob(glm::vec2(400, 600),Phoenix::Application::Get().GetSubSystem<Phoenix::EntitySubsystem>()->GetEntityByName("Knight"),"Mob4");
-		m_mobManager->SpawnMob(glm::vec2(600, 400),Phoenix::Application::Get().GetSubSystem<Phoenix::EntitySubsystem>()->GetEntityByName("Knight"),"Mob5");
-		m_mobManager->SpawnMob(glm::vec2(500, 400),Phoenix::Application::Get().GetSubSystem<Phoenix::EntitySubsystem>()->GetEntityByName("Knight"),"Mob6");
-		m_mobManager->SpawnMob(glm::vec2(400, 500),Phoenix::Application::Get().GetSubSystem<Phoenix::EntitySubsystem>()->GetEntityByName("Knight"),"Mob7");
+		m_mobManager->SpawnMob(glm::vec2(0, 0),Phoenix::Application::Get().GetSubSystem<Phoenix::EntitySubsystem>()->GetEntityByName("Knight"),"Mob2");
+		m_mobManager->SpawnMob(glm::vec2(0, 0),Phoenix::Application::Get().GetSubSystem<Phoenix::EntitySubsystem>()->GetEntityByName("Knight"),"Mob3");
+		m_mobManager->SpawnMob(glm::vec2(0, 0),Phoenix::Application::Get().GetSubSystem<Phoenix::EntitySubsystem>()->GetEntityByName("Knight"),"Mob4");
+		m_mobManager->SpawnMob(glm::vec2(0, 0),Phoenix::Application::Get().GetSubSystem<Phoenix::EntitySubsystem>()->GetEntityByName("Knight"),"Mob5");
+		m_mobManager->SpawnMob(glm::vec2(0, 0),Phoenix::Application::Get().GetSubSystem<Phoenix::EntitySubsystem>()->GetEntityByName("Knight"),"Mob6");
+		m_mobManager->SpawnMob(glm::vec2(0, 0),Phoenix::Application::Get().GetSubSystem<Phoenix::EntitySubsystem>()->GetEntityByName("Knight"),"Mob7");
 		
 		// std::random_device rd; // obtain a random number from hardware
 		// std::mt19937 gen(rd()); // seed the generator

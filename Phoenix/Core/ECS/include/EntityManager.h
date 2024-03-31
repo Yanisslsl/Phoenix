@@ -16,17 +16,54 @@ namespace Phoenix
     {
         friend ComponentSystem;
     public:
+        /**
+         * Create an entity manager with the max number of entity it can hold
+         */
         EntityManager(size_t size = 1000);
+        /**
+         * Remove the passed entity from the manager
+         */
         void Remove(EntityId entity);
+        /**
+         * Print the name of the passed entity
+         */
         void PrintEntityName(EntityId);
+        /**
+         * Create a new entity by passing it's name
+         */
         EntityId Create(const std::string& name);
+        /**
+         * Get an entity id by it's name
+         */
         EntityId GetEntityIdByName(const std::string& name);
+        /**
+         * Get an entity name by it's Id
+         */
         std::string GetEntityNameById(EntityId id);
+        /**
+         * Get all entities
+         */
         std::vector<EntityId> GetEntities() const;
+        /**
+         * Get all entities name
+         */
         std::vector<std::string> GetEntitiesName() const;
+        /**
+         * Method to bind game update method to backend update
+         */
         void BindUpdate(EntityId entityId, std::function<void()> updateFunction);
+
+        /**
+         * Get the binded game method
+         */
         std::function<void()> GetUpdateFunction(EntityId entityId);
+        /**
+         * Add tag to the entity
+         */
         void AddTag(EntityId entity, TagType tag);
+        /**
+         * Get entity tag
+         */
         TagType GetTag(EntityId entity);
         static EntityManager* Get()
         {

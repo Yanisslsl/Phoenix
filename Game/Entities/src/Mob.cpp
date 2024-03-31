@@ -23,7 +23,6 @@ Mob::Mob(glm::vec2 position, Phoenix::Ref<Phoenix::Entity> _target, std::string 
     m_name = _name;
     speed = 50;
     isDead = false;
-    dt = 0;
 }
 
 Mob::~Mob()
@@ -32,33 +31,28 @@ Mob::~Mob()
 
 void Mob::OnUpdate()
 {
-    dt += Phoenix::Timer::GetDeltaTime();
-
-
     //We get the target position, where we want to go
     glm::vec3 targetPos = Phoenix::Application::Get().GetSubSystem<Phoenix::EntitySubsystem>()->GetEntityById(m_target->m_id)->GetTransformPosition();
-    //
+    //Get self backend entity
     auto entity = Phoenix::Application::Get().GetSubSystem<Phoenix::EntitySubsystem>()->GetEntityByName(m_id);
+    //Get self position
     glm::vec3 myPos = entity->GetTransformPosition();
+    //Calculate distane between target and self
     auto distance = glm::distance(myPos,targetPos);
+    //Calculate the direction
     glm::vec3 direction = glm::normalize(targetPos - myPos);
-    //float dt = Phoenix::Timer::GetDeltaTime();
-    PX_INFO(dt);
-    //glm::vec3 speedDirection = direction * speed;
-    //glm::vec3 sDAndDt = speedDirection*dt;
-    //glm::vec3 tempVec3 = myPos+sDAndDt;
-    glm::vec3 vec3 = myPos + (direction * speed * dt);
-    entity->SetTransformPosition(vec3); //=> multiply per delta time
-    dt = 0;
+    //Calculate new position with direction, speed and delta time
+    glm::vec3 newPos = myPos + (direction * speed * Phoenix::Timer::GetDeltaTime());
+    //Set new position
+    entity->SetTransformPosition(newPos);
 }
 
 void Mob::OnHit(Phoenix::Ref<Phoenix::Entity> entity)
 {
-    //return if mob not collide with player
+    //check if mob collide with player or bullet
     if (entity->HasTag(Phoenix::Tag::Player) || entity->HasTag(Phoenix::Tag::Bullet))
     {
         PX_INFO("MOB HIT");
-        //auto self = Phoenix::Application::Get().GetSubSystem<Phoenix::EntitySubsystem>()->GetEntityByName(m_id);
         //Set Entity to dead
         isDead = true;
     }

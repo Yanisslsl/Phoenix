@@ -12,6 +12,9 @@ namespace Phoenix
     class TransformsData : public Phoenix::ComponentsData
     {
     public:
+        /**
+         * Create the holder of transforms data with the max number of transform it can handle
+         */
         TransformsData(size_t size);
         ComponentsDataType<glm::vec3> m_positions;
         ComponentsDataType<float> m_rotations;

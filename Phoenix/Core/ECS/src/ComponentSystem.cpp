@@ -20,7 +20,6 @@ namespace Phoenix
     
     void ComponentSystem::AddComponentTo(EntityId entity)
     {
-        // Ajouter à l'entityManager le componentId pour l'entité
         // find the first item that is not consecutive
          const auto it = std::adjacent_find(begin(m_ComponentsId), end(m_ComponentsId),
          [](ComponentId lhs, ComponentId rhs){ return (lhs+1 != rhs); });
@@ -40,6 +39,7 @@ namespace Phoenix
     void ComponentSystem::DeleteComponentFrom(EntityId entity)
     {
         //@TODO: Refacto might be a order problem when deleting component and adding a new one, and maybe find other way to unset the componentId
+        //Set the value as -1 so we know it's not use anymore
         EntityManager::Get()->m_entitiesComponents.at(entity).at(m_Id) = -1;
     }
 }
