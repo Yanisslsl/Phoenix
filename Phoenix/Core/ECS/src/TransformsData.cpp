@@ -4,6 +4,7 @@ namespace Phoenix
 {
     TransformsData::TransformsData(size_t size):ComponentsData()
     {
+        m_entitiesIds.resize(size, -1);
         m_positions.resize(size);
         m_rotations.resize(size);
         m_scales.resize(size);

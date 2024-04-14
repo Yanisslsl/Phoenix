@@ -2,6 +2,10 @@
 
 namespace Phoenix
 {
+    /**
+     * @brief Interface for all systems
+     * 
+     */
     class ISystem
     {
     public:

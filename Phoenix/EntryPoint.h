@@ -1,6 +1,6 @@
 #pragma once
-#include "HAL/Windows/Core/Application/include/Application.h"
 #include "Core/Log/include/Log.h"
+#include "Core/Application/include/Application.h"
 
 #ifdef PHOENIX_PLATFORM_WINDOWS
 
@@ -10,7 +10,6 @@ int main(int argc, char** argv)
 {
 	Phoenix::Log::Init();
 	auto app = Phoenix::CreateApplication();
-	app->Run();
 	delete app;
 }
 

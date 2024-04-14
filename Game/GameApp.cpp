@@ -1,87 +1,113 @@
 #include <glm/ext/matrix_transform.hpp>
 #include "Phoenix.h"
-#include "Common/Core/Graphics/Render/include/Renderer.h"
-#include "Common/Core/Scene/include/OrthographicCameraController.h"
-#include "Common/Core/Scene/include/Scene.h"
-
-class ExampleLayer : public Phoenix::Layer
+#include "Entities\include\Knight.h"
+#include "Entities/include/Mob.h"
+#include "Entities/include/Room.h"
+#include "Utils/UUID.h"
+#include "Core/ECSExtended/include/EntitySubsystem.h"
+class MainLayer : public Phoenix::Layer
 {
 public:
-	ExampleLayer(Phoenix::Application* app = nullptr)
-		: Layer("Example")
+	MainLayer(Phoenix::Application* app = nullptr)
+		: Layer("MainLayer")
 	{
-		Phoenix::OrthographicCameraController cameraController = Phoenix::OrthographicCameraController(0.0f, 1280.0f, 0.0f, 720.0f, 1.0f, false);
-		m_Scene = new Phoenix::Scene(cameraController);
-		x = 1280. / 2;
-		y = 720. / 2;
-		scale = 1;
-		 // auto square = app->GetSubSystem<Phoenix::EntitySubsystem>()->CreateEntity("square");
-		 // square->AddComponent(Phoenix::SpriteComponent(Phoenix::Color::RED));
-		 // square->AddComponent(Phoenix::TransformComponent{ glm::vec2(x, y), 0, glm::vec2(1, 1) });
-		 // square->SetScale(100);
-		//
-		auto square1 = app->GetSubSystem<Phoenix::EntitySubsystem>()->CreateEntity("square1");
-		square1->AddComponent(Phoenix::SpriteComponent(Phoenix::Color::GREEN));
-		square1->AddComponent(Phoenix::TransformComponent{ glm::vec2(x + 100, y+ 100), 0, glm::vec2(1, 1) });
-		square1->SetScale(100);
-		//
-		auto isac = app->GetSubSystem<Phoenix::EntitySubsystem>()->CreateEntity("isac");
-		isac->AddComponent(Phoenix::SpriteComponent{  "Isac.png" });
-		isac->AddComponent(Phoenix::TransformComponent{ glm::vec2(500,500), 0, glm::vec2(1, 1) });
-		isac->SetScale(50);
-		// square->AddChild(isac);
+		m_Entities = new std::vector<Phoenix::Ref<Phoenix::ISerializable>>();
+		Phoenix::Application::Get().GetSubSystem<Phoenix::SceneManagerSubSystem>()->CreateScene("MainLevel");
+		InitLevel();
+		SpawnMob();
+		SpawnMob();
+		SpawnMob();
+		Phoenix::Application::Get().GetSubSystem<Phoenix::InputActionRegistratorSubSystem>()->RegisterAction(Phoenix::InputAction("SaveGame", Phoenix::Key::S), PX_BIND_EVENT_FN(SaveGame));
+		Phoenix::Application::Get().GetSubSystem<Phoenix::InputActionRegistratorSubSystem>()->RegisterAction(Phoenix::InputAction("Delete", Phoenix::Key::D), PX_BIND_EVENT_FN(Delete));
+		Phoenix::Application::Get().GetSubSystem<Phoenix::InputActionRegistratorSubSystem>()->RegisterAction(Phoenix::InputAction("LoadGame", Phoenix::Key::L), PX_BIND_EVENT_FN(LoadGame));
 	}
+
+	~MainLayer()
+	{
+		delete m_Entities;
+	}
+
+	void SpawnMob()
+	{
+		std::random_device rd; // obtain a random number from hardware
+		std::mt19937 gen(rd()); // seed the generator
+		std::uniform_int_distribution<> distr(50, 1200);
+		std::uniform_int_distribution<> distr1(20, 600);
+		std::string mobId = "MOB_" + Phoenix::UUID::GenerateUUID();
+		m_Entities->push_back(std::make_shared<Mob>(mobId, glm::vec2(distr(gen), distr1(gen))));
+		Phoenix::Application::Get().GetSubSystem<Phoenix::EntitySubsystem>()->SetIsInitialized(true);
+	}
+
+	void SpawnMobOnInterval()
+	{
+		float dt = Phoenix::Timer::GetDeltaTime() * 100;
+		m_Delta += dt;
+		if(m_Delta > 25)
+		{
+			SpawnMob();
+			m_Delta = 0;
+		}
+	}
+
+	void Delete()
+	{
+		m_Entities->clear();
+	}
+
+	void SaveGame()
+	{
+		Phoenix::Application::Get().GetSubSystem<Phoenix::SerializerSubsystem>()->SaveCurrentScene();
+	}
+
+	void LoadGame()
+	{
+		Delete();
+		m_Entities = Phoenix::Application::Get().GetSubSystem<Phoenix::SerializerSubsystem>()->DeserializeWrappedObjects();
+	}
+
+	void InitLevel()
+	{
+		m_Entities->push_back(std::make_shared<Room>());
+		m_Entities->push_back(std::make_shared<Knight>());
+	}
+
 
 	void OnUpdate() override
 	{
-		const float velocity = 1;
-		if(x >= 800)
-		{
-			direction = -1;
-		} else if ( x <= 400)
-        {
-            direction = 1;
-        }
-		x += velocity * direction;
-		
-
-		auto isac = Phoenix::Application::Get().GetSubSystem<Phoenix::EntitySubsystem>()->GetEntity("isac");
-		isac->SetTransformPosition(glm::vec2(x, y));
-		m_Scene->OnUpdate(); 
+		Phoenix::Timer::Update();
+		Phoenix::Application::Get().GetSubSystem<Phoenix::SceneManagerSubSystem>()->GetActiveScene()->OnUpdate();
+		SpawnMobOnInterval();
 	}
-	
-	
+
 	void OnEvent(Phoenix::Event& event) override
 	{
-		// m_CameraController.OnEvent(event);
-		// PX_TRACE("Event catched {0}", event.GetName());
+	
 	}
 	
 private:
-	Phoenix::Scene* m_Scene;
-	float x;
-	float y;
-	float scale;
-	float direction = 1;
+	Knight* m_player;
+	std::vector<glm::vec2> m_mob_positions;
+	float xPos = 0;
+	float yPos = 0;
+	std::vector<std::string> m_Ids;
+	std::vector<Phoenix::Ref<Phoenix::ISerializable>>* m_Entities;
+	std::vector<Mob*> m_mobs;
+	float m_Delta = 0;
+	std::vector<std::string> entitiesToDelete;
+	
 };
 class GameApp : public Phoenix::Application
 {
 public:
-	GameApp()
+	GameApp(): Application(Phoenix::ApplicationMode::Wrapped)
 	{
-		// m_InputActionRegistrator->RegisterAction(Phoenix::InputAction("move", Phoenix::Key::A), PX_BIND_EVENT_FN(GameApp::TestInputActionClbk));
-		PushLayer(new ExampleLayer(this));
-		this->GetWindow();
+		PushLayer(new MainLayer(this));
+		Run();
 	}
 
 	~GameApp()
 	{
-
-	}
-
-	void TestInputActionClbk()
-	{
-		PX_TRACE("Input action triggered");
+		
 	}
 };
 

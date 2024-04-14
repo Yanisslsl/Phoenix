@@ -8,7 +8,7 @@ namespace Phoenix
 
     namespace Mouse
     {
-        PHOENIX_API enum : MouseCode
+        enum : MouseCode
         {
             // From glfw3.h
             Button0                = 0,

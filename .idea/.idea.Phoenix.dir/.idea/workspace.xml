@@ -1,8 +1,136 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="29f0c53a-cdba-40d0-8f91-e07c36ed899a" name="Changes" comment="wip">
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.Phoenix.dir/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Phoenix.dir/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Game/Entities/include/Bullet.h" beforeDir="false" afterPath="$PROJECT_DIR$/Game/Entities/include/Bullet.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Game/Entities/include/Knight.h" beforeDir="false" afterPath="$PROJECT_DIR$/Game/Entities/include/Knight.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Game/Entities/include/Mob.h" beforeDir="false" afterPath="$PROJECT_DIR$/Game/Entities/include/Mob.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Game/Entities/include/Room.h" beforeDir="false" afterPath="$PROJECT_DIR$/Game/Entities/include/Room.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Game/Entities/src/Room.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Game/Entities/src/Room.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Phoenix/Core/Utils/Color.h" beforeDir="false" afterPath="$PROJECT_DIR$/Phoenix/Core/Utils/Color.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Phoenix/HAL/Common/Core/Animation/include/AnimationSubsystem.h" beforeDir="false" afterPath="$PROJECT_DIR$/Phoenix/HAL/Common/Core/Animation/include/AnimationSubsystem.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Phoenix/HAL/Common/Core/ECSExtended/include/Entity.h" beforeDir="false" afterPath="$PROJECT_DIR$/Phoenix/HAL/Common/Core/ECSExtended/include/Entity.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Phoenix/HAL/Common/Core/ECSExtended/include/SpriteSubsystem.h" beforeDir="false" afterPath="$PROJECT_DIR$/Phoenix/HAL/Common/Core/ECSExtended/include/SpriteSubsystem.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Phoenix/HAL/Common/Core/ECSExtended/include/TransformSubsytem.h" beforeDir="false" afterPath="$PROJECT_DIR$/Phoenix/HAL/Common/Core/ECSExtended/include/TransformSubsytem.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Phoenix/HAL/Common/Core/Physics/include/CollisionSubSytem.h" beforeDir="false" afterPath="$PROJECT_DIR$/Phoenix/HAL/Common/Core/Physics/include/CollisionSubSytem.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Phoenix/HAL/Common/Core/Scene/include/Scene.h" beforeDir="false" afterPath="$PROJECT_DIR$/Phoenix/HAL/Common/Core/Scene/include/Scene.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Phoenix/HAL/Common/Core/Serialization/include/AbstractFactory.h" beforeDir="false" afterPath="$PROJECT_DIR$/Phoenix/HAL/Common/Core/Serialization/include/AbstractFactory.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Phoenix/HAL/Common/Core/Serialization/include/SerializerSubsystem.h" beforeDir="false" afterPath="$PROJECT_DIR$/Phoenix/HAL/Common/Core/Serialization/include/SerializerSubsystem.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Phoenix/HAL/Common/Core/Serialization/src/AbstractFactory.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Phoenix/HAL/Common/Core/Serialization/src/AbstractFactory.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Phoenix/HAL/Common/Core/Serialization/src/SerializerSubsystem.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Phoenix/HAL/Common/Core/Serialization/src/SerializerSubsystem.cpp" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+    <option name="UPDATE_TYPE" value="REBASE" />
+  </component>
+  <component name="HighlightingSettingsPerFile">
+    <setting file="mock://D:/Users/LYANISS/Desktop/Dev/PhoenixEngine/Phoenix/Game/GameApp.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock://D:/Users/LYANISS/Desktop/Dev/PhoenixEngine/Phoenix/Phoenix/HAL/Common/Core/ECSExtended/include/Entity.h" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock://D:/Users/LYANISS/Desktop/Dev/PhoenixEngine/Phoenix/Phoenix/HAL/Common/Core/ECSExtended/src/Entity.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Phoenix/HAL/Common/Core/Graphics/Render/include/Renderer.h" root0="FORCE_HIGHLIGHTING" />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="MetaFilesCheckinStateConfiguration" checkMetaFiles="false" />
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 4
+}</component>
+  <component name="ProjectId" id="2dHG56V4Gl8XetVCCnwCk9y0OHq" />
   <component name="ProjectViewState">
     <option name="autoscrollFromSource" value="true" />
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;feature/animation&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  },
+  &quot;keyToStringList&quot;: {
+    &quot;rider.external.source.directories&quot;: [
+      &quot;d:\\Users\\LYANISS\\AppData\\Roaming\\JetBrains\\Rider2023.2\\resharper-host\\DecompilerCache&quot;,
+      &quot;d:\\Users\\LYANISS\\AppData\\Roaming\\JetBrains\\Rider2023.2\\resharper-host\\SourcesCache&quot;,
+      &quot;d:\\Users\\LYANISS\\AppData\\Local\\Symbols\\src&quot;
+    ]
+  }
+}</component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="29f0c53a-cdba-40d0-8f91-e07c36ed899a" name="Changes" comment="wip" />
+      <created>1709658148622</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1709658148622</updated>
+      <workItem from="1709658149875" duration="76000" />
+      <workItem from="1709834413413" duration="371000" />
+      <workItem from="1710770901629" duration="48000" />
+      <workItem from="1710770989549" duration="152000" />
+      <workItem from="1710777415572" duration="217000" />
+      <workItem from="1710925177318" duration="590000" />
+      <workItem from="1710929211569" duration="111000" />
+      <workItem from="1710929349220" duration="1000" />
+      <workItem from="1710929730819" duration="172000" />
+      <workItem from="1710930080913" duration="1377000" />
+      <workItem from="1710952195602" duration="56000" />
+      <workItem from="1711372003098" duration="992000" />
+      <workItem from="1711380211778" duration="62000" />
+    </task>
+    <task id="LOCAL-00001" summary="feat: add animation system = player animation">
+      <option name="closed" value="true" />
+      <created>1710777569791</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1710777569791</updated>
+    </task>
+    <task id="LOCAL-00002" summary="wip">
+      <option name="closed" value="true" />
+      <created>1710952237208</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1710952237208</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="UnityCheckinConfiguration" checkUnsavedScenes="false" />
+  <component name="Vcs.Log.History.Properties">
+    <option name="COLUMN_ID_ORDER">
+      <list>
+        <option value="Default.Root" />
+        <option value="Default.Author" />
+        <option value="Default.Date" />
+        <option value="Default.Subject" />
+        <option value="Space.CommitStatus" />
+      </list>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="feat: add simple bst for cell collision + ECS impl + ColliderSubSystem" />
+    <MESSAGE value="feat: add animation system = player animation" />
+    <MESSAGE value="wip" />
+    <option name="LAST_COMMIT_MESSAGE" value="wip" />
   </component>
 </project>
