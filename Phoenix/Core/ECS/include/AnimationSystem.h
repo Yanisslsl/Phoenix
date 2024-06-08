@@ -54,8 +54,8 @@ namespace Phoenix
         void SetAnimationTexturesPaths(EntityId entity, std::string animationName, std::vector<std::string> texturesPaths);
         std::map<std::string, std::vector<std::string>> GetAnimationsTexturesPaths(EntityId entity);
 
-        void AnimationSystem::SetOnAnimationEnd(EntityId entity, std::string animationName, std::function<void()> onAnimationEnd);
-        std::function<void()> AnimationSystem::GetOnAnimationEnd(EntityId entity, std::string animationName);
+        void SetOnAnimationEnd(EntityId entity, std::string animationName, std::function<void()> onAnimationEnd);
+        std::function<void()> GetOnAnimationEnd(EntityId entity, std::string animationName);
     private:
         AnimationData* m_AnimationData;
     };

@@ -1,7 +1,5 @@
-#include "../include/RendererAPI.h"
-#include "../../../Core/Log/include/Log.h"
-#include "../../Render/include/OpenGLRendererAPI.h"
-
+#include "Core/Graphics/Render/include/RendererAPI.h"
+#include "Core/Graphics/Render/include/OpenGLRendererAPI.h"
 
 namespace Phoenix
 {

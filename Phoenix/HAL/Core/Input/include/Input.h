@@ -2,10 +2,10 @@
 
 #pragma once
 #include <vector>
+#include "Core.h"
+#include "Utils/KeyCode.h"
+#include "Utils/MouseCode.h"
 
-#include "../../../Core/Utils/KeyCode.h"
-#include "../../../Core/Utils/MouseCode.h"
-#include "../../../Core/Core.h"
 
 namespace Phoenix
 {

@@ -1,8 +1,5 @@
-#include "../include/LayerStack.h"
-
-#include <iostream>
-
-
+#include "Layers/LayerStack/include/LayerStack.h"
+#include <algorithm>
 namespace Phoenix
 {
     LayerStack::LayerStack()

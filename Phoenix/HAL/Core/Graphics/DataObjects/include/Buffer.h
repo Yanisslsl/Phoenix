@@ -2,8 +2,7 @@
 
 #pragma once
 #include <cstdint>
-#include "../../../Core/Base/Base.h"
-#include "../../../Core/Log/include/Log.h"
+#include "Base/Base.h"
 
 
 namespace Phoenix
@@ -39,7 +38,7 @@ namespace Phoenix
             default: break;
         }
 
-        PX_CORE_ASSERT(false, "Unknown ShaderDataType!");
+//        PX_CORE_ASSERT(false, "Unknown ShaderDataType!");
         return 0;
     }
 
@@ -84,7 +83,7 @@ namespace Phoenix
                 default: break;
             }
 
-            PX_CORE_ASSERT(false, "Unknown ShaderDataType!");
+//            PX_CORE_ASSERT(false, "Unknown ShaderDataType!");
             return 0;
         }
     };
@@ -114,7 +113,7 @@ namespace Phoenix
          * \brief Get the elements of the buffer.
          * \return const std::vector<BufferElement>& Elements of the buffer
          */
-        const std::vector<BufferElement>& GetElements() const { return m_Elements; }
+        [[nodiscard]] const std::vector<BufferElement>& GetElements() const { return m_Elements; }
 
         std::vector<BufferElement>::iterator begin() { return m_Elements.begin(); }
         std::vector<BufferElement>::iterator end() { return m_Elements.end(); }

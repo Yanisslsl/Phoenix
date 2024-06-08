@@ -3,9 +3,8 @@
 #pragma once
 #include <cstdint>
 #include <string>
+#include "Base/Base.h"
 
-#include "../../../Core/Core.h"
-#include "../../../Core/Base/Base.h"
 
 namespace Phoenix
 {

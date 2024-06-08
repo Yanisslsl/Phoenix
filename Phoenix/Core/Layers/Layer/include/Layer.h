@@ -3,10 +3,9 @@
 #pragma once
 
 #include <string>
+#include "Events/Event.h"
 
-#include "../../../Core.h"
 
-#include "../../../Core/Events/Event.h"
 
 namespace Phoenix
 {
