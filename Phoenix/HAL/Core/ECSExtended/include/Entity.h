@@ -17,6 +17,14 @@ namespace Phoenix
     struct SpriteComponent;
     class TransformComponent;
 
+    struct EntityType
+    {
+      std::string name;
+      bool isStandAlone;
+      std::function<void()> updateFunction;
+      TagType tag;
+    }; 
+
     class PHOENIX_API IComponent: public ISerializable
     {
     public:
@@ -35,7 +43,7 @@ namespace Phoenix
         {
             
         }
-        Entity(EntityId id, std::string name, TagType tag = 0, bool isStandAlone = true)
+        Entity(EntityIdentifier id, std::string name, TagType tag = 0, bool isStandAlone = true)
         : m_id(id)
         , m_name(name)
         , m_Tag(tag)
@@ -262,13 +270,15 @@ namespace Phoenix
         void Deserialize(BlobSerializer& serializer) override;
     public:
         std::string m_name;
-        EntityId m_id;
+        EntityIdentifier m_id;
         TagType m_Tag = 0;
         std::function<void()> m_updateFunction;
         bool isStandAlone = false;
     private:
         Entity* m_parent;
         std::vector<Ref<Entity>> m_children;
+    private:
+         entt::entity m_EntityHandle{entt::null};
     };
 }
 

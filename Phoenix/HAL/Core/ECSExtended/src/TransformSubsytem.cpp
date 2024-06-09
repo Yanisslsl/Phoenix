@@ -2,6 +2,8 @@
 
 #include "Core/ECSExtended/include/TransformSubsytem.h"
 
+#include "Core/Application/include/Application.h"
+
 namespace Phoenix
 {
     TransformSubsytem::TransformSubsytem()
@@ -14,65 +16,64 @@ namespace Phoenix
         delete m_TransformSystem;
     }
 
-    void TransformSubsytem::AddTransformComponent(EntityId id, TransformComponent component)
+    void TransformSubsytem::AddTransformComponent(EntityIdentifier entity, TransformComponent component)
     {
-        m_TransformSystem->AddComponentTo(id);
-        m_TransformSystem->SetEntityId(id);
-        m_TransformSystem->SetEntityPostion(id, component.position);
-        m_TransformSystem->SetEntityRotation(id, component.rotation);
-        m_TransformSystem->SetEntityScale(id, component.scale);
+        Application::Get().GetRegistry().emplace<TransformComponent>(entity, component.position, component.rotation, component.scale);
     }
 
-    bool TransformSubsytem::HasTransformComponent(EntityId id)
+    bool TransformSubsytem::HasTransformComponent(EntityIdentifier entity)
     {
-        return m_TransformSystem->HasTransform(id);
+        return Application::Get().GetRegistry().try_get<TransformComponent>(entity) != nullptr;
     }
 
-    TransformComponent TransformSubsytem::GetTransformComponent(EntityId id)
+    TransformComponent TransformSubsytem::GetTransformComponent(EntityIdentifier entity)
     {
-        TransformComponent component;
-        glm::vec3 position = m_TransformSystem->GetEntityPosition(id);
-        float rotation = m_TransformSystem->GetEntityRotation(id);
-        glm::vec2 scale = m_TransformSystem->GetEntityScale(id);
-        component.position = position;
-        component.rotation = rotation;
-        component.scale = scale;
-        component.entityId = id;
-        return component;
+        // TransformComponent component;
+        // glm::vec3 position = m_TransformSystem->GetEntityPosition(id);
+        // float rotation = m_TransformSystem->GetEntityRotation(id);
+        // glm::vec2 scale = m_TransformSystem->GetEntityScale(id);
+        // component.position = position;
+        // component.rotation = rotation;
+        // component.scale = scale;
+        // component.entityId = id;
+        // return component;
+
+        return Application::Get().GetRegistry().get<TransformComponent>(entity);
     }
 
-    void TransformSubsytem::DeleteTransformComponent(EntityId id)
+    void TransformSubsytem::DeleteTransformComponent(EntityIdentifier entity)
     {
-        m_TransformSystem->DeleteComponent(id);
+        Application::Get().GetRegistry().remove<TransformComponent>(entity);
     }
 
-    void TransformSubsytem::SetTransformPosition(EntityId id, glm::vec3 position)
+    void TransformSubsytem::SetTransformPosition(EntityIdentifier entity, glm::vec3 position)
     {
-        m_TransformSystem->SetEntityPostion(id, position);
+        // m_TransformSystem->SetEntityPostion(id, position);
+        Application::Get().GetRegistry().patch<TransformComponent>(entity, [&position](TransformComponent& component) { component.position = position; });
     }
 
-    void TransformSubsytem::SetTransformRotation(EntityId id, float rotation)
+    void TransformSubsytem::SetTransformRotation(EntityIdentifier entity, float rotation)
     {
-        m_TransformSystem->SetEntityRotation(id, rotation);
+        Application::Get().GetRegistry().patch<TransformComponent>(entity, [&rotation](TransformComponent& component) { component.rotation = rotation; });
     }
 
-    void TransformSubsytem::SetTransformScale(EntityId id, glm::vec2 scale)
+    void TransformSubsytem::SetTransformScale(EntityIdentifier entity, glm::vec2 scale)
     {
-        m_TransformSystem->SetEntityScale(id, scale);
+        Application::Get().GetRegistry().patch<TransformComponent>(entity, [&scale](TransformComponent& component) { component.scale = scale; });
     }
 
-    glm::vec3 TransformSubsytem::GetTransformPosition(EntityId id)
+    glm::vec3 TransformSubsytem::GetTransformPosition(EntityIdentifier entity)
     {
-        return m_TransformSystem->GetEntityPosition(id);
+        return Application::Get().GetRegistry().get<TransformComponent>(entity).position;
     }
 
-    float TransformSubsytem::GetTransformRotation(EntityId id)
+    float TransformSubsytem::GetTransformRotation(EntityIdentifier entity)
     {
-        return m_TransformSystem->GetEntityRotation(id);
+        return Application::Get().GetRegistry().get<TransformComponent>(entity).rotation;
     }
 
-    glm::vec2 TransformSubsytem::GetTransformScale(EntityId id)
+    glm::vec2 TransformSubsytem::GetTransformScale(EntityIdentifier entity)
     {
-        return m_TransformSystem->GetEntityScale(id);
+        return Application::Get().GetRegistry().get<TransformComponent>(entity).scale;
     }
 }

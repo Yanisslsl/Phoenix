@@ -43,55 +43,55 @@ namespace Phoenix
 
     void SerializerSubsystem::DeserializeStandAloneObjects(BlobSerializer& serializer)
     {
-        while(serializer.HasData()) 
-        {
-            BlobHeader header = serializer.ReadHeader();
-            if(header.type == EntitySerializeType)
-            {
-                Ref<ISerializable> entityFromSave = factory.Create("Entity");
-                entityFromSave->Deserialize(serializer);
-                auto entity = std::dynamic_pointer_cast<Entity>(entityFromSave);
-                Application::Get().GetSubSystem<EntitySubsystem>()->CreateEntity(entity->m_name);
-            } else if(header.type == AnimatorComponentSerializeType)
-            {
-                Ref<ISerializable> animatorComponent = factory.Create("AnimatorComponent");
-                animatorComponent->Deserialize(serializer);
-                auto animator = std::dynamic_pointer_cast<AnimatorComponent>(animatorComponent);
-                auto entity = Application::Get().GetSubSystem<EntitySubsystem>()->GetEntityById(animator->entityId);
-                for(auto name : animator->names)
-                {
-                    entity->CreateAnimation(name, animator->texturesPaths[name], animator->durations[name], animator->totalFrames[name]);
-                }
-            } else if(header.type == BoxColliderComponentSerializeType)
-            {
-                Ref<ISerializable> boxColliderComponent = factory.Create("BoxCollider");
-                boxColliderComponent->Deserialize(serializer);
-                auto boxCollider = std::dynamic_pointer_cast<BoxCollider>(boxColliderComponent);
-                boxCollider->m_Node_Id = "";
-                auto bx = new BoxCollider();
-                auto d = *bx;
-                boxCollider->OnHit = [](Ref<Entity> entity) { PX_CORE_INFO("OnHit function not set"); };
-                auto entity = Application::Get().GetSubSystem<EntitySubsystem>()->GetEntityById(boxCollider->m_EntityId);
-                entity->AddComponent<BoxCollider>(*boxCollider);
-            } else if(header.type == SpriteComponentSerializeType)
-            {
-                Ref<ISerializable> spriteComponent = factory.Create("SpriteComponent");
-                spriteComponent->Deserialize(serializer);
-                auto sprite = std::dynamic_pointer_cast<SpriteComponent>(spriteComponent);
-                auto entity = Application::Get().GetSubSystem<EntitySubsystem>()->GetEntityById(sprite->entityId);
-                entity->AddComponent<SpriteComponent>(*sprite);
-            } else if(header.type == TransformComponentSerializeType)
-            {
-                Ref<ISerializable> transformComponent = factory.Create("TransformComponent");
-                transformComponent->Deserialize(serializer);
-                auto transform = std::dynamic_pointer_cast<TransformComponent>(transformComponent);
-                auto entity = Application::Get().GetSubSystem<EntitySubsystem>()->GetEntityById(transform->entityId);
-                entity->AddComponent<TransformComponent>(*transform);
-            } else 
-            {
-                PX_CORE_ERROR("An object could not be found from deserialization process");
-            }
-        }
+        // while(serializer.HasData()) 
+        // {
+        //     BlobHeader header = serializer.ReadHeader();
+        //     if(header.type == EntitySerializeType)
+        //     {
+        //         Ref<ISerializable> entityFromSave = factory.Create("Entity");
+        //         entityFromSave->Deserialize(serializer);
+        //         auto entity = std::dynamic_pointer_cast<Entity>(entityFromSave);
+        //         Application::Get().GetSubSystem<EntitySubsystem>()->CreateEntity(entity->m_name);
+        //     } else if(header.type == AnimatorComponentSerializeType)
+        //     {
+        //         Ref<ISerializable> animatorComponent = factory.Create("AnimatorComponent");
+        //         animatorComponent->Deserialize(serializer);
+        //         auto animator = std::dynamic_pointer_cast<AnimatorComponent>(animatorComponent);
+        //         auto entity = Application::Get().GetSubSystem<EntitySubsystem>()->GetEntityById(animator->entityId);
+        //         for(auto name : animator->names)
+        //         {
+        //             entity->CreateAnimation(name, animator->texturesPaths[name], animator->durations[name], animator->totalFrames[name]);
+        //         }
+        //     } else if(header.type == BoxColliderComponentSerializeType)
+        //     {
+        //         Ref<ISerializable> boxColliderComponent = factory.Create("BoxCollider");
+        //         boxColliderComponent->Deserialize(serializer);
+        //         auto boxCollider = std::dynamic_pointer_cast<BoxCollider>(boxColliderComponent);
+        //         boxCollider->m_Node_Id = "";
+        //         auto bx = new BoxCollider();
+        //         auto d = *bx;
+        //         boxCollider->OnHit = [](Ref<Entity> entity) { PX_CORE_INFO("OnHit function not set"); };
+        //         auto entity = Application::Get().GetSubSystem<EntitySubsystem>()->GetEntityById(boxCollider->m_EntityId);
+        //         entity->AddComponent<BoxCollider>(*boxCollider);
+        //     } else if(header.type == SpriteComponentSerializeType)
+        //     {
+        //         Ref<ISerializable> spriteComponent = factory.Create("SpriteComponent");
+        //         spriteComponent->Deserialize(serializer);
+        //         auto sprite = std::dynamic_pointer_cast<SpriteComponent>(spriteComponent);
+        //         auto entity = Application::Get().GetSubSystem<EntitySubsystem>()->GetEntityById(sprite->entityId);
+        //         entity->AddComponent<SpriteComponent>(*sprite);
+        //     } else if(header.type == TransformComponentSerializeType)
+        //     {
+        //         Ref<ISerializable> transformComponent = factory.Create("TransformComponent");
+        //         transformComponent->Deserialize(serializer);
+        //         auto transform = std::dynamic_pointer_cast<TransformComponent>(transformComponent);
+        //         auto entity = Application::Get().GetSubSystem<EntitySubsystem>()->GetEntityById(transform->entityId);
+        //         entity->AddComponent<TransformComponent>(*transform);
+        //     } else 
+        //     {
+        //         PX_CORE_ERROR("An object could not be found from deserialization process");
+        //     }
+        // }
     }
 
     void SerializerSubsystem::SerializeStandAloneObjects(BlobSerializer& serializer)

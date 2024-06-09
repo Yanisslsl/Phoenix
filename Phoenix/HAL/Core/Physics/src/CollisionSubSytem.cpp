@@ -40,33 +40,33 @@ namespace Phoenix
 
     void CollisionSubSytem::ChekCollision(Node* node)
     {
-        for(auto& collider : node->colliders)
-        {
-            for(auto& otherCollider: node->colliders)
-            {
-                if(collider.m_EntityId == otherCollider.m_EntityId) continue;
-                if(collider.CollidesWith(otherCollider))
-                {
-                    //@TODO: ERROR WHEN TOO MANY COLLIDES
-                    // hitCalls defined the number of times the onHit callback will be called
-                    // disable this may be a performance bottleneck
-                    if(collider.hitCalls < 1)
-                    {
-                        Ref<Entity> entity = Application::Get().GetSubSystem<EntitySubsystem>()->GetEntityById(otherCollider.m_EntityId);
-                        if (!entity)
-                        {
-                            PX_WARN("Coundn't call Collider.OnHit because entity is nullptr.");
-                            continue;
-                        }
-                        collider.hitCalls++;
-                        if(collider.OnHit != nullptr)
-                        {
-                            collider.OnHit(entity);
-                        }
-                    }
-                }
-            }
-        }
+        // for(auto& collider : node->colliders)
+        // {
+        //     for(auto& otherCollider: node->colliders)
+        //     {
+        //         if(collider.m_EntityId == otherCollider.m_EntityId) continue;
+        //         if(collider.CollidesWith(otherCollider))
+        //         {
+        //             //@TODO: ERROR WHEN TOO MANY COLLIDES
+        //             // hitCalls defined the number of times the onHit callback will be called
+        //             // disable this may be a performance bottleneck
+        //             if(collider.hitCalls < 1)
+        //             {
+        //                 Ref<Entity> entity = Application::Get().GetSubSystem<EntitySubsystem>()->GetEntityById(otherCollider.m_EntityId);
+        //                 if (!entity)
+        //                 {
+        //                     PX_WARN("Coundn't call Collider.OnHit because entity is nullptr.");
+        //                     continue;
+        //                 }
+        //                 collider.hitCalls++;
+        //                 if(collider.OnHit != nullptr)
+        //                 {
+        //                     collider.OnHit(entity);
+        //                 }
+        //             }
+        //         }
+        //     }
+        // }
     }
     
     void CollisionSubSytem::Init(Node* node, Divide divide)

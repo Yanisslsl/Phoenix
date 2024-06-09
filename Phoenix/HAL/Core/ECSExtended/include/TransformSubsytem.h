@@ -21,7 +21,7 @@ namespace Phoenix
         glm::vec3 position;
         float rotation;
         glm::vec2 scale;
-        EntityId entityId;
+        EntityIdentifier entityId;
         virtual void Serialize(BlobSerializer& serializer) override
         {
             serializer.WriteHeader(TransformComponentSerializeType);
@@ -49,72 +49,72 @@ namespace Phoenix
         ~TransformSubsytem();
         /**
          * \brief Add a transform component to the entity
-         * \param id EntityId to add
+         * \param id EntityIdentifier to add
          * \param component TransformComponent to add
          */
-        void AddTransformComponent(EntityId id, TransformComponent component);
+        void AddTransformComponent(EntityIdentifier id, TransformComponent component);
 
         /**
          * \brief Check if entity has transform component
-         * \param id EntityId to check
+         * \param id EntityIdentifier to check
          * \return bool
          */
-        bool HasTransformComponent(EntityId id);
+        bool HasTransformComponent(EntityIdentifier id);
 
         /**
          * \brief Get transform component of entity
-         * \param id EntityId to get
+         * \param id EntityIdentifier to get
          * \return TransformComponent
          */
-        TransformComponent GetTransformComponent(EntityId id);
+        TransformComponent GetTransformComponent(EntityIdentifier id);
 
         /**
          * \brief Delete transform component of entity
-         * \param id EntityId to delete
+         * \param id EntityIdentifier to delete
          */
-        void DeleteTransformComponent(EntityId id);
+        void DeleteTransformComponent(EntityIdentifier id);
 
         /**
          * \brief Set transform position of entity
-         * \param id EntityId to set
+         * \param id EntityIdentifier to set
          * \param position position to set
          */
-        void SetTransformPosition(EntityId id, glm::vec3 position);
+        void SetTransformPosition(EntityIdentifier id, glm::vec3 position);
 
         /**
          * \brief Set transform rotation of entity
-         * \param id EntityId to set
+         * \param id EntityIdentifier to set
          * \param rotation rotation to set
          */
-        void SetTransformRotation(EntityId id, float rotation);
+        void SetTransformRotation(EntityIdentifier id, float rotation);
 
         /**
          * \brief Set transform scale of entity
-         * \param id EntityId to set
+         * \param id EntityIdentifier to set
          * \param scale scale to set
          */
-        void SetTransformScale(EntityId id, glm::vec2 scale);
+        void SetTransformScale(EntityIdentifier id, glm::vec2 scale);
 
         /**
          * \brief Get transform position of entity
-         * \param id EntityId to get
+         * \param id EntityIdentifier to get
          * \return glm::vec3
          */
-        glm::vec3 GetTransformPosition(EntityId id);
+        glm::vec3 GetTransformPosition(EntityIdentifier id);
 
         /**
          * \brief Get transform rotation of entity
-         * \param id EntityId to get
+         * \param id EntityIdentifier to get
          * \return float
          */
-        float GetTransformRotation(EntityId id);
+        float GetTransformRotation(EntityIdentifier id);
 
         /**
          * \brief Get transform scale of entity
-         * \param id EntityId to get
+         * \param id EntityIdentifier to get
          * \return glm::vec2
          */
-        glm::vec2 GetTransformScale(EntityId id);
+        glm::vec2 GetTransformScale(EntityIdentifier id);
     private:
         TransformSystem* m_TransformSystem;
     };

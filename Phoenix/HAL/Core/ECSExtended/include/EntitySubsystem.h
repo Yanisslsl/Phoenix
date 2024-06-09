@@ -1,4 +1,6 @@
 #pragma once
+#include <entt/entt.hpp>
+
 #include "ECS/include/ColliderSystem.h"
 #include "ECS/include/EntityManager.h"
 #include "ECS/include/TransformSystem.h"
@@ -34,7 +36,7 @@ namespace Phoenix
          * \brief Destroy Entity
          * \param id 
          */
-        void DestroyEntity(EntityId id);
+        void DestroyEntity(EntityIdentifier id);
 
         /**
          * \brief Get Entity by name
@@ -61,21 +63,21 @@ namespace Phoenix
          * \param entity entityId of entity
          * \param tag Tag to add
          */
-        void AddTag(EntityId entity, TagType tag);
+        void AddTag(EntityIdentifier entity, TagType tag);
 
         /**
          * \brief Delete tag from entity
          * \param entity EntityId of entity
          * \param tag tag to delete
          */
-        void DeleteTag(EntityId entity, TagType tag);
+        void DeleteTag(EntityIdentifier entity, TagType tag);
 
         /**
          * \brief Get tag of entity
          * \param entity EntityId of entity
          * \return TagType
          */
-        TagType GetTag(EntityId entity);
+        TagType GetTag(EntityIdentifier entity);
 
          /**
          * \brief Update all entities, and call bound update functions
@@ -89,10 +91,10 @@ namespace Phoenix
 
          /**
          * \brief Get entity by id
-         * \param id EntityId of entity
+         * \param id EntityIdentifier
          * \return Ref of Entity
          */
-        Ref<Entity> GetEntityById(EntityId id);
+        Ref<Entity> GetEntityById(EntityIdentifier id);
 
         /**
          * \brief Get all entities
@@ -118,7 +120,44 @@ namespace Phoenix
          * \param value is_Initialized value
          */
         void SetIsInitialized(bool value);
+
     private:
+     /** 
+      * \brief entt internal registry to manage entities 
+      */
+     
+     // entt::registry m_Registry;
+     //
+     // entt::entity Create()
+     // {
+     //  return m_Registry.create();
+     // }
+     //
+     // template<typename Component, typename... Args>
+     // void Add(entt::entity entity, Args&&... args)
+     // {
+     //    m_Registry.emplace<Component>(entity, std::forward<Args>(args)...);
+     // }
+     //
+     // template<typename Component>
+     // Component& Get(entt::entity entity)
+     // {
+     //    return m_Registry.get<Component>(entity);
+     // }
+     //
+     // template<typename Component>
+     // void RemoveComponent(entt::entity entity)
+     // {
+     //    m_Registry.remove<Component>(entity);
+     // }
+     //
+     // void Destroy(entt::entity entity)
+     // {
+     //    m_Registry.destroy(entity);
+     // }
+
+    private:
+     
         friend class Entity;
         EntityManager* m_EntityManager;
         TransformSystem* m_TransformSystem;

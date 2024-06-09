@@ -12,12 +12,11 @@ namespace Phoenix
     /**
      * \brief SpriteComponent class that represent a sprite component in the game.
      */
-    struct SpriteComponent:  IComponent, public Phoenix::AutoRegister<SpriteComponent>
+    struct SpriteComponent:  IComponent,  AutoRegister<SpriteComponent>
     {
-    public:
         std::string textureFilePath;
         ColorCode colorCode;
-        EntityId entityId;
+        EntityIdentifier entityId;
         SpriteComponent() = default;
         SpriteComponent(std::string texturePath)
         {
@@ -57,15 +56,15 @@ namespace Phoenix
          * \param entity EntityId to add
          * \param spriteComponent SpriteComponent to add
          */
-        void AddSpriteComponent(EntityId entity, SpriteComponent spriteComponent);
+        void AddSpriteComponent(EntityIdentifier entity, SpriteComponent spriteComponent);
 
         /**
          * \brief Get whether the entity has a sprite component
          * \param entity EntityId  to check
          * \return if entity has sprite component
          */
-        bool HasSpriteComponent(EntityId entity);
-        SpriteComponent GetSpriteComponent(EntityId entity);
+        bool HasSpriteComponent(EntityIdentifier entity);
+        SpriteComponent GetSpriteComponent(EntityIdentifier entity);
     private:
         SpriteSystem* m_SpriteSystem;
     };
