@@ -49,13 +49,13 @@ namespace Phoenix
         float width;
         float height;
         std::string m_Node_Id;
-        EntityId m_EntityId;
         int maxHitCalls;
         int hitCalls = 0;
 
         bool operator==(const BoxCollider& other) const
         {
-            return m_EntityId == other.m_EntityId;
+            // return m_EntityId == other.m_EntityId;
+            return true;
         }
 
         /**
@@ -88,26 +88,31 @@ namespace Phoenix
 
         virtual void Serialize(BlobSerializer& serializer) override
         {
-            serializer.WriteHeader(BoxColliderComponentSerializeType);
-            serializer.Write(&type, sizeof(type));
-            serializer.Write(&position, sizeof(position));
-            serializer.Write(&shape, sizeof(shape));
-            serializer.Write(&width, sizeof(width));
-            serializer.Write(&height, sizeof(height));
-            serializer.Write(&m_EntityId, sizeof(m_EntityId));
-            serializer.Write(&maxHitCalls, sizeof(maxHitCalls));
-            serializer.Write(&hitCalls, sizeof(hitCalls));
+            // serializer.WriteHeader(BoxColliderComponentSerializeType);
+            // serializer.Write(&type, sizeof(type));
+            // serializer.Write(&position, sizeof(position));
+            // serializer.Write(&shape, sizeof(shape));
+            // serializer.Write(&width, sizeof(width));
+            // serializer.Write(&height, sizeof(height));
+            // serializer.Write(&m_EntityId, sizeof(m_EntityId));
+            // serializer.Write(&maxHitCalls, sizeof(maxHitCalls));
+            // serializer.Write(&hitCalls, sizeof(hitCalls));
         }
         virtual void Deserialize(BlobSerializer& serializer) override
         {
-            serializer.Read(&type, sizeof(type));
-            serializer.Read(&position, sizeof(position));
-            serializer.Read(&shape, sizeof(shape));
-            serializer.Read(&width, sizeof(width));
-            serializer.Read(&height, sizeof(height));
-            serializer.Read(&m_EntityId, sizeof(m_EntityId));
-            serializer.Read(&maxHitCalls, sizeof(maxHitCalls));
-            serializer.Read(&hitCalls, sizeof(hitCalls));
+            // serializer.Read(&type, sizeof(type));
+            // serializer.Read(&position, sizeof(position));
+            // serializer.Read(&shape, sizeof(shape));
+            // serializer.Read(&width, sizeof(width));
+            // serializer.Read(&height, sizeof(height));
+            // serializer.Read(&m_EntityId, sizeof(m_EntityId));
+            // serializer.Read(&maxHitCalls, sizeof(maxHitCalls));
+            // serializer.Read(&hitCalls, sizeof(hitCalls));
+        }
+
+        virtual bool IsValid()
+        {
+            return false;
         }
     };
 

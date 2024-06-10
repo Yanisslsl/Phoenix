@@ -122,7 +122,7 @@ namespace Phoenix
         {
             for(auto entity : entities)
             {
-                if (ImGui::TreeNode((void*)(intptr_t)entity->m_id, entity->GetName().c_str()))
+                if (ImGui::TreeNode((void*)(intptr_t)entity->m_EntityHandle, entity->GetName().c_str()))
                 {
                     // if (ImGui::TreeNode((void*)(intptr_t)(entity->m_id * 100), "Transform Component"))
                     // {

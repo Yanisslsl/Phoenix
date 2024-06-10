@@ -28,16 +28,6 @@ namespace Phoenix
 
     TransformComponent TransformSubsytem::GetTransformComponent(EntityIdentifier entity)
     {
-        // TransformComponent component;
-        // glm::vec3 position = m_TransformSystem->GetEntityPosition(id);
-        // float rotation = m_TransformSystem->GetEntityRotation(id);
-        // glm::vec2 scale = m_TransformSystem->GetEntityScale(id);
-        // component.position = position;
-        // component.rotation = rotation;
-        // component.scale = scale;
-        // component.entityId = id;
-        // return component;
-
         return Application::Get().GetRegistry().get<TransformComponent>(entity);
     }
 
@@ -48,7 +38,6 @@ namespace Phoenix
 
     void TransformSubsytem::SetTransformPosition(EntityIdentifier entity, glm::vec3 position)
     {
-        // m_TransformSystem->SetEntityPostion(id, position);
         Application::Get().GetRegistry().patch<TransformComponent>(entity, [&position](TransformComponent& component) { component.position = position; });
     }
 

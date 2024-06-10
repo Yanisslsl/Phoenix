@@ -121,7 +121,6 @@ namespace Phoenix
          */
         void SetIsInitialized(bool value);
 
-    private:
      /** 
       * \brief entt internal registry to manage entities 
       */
@@ -157,10 +156,8 @@ namespace Phoenix
      // }
 
     private:
-     
         friend class Entity;
         EntityManager* m_EntityManager;
-        TransformSystem* m_TransformSystem;
         bool is_Initialized = false;
         /**
          * \brief Used to initialized entities in their onStartMethod;

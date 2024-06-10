@@ -31,6 +31,7 @@ namespace Phoenix
         IComponent() = default;
         virtual void Serialize(BlobSerializer& serializer) = 0;
         virtual void Deserialize(BlobSerializer& serializer) = 0;
+        virtual bool IsValid() = 0;
     };
 
     /**
@@ -44,7 +45,7 @@ namespace Phoenix
             
         }
         Entity(EntityIdentifier id, std::string name, TagType tag = 0, bool isStandAlone = true)
-        : m_id(id)
+        : m_EntityHandle(id)
         , m_name(name)
         , m_Tag(tag)
         , isStandAlone(isStandAlone)
@@ -270,15 +271,13 @@ namespace Phoenix
         void Deserialize(BlobSerializer& serializer) override;
     public:
         std::string m_name;
-        EntityIdentifier m_id;
+        EntityIdentifier m_EntityHandle{entt::null};;
         TagType m_Tag = 0;
         std::function<void()> m_updateFunction;
         bool isStandAlone = false;
     private:
         Entity* m_parent;
         std::vector<Ref<Entity>> m_children;
-    private:
-         entt::entity m_EntityHandle{entt::null};
     };
 }
 
