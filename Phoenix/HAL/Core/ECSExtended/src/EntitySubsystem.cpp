@@ -3,6 +3,7 @@
 #include <entt/entt.hpp>
 
 #include "Core/Application/include/Application.h"
+#include "Core/ECSExtended/include/Entity.h"
 
 namespace Phoenix
 {

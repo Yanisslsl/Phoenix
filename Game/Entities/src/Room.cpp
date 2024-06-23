@@ -1,6 +1,7 @@
 ﻿#include "../include/Room.h"
 
 #include "Core/Application/include/Application.h"
+#include "Core/ECSExtended/include/Entity.h"
 #include "Utils/UUID.h"
 #include "Core/ECSExtended/include/EntitySubsystem.h"
 #include "Core/ECSExtended/include/TransformSubsytem.h"

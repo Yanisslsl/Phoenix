@@ -8,12 +8,10 @@ namespace Phoenix
 {
     TransformSubsytem::TransformSubsytem()
     {
-        m_TransformSystem = new TransformSystem(1, 1000);
     }
 
     TransformSubsytem::~TransformSubsytem()
     {
-        delete m_TransformSystem;
     }
 
     void TransformSubsytem::AddTransformComponent(EntityIdentifier entity, TransformComponent component)

@@ -1,9 +1,10 @@
 ﻿
 #pragma once
-#include "ECS/include/TransformSystem.h"
+#include <glm/vec2.hpp>
+#include <glm/vec3.hpp>
+
 #include "Core.h"
-#include "Entity.h"
-#include "Core/Serialization/include/BlobSerializer.h"
+#include "IComponent.h"
 
 namespace Phoenix
 {
@@ -25,18 +26,18 @@ namespace Phoenix
         EntityIdentifier entityId;
         virtual void Serialize(BlobSerializer& serializer) override
         {
-            serializer.WriteHeader(TransformComponentSerializeType);
-            serializer.Write(&position, sizeof(position));
-            serializer.Write(&rotation, sizeof(rotation));
-            serializer.Write(&scale, sizeof(scale));
-            serializer.Write(&entityId, sizeof(entityId));
+            // serializer.WriteHeader(TransformComponentSerializeType);
+            // serializer.Write(&position, sizeof(position));
+            // serializer.Write(&rotation, sizeof(rotation));
+            // serializer.Write(&scale, sizeof(scale));
+            // serializer.Write(&entityId, sizeof(entityId));
         }
         virtual void Deserialize(BlobSerializer& serializer) override
         {
-            serializer.Read(&position, sizeof(position));
-            serializer.Read(&rotation, sizeof(rotation));
-            serializer.Read(&scale, sizeof(scale));
-            serializer.Read(&entityId, sizeof(entityId));
+            // serializer.Read(&position, sizeof(position));
+            // serializer.Read(&rotation, sizeof(rotation));
+            // serializer.Read(&scale, sizeof(scale));
+            // serializer.Read(&entityId, sizeof(entityId));
         }
 
         virtual bool IsValid() override
@@ -125,7 +126,5 @@ namespace Phoenix
          * \return glm::vec2
          */
         glm::vec2 GetTransformScale(EntityIdentifier id);
-    private:
-        TransformSystem* m_TransformSystem;
     };
 }

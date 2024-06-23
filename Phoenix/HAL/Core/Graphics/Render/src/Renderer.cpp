@@ -1,6 +1,5 @@
 #include "../include/Renderer.h"
 
-#include <glm/ext/matrix_clip_space.hpp>
 #include <glm/ext/matrix_transform.hpp>
 #include "Utils/Color.h"
 #include "Utils/Timer.h"
@@ -9,9 +8,20 @@
 
 namespace Phoenix
 {
-    Scope<Renderer::SceneData> Renderer::s_SceneData = CreateScope<Renderer::SceneData>();
-    Scope<RendererAPI> Renderer::s_RendererAPI = RendererAPI::Create();
-    std::map<std::string, ShapeData> Renderer::s_ShapeData = std::map<std::string, ShapeData>();
+    // Scope<Renderer::SceneData> Renderer::s_SceneData = CreateScope<Renderer::SceneData>();
+    // Scope<RendererAPI> Renderer::s_RendererAPI = RendererAPI::Create();
+    // std::map<std::string, ShapeData> Renderer::s_ShapeData = std::map<std::string, ShapeData>();
+
+    Renderer::Renderer()
+    {
+        s_SceneData = CreateScope<SceneData>();
+        s_RendererAPI = RendererAPI::Create();
+        s_ShapeData = std::map<std::string, ShapeData>();
+    }
+
+    Renderer::~Renderer()
+    {
+    }
 
     void Renderer::Init()
     {

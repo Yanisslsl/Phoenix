@@ -9,6 +9,8 @@
 #include "Core/Serialization/include/BlobSerializer.h"
 #include "Core/ECSExtended/include/Entity.h"
 
+#include <glm/ext/matrix_transform.hpp>
+
 namespace Phoenix
 {
     template<typename T>
@@ -20,7 +22,7 @@ namespace Phoenix
     template<>
     void Entity::OnComponentUpdated<Phoenix::TransformComponent>(TransformComponent component)
     {
-        Renderer::UpdateModelMatrix(m_name, GetWorldModelMatrix());
+        Application::Get().GetRenderer()->UpdateModelMatrix(m_name, GetWorldModelMatrix());
     }
 
     template <>
@@ -36,11 +38,11 @@ namespace Phoenix
         if(component.textureFilePath.empty())
         {
             Application::Get().GetSubSystem<SpriteSubsystem>()->AddSpriteComponent(m_EntityHandle, component);
-            Renderer::CreateQuad(m_name, Colors::GetColor(component.colorCode),glm::mat4(1));
+            Application::Get().GetRenderer()->CreateQuad(m_name, Colors::GetColor(component.colorCode),glm::mat4(1));
         } else if(!component.textureFilePath.empty())
         {
             Application::Get().GetSubSystem<SpriteSubsystem>()->AddSpriteComponent(m_EntityHandle, component);
-            Renderer::CreateQuad(m_name, component.textureFilePath.c_str(), glm::mat4(1));
+            Application::Get().GetRenderer()->CreateQuad(m_name, component.textureFilePath.c_str(), glm::mat4(1));
         } else
         {
             PX_CORE_ASSERT(false, "Sprite is not properly initialized");
@@ -63,7 +65,7 @@ namespace Phoenix
     void Entity::SetTransformPosition(glm::vec3 position)
     {
         Application::Get().GetSubSystem<TransformSubsytem>()->SetTransformPosition(m_EntityHandle, position);
-        Renderer::UpdateModelMatrix(m_name, GetWorldModelMatrix());
+        Application::Get().GetRenderer()->UpdateModelMatrix(m_name, GetWorldModelMatrix());
         if(!Application::Get().GetSubSystem<CollisionSubSytem>()->HasCollider(m_EntityHandle)) return;
         Application::Get().GetSubSystem<CollisionSubSytem>()->Update(m_EntityHandle, position);
     }
@@ -76,7 +78,7 @@ namespace Phoenix
     void Entity::SetRotation(float rotation)
     {
         Application::Get().GetSubSystem<TransformSubsytem>()->SetTransformRotation(m_EntityHandle, rotation);
-        Renderer::UpdateModelMatrix(m_name, GetWorldModelMatrix());
+        Application::Get().GetRenderer()->UpdateModelMatrix(m_name, GetWorldModelMatrix());
     }
 
     glm::vec2 Entity::GetScale() const
@@ -86,7 +88,7 @@ namespace Phoenix
     void Entity::SetScale(glm::vec2 scale)
     {
         Application::Get().GetSubSystem<TransformSubsytem>()->SetTransformScale(m_EntityHandle, scale);
-        Renderer::UpdateModelMatrix(m_name, GetWorldModelMatrix());
+        Application::Get().GetRenderer()->UpdateModelMatrix(m_name, GetWorldModelMatrix());
     }
 
     void Entity::Destroy()
@@ -95,14 +97,14 @@ namespace Phoenix
         Application::Get().GetSubSystem<CollisionSubSytem>()->DeleteCollider(m_EntityHandle);
         Application::Get().GetSubSystem<AnimationSubsystem>()->DeleteAnimation(m_EntityHandle);
         Application::Get().GetSubSystem<EntitySubsystem>()->DestroyEntity(m_EntityHandle);
-        Renderer::DeleteShape(m_name);
+        Application::Get().GetRenderer()->DeleteShape(m_name);
     }
 
     void Entity::SetScale(int scale)
     {
         const glm::vec2 scaleVec = glm::vec2((float)scale, (float)scale);
         Application::Get().GetSubSystem<TransformSubsytem>()->SetTransformScale(m_EntityHandle, scaleVec);
-        Renderer::UpdateModelMatrix(m_name, GetWorldModelMatrix());
+        Application::Get().GetRenderer()->UpdateModelMatrix(m_name, GetWorldModelMatrix());
     }
 
     glm::mat4 Entity::GetLocalModelMatrix() const

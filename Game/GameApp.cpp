@@ -5,8 +5,7 @@
 #include "Entities/include/Room.h"
 #include "Utils/UUID.h"
 #include "Core/ECSExtended/include/EntitySubsystem.h"
-#include "Core/ECSExtended/include/TransformSubsytem.h"
-#include "Core/ECSExtended/include/Entity.h"
+
 
 
 class MainLayer : public Phoenix::Layer
@@ -99,22 +98,6 @@ private:
 	std::vector<std::string> entitiesToDelete;
 	
 };
-class GameApp : public Phoenix::Application
-{
-public:
-	GameApp(): Application(Phoenix::ApplicationMode::Wrapped)
-	{
-		PushLayer(new MainLayer(this));
-		Run();
-	}
 
-	~GameApp()
-	{
-		
-	}
-};
 
-Phoenix::Application* Phoenix::CreateApplication()
-{
-	return new GameApp();
-}
+

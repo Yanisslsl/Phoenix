@@ -2,6 +2,7 @@
 
 #include "Core/Scene/include/Scene.h"
 
+#include "Core/Application/include/Application.h"
 #include "Core/Graphics/Render/include/Renderer.h"
 #include "Core/Serialization/include/BlobSerializer.h"
 #include "Core/Serialization/include/SerializerSubsystem.h"
@@ -21,10 +22,10 @@ namespace Phoenix
 
     void Scene::OnUpdate()
     {
-        Renderer::SetClearColor({ 0.0f, 0.0f, 0.0f, 1 });
-        Renderer::Clear();
-        Renderer::BeginScene(m_CameraController->GetCamera());
-        Renderer::OnUpdate();
+        Application::Get().GetRenderer()->SetClearColor({ 0.0f, 0.0f, 0.0f, 1 });
+        Application::Get().GetRenderer()->Clear();
+        Application::Get().GetRenderer()->BeginScene(m_CameraController->GetCamera());
+        Application::Get().GetRenderer()->OnUpdate();
     }
 
     void Scene::OnStop()

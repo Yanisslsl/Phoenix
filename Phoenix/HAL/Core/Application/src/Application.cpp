@@ -6,6 +6,7 @@
 #include "Events/EventDispatcher.h"
 #include "Utils/Timer.h"
 #include "Core/ECSExtended/include/TransformSubsytem.h"
+#include "Core/Graphics/Render/include/Renderer3D.h"
 
 
 namespace Phoenix
@@ -13,7 +14,7 @@ namespace Phoenix
 
 	Application* Application::s_Instance = nullptr;
 
-	Application::Application(ApplicationMode mode): m_Mode(mode)
+	Application::Application(ApplicationMode mode, RenderingMode renderingMode): m_Mode(mode), m_RenderingMode(renderingMode)
 	{
 		m_Window = WindowHal::Create(WindowProps("Phoenix Engine", 1280, 720));
 		m_Window->SetEventCallback(PX_BIND_EVENT_FN(Application::OnEvent));
@@ -26,7 +27,15 @@ namespace Phoenix
 		m_AnimationSubsystem = new AnimationSubsystem();
 		m_SerializerSubsystem = new SerializerSubsystem();
 		m_SpriteSubsystem = new SpriteSubsystem();
-		Renderer::Init();
+		if(renderingMode == RenderingMode::RENDERER_3D)
+		{
+			m_Renderer = new Renderer3D();
+		}
+		else if(renderingMode == RenderingMode::RENDERER_2D)
+		{
+			m_Renderer = new Renderer();
+		}
+		m_Renderer->Init();
 #ifdef PX_DEBUG
 		m_Editor_Layer = new EditorLayer();
 		PushOverlay(m_Editor_Layer);
@@ -35,7 +44,7 @@ namespace Phoenix
 	
 	Application::~Application()
 	{
-		Renderer::Shutdown();
+		m_Renderer->Shutdown();
 		m_LayerStack.~LayerStack();
 		delete m_SerializerSubsystem;
 		delete m_InputActionRegistratorSubsystem;
@@ -101,7 +110,7 @@ namespace Phoenix
 
 	bool Application::OnWindowResize(WindowResizeEvent& e)
 	{
-		Renderer::OnWindowResize(e.GetWidth(), e.GetHeight());
+		m_Renderer->OnWindowResize(e.GetWidth(), e.GetHeight());
 		return false;
 	}
 

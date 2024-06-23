@@ -1,16 +1,15 @@
 #pragma once
 #include <entt/entt.hpp>
 
-#include "ECS/include/ColliderSystem.h"
-#include "ECS/include/EntityManager.h"
-#include "ECS/include/TransformSystem.h"
+#include "Tag.h"
+#include "Base/Base.h"
 
 
 namespace Phoenix
 {
-    class EntitySubsystem;
+ class Entity;
 
-    /**
+ /**
      * \brief Wrapper around the entity creation and destruction.
      *        Use EntityManager and systems to manage the entities.
      */
@@ -50,7 +49,7 @@ namespace Phoenix
          * \param entityId 
          * \param updateFunction 
          */
-        void BindUpdate(EntityId entityId, std::function<void()> updateFunction);
+        void BindUpdate(EntityIdentifier entityId, std::function<void()> updateFunction);
 
         /**
          * \brief Bind onStart function to any method
@@ -120,9 +119,6 @@ namespace Phoenix
          * \param value is_Initialized value
          */
         void SetIsInitialized(bool value);
-
-        void BindUpdate(EntityIdentifier entityId, std::function<void()> updateFunction);
-
     private:
         friend class Entity;
         bool is_Initialized = false;

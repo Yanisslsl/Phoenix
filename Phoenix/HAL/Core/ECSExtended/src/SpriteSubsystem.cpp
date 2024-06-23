@@ -6,12 +6,10 @@ namespace Phoenix
 {
     SpriteSubsystem::SpriteSubsystem()
     {
-        m_SpriteSystem = new SpriteSystem(0, 1000);
     }
 
     SpriteSubsystem::~SpriteSubsystem()
     {
-        delete m_SpriteSystem;
     }
 
     bool SpriteSubsystem::HasSpriteComponent(EntityIdentifier entity)

@@ -1,18 +1,28 @@
-﻿// CollisionSubSytem.h
-
-#pragma once
+﻿#pragma once
 
 #define UUID_SYSTEM_GENERATOR
 
+#include <glm/vec2.hpp>
+
 #include "Core.h"
-#include "Core/ECSExtended/include/Entity.h"
-#include "ECS/include/ColliderData.h"
+#include "Core/ECSExtended/include/IComponent.h"
 #include "Core/Serialization/include/BlobSerializer.h"
-#include "ECS/include/ColliderSystem.h"
 
 namespace Phoenix
 {
     class CollisionSubSytem;
+
+    enum class CollisionType
+    {
+        STATIC,
+        DYNAMIC
+    };
+
+    enum class CollisionShape
+    {
+        CIRCLE,
+        RECTANGLE
+    };
 
     /**
      * \brief Max colliders allowed by node

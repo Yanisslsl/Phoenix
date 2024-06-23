@@ -2,8 +2,7 @@
 #include <map>
 
 #include "Core.h"
-#include "Core/ECSExtended/include/Entity.h"
-#include "ECS/include/AnimationSystem.h"
+#include "Core/ECSExtended/include/IComponent.h"
 #include "Core/Serialization/include/BlobSerializer.h"
 
 namespace Phoenix

@@ -1,6 +1,6 @@
-﻿#include "../include/AnimationSubsystem.h"
-
+﻿#include "Core/Animation/include/AnimationSubsystem.h"
 #include "Core/Application/include/Application.h"
+#include "Core/ECSExtended/include/Entity.h"
 #include "Core/ECSExtended/include/EntitySubsystem.h"
 #include "Utils/Timer.h"
 
@@ -60,7 +60,7 @@ namespace Phoenix
             component.currentTimes[name] = 0;
             component.currentFrames[name] = 0;
         });
-        Renderer::SetTexturesPaths(entityName, name , paths);
+        Application::Get().GetRenderer()->SetTexturesPaths(entityName, name , paths);
     }
 
     void AnimationSubsystem::PlayAnimation(EntityIdentifier entityId, std::string name, std::function<void()> onAnimationEnd)
@@ -93,7 +93,7 @@ namespace Phoenix
             });
         }
         
-        Renderer::EnableShapeTexture(entity.name, name);
+        Application::Get().GetRenderer()->EnableShapeTexture(entity.name, name);
     }
 
     void AnimationSubsystem::Update()
@@ -150,7 +150,7 @@ namespace Phoenix
                 component.currentFrames[currentAnimationName] = currentFrame;
             });
             
-            Renderer::SetTextureIndex(entity.name, currentFrame);
+            Application::Get().GetRenderer()->SetTextureIndex(entity.name, currentFrame);
         }
         else
         {

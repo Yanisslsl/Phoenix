@@ -1,8 +1,9 @@
 #pragma once
 #include <entt/entity/registry.hpp>
 #include "Application.h"
-#include "Core/Animation/include/AnimationSubsystem.h"
+#include "Core/ECSExtended/include/EntitySubsystem.h"
 #include "Core/ECSExtended/include/SpriteSubsystem.h"
+#include "Core/Graphics/Render/include/Renderer.h"
 #include "Core/Input/include/InputActionRegistratorSubSystem.h"
 #include "Core/Physics/include/CollisionSubSytem.h"
 #include "Core/Scene/include/SceneManagerSubSystem.h"
@@ -17,6 +18,7 @@ namespace Phoenix
 {
 	class Layer;
 	class TransformSubsytem;
+	class AnimationSubsystem;
 
 
 	/**
@@ -42,6 +44,13 @@ namespace Phoenix
 		Wrapped,
 	};
 
+
+	enum class RenderingMode
+	{
+		RENDERER_2D,
+		RENDERER_3D,
+	};
+
 	class PHOENIX_API Application
 	{
 	public:
@@ -49,7 +58,7 @@ namespace Phoenix
          * \brief Application constructor
          * \param mode 
          */
-		Application(ApplicationMode mode);
+		Application(ApplicationMode mode, RenderingMode renderingMode = RenderingMode::RENDERER_3D);
 
 		/**
          * \brief Application destructor
@@ -220,13 +229,28 @@ namespace Phoenix
 			return m_SpriteSubsystem;
 		}
 
+		/** 
+		 * \brief Get the registry
+		 * \return 
+		 */
 		entt::registry& GetRegistry()
 		{
 			return m_Registry;
 		}
+
+		/**
+		 * \brief Get the renderer
+		 * \return 
+		 */
+		Renderer* GetRenderer()
+		{
+			return m_Renderer;
+		}
+		
 	private:
 		ApplicationMode m_Mode;
 		ErrorCode m_ErrorCode = ErrorCode::NO_ERROR;
+		RenderingMode m_RenderingMode;
 	private:
 		std::unique_ptr<WindowHal> m_Window;
 		static Application* s_Instance;
@@ -241,8 +265,7 @@ namespace Phoenix
 		AnimationSubsystem* m_AnimationSubsystem;
 		SerializerSubsystem* m_SerializerSubsystem;
 		SpriteSubsystem* m_SpriteSubsystem;
-
-	private:
+		Renderer* m_Renderer;
 		entt::registry m_Registry;
 	};
 

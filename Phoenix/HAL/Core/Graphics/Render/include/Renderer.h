@@ -60,60 +60,70 @@ namespace Phoenix
         //  === Animation ===
         ColorType color;
     };
+
+
+    /**
+     * \brief @REFACTORED Renderer class need to be refactored to be inherited from Renderer2D and Renderer3D
+     * Move all no 2D related functions to Renderer2D and all 3D related functions to Renderer3D, will be ok for now
+     */
     class PHOENIX_API Renderer
     {
     public:
+
+        Renderer();
+
+        ~Renderer();
         
         /**
          * \brief Initialization of the Renderer call this function in the Application constructor
          */
-        static void Init();
+        void Init();
 
         /**
          * \brief EventListener for window resize
          * \param width
          * \param height
          */
-        static void OnWindowResize(uint32_t width, uint32_t height);
+        void OnWindowResize(uint32_t width, uint32_t height);
         
         /**
          * \brief Set the clear color of the window
          * \param color
          */
-        static void SetClearColor(const ColorRGBA color);
+        void SetClearColor(const ColorRGBA color);
         
         /**
          * \brief Clear the window
          */
-        static void Clear();
+        void Clear();
         
         /**
          * \brief Draw the indexed vertex array
          * \param vertexArray
          * \param indexCount
          */
-        static void DrawIndexed(const Ref<VertexArray>& vertexArray, uint32_t indexCount = 0);
+        void DrawIndexed(const Ref<VertexArray>& vertexArray, uint32_t indexCount = 0);
         
         /**
          * \brief Draw the lines
          * \param vertexArray
          * \param vertexCount
          */
-        static void DrawLines(const Ref<VertexArray>& vertexArray, uint32_t vertexCount);
+        void DrawLines(const Ref<VertexArray>& vertexArray, uint32_t vertexCount);
 
         /**
          * \brief Shutdown the Renderer
          */
-        static void Shutdown();
+        void Shutdown();
         /** 
          * \brief Begin the scene
          */
-        static void BeginScene();
+        void BeginScene();
 
         /** 
          * \brief End the scene
          */
-        static void EndScene();
+        void EndScene();
 
         /**
          * \brief Submit the shape to the renderer
@@ -124,14 +134,14 @@ namespace Phoenix
          * \param modelMat
          * \param textureData
          */
-        static void Submit(const Ref<Shader>& shader, const Ref<VertexArray>& vertexArray, Ref<Texture> texture, ColorType color, glm::mat4 modelMat, TextureData textureData);
+        void Submit(const Ref<Shader>& shader, const Ref<VertexArray>& vertexArray, Ref<Texture> texture, ColorType color, glm::mat4 modelMat, TextureData textureData);
 
         /**
          * \brief Create quad
          */
-        static  void CreateQuad(std::string name, const char* texturePath, const glm::mat4 modelMat);
+         void CreateQuad(std::string name, const char* texturePath, const glm::mat4 modelMat);
 
-        static void CreateQuad(std::string name, const ColorType color , const glm::mat4 modelMat);
+        void CreateQuad(std::string name, const ColorType color , const glm::mat4 modelMat);
 
         /**
          * \brief Create shape
@@ -143,7 +153,7 @@ namespace Phoenix
          * \param bufferlayout 
          * \param transform 
          */
-        static void CreateShape(std::string name, std::vector<float> vertices, std::vector<uint32_t> indices, const char* vertexShader, const char* fragmentShader, const BufferLayout bufferlayout ,const glm::mat4 modelMat);
+        void CreateShape(std::string name, std::vector<float> vertices, std::vector<uint32_t> indices, const char* vertexShader, const char* fragmentShader, const BufferLayout bufferlayout ,const glm::mat4 modelMat);
 
         /**
          * \brief Create textured shape
@@ -156,7 +166,7 @@ namespace Phoenix
          * \param texturePath 
          * \param transform 
          */
-        static void CreateTexturedShape(std::string name, std::vector<float> vertices, std::vector<uint32_t> indices, const char* vertexShader, const char* fragmentShader, const BufferLayout bufferlayout ,const char* texturePath, const glm::mat4 modelMat);
+        void CreateTexturedShape(std::string name, std::vector<float> vertices, std::vector<uint32_t> indices, const char* vertexShader, const char* fragmentShader, const BufferLayout bufferlayout ,const char* texturePath, const glm::mat4 modelMat);
 
 
         /** 
@@ -165,14 +175,14 @@ namespace Phoenix
          * \param name 
          * \param texturesPaths 
          */
-        static void SetTexturesPaths(std::string shapeName, std::string name, std::vector<std::string> texturesPaths);
+        void SetTexturesPaths(std::string shapeName, std::string name, std::vector<std::string> texturesPaths);
 
         /** 
          * \brief Set texture index
          * \param shapeName
          * \param textureIndex 
          */
-        static void SetTextureIndex(std::string shapeName, int textureIndex);
+        void SetTextureIndex(std::string shapeName, int textureIndex);
 
         /** 
          * \brief Enable shape texture
@@ -180,46 +190,46 @@ namespace Phoenix
          * \param shapeName
          * \param name 
          */
-        static void EnableShapeTexture(std::string shapeName, std::string name);
+        void EnableShapeTexture(std::string shapeName, std::string name);
 
         /** 
          * \brief Disable shape texture
          * \param name 
          */
-        static void DeleteShape(std::string name);
+        void DeleteShape(std::string name);
         /**
          * \brief 
          * \return The rendered API, be cautious when using RendererAPI::API
          */
-        static RendererAPI::API GetAPI() { return RendererAPI::GetAPI(); }
+        RendererAPI::API GetAPI() { return RendererAPI::GetAPI(); }
 
         /**
          * \brief Return the shader by name, useful for updating the shader
          * \param name 
          * \return 
          */
-        static Ref<Shader> GetShader(std::string name);
+        Ref<Shader> GetShader(std::string name);
 
         /**
          * \brief Update the Renderer
          *
          * This function is responsible for rendering all of the objects in the scene
          */
-        static void OnUpdate();
+        void OnUpdate();
 
      
         /**
          * \brief Begin the scene
          * \param camera 
          */
-        static void BeginScene(OrthographicCamera& camera);
+        void BeginScene(OrthographicCamera& camera);
 
         /**
          * \brief Update the shape model matrix
          * \param name 
          * \param modelMat 
          */
-        static void UpdateModelMatrix(std::string name, glm::mat4 modelMat);
+        void UpdateModelMatrix(std::string name, glm::mat4 modelMat);
 
 
     private:
@@ -227,16 +237,16 @@ namespace Phoenix
         {
             glm::mat4 ViewProjectionMatrix;
         };
-        static Scope<SceneData> s_SceneData;
+        Scope<SceneData> s_SceneData;
      
         /**
          * \brief Internal renderer data for shapes, used to keep track of the shapes and their data
          */
-        static std::map<std::string, ShapeData> s_ShapeData;
+        std::map<std::string, ShapeData> s_ShapeData;
 
         /**
          * \brief Abstraction of the Graphics API 
          */
-        static Scope<RendererAPI> s_RendererAPI;
+        Scope<RendererAPI> s_RendererAPI;
     };
 }

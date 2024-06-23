@@ -5,6 +5,7 @@
 
 #include "Core/Animation/include/AnimationSubsystem.h"
 #include "Core/Application/include/Application.h"
+#include "Core/ECSExtended/include/Entity.h"
 #include "Core/Serialization/include/BlobSerializer.h"
 #include "Utils/FileSystem.h"
 #include "Core/ECSExtended/include/EntitySubsystem.h"

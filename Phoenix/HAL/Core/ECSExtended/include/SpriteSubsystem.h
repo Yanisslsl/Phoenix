@@ -1,11 +1,9 @@
 ﻿#pragma once
 #include <string>
 #include "Core.h"
-#include "Entity.h"
-#include "ECS/include/EntityComponent.h"
-#include "ECS/include/SpriteSystem.h"
+#include "IComponent.h"
+#include "Base/Base.h"
 #include "Utils/Color.h"
-#include "Core/Serialization/include/BlobSerializer.h"
 
 namespace Phoenix
 {
@@ -72,6 +70,5 @@ namespace Phoenix
         bool HasSpriteComponent(EntityIdentifier entity);
         SpriteComponent GetSpriteComponent(EntityIdentifier entity);
     private:
-        SpriteSystem* m_SpriteSystem;
     };
 }
