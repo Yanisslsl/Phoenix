@@ -9,12 +9,11 @@ namespace Phoenix
 
     EntitySubsystem::EntitySubsystem()
     {
-        m_EntityManager = new EntityManager();
+        m_updateFunctions = std::map<EntityIdentifier, std::function<void()>>();
     }
 
     EntitySubsystem::~EntitySubsystem()
     {
-        delete m_EntityManager;
     }
 
     void EntitySubsystem::Initalize()
@@ -48,7 +47,7 @@ namespace Phoenix
             const auto _entity = view.get<EntityType>(entity);
             if(_entity.name == name)
             {
-                return CreateRef<Entity>(entity, _entity.name, _entity.tag, _entity.isStandAlone);
+                return CreateRef<Entity>(entity, _entity.name, _entity.tag, _entity.isStandAlone,  _entity.updateFunction);
             }
         }
         return nullptr;
@@ -62,7 +61,7 @@ namespace Phoenix
             const auto _entity = view.get<EntityType>(entity);
             if(entity == id)
             {
-                return CreateRef<Entity>(entity, _entity.name, _entity.tag, _entity.isStandAlone);
+                return CreateRef<Entity>(entity, _entity.name, _entity.tag, _entity.isStandAlone,  _entity.updateFunction);
             }
         }
         return nullptr;
@@ -75,7 +74,7 @@ namespace Phoenix
         for(auto entity : view)
         {
             const auto _entity = view.get<EntityType>(entity);
-            entities.push_back(CreateRef<Entity>(entity, _entity.name, _entity.tag, _entity.isStandAlone));
+            entities.push_back(CreateRef<Entity>(entity, _entity.name, _entity.tag, _entity.isStandAlone, _entity.updateFunction));
         }
         return entities;
     }
@@ -89,7 +88,7 @@ namespace Phoenix
             const auto _entity = view.get<EntityType>(entity);
             if(Tags::HasTag(_entity.tag, tag))
             {
-                entities.push_back(CreateRef<Entity>(entity, _entity.name, _entity.tag, _entity.isStandAlone));
+                entities.push_back(CreateRef<Entity>(entity, _entity.name, _entity.tag, _entity.isStandAlone,  _entity.updateFunction));
             }
         }
         return entities;
@@ -104,9 +103,12 @@ namespace Phoenix
         is_Initialized = value;
     }
 
-    void EntitySubsystem::BindUpdate(EntityId entityId, std::function<void()> updateFunction)
+    void EntitySubsystem::BindUpdate(EntityIdentifier entityId, std::function<void()> updateFunction)
     {
-        m_EntityManager->BindUpdate(entityId, updateFunction);
+        Application::Get().GetRegistry().patch<EntityType>(entityId, [updateFunction](EntityType& entity)
+        {
+            entity.updateFunction = updateFunction;
+        });
     }
     
     void EntitySubsystem::BindOnStart(std::function<void()> onStartFunction)
@@ -138,6 +140,7 @@ namespace Phoenix
     void EntitySubsystem::Update()
     {
         std::vector<Ref<Entity>> entities = GetEntities();
+        PX_CORE_INFO("Updating {0} entities", entities.size());
         for(auto& entity : entities)
         {
             entity->Update();

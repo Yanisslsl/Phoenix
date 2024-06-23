@@ -15,72 +15,64 @@ public:
 	MainLayer(Phoenix::Application* app = nullptr)
 		: Layer("MainLayer")
 	{
-		// m_Entities = new std::vector<Phoenix::Ref<Phoenix::ISerializable>>();
+		m_Entities = new std::vector<Phoenix::Ref<Phoenix::ISerializable>>();
 		Phoenix::Application::Get().GetSubSystem<Phoenix::SceneManagerSubSystem>()->CreateScene("MainLevel");
-		// InitLevel();
-		// SpawnMob();
-		// SpawnMob();
-		// SpawnMob();
-		// Phoenix::Application::Get().GetSubSystem<Phoenix::InputActionRegistratorSubSystem>()->RegisterAction(Phoenix::InputAction("SaveGame", Phoenix::Key::S), PX_BIND_EVENT_FN(SaveGame));
-		// Phoenix::Application::Get().GetSubSystem<Phoenix::InputActionRegistratorSubSystem>()->RegisterAction(Phoenix::InputAction("Delete", Phoenix::Key::D), PX_BIND_EVENT_FN(Delete));
-		// Phoenix::Application::Get().GetSubSystem<Phoenix::InputActionRegistratorSubSystem>()->RegisterAction(Phoenix::InputAction("LoadGame", Phoenix::Key::L), PX_BIND_EVENT_FN(LoadGame));
-
-
-		Phoenix::Ref<Phoenix::Entity> entity = Phoenix::Application::Get().GetSubSystem<Phoenix::EntitySubsystem>()->CreateEntity("Player", true);
-		entity->AddComponent(Phoenix::SpriteComponent("characters/player/player_idle.png"));
-		entity->AddComponent(Phoenix::TransformComponent{ glm::vec3(500, 500, 0.), 180, glm::vec2(1, 1) });
-		entity->SetScale(30);
-		auto vec = Phoenix::Application::Get().GetSubSystem<Phoenix::EntitySubsystem>()->GetEntities();
-		int a = 12;
+		InitLevel();
+		SpawnMob();
+		SpawnMob();
+		Phoenix::Application::Get().GetSubSystem<Phoenix::InputActionRegistratorSubSystem>()->RegisterAction(Phoenix::InputAction("SaveGame", Phoenix::Key::S), PX_BIND_EVENT_FN(SaveGame));
+		Phoenix::Application::Get().GetSubSystem<Phoenix::InputActionRegistratorSubSystem>()->RegisterAction(Phoenix::InputAction("Delete", Phoenix::Key::D), PX_BIND_EVENT_FN(Delete));
+		Phoenix::Application::Get().GetSubSystem<Phoenix::InputActionRegistratorSubSystem>()->RegisterAction(Phoenix::InputAction("LoadGame", Phoenix::Key::L), PX_BIND_EVENT_FN(LoadGame));
 	}
 
 	~MainLayer()
 	{
-		// delete m_Entities;
+		delete m_Entities;
 	}
 
 	void SpawnMob()
 	{
-		// std::random_device rd; // obtain a random number from hardware
-		// std::mt19937 gen(rd()); // seed the generator
-		// std::uniform_int_distribution<> distr(50, 1200);
-		// std::uniform_int_distribution<> distr1(20, 600);
-		// std::string mobId = "MOB_" + Phoenix::UUID::GenerateUUID();
-		// m_Entities->push_back(std::make_shared<Mob>(mobId, glm::vec2(distr(gen), distr1(gen))));
-		// Phoenix::Application::Get().GetSubSystem<Phoenix::EntitySubsystem>()->SetIsInitialized(true);
+		std::random_device rd; // obtain a random number from hardware
+		std::mt19937 gen(rd()); // seed the generator
+		std::uniform_int_distribution<> distr(50, 1200);
+		std::uniform_int_distribution<> distr1(20, 600);
+		std::string mobId = "MOB_" + Phoenix::UUID::GenerateUUID();
+		m_Entities->push_back(std::make_shared<Mob>(mobId, glm::vec2(distr(gen), distr1(gen))));
+		Phoenix::Application::Get().GetSubSystem<Phoenix::EntitySubsystem>()->SetIsInitialized(true);
 	}
 
 	void SpawnMobOnInterval()
 	{
-		// float dt = Phoenix::Timer::GetDeltaTime() * 100;
-		// m_Delta += dt;
-		// if(m_Delta > 25)
-		// {
-		// 	SpawnMob();
-		// 	m_Delta = 0;
-		// }
+		float dt = Phoenix::Timer::GetDeltaTime() * 100;
+		m_Delta += dt;
+		if(m_Delta > 25)
+		{
+			SpawnMob();
+			m_Delta = 0;
+		}
 	}
 
 	void Delete()
 	{
-		// m_Entities->clear();
+		m_Entities->clear();
 	}
 
 	void SaveGame()
 	{
-		// Phoenix::Application::Get().GetSubSystem<Phoenix::SerializerSubsystem>()->SaveCurrentScene();
+		Phoenix::Application::Get().GetSubSystem<Phoenix::SerializerSubsystem>()->SaveCurrentScene();
 	}
 
 	void LoadGame()
 	{
-		// Delete();
-		// m_Entities = Phoenix::Application::Get().GetSubSystem<Phoenix::SerializerSubsystem>()->DeserializeWrappedObjects();
+		Delete();
+		m_Entities = Phoenix::Application::Get().GetSubSystem<Phoenix::SerializerSubsystem>()->DeserializeWrappedObjects();
 	}
 
 	void InitLevel()
 	{
-		// m_Entities->push_back(std::make_shared<Room>());
-		// m_Entities->push_back(std::make_shared<Knight>());
+		m_Entities->push_back(std::make_shared<Room>());
+		m_Entities->push_back(std::make_shared<Knight>());
+		m_Entities->push_back(std::make_shared<Mob>());
 	}
 
 
@@ -110,7 +102,7 @@ private:
 class GameApp : public Phoenix::Application
 {
 public:
-	GameApp(): Application(Phoenix::ApplicationMode::Standalone)
+	GameApp(): Application(Phoenix::ApplicationMode::Wrapped)
 	{
 		PushLayer(new MainLayer(this));
 		Run();

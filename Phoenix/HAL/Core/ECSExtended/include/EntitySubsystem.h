@@ -121,43 +121,10 @@ namespace Phoenix
          */
         void SetIsInitialized(bool value);
 
-     /** 
-      * \brief entt internal registry to manage entities 
-      */
-     
-     // entt::registry m_Registry;
-     //
-     // entt::entity Create()
-     // {
-     //  return m_Registry.create();
-     // }
-     //
-     // template<typename Component, typename... Args>
-     // void Add(entt::entity entity, Args&&... args)
-     // {
-     //    m_Registry.emplace<Component>(entity, std::forward<Args>(args)...);
-     // }
-     //
-     // template<typename Component>
-     // Component& Get(entt::entity entity)
-     // {
-     //    return m_Registry.get<Component>(entity);
-     // }
-     //
-     // template<typename Component>
-     // void RemoveComponent(entt::entity entity)
-     // {
-     //    m_Registry.remove<Component>(entity);
-     // }
-     //
-     // void Destroy(entt::entity entity)
-     // {
-     //    m_Registry.destroy(entity);
-     // }
+        void BindUpdate(EntityIdentifier entityId, std::function<void()> updateFunction);
 
     private:
         friend class Entity;
-        EntityManager* m_EntityManager;
         bool is_Initialized = false;
         /**
          * \brief Used to initialized entities in their onStartMethod;
@@ -168,6 +135,7 @@ namespace Phoenix
             std::function<void()> onStartFunction;
         };
         std::vector<BindedOnStart> m_Binded_OnStarts;
+        std::map<EntityIdentifier, std::function<void()>> m_updateFunctions;
     };
 }
 

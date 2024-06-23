@@ -15,12 +15,13 @@ namespace Phoenix
     public:
         TransformComponent() = default;
         TransformComponent(glm::vec3 position, float rotation, glm::vec2 scale):
-        position(position), rotation(rotation), scale(scale)
+           position(position), rotation(rotation), scale(scale)
         {
         }
         glm::vec3 position;
         float rotation;
         glm::vec2 scale;
+     
         EntityIdentifier entityId;
         virtual void Serialize(BlobSerializer& serializer) override
         {
@@ -36,6 +37,15 @@ namespace Phoenix
             serializer.Read(&rotation, sizeof(rotation));
             serializer.Read(&scale, sizeof(scale));
             serializer.Read(&entityId, sizeof(entityId));
+        }
+
+        virtual bool IsValid() override
+        {
+            if(position == glm::vec3(0.0f) && rotation == 0.0f && scale == glm::vec2(0.0f))
+            {
+                return false;
+            }
+            return true;
         }
     };
 

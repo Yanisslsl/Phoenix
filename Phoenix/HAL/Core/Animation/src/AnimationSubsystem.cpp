@@ -26,6 +26,7 @@ namespace Phoenix
 
     void AnimationSubsystem::CreateAnimation(EntityIdentifier entity, std::string name, int totalFrames, float duration, std::vector<std::string> paths)
     {
+        auto entityName = Application::Get().GetSubSystem<EntitySubsystem>()->GetEntityById(entity)->m_name;
         if(!HasAnimation(entity))
         {
             AnimatorComponent animator = AnimatorComponent();
@@ -59,10 +60,12 @@ namespace Phoenix
             component.currentTimes[name] = 0;
             component.currentFrames[name] = 0;
         });
+        Renderer::SetTexturesPaths(entityName, name , paths);
     }
 
     void AnimationSubsystem::PlayAnimation(EntityIdentifier entityId, std::string name, std::function<void()> onAnimationEnd)
     {
+        if(!HasAnimation(entityId)) return;
         auto animatorComponent = GetAnimatorComponent(entityId);
         auto entity = Application::Get().GetRegistry().get<EntityType>(entityId);
 

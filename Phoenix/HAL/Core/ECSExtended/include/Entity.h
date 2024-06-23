@@ -44,11 +44,12 @@ namespace Phoenix
         {
             
         }
-        Entity(EntityIdentifier id, std::string name, TagType tag = 0, bool isStandAlone = true)
+        Entity(EntityIdentifier id, std::string name, TagType tag = 0, bool isStandAlone = true, std::function<void()> updateFunction = nullptr)
         : m_EntityHandle(id)
         , m_name(name)
         , m_Tag(tag)
         , isStandAlone(isStandAlone)
+        , m_updateFunction(updateFunction)
         {
             m_parent = nullptr;
             m_children = std::vector<Ref<Entity>>();

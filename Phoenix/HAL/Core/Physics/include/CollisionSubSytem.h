@@ -51,6 +51,7 @@ namespace Phoenix
         std::string m_Node_Id;
         int maxHitCalls;
         int hitCalls = 0;
+        EntityIdentifier entityId;
 
         bool operator==(const BoxCollider& other) const
         {
@@ -200,7 +201,7 @@ namespace Phoenix
          * \param entityId EntityId of the collider
          * \param position position to update
          */
-        void Update(EntityId entityId, glm::vec2 position);
+        void Update(EntityIdentifier entityId, glm::vec2 position);
 
         /**
          * \brief Remove a collider from the BST
@@ -210,30 +211,30 @@ namespace Phoenix
 
         /**
          * \brief Add a collider to the system
-         * \param entityId EntityId of the collider
+         * \param entityId EntityIdentifier of the collider
          * \param collider BoxCollider to add
          */
-        void AddCollider(EntityId entityId, BoxCollider collider);
+        void AddCollider(EntityIdentifier entityId, BoxCollider collider);
 
         /**
          * \brief Delete a collider from the system
-         * \param entityId EntityId of the collider
+         * \param entityId EntityIdentifier of the collider
          */
-        void DeleteCollider(EntityId entityId);
+        void DeleteCollider(EntityIdentifier entityId);
 
         /**
          * \brief Check if an entity has a collider
-         * \param entityId EntityId to check
+         * \param entityId EntityIdentifier to check
          * \return bool
          */
-        bool HasCollider(EntityId entityId);
+        bool HasCollider(EntityIdentifier entityId);
 
         /**
          * \brief Get the collider of an entity
-         * \param entityId EntityId to get
+         * \param entityId EntityIdentifier to get
          * \return BoxCollider
          */
-        BoxCollider GetCollider(EntityId entityId);
+        BoxCollider GetCollider(EntityIdentifier entityId);
 
         /**
          * \brief Check collision of a node
@@ -248,7 +249,6 @@ namespace Phoenix
     private:
         std::vector<Node*> m_Nodes_With_Colliders;
         Node* m_Root;
-        ColliderSystem* m_ColliderSystem;
         std::vector<BoxCollider> m_Colliders;
     };
 }

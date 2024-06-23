@@ -52,7 +52,7 @@ namespace Phoenix
     {
         auto position = GetTransformPosition();
         component.position = position;
-        // Application::Get().GetSubSystem<CollisionSubSytem>()->AddCollider(m_EntityHandle, component);
+        Application::Get().GetSubSystem<CollisionSubSytem>()->AddCollider(m_EntityHandle, component);
     }
 
     glm::vec3 Entity::GetTransformPosition() const
@@ -64,8 +64,8 @@ namespace Phoenix
     {
         Application::Get().GetSubSystem<TransformSubsytem>()->SetTransformPosition(m_EntityHandle, position);
         Renderer::UpdateModelMatrix(m_name, GetWorldModelMatrix());
-        // if(!Application::Get().GetSubSystem<CollisionSubSytem>()->HasCollider(m_EntityHandle)) return;
-        // Application::Get().GetSubSystem<CollisionSubSytem>()->Update(m_EntityHandle, position);
+        if(!Application::Get().GetSubSystem<CollisionSubSytem>()->HasCollider(m_EntityHandle)) return;
+        Application::Get().GetSubSystem<CollisionSubSytem>()->Update(m_EntityHandle, position);
     }
 
     float Entity::GetRotation() const
@@ -91,11 +91,10 @@ namespace Phoenix
 
     void Entity::Destroy()
     {
-        // Application::Get().GetSubSystem<TransformSubsytem>()->DeleteTransformComponent(m_EntityHandle);
-        // Application::Get().GetSubSystem<CollisionSubSytem>()->DeleteCollider(m_EntityHandle);
-        // Application::Get().GetSubSystem<AnimationSubsystem>()->DeleteAnimation(m_EntityHandle);
-        // Application::Get().GetSubSystem<EntitySubsystem>()->DestroyEntity(m_EntityHandle);
-        Application::Get().GetRegistry().destroy(m_EntityHandle);
+        Application::Get().GetSubSystem<TransformSubsytem>()->DeleteTransformComponent(m_EntityHandle);
+        Application::Get().GetSubSystem<CollisionSubSytem>()->DeleteCollider(m_EntityHandle);
+        Application::Get().GetSubSystem<AnimationSubsystem>()->DeleteAnimation(m_EntityHandle);
+        Application::Get().GetSubSystem<EntitySubsystem>()->DestroyEntity(m_EntityHandle);
         Renderer::DeleteShape(m_name);
     }
 
@@ -140,8 +139,7 @@ namespace Phoenix
 
     BoxCollider Entity::GetCollider() const
     {
-        // return Application::Get().GetSubSystem<CollisionSubSytem>()->GetCollider(m_EntityHandle);
-        return {};
+        return Application::Get().GetSubSystem<CollisionSubSytem>()->GetCollider(m_EntityHandle);
     }
 
     TransformComponent Entity::GetTransformComponent() const
@@ -166,13 +164,13 @@ namespace Phoenix
 
     void Entity::BindUpdate(std::function<void()> updateFunction)
     {
-        m_updateFunction = updateFunction;
-        // Application::Get().GetSubSystem<EntitySubsystem>()->BindUpdate(m_EntityHandle, updateFunction);
+        m_updateFunction = updateFunction; // needed ?
+        Application::Get().GetSubSystem<EntitySubsystem>()->BindUpdate(m_EntityHandle, updateFunction);
     }
 
     void Entity::Play(std::string animationName, std::function<void()> onAnimationEnd)
     {
-        // Application::Get().GetSubSystem<AnimationSubsystem>()->PlayAnimation(m_EntityHandle, animationName, onAnimationEnd);
+        Application::Get().GetSubSystem<AnimationSubsystem>()->PlayAnimation(m_EntityHandle, animationName, onAnimationEnd);
     }
 
     void Entity::CreateAnimation(std::string name, std::vector<std::string> paths, float duration, int totalFrames)
