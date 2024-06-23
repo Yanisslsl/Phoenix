@@ -1,5 +1,7 @@
 ﻿#include "Core/ECSExtended/include/SpriteSubsystem.h"
 
+#include "Core/Application/include/Application.h"
+
 namespace Phoenix
 {
     SpriteSubsystem::SpriteSubsystem()
@@ -12,39 +14,18 @@ namespace Phoenix
         delete m_SpriteSystem;
     }
 
-    bool SpriteSubsystem::HasSpriteComponent(EntityId entity)
+    bool SpriteSubsystem::HasSpriteComponent(EntityIdentifier entity)
     {
-        return m_SpriteSystem->HasSprite(entity);
+        return Application::Get().GetRegistry().try_get<SpriteComponent>(entity) != nullptr;
     }
 
-    void SpriteSubsystem::AddSpriteComponent(EntityId entity, SpriteComponent spriteComponent)
+    void SpriteSubsystem::AddSpriteComponent(EntityIdentifier entity, SpriteComponent spriteComponent)
     {
-        m_SpriteSystem->AddComponentTo(entity);
-        m_SpriteSystem->SetEntityId(entity);
-        if(spriteComponent.textureFilePath.empty())
-        {
-            m_SpriteSystem->SetColor(entity, spriteComponent.colorCode);
-        }
-        else
-        {
-            m_SpriteSystem->SetTexturePath(entity, spriteComponent.textureFilePath);
-        }
+        Application::Get().GetRegistry().emplace<SpriteComponent>(entity, spriteComponent);
     }
 
-    SpriteComponent SpriteSubsystem::GetSpriteComponent(EntityId entity)
+    SpriteComponent SpriteSubsystem::GetSpriteComponent(EntityIdentifier entity)
     {
-        SpriteComponent spriteComponent;
-        ColorCode color = m_SpriteSystem->GetColor(entity);
-        EntityId id = m_SpriteSystem->GetEntityId(entity);
-        std::string texturePath = m_SpriteSystem->GetTexturePath(entity);
-        spriteComponent.entityId = id;
-        if(texturePath.empty())
-        {
-            spriteComponent.colorCode = color;
-        } else
-        {
-            spriteComponent.textureFilePath = texturePath;
-        }
-        return spriteComponent;
+        return Application::Get().GetRegistry().get<SpriteComponent>(entity);
     }
 }

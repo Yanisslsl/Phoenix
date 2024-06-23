@@ -1,4 +1,5 @@
 #pragma once
+#include <entt/entity/registry.hpp>
 #include "Application.h"
 #include "Core/Animation/include/AnimationSubsystem.h"
 #include "Core/ECSExtended/include/SpriteSubsystem.h"
@@ -219,6 +220,10 @@ namespace Phoenix
 			return m_SpriteSubsystem;
 		}
 
+		entt::registry& GetRegistry()
+		{
+			return m_Registry;
+		}
 	private:
 		ApplicationMode m_Mode;
 		ErrorCode m_ErrorCode = ErrorCode::NO_ERROR;
@@ -236,6 +241,9 @@ namespace Phoenix
 		AnimationSubsystem* m_AnimationSubsystem;
 		SerializerSubsystem* m_SerializerSubsystem;
 		SpriteSubsystem* m_SpriteSubsystem;
+
+	private:
+		entt::registry m_Registry;
 	};
 
 	// To be defined in CLIENT

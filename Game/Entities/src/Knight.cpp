@@ -15,7 +15,6 @@ Knight::Knight()
 
 Knight::~Knight()
 {
-    Phoenix::Application::Get().GetSubSystem<Phoenix::EntitySubsystem>()->GetEntityByName(m_name)->Destroy();
 }
 
 void Knight::OnStart()
@@ -40,14 +39,14 @@ void Knight::OnStart()
 
 void Knight::GetFireInput()
 {
-    if(Phoenix::Input::IsKeyPressed(Phoenix::Key::Space))
-    {
-        m_count++;
-        if(m_count % 10 == 0)
+        if(Phoenix::Input::IsKeyPressed(Phoenix::Key::Space))
         {
-            Fire();
+            m_count++;
+            if(m_count % 10 == 0)
+            {
+                Fire();
+            }
         }
-    }
 }
 
 void Knight::GetMovementInput()
@@ -146,6 +145,7 @@ void Knight::Move()
 
 void Knight::OnHit(Phoenix::Ref<Phoenix::Entity> entity)
 {
+    
 }
 
 
@@ -158,7 +158,7 @@ void Knight::Fire()
         directionX = m_Last_X_Direction;
         directionY = m_Last_Y_Direction;
     } else
-    {
+    { 
         directionX = m_X_Direction;
         directionY = m_Y_Direction;
     }

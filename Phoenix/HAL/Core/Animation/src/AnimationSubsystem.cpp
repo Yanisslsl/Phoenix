@@ -8,101 +8,123 @@ namespace Phoenix
 {
     AnimationSubsystem::AnimationSubsystem()
     {
-        m_AnimationSystem = new AnimationSystem(3, 1000);
     }
 
     AnimationSubsystem::~AnimationSubsystem()
     {
-        delete m_AnimationSystem;
     }
 
-    bool AnimationSubsystem::HasAnimation(EntityId entity)
+    bool AnimationSubsystem::HasAnimation(EntityIdentifier entity)
     {
-        return m_AnimationSystem->HasAnimation(entity);
+        return Application::Get().GetRegistry().try_get<AnimatorComponent>(entity) != nullptr;
     }
 
-    AnimatorComponent AnimationSubsystem::GetAnimatorComponent(EntityId entity)
+    AnimatorComponent AnimationSubsystem::GetAnimatorComponent(EntityIdentifier entity)
     {
-        std::vector<std::string> names = m_AnimationSystem->GetAnimationsNames(entity);
-        std::map<std::string, float> durations = m_AnimationSystem->GetAnimationsDurations(entity);
-        std::map<std::string, float> currentTimes = m_AnimationSystem->GetAnimationsCurrentTimes(entity);
-        std::map<std::string, int> currentFrames = m_AnimationSystem->GetAnimationsCurrentFrames(entity);
-        std::map<std::string, int> totalFrames = m_AnimationSystem->GetAnimationsTotalFrames(entity);
-        std::map<std::string, std::vector<std::string>> texturesPaths = m_AnimationSystem->GetAnimationsTexturesPaths(entity);
-        auto currentAnimation = m_AnimationSystem->GetCurrentAnimationName(entity);
-        EntityId entityId = entity;
-        AnimatorComponent animator = AnimatorComponent(entityId, currentAnimation, names, durations, currentTimes, currentFrames, totalFrames, texturesPaths);
-        return animator;
+        return Application::Get().GetRegistry().get<AnimatorComponent>(entity);
     }
 
-    void AnimationSubsystem::CreateAnimation(EntityId entity, std::string name, int totalFrames, float duration, std::vector<std::string> paths)
+    void AnimationSubsystem::CreateAnimation(EntityIdentifier entity, std::string name, int totalFrames, float duration, std::vector<std::string> paths)
     {
-        std::string entityName = Application::Get().GetSubSystem<EntitySubsystem>()->GetEntityById(entity)->m_name;
-        if(!m_AnimationSystem->HasAnimation(entity))
+        auto entityName = Application::Get().GetSubSystem<EntitySubsystem>()->GetEntityById(entity)->m_name;
+        if(!HasAnimation(entity))
         {
-            m_AnimationSystem->AddComponentTo(entity);
+            AnimatorComponent animator = AnimatorComponent();
+            animator.currentAnimation = name;
+            animator.durations =  std::map<std::string, float>({ {name, duration} });
+            animator.texturesPaths = std::map<std::string, std::vector<std::string>>({ {name, paths} });
+            animator.totalFrames = std::map<std::string, int>({ {name, totalFrames} });
+            animator.names = std::vector<std::string>({ name });
+            animator.currentTimes = std::map<std::string, float>();
+            animator.currentTimes[name] = 0;
+            animator.currentFrames = std::map<std::string, int>({ {name, 0} });
+            Application::Get().GetRegistry().emplace<AnimatorComponent>(entity, animator);
+            return;
         }
-        m_AnimationSystem->SetAnimationDuration(entity, name , duration);
-        m_AnimationSystem->SetAnimationName(entity, name);
-        m_AnimationSystem->SetAnimationTotalFrames(entity, name , totalFrames);
-        m_AnimationSystem->SetAnimationCurrentFrame(entity, name , 0);
-        m_AnimationSystem->SetAnimationCurrentTime(entity, name , 0);
-        m_AnimationSystem->SetAnimationTexturesPaths(entity, name , paths);
-        m_AnimationSystem->SetAnimationsEntityId(entity);
-        m_AnimationSystem->SetCurrentAnimationName(entity, "NONE");
+        
+        auto view = Application::Get().GetRegistry().view<AnimatorComponent>();
+        auto animator = view.get<AnimatorComponent>(entity);
+        
+        if(std::find(animator.names.begin(), animator.names.end(), name) != animator.names.end())
+        {
+            PX_ERROR("Animation name already exists for entity with id: {1}", name);
+            return;
+        }
+
+        Application::Get().GetRegistry().patch<AnimatorComponent>(entity, [&name, &totalFrames, &duration, &paths](AnimatorComponent& component) 
+        { 
+            component.names.push_back(name);
+            component.durations[name] = duration;
+            component.texturesPaths[name] = paths;
+            component.totalFrames[name] = totalFrames;
+            component.currentTimes[name] = 0;
+            component.currentFrames[name] = 0;
+        });
         Renderer::SetTexturesPaths(entityName, name , paths);
     }
 
-    void AnimationSubsystem::PlayAnimation(EntityId entity, std::string name, std::function<void()> onAnimationEnd)
+    void AnimationSubsystem::PlayAnimation(EntityIdentifier entityId, std::string name, std::function<void()> onAnimationEnd)
     {
-        auto animationsNames= m_AnimationSystem->GetAnimationsNames(entity);
-        if(animationsNames.size() == 0)
+        if(!HasAnimation(entityId)) return;
+        auto animatorComponent = GetAnimatorComponent(entityId);
+        auto entity = Application::Get().GetRegistry().get<EntityType>(entityId);
+
+        if(!animatorComponent.IsValid())
         {
-            PX_ERROR("No animations found for entity with id: {0}", entity);
+            PX_ERROR("Animator component is not valid for entity with name: {0}", entity.name);
+        }
+     
+        if(std::find(animatorComponent.names.begin(), animatorComponent.names.end(), name) == animatorComponent.names.end())
+        {
+            PX_ERROR("Animation with name: {0} not found for entity with name: {1}", name, entity.name);
             return;
         }
-        if(std::find(animationsNames.begin(), animationsNames.end(), name) == animationsNames.end())
-        {
-            PX_ERROR("Animation with name: {0} not found for entity with id: {1}", name, entity);
-            return;
-        }
-        m_AnimationSystem->SetCurrentAnimationName(entity, name);
+
+        Application::Get().GetRegistry().patch<AnimatorComponent>(entityId, [&name](AnimatorComponent& component) 
+        { 
+            component.currentAnimation = name;
+        });
+        
         if(onAnimationEnd)
         {
-            m_AnimationSystem->SetOnAnimationEnd(entity, name, onAnimationEnd);
+            Application::Get().GetRegistry().patch<AnimatorComponent>(entityId, [&](AnimatorComponent& component) 
+            { 
+                component.onAnimationEnds[name] = onAnimationEnd;
+            });
         }
-        std::string entityName = Application::Get().GetSubSystem<EntitySubsystem>()->GetEntityById(entity)->m_name;
-        Renderer::EnableShapeTexture(entityName, name);
+        
+        Renderer::EnableShapeTexture(entity.name, name);
     }
 
     void AnimationSubsystem::Update()
     {
-        std::vector<EntityId> entities = m_AnimationSystem->GetEntitiesWithAnimation();
-        if(entities.size() == 0) return;
-        for(auto entity : entities)
+        auto view = Application::Get().GetRegistry().view<AnimatorComponent>();
+        for(auto entity : view)
         {
-            auto u = m_AnimationSystem->GetCurrentAnimationName(entity);
-            if(m_AnimationSystem->GetCurrentAnimationName(entity) == "NONE") continue;
+            auto animator = view.get<AnimatorComponent>(entity);
+            if(animator.currentAnimation == "NONE") continue;
             UpdateAnimation(entity);
         }
     }
 
-    void AnimationSubsystem::DeleteAnimation(EntityId entityId)
+    void AnimationSubsystem::DeleteAnimation(EntityIdentifier entityId)
     {
-        if(!m_AnimationSystem->HasAnimation(entityId)) return;
-        m_AnimationSystem->DeleteComponent(entityId);
+        if(!HasAnimation(entityId)) return;
+        Application::Get().GetRegistry().remove<AnimatorComponent>(entityId);
     }
 
-    void AnimationSubsystem::UpdateAnimation(EntityId entityId)
+    void AnimationSubsystem::UpdateAnimation(EntityIdentifier entityId)
     {
         float deltaTime = Timer::GetDeltaTime();
-        auto currentAnimation = m_AnimationSystem->GetCurrentAnimationName(entityId);
-        auto totalFrames = m_AnimationSystem->GetAnimationTotalFrames(entityId, currentAnimation);
-        float currentTime = m_AnimationSystem->GetAnimationCurrentTime(entityId, currentAnimation);
-        auto duration = m_AnimationSystem->GetAnimationDuration(entityId, currentAnimation);
-        auto currentFrame = m_AnimationSystem->GetAnimationCurrentFrame(entityId, currentAnimation);
-        auto textures = m_AnimationSystem->GetAnimationTexturesPaths(entityId, currentAnimation);
-        auto onAnimationEnd = m_AnimationSystem->GetOnAnimationEnd(entityId, currentAnimation);
+        auto animatorComponent = GetAnimatorComponent(entityId);
+        auto entity = Application::Get().GetRegistry().get<EntityType>(entityId);
+        auto currentAnimationName = animatorComponent.currentAnimation;
+        auto totalFrames = animatorComponent.totalFrames[currentAnimationName];
+        auto onAnimationEnd = animatorComponent.onAnimationEnds[currentAnimationName];
+        auto currentFrame = animatorComponent.currentFrames[currentAnimationName];
+        float currentTime = animatorComponent.currentTimes[currentAnimationName];
+        auto textures = animatorComponent.texturesPaths[currentAnimationName];
+        auto duration = animatorComponent.durations[currentAnimationName];
         if(currentTime >= duration)
         {
             currentTime = 0;
@@ -115,15 +137,29 @@ namespace Phoenix
                     onAnimationEnd();
                 }
             }
-            m_AnimationSystem->SetAnimationCurrentTime(entityId, currentAnimation, currentTime);
+            
+            Application::Get().GetRegistry().patch<AnimatorComponent>(entityId, [&](AnimatorComponent& component) 
+            { 
+                component.currentTimes[currentAnimationName] = currentTime;
+            });
+            
             std::string entityName = Application::Get().GetSubSystem<EntitySubsystem>()->GetEntityById(entityId)->m_name;
-            m_AnimationSystem->SetAnimationCurrentFrame(entityId, currentAnimation, currentFrame);
-            Renderer::SetTextureIndex(entityName, currentFrame);
+
+            Application::Get().GetRegistry().patch<AnimatorComponent>(entityId, [&](AnimatorComponent& component) 
+            { 
+                component.currentFrames[currentAnimationName] = currentFrame;
+            });
+            
+            Renderer::SetTextureIndex(entity.name, currentFrame);
         }
         else
         {
             currentTime += deltaTime;
-            m_AnimationSystem->SetAnimationCurrentTime(entityId, currentAnimation, currentTime);
+
+            Application::Get().GetRegistry().patch<AnimatorComponent>(entityId, [&](AnimatorComponent& component) 
+            { 
+                component.currentTimes[currentAnimationName] = currentTime;
+            });
         }
     }
 }

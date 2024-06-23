@@ -122,50 +122,50 @@ namespace Phoenix
         {
             for(auto entity : entities)
             {
-                if (ImGui::TreeNode((void*)(intptr_t)entity->m_id, entity->GetName().c_str()))
+                if (ImGui::TreeNode((void*)(intptr_t)entity->m_EntityHandle, entity->GetName().c_str()))
                 {
-                    if (ImGui::TreeNode((void*)(intptr_t)(entity->m_id * 100), "Transform Component"))
-                    {
-                        ImGui::SeparatorText("Position");
-                        ImGui::Text("X: %f", entity->GetTransformPosition().x);                    
-                        ImGui::SameLine();
-                        float posx = entity->GetTransformPosition().x;
-                        if(ImGui::DragFloat("position x", &posx,1., -100.f,1300.f)) //modify position on x axis
-                        {
-                            entity->SetTransformPosition(glm::vec3(posx,entity->GetTransformPosition().y, 0));
-                        }
-                        ImGui::Text("Y: %f", entity->GetTransformPosition().y);
-                        ImGui::SameLine();
-                        float posy = entity->GetTransformPosition().y; //modify position on y axis
-                        if (ImGui::DragFloat("position y", &posy, 1., -100.f, 800.f))
-                        {
-                            entity->SetTransformPosition(glm::vec3(entity->GetTransformPosition().x,posy, 0));
-                        }
-                        ImGui::SeparatorText("Rotation");
-                        ImGui::Text("X: %f", entity->GetRotation());
-                        ImGui::SameLine();
-                        float rotation = entity->GetRotation(); // modify rotation
-                        if (ImGui::DragFloat("rotation", &rotation, 1., 0.,180.))
-                        {
-                            entity->SetRotation(rotation);
-                        }
-                        ImGui::SeparatorText("Scale");
-                        ImGui::Text("X: %f", entity->GetScale().x);
-                        ImGui::SameLine();
-                        float scx = entity->GetScale().x; // modify scale on x axis
-                        if (ImGui::DragFloat("scale x", &scx, 1., 0.,1000.))
-                        {
-                            entity->SetScale(glm::vec2(scx, entity->GetScale().y));
-                        }                      
-                        ImGui::Text("Y: %f", entity->GetScale().y);
-                        ImGui::SameLine();
-                        float scy = entity->GetScale().y; // modify scale on y axis
-                        if (ImGui::DragFloat("scale y", &scy, 1., 0., 1000.))
-                        {
-                            entity->SetScale(glm::vec2(entity->GetScale().x,scy));
-                        }
-                        ImGui::TreePop();               
-                    } 
+                    // if (ImGui::TreeNode((void*)(intptr_t)(entity->m_id * 100), "Transform Component"))
+                    // {
+                    //     ImGui::SeparatorText("Position");
+                    //     ImGui::Text("X: %f", entity->GetTransformPosition().x);                    
+                    //     ImGui::SameLine();
+                    //     float posx = entity->GetTransformPosition().x;
+                    //     if(ImGui::DragFloat("position x", &posx,1., -100.f,1300.f)) //modify position on x axis
+                    //     {
+                    //         entity->SetTransformPosition(glm::vec3(posx,entity->GetTransformPosition().y, 0));
+                    //     }
+                    //     ImGui::Text("Y: %f", entity->GetTransformPosition().y);
+                    //     ImGui::SameLine();
+                    //     float posy = entity->GetTransformPosition().y; //modify position on y axis
+                    //     if (ImGui::DragFloat("position y", &posy, 1., -100.f, 800.f))
+                    //     {
+                    //         entity->SetTransformPosition(glm::vec3(entity->GetTransformPosition().x,posy, 0));
+                    //     }
+                    //     ImGui::SeparatorText("Rotation");
+                    //     ImGui::Text("X: %f", entity->GetRotation());
+                    //     ImGui::SameLine();
+                    //     float rotation = entity->GetRotation(); // modify rotation
+                    //     if (ImGui::DragFloat("rotation", &rotation, 1., 0.,180.))
+                    //     {
+                    //         entity->SetRotation(rotation);
+                    //     }
+                    //     ImGui::SeparatorText("Scale");
+                    //     ImGui::Text("X: %f", entity->GetScale().x);
+                    //     ImGui::SameLine();
+                    //     float scx = entity->GetScale().x; // modify scale on x axis
+                    //     if (ImGui::DragFloat("scale x", &scx, 1., 0.,1000.))
+                    //     {
+                    //         entity->SetScale(glm::vec2(scx, entity->GetScale().y));
+                    //     }                      
+                    //     ImGui::Text("Y: %f", entity->GetScale().y);
+                    //     ImGui::SameLine();
+                    //     float scy = entity->GetScale().y; // modify scale on y axis
+                    //     if (ImGui::DragFloat("scale y", &scy, 1., 0., 1000.))
+                    //     {
+                    //         entity->SetScale(glm::vec2(entity->GetScale().x,scy));
+                    //     }
+                    //     ImGui::TreePop();               
+                    // } 
                     ImGui::TreePop();
                 }
             }

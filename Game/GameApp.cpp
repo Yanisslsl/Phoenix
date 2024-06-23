@@ -5,6 +5,10 @@
 #include "Entities/include/Room.h"
 #include "Utils/UUID.h"
 #include "Core/ECSExtended/include/EntitySubsystem.h"
+#include "Core/ECSExtended/include/TransformSubsytem.h"
+#include "Core/ECSExtended/include/Entity.h"
+
+
 class MainLayer : public Phoenix::Layer
 {
 public:
@@ -14,7 +18,6 @@ public:
 		m_Entities = new std::vector<Phoenix::Ref<Phoenix::ISerializable>>();
 		Phoenix::Application::Get().GetSubSystem<Phoenix::SceneManagerSubSystem>()->CreateScene("MainLevel");
 		InitLevel();
-		SpawnMob();
 		SpawnMob();
 		SpawnMob();
 		Phoenix::Application::Get().GetSubSystem<Phoenix::InputActionRegistratorSubSystem>()->RegisterAction(Phoenix::InputAction("SaveGame", Phoenix::Key::S), PX_BIND_EVENT_FN(SaveGame));
@@ -69,6 +72,7 @@ public:
 	{
 		m_Entities->push_back(std::make_shared<Room>());
 		m_Entities->push_back(std::make_shared<Knight>());
+		m_Entities->push_back(std::make_shared<Mob>());
 	}
 
 
@@ -76,7 +80,6 @@ public:
 	{
 		Phoenix::Timer::Update();
 		Phoenix::Application::Get().GetSubSystem<Phoenix::SceneManagerSubSystem>()->GetActiveScene()->OnUpdate();
-		SpawnMobOnInterval();
 	}
 
 	void OnEvent(Phoenix::Event& event) override

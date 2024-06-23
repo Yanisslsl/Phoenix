@@ -19,6 +19,7 @@ namespace Phoenix
     {
          enum : ColorCode
         {
+            NONE = -1,
             RED,
           GREEN,
           BLUE,

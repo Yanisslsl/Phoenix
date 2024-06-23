@@ -12,12 +12,10 @@ namespace Phoenix
     /**
      * \brief SpriteComponent class that represent a sprite component in the game.
      */
-    struct SpriteComponent:  IComponent, public Phoenix::AutoRegister<SpriteComponent>
+    struct SpriteComponent: IComponent, AutoRegister<SpriteComponent>
     {
-    public:
         std::string textureFilePath;
-        ColorCode colorCode;
-        EntityId entityId;
+        ColorCode colorCode = Color::NONE;
         SpriteComponent() = default;
         SpriteComponent(std::string texturePath)
         {
@@ -29,16 +27,23 @@ namespace Phoenix
         }
         virtual void Serialize(BlobSerializer& serializer) override
         {
-            serializer.WriteHeader(SpriteComponentSerializeType);
-            serializer.WriteString(textureFilePath);
-            serializer.Write(&colorCode, sizeof(colorCode));
-            serializer.Write(&entityId, sizeof(entityId));
+            // serializer.WriteHeader(SpriteComponentSerializeType);
+            // serializer.WriteString(textureFilePath);
+            // serializer.Write(&colorCode, sizeof(colorCode));
         }
         virtual void Deserialize(BlobSerializer& serializer) override
         {
-            serializer.ReadString(textureFilePath);
-            serializer.Read(&colorCode, sizeof(colorCode));
-            serializer.Read(&entityId, sizeof(entityId));
+            // serializer.ReadString(textureFilePath);
+            // serializer.Read(&colorCode, sizeof(colorCode));
+        }
+
+        virtual bool IsValid() override
+        {
+            if(textureFilePath.empty() || colorCode == Color::NONE)
+            {
+                return false;
+            }
+            return true;
         }
     };
 
@@ -57,15 +62,15 @@ namespace Phoenix
          * \param entity EntityId to add
          * \param spriteComponent SpriteComponent to add
          */
-        void AddSpriteComponent(EntityId entity, SpriteComponent spriteComponent);
+        void AddSpriteComponent(EntityIdentifier entity, SpriteComponent spriteComponent);
 
         /**
          * \brief Get whether the entity has a sprite component
          * \param entity EntityId  to check
          * \return if entity has sprite component
          */
-        bool HasSpriteComponent(EntityId entity);
-        SpriteComponent GetSpriteComponent(EntityId entity);
+        bool HasSpriteComponent(EntityIdentifier entity);
+        SpriteComponent GetSpriteComponent(EntityIdentifier entity);
     private:
         SpriteSystem* m_SpriteSystem;
     };
