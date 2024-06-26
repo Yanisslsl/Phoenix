@@ -9,7 +9,7 @@
 
 namespace Phoenix
 {
-    Scene::Scene(std::string& name, OrthographicCameraController* cameraController)
+    Scene::Scene(std::string& name, CameraController* cameraController)
         : m_CameraController(cameraController), m_Name(name)
     {
 

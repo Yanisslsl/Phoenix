@@ -1,17 +1,17 @@
 #pragma once
 #include <entt/entity/registry.hpp>
 #include "Application.h"
-#include "Core/ECSExtended/include/EntitySubsystem.h"
-#include "Core/ECSExtended/include/SpriteSubsystem.h"
 #include "Core/Graphics/Render/include/Renderer.h"
 #include "Core/Input/include/InputActionRegistratorSubSystem.h"
-#include "Core/Physics/include/CollisionSubSytem.h"
 #include "Core/Scene/include/SceneManagerSubSystem.h"
 #include "Core/Serialization/include/SerializerSubsystem.h"
 #include "Core/Window/include/Window.h"
+#include "ECSExtended/include/EntitySubsystem.h"
+#include "ECSExtended/include/SpriteSubsystem.h"
 #include "Events/Event.h"
 #include "Events/WindowEvent.h"
 #include "Layers/LayerStack/include/LayerStack.h"
+#include "Physics/include/CollisionSubSytem.h"
 
 
 namespace Phoenix
@@ -45,12 +45,6 @@ namespace Phoenix
 	};
 
 
-	enum class RenderingMode
-	{
-		RENDERER_2D,
-		RENDERER_3D,
-	};
-
 	class PHOENIX_API Application
 	{
 	public:
@@ -58,7 +52,7 @@ namespace Phoenix
          * \brief Application constructor
          * \param mode 
          */
-		Application(ApplicationMode mode, RenderingMode renderingMode = RenderingMode::RENDERER_3D);
+		Application(ApplicationMode mode);
 
 		/**
          * \brief Application destructor
@@ -238,7 +232,7 @@ namespace Phoenix
 			return m_Registry;
 		}
 
-		/**
+		/** //@TODO: maybe move this to the renderer subsystem or the scene
 		 * \brief Get the renderer
 		 * \return 
 		 */
@@ -250,7 +244,6 @@ namespace Phoenix
 	private:
 		ApplicationMode m_Mode;
 		ErrorCode m_ErrorCode = ErrorCode::NO_ERROR;
-		RenderingMode m_RenderingMode;
 	private:
 		std::unique_ptr<WindowHal> m_Window;
 		static Application* s_Instance;

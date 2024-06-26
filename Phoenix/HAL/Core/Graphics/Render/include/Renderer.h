@@ -4,7 +4,7 @@
 #include <memory>
 #include <map>
 #include "RendererAPI.h"
-#include "Core/Scene/include/OrthographicCamera.h"
+#include "Core/Scene/include/Camera.h"
 #include "Utils/Color.h"
 
 
@@ -137,14 +137,14 @@ namespace Phoenix
         void Submit(const Ref<Shader>& shader, const Ref<VertexArray>& vertexArray, Ref<Texture> texture, ColorType color, glm::mat4 modelMat, TextureData textureData);
 
         /**
-         * \brief Create quad
+         * \brief Create quad only for 2D
          */
          void CreateQuad(std::string name, const char* texturePath, const glm::mat4 modelMat);
 
-        void CreateQuad(std::string name, const ColorType color , const glm::mat4 modelMat);
+         void CreateQuad(std::string name, const ColorType color , const glm::mat4 modelMat);
 
         /**
-         * \brief Create shape
+         * \brief Create 2D shape
          * \param name 
          * \param vertices 
          * \param indices 
@@ -156,7 +156,7 @@ namespace Phoenix
         void CreateShape(std::string name, std::vector<float> vertices, std::vector<uint32_t> indices, const char* vertexShader, const char* fragmentShader, const BufferLayout bufferlayout ,const glm::mat4 modelMat);
 
         /**
-         * \brief Create textured shape
+         * \brief Create textured 2D shape
          * \param name 
          * \param vertices 
          * \param indices 
@@ -168,7 +168,7 @@ namespace Phoenix
          */
         void CreateTexturedShape(std::string name, std::vector<float> vertices, std::vector<uint32_t> indices, const char* vertexShader, const char* fragmentShader, const BufferLayout bufferlayout ,const char* texturePath, const glm::mat4 modelMat);
 
-
+        
         /** 
          * \brief Set textures paths for specific shape
          * \param shapeName
@@ -176,6 +176,11 @@ namespace Phoenix
          * \param texturesPaths 
          */
         void SetTexturesPaths(std::string shapeName, std::string name, std::vector<std::string> texturesPaths);
+
+        void CreateCube(std::string name, const char* texturePath, const glm::mat4 modelMat);
+
+        void CreateCube(std::string name, ColorType color, const glm::mat4 modelMat);
+
 
         /** 
          * \brief Set texture index
@@ -222,7 +227,7 @@ namespace Phoenix
          * \brief Begin the scene
          * \param camera 
          */
-        void BeginScene(OrthographicCamera& camera);
+        void BeginScene(Camera& camera);
 
         /**
          * \brief Update the shape model matrix
@@ -232,7 +237,7 @@ namespace Phoenix
         void UpdateModelMatrix(std::string name, glm::mat4 modelMat);
 
 
-    private:
+    protected:
         struct SceneData
         {
             glm::mat4 ViewProjectionMatrix;

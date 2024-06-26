@@ -1,12 +1,12 @@
 #include "Core/Application/include/Application.h"
 #include <cstdio>
-#include "Core/Animation/include/AnimationSubsystem.h"
-#include "Core/ECSExtended/include/EntitySubsystem.h"
+
+#include "Animation/include/AnimationSubsystem.h"
 #include "Editor/include/EditorLayer.h"
 #include "Events/EventDispatcher.h"
 #include "Utils/Timer.h"
-#include "Core/ECSExtended/include/TransformSubsytem.h"
 #include "Core/Graphics/Render/include/Renderer3D.h"
+#include "ECSExtended/include/TransformSubsytem.h"
 
 
 namespace Phoenix
@@ -14,7 +14,7 @@ namespace Phoenix
 
 	Application* Application::s_Instance = nullptr;
 
-	Application::Application(ApplicationMode mode, RenderingMode renderingMode): m_Mode(mode), m_RenderingMode(renderingMode)
+	Application::Application(ApplicationMode mode): m_Mode(mode)
 	{
 		m_Window = WindowHal::Create(WindowProps("Phoenix Engine", 1280, 720));
 		m_Window->SetEventCallback(PX_BIND_EVENT_FN(Application::OnEvent));
@@ -27,14 +27,7 @@ namespace Phoenix
 		m_AnimationSubsystem = new AnimationSubsystem();
 		m_SerializerSubsystem = new SerializerSubsystem();
 		m_SpriteSubsystem = new SpriteSubsystem();
-		if(renderingMode == RenderingMode::RENDERER_3D)
-		{
-			m_Renderer = new Renderer3D();
-		}
-		else if(renderingMode == RenderingMode::RENDERER_2D)
-		{
-			m_Renderer = new Renderer();
-		}
+		m_Renderer = new Renderer();
 		m_Renderer->Init();
 #ifdef PX_DEBUG
 		m_Editor_Layer = new EditorLayer();
