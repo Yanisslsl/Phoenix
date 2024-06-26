@@ -1,8 +1,8 @@
-#include "../../Layers/Layer/include/Layer.h"
-#include "../../Events/Event.h"
-#include "../../Events/MouseEvent.h"
-#include "../../Events/WindowEvent.h"
-#include "../../Events/KeyEvent.h"
+
+#include "Events/KeyEvent.h"
+#include "Events/MouseEvent.h"
+#include "Events/WindowEvent.h"
+#include "Layers/Layer/include/Layer.h"
 
 namespace Phoenix
 {

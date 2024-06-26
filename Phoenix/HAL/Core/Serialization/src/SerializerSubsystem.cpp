@@ -2,13 +2,13 @@
 
 #include <fstream>
 #include <iostream>
-
-#include "Core/Animation/include/AnimationSubsystem.h"
+#include "Animation/include/AnimationSubsystem.h"
 #include "Core/Application/include/Application.h"
 #include "Core/Serialization/include/BlobSerializer.h"
+#include "ECSExtended/include/Entity.h"
 #include "Utils/FileSystem.h"
-#include "Core/ECSExtended/include/EntitySubsystem.h"
-#include "Core/ECSExtended/include/TransformSubsytem.h"
+#include "ECSExtended/include/EntitySubsystem.h"
+#include "ECSExtended/include/TransformSubsytem.h"
 
 
 namespace Phoenix

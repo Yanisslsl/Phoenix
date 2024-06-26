@@ -1,7 +1,7 @@
 // Scene.h
 
 #pragma once
-#include "OrthographicCameraController.h"
+#include "CameraController.h"
 #include "Core.h"
 #include "Core/Serialization/include/SerializerSubsystem.h"
 
@@ -9,7 +9,7 @@ namespace Phoenix
 {
     /**
      * \brief Scene class, should contain all the entities and systems
-     *        Only suited for 2D games for now with the OrthographicCameraController
+     *        Only suited for 2D games for now with the CameraController
      */
     class PHOENIX_API Scene: public ISerializable, public Phoenix::AutoRegister<Scene>
     {
@@ -19,7 +19,7 @@ namespace Phoenix
          * \brief 
          * \param cameraController Should be instanciate with the window size
          */
-         Scene(std::string& name, OrthographicCameraController* cameraController);
+         Scene(std::string& name, CameraController* cameraController);
          ~Scene()
          {
          };
@@ -66,14 +66,14 @@ namespace Phoenix
 
          /**
           * \brief Get the camera controller
-          * \return OrthographicCameraController
+          * \return CameraController
           */
-         OrthographicCameraController* GetCameraController()
+         CameraController* GetCameraController()
          {
              return m_CameraController;
          }
     private:
-        OrthographicCameraController* m_CameraController;
+        CameraController* m_CameraController;
         bool m_IsRunning = false;
         bool m_IsPaused = false;
         std::string m_Name;

@@ -1,11 +1,12 @@
 #include "Core/Application/include/Application.h"
 #include <cstdio>
-#include "Core/Animation/include/AnimationSubsystem.h"
-#include "Core/ECSExtended/include/EntitySubsystem.h"
+
+#include "Animation/include/AnimationSubsystem.h"
 #include "Editor/include/EditorLayer.h"
 #include "Events/EventDispatcher.h"
 #include "Utils/Timer.h"
-#include "Core/ECSExtended/include/TransformSubsytem.h"
+#include "Core/Graphics/Render/include/Renderer3D.h"
+#include "ECSExtended/include/TransformSubsytem.h"
 
 
 namespace Phoenix
@@ -26,7 +27,8 @@ namespace Phoenix
 		m_AnimationSubsystem = new AnimationSubsystem();
 		m_SerializerSubsystem = new SerializerSubsystem();
 		m_SpriteSubsystem = new SpriteSubsystem();
-		Renderer::Init();
+		m_Renderer = new Renderer();
+		m_Renderer->Init();
 #ifdef PX_DEBUG
 		m_Editor_Layer = new EditorLayer();
 		PushOverlay(m_Editor_Layer);
@@ -35,7 +37,7 @@ namespace Phoenix
 	
 	Application::~Application()
 	{
-		Renderer::Shutdown();
+		m_Renderer->Shutdown();
 		m_LayerStack.~LayerStack();
 		delete m_SerializerSubsystem;
 		delete m_InputActionRegistratorSubsystem;
@@ -101,7 +103,7 @@ namespace Phoenix
 
 	bool Application::OnWindowResize(WindowResizeEvent& e)
 	{
-		Renderer::OnWindowResize(e.GetWidth(), e.GetHeight());
+		m_Renderer->OnWindowResize(e.GetWidth(), e.GetHeight());
 		return false;
 	}
 

@@ -10,11 +10,10 @@
 #include "Editor/include/ImGuiOpenGL.h"
 #include "Utils/Timer.h"
 #include "Utils/Color.h"
-#include "Core/ECSExtended/include/Entity.h"
 #include "Core/Input/include/Input.h"
-#include "Core/ECSExtended/include/EntitySubsystem.h"
 #include "Core/Scene/include/SceneManagerSubSystem.h"
-#include "Core/ECSExtended/include/TransformSubsytem.h"
+#include "ECSExtended/include/Entity.h"
+#include "ECSExtended/include/TransformSubsytem.h"
 
 namespace Phoenix
 {
@@ -65,19 +64,19 @@ namespace Phoenix
         auto camera = Application::Get().GetSubSystem<SceneManagerSubSystem>()->GetActiveScene()->GetCameraController()->GetCamera();
         if(Input::IsKeyPressed(Key::A))
         {
-            Application::Get().GetSubSystem<SceneManagerSubSystem>()->GetActiveScene()->GetCameraController()->SetCameraPosition(glm::vec3(camera.GetPosition().x - ( 1 * dt), camera.GetPosition().y, 1));
+            Application::Get().GetSubSystem<SceneManagerSubSystem>()->GetActiveScene()->GetCameraController()->SetCameraPosition(glm::vec3(camera.GetPosition().x - ( 10000 * dt), camera.GetPosition().y, 1));
         }
         if(Input::IsKeyPressed(Key::D))
         {
-            Application::Get().GetSubSystem<SceneManagerSubSystem>()->GetActiveScene()->GetCameraController()->SetCameraPosition(glm::vec3(camera.GetPosition().x + ( 1 * dt), camera.GetPosition().y, 1));
+            Application::Get().GetSubSystem<SceneManagerSubSystem>()->GetActiveScene()->GetCameraController()->SetCameraPosition(glm::vec3(camera.GetPosition().x + ( 10000 * dt), camera.GetPosition().y, 1));
         }
         if(Input::IsKeyPressed(Key::W))
         {
-            Application::Get().GetSubSystem<SceneManagerSubSystem>()->GetActiveScene()->GetCameraController()->SetCameraPosition(glm::vec3(camera.GetPosition().x, camera.GetPosition().y + ( 1 * dt), 1));
+            Application::Get().GetSubSystem<SceneManagerSubSystem>()->GetActiveScene()->GetCameraController()->SetCameraPosition(glm::vec3(camera.GetPosition().x, camera.GetPosition().y + ( 10000 * dt), 1));
         }
         if(Input::IsKeyPressed(Key::S))
         {
-            Application::Get().GetSubSystem<SceneManagerSubSystem>()->GetActiveScene()->GetCameraController()->SetCameraPosition(glm::vec3(camera.GetPosition().x, camera.GetPosition().y - ( 1 * dt), 1));
+            Application::Get().GetSubSystem<SceneManagerSubSystem>()->GetActiveScene()->GetCameraController()->SetCameraPosition(glm::vec3(camera.GetPosition().x, camera.GetPosition().y - ( 10000 * dt), 1));
         }
     }
 
@@ -124,48 +123,48 @@ namespace Phoenix
             {
                 if (ImGui::TreeNode((void*)(intptr_t)entity->m_EntityHandle, entity->GetName().c_str()))
                 {
-                    // if (ImGui::TreeNode((void*)(intptr_t)(entity->m_id * 100), "Transform Component"))
-                    // {
-                    //     ImGui::SeparatorText("Position");
-                    //     ImGui::Text("X: %f", entity->GetTransformPosition().x);                    
-                    //     ImGui::SameLine();
-                    //     float posx = entity->GetTransformPosition().x;
-                    //     if(ImGui::DragFloat("position x", &posx,1., -100.f,1300.f)) //modify position on x axis
-                    //     {
-                    //         entity->SetTransformPosition(glm::vec3(posx,entity->GetTransformPosition().y, 0));
-                    //     }
-                    //     ImGui::Text("Y: %f", entity->GetTransformPosition().y);
-                    //     ImGui::SameLine();
-                    //     float posy = entity->GetTransformPosition().y; //modify position on y axis
-                    //     if (ImGui::DragFloat("position y", &posy, 1., -100.f, 800.f))
-                    //     {
-                    //         entity->SetTransformPosition(glm::vec3(entity->GetTransformPosition().x,posy, 0));
-                    //     }
-                    //     ImGui::SeparatorText("Rotation");
-                    //     ImGui::Text("X: %f", entity->GetRotation());
-                    //     ImGui::SameLine();
-                    //     float rotation = entity->GetRotation(); // modify rotation
-                    //     if (ImGui::DragFloat("rotation", &rotation, 1., 0.,180.))
-                    //     {
-                    //         entity->SetRotation(rotation);
-                    //     }
-                    //     ImGui::SeparatorText("Scale");
-                    //     ImGui::Text("X: %f", entity->GetScale().x);
-                    //     ImGui::SameLine();
-                    //     float scx = entity->GetScale().x; // modify scale on x axis
-                    //     if (ImGui::DragFloat("scale x", &scx, 1., 0.,1000.))
-                    //     {
-                    //         entity->SetScale(glm::vec2(scx, entity->GetScale().y));
-                    //     }                      
-                    //     ImGui::Text("Y: %f", entity->GetScale().y);
-                    //     ImGui::SameLine();
-                    //     float scy = entity->GetScale().y; // modify scale on y axis
-                    //     if (ImGui::DragFloat("scale y", &scy, 1., 0., 1000.))
-                    //     {
-                    //         entity->SetScale(glm::vec2(entity->GetScale().x,scy));
-                    //     }
-                    //     ImGui::TreePop();               
-                    // } 
+                    if (ImGui::TreeNode((void*)(intptr_t)(entity->m_EntityHandle), "Transform Component"))
+                    {
+                        ImGui::SeparatorText("Position");
+                        ImGui::Text("X: %f", entity->GetTransformPosition().x);                    
+                        ImGui::SameLine();
+                        float posx = entity->GetTransformPosition().x;
+                        if(ImGui::DragFloat("position x", &posx,1., -100.f,1300.f)) //modify position on x axis
+                        {
+                            entity->SetTransformPosition(glm::vec3(posx,entity->GetTransformPosition().y, 0));
+                        }
+                        ImGui::Text("Y: %f", entity->GetTransformPosition().y);
+                        ImGui::SameLine();
+                        float posy = entity->GetTransformPosition().y; //modify position on y axis
+                        if (ImGui::DragFloat("position y", &posy, 1., -100.f, 800.f))
+                        {
+                            entity->SetTransformPosition(glm::vec3(entity->GetTransformPosition().x,posy, 0));
+                        }
+                        ImGui::SeparatorText("Rotation");
+                        ImGui::Text("X: %f", entity->GetRotation());
+                        ImGui::SameLine();
+                        float rotation = entity->GetRotation(); // modify rotation
+                        if (ImGui::DragFloat("rotation", &rotation, 1., 0.,180.))
+                        {
+                            entity->SetRotation(rotation);
+                        }
+                        ImGui::SeparatorText("Scale");
+                        ImGui::Text("X: %f", entity->GetScale().x);
+                        ImGui::SameLine();
+                        float scx = entity->GetScale().x; // modify scale on x axis
+                        if (ImGui::DragFloat("scale x", &scx, 1., 0.,1000.))
+                        {
+                            entity->SetScale(glm::vec3(scx, entity->GetScale().y, 1.0));
+                        }                      
+                        ImGui::Text("Y: %f", entity->GetScale().y);
+                        ImGui::SameLine();
+                        float scy = entity->GetScale().y; // modify scale on y axis
+                        if (ImGui::DragFloat("scale y", &scy, 1., 0., 1000.))
+                        {
+                            entity->SetScale(glm::vec3(entity->GetScale().x,scy, 1.0));
+                        }
+                        ImGui::TreePop();               
+                    } 
                     ImGui::TreePop();
                 }
             }
@@ -198,8 +197,8 @@ namespace Phoenix
                     m_newentityindex++; 
                     Ref<Entity> newEntity = Application::Get().GetSubSystem<EntitySubsystem>()->CreateEntity(s);
                     const auto colorVec = Colors::GetColorFromMap((ColorCode)item_selected);
-                    newEntity->AddComponent(SpriteComponent(colorVec));
-                    newEntity->AddComponent(TransformComponent(glm::vec3(posx, posy, 1.), rotation, glm::vec2(1, 1)));
+                    newEntity->AddComponent(SpriteComponent(colorVec, Quad));
+                    newEntity->AddComponent(TransformComponent(glm::vec3(posx, posy, 1.), rotation, glm::vec3(1, 1, 1)));
                     newEntity->SetScale((int)scale);
                     m_newentity = false; // hide the display of settings 
                 }

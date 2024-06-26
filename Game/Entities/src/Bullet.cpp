@@ -21,8 +21,8 @@ Bullet::Bullet(std::string id, glm::vec2 position, glm::vec2 direction)
     m_Direction = direction;
     m_id = id;
     self = Phoenix::Application::Get().GetSubSystem<Phoenix::EntitySubsystem>()->CreateEntity(m_id);
-    self->AddComponent(Phoenix::SpriteComponent("ressources/laser_beam.png"));
-    self->AddComponent(Phoenix::TransformComponent{ {position.x, position.y, 1.}, 180, glm::vec2(1, 1) });
+    self->AddComponent(Phoenix::SpriteComponent("ressources/laser_beam.png", Phoenix::SpriteType::Quad));
+    self->AddComponent(Phoenix::TransformComponent{ {position.x, position.y, 1.}, 180, glm::vec3(1, 1, 1) });
     self->SetScale(10);
     self->AddComponent(Phoenix::BoxCollider{ Phoenix::CollisionType::DYNAMIC, PX_BIND_EVENT_FN(OnHit), Phoenix::CollisionShape::RECTANGLE, 20, 20 });
     self->AddTag(Phoenix::Tag::Bullet);
