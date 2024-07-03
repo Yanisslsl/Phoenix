@@ -87,6 +87,12 @@ namespace Phoenix
          * \return glm::mat4
          */
         const glm::mat4& GetViewProjectionMatrix() const { return m_ViewProjectionMatrix; }
+
+        void LookAt(const glm::vec3& target);
+
+        void LookAt(const glm::vec3& position, const glm::vec3& target, const glm::vec3& up);
+
+        CameraMode GetCameraMode() const { return m_CameraMode; }
     private:
 
         /**
@@ -97,7 +103,7 @@ namespace Phoenix
         glm::mat4 m_ProjectionMatrix;
         glm::mat4 m_ViewMatrix;
         glm::mat4 m_ViewProjectionMatrix;
-        glm::vec3 m_Position = { 0.0f, 0.0f, 0.0f };
+        glm::vec3 m_Position = { 0.0f, 0.0f, 3.0f };
         float m_Rotation = 0.0f;
         CameraMode m_CameraMode = ORTHOGRAPHIC;
     };

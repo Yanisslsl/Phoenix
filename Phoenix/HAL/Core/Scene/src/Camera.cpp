@@ -14,7 +14,7 @@ namespace Phoenix
     Camera::Camera(float fov, float width, float height, float nearClip, float farClip)
     {
         m_CameraMode = PERSPECTIVE;
-        m_ViewMatrix = translate(glm::mat4(1.0f), glm::vec3(0.0f, 0.0f, -100.0f)); 
+        m_ViewMatrix = translate(glm::mat4(1.0f), glm::vec3(0.0f, 0.0f, 0.f)); 
         m_ProjectionMatrix = glm::perspective(glm::radians(fov), width / height, nearClip, farClip);
         m_ViewProjectionMatrix = m_ProjectionMatrix * m_ViewMatrix;
     }
@@ -25,10 +25,23 @@ namespace Phoenix
         m_ViewProjectionMatrix = m_ProjectionMatrix * m_ViewMatrix;
     }
 
+    void Camera::LookAt(const glm::vec3& target)
+    {
+        m_ViewMatrix = glm::lookAt(m_Position, target, glm::vec3(0, 1, 0));
+        m_ViewProjectionMatrix = m_ProjectionMatrix * m_ViewMatrix;
+    }
+
+    void Camera::LookAt(const glm::vec3& position, const glm::vec3& target, const glm::vec3& up)
+    {
+        m_ViewMatrix = glm::lookAt(position, target, up);
+        m_ViewProjectionMatrix = m_ProjectionMatrix * m_ViewMatrix;
+    }
+
+    // for 2d camera
     void Camera::RecalculateViewMatrix()
     {
         glm::mat4 transform = glm::translate(glm::mat4(1.0f), m_Position) *
-            glm::rotate(glm::mat4(1.0f), glm::radians(m_Rotation), glm::vec3(0, 0, 1));
+            glm::rotate(glm::mat4(1.0f), glm::radians(m_Rotation), glm::vec3(0, 0, 0));
         // view matrix is the inverse of the transform matrix, because the transformation applied to camera in the world space
         // need to be reversed to get the view matrix
         // eg: if the camera is moved 5 units to the right in the world space, the world space is moved 5 units to the left in the camera space
@@ -40,7 +53,10 @@ namespace Phoenix
     void Camera::SetPosition(const glm::vec3& position)
     {
         m_Position = position;
-        RecalculateViewMatrix();
+        if(m_CameraMode == ORTHOGRAPHIC)
+        {
+            RecalculateViewMatrix();
+        }
     }
 
 }

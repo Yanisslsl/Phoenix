@@ -140,7 +140,6 @@ namespace Phoenix
     void EntitySubsystem::Update()
     {
         std::vector<Ref<Entity>> entities = GetEntities();
-        PX_CORE_INFO("Updating {0} entities", entities.size());
         for(auto& entity : entities)
         {
             entity->Update();

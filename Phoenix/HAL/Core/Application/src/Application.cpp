@@ -60,6 +60,7 @@ namespace Phoenix
 		{
 			m_EntityManagerSubsystem->Initalize();
 		}
+		Timer::Start();
 		Update();
 	}
 

@@ -76,6 +76,11 @@ namespace Phoenix
          * \return glm::vec2
          */
         glm::vec2 GetCameraPosition() const { return { m_CameraPosition.x, m_CameraPosition.y }; }
+
+        void LookAt(const glm::vec3& target)
+        {
+            m_Camera.LookAt(target);
+        }
     private:
         /** \brief OnMouseScrolled listener
          * \param event MouseScrolledEvent
