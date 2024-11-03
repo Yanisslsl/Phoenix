@@ -193,6 +193,8 @@ namespace Phoenix
          * \return Ref<VertexBuffer> Vertex buffer
          */
         static Ref<VertexBuffer> Create(std::vector<float> vertices);
+
+        static Ref<VertexBuffer> Create(const void* data, uint32_t size);
     };
 
     /**

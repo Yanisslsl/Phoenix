@@ -59,6 +59,9 @@ namespace Phoenix
         TextureData currentTextureData;
         //  === Animation ===
         ColorType color;
+
+        // === 3DModel ====
+        std::vector<Ref<Texture2D>> textures;
     };
 
 
@@ -69,6 +72,8 @@ namespace Phoenix
     class PHOENIX_API Renderer
     {
     public:
+
+        friend class Mesh;
 
         Renderer();
 

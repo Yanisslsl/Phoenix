@@ -77,16 +77,19 @@ namespace Phoenix
         // we set the model matrix to the shader by using the transform vector with z = 1.0f for the 2D rendering
         shader->SetMat4("u_Model", modelMat);
 
+        // for shapes with textures but no animation
         if(texture != nullptr && !textureData.isEnable)
         {
             texture->Bind();
             shader->SetFloat3("u_Color", glm::vec3(0.0f, 0.0f, 0.0f));
         }
+        // for shapes with animation
         else if(textureData.isEnable)
         {
             textureData.textures[textureData.currentTextureIndex]->Bind();
             shader->SetFloat3("u_Color", glm::vec3(0.0f, 0.0f, 0.0f));
         }
+        // for shapes with color
         else
         {
             shader->SetFloat3("u_Color", color);

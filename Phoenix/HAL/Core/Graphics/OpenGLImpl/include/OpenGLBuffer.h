@@ -13,6 +13,7 @@ namespace Phoenix
 
         OpenGLVertexBuffer(uint32_t size);
         OpenGLVertexBuffer(std::vector<float> vertices);
+        OpenGLVertexBuffer(const void* data, uint32_t size);
 
         virtual ~OpenGLVertexBuffer();
         

@@ -31,7 +31,7 @@ namespace Phoenix
             data = (char*)stbi_load(texturePath.c_str(), &width, &height, &channels, 0);
         }
 
-            if(data)
+        if(data)
         {
             m_IsLoaded = true;
 
@@ -68,7 +68,6 @@ namespace Phoenix
 
             stbi_image_free(data);
         }
-
     }
 
     OpenGLTexture2D::~OpenGLTexture2D()

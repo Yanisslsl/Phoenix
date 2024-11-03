@@ -59,6 +59,11 @@ namespace Phoenix
         return OpenGLVertexBuffer::Create(vertices);
     }
 
+    Ref<VertexBuffer> OpenGLRendererAPI::CreateVertexBuffer(const void* data, uint32_t size)
+    {
+        return OpenGLVertexBuffer::Create(data, size);
+    }
+
     Ref<IndexBuffer> OpenGLRendererAPI::CreateIndexBuffer(std::vector<uint32_t> indices)
     {
         return OpenGLIndexBuffer::Create(indices);

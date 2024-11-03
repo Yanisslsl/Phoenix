@@ -5,7 +5,6 @@
 
 #include <glm/ext/matrix_transform.hpp>
 
-#include "Core/Graphics/Render/include/Renderer3D.h"
 #include "ECSExtended/include/TransformSubsytem.h"
 #include "ECSExtended/include/Entity.h"
 

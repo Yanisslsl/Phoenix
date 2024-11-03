@@ -5,7 +5,6 @@
 #include "Editor/include/EditorLayer.h"
 #include "Events/EventDispatcher.h"
 #include "Utils/Timer.h"
-#include "Core/Graphics/Render/include/Renderer3D.h"
 #include "ECSExtended/include/TransformSubsytem.h"
 
 

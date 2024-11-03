@@ -21,6 +21,7 @@
     "glfw3",
     "spdlog",
     "stb",
-    "entt"
+    "entt",
+    "assimp"
   ]
 }
