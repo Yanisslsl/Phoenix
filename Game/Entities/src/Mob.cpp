@@ -36,8 +36,8 @@ void Mob::OnStart()
 {
     Phoenix::Application::Get().GetSubSystem<Phoenix::SerializerSubsystem>()->RegisterEntityForSerialization(m_id, this);
     Phoenix::Ref<Phoenix::Entity> entity = Phoenix::Application::Get().GetSubSystem<Phoenix::EntitySubsystem>()->CreateEntity(m_id, false);
-    entity->AddComponent(Phoenix::SpriteComponent("characters/mobs/mob_idle.png"));
-    entity->AddComponent(Phoenix::TransformComponent( { m_Position.x , m_Position.y, 1.} , 180, glm::vec2(1, 1) ));
+    entity->AddComponent(Phoenix::SpriteComponent("characters/mobs/mob_idle.png", Phoenix::SpriteType::Quad));
+    entity->AddComponent(Phoenix::TransformComponent( { m_Position.x , m_Position.y, 1.} , 180, glm::vec3(1, 1,1) ));
     entity->AddComponent(Phoenix::BoxCollider{ Phoenix::CollisionType::DYNAMIC, PX_BIND_EVENT_FN(OnHit), Phoenix::CollisionShape::RECTANGLE, 50, 50 });
     entity->SetScale(30);
     entity->BindUpdate(PX_BIND_EVENT_FN(OnUpdate));

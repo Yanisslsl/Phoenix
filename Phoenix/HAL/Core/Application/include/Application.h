@@ -1,22 +1,24 @@
 #pragma once
 #include <entt/entity/registry.hpp>
 #include "Application.h"
-#include "Core/Animation/include/AnimationSubsystem.h"
-#include "Core/ECSExtended/include/SpriteSubsystem.h"
+#include "Core/Graphics/Render/include/Renderer.h"
 #include "Core/Input/include/InputActionRegistratorSubSystem.h"
-#include "Core/Physics/include/CollisionSubSytem.h"
 #include "Core/Scene/include/SceneManagerSubSystem.h"
 #include "Core/Serialization/include/SerializerSubsystem.h"
 #include "Core/Window/include/Window.h"
+#include "ECSExtended/include/EntitySubsystem.h"
+#include "ECSExtended/include/SpriteSubsystem.h"
 #include "Events/Event.h"
 #include "Events/WindowEvent.h"
 #include "Layers/LayerStack/include/LayerStack.h"
+#include "Physics/include/CollisionSubSytem.h"
 
 
 namespace Phoenix
 {
 	class Layer;
 	class TransformSubsytem;
+	class AnimationSubsystem;
 
 
 	/**
@@ -41,6 +43,7 @@ namespace Phoenix
 		Standalone,
 		Wrapped,
 	};
+
 
 	class PHOENIX_API Application
 	{
@@ -220,10 +223,24 @@ namespace Phoenix
 			return m_SpriteSubsystem;
 		}
 
+		/** 
+		 * \brief Get the registry
+		 * \return 
+		 */
 		entt::registry& GetRegistry()
 		{
 			return m_Registry;
 		}
+
+		/** //@TODO: maybe move this to the renderer subsystem or the scene
+		 * \brief Get the renderer
+		 * \return 
+		 */
+		Renderer* GetRenderer()
+		{
+			return m_Renderer;
+		}
+		
 	private:
 		ApplicationMode m_Mode;
 		ErrorCode m_ErrorCode = ErrorCode::NO_ERROR;
@@ -241,8 +258,7 @@ namespace Phoenix
 		AnimationSubsystem* m_AnimationSubsystem;
 		SerializerSubsystem* m_SerializerSubsystem;
 		SpriteSubsystem* m_SpriteSubsystem;
-
-	private:
+		Renderer* m_Renderer;
 		entt::registry m_Registry;
 	};
 

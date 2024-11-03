@@ -8,9 +8,12 @@
 #define PX_DELEGATE(fn) [this](auto&&... args) -> decltype(auto) { return fn(std::forward<decltype(args)>(args)...); }
 #define PX_CORE_ASSERT(x, ...) { if(!(x)) { PX_CORE_ERROR("Assertion Failed: {0}", __VA_ARGS__); __debugbreak(); } }
 #include <memory>
+#include <entt/entity/entity.hpp>
 
 namespace Phoenix
 {
+    using EntityIdentifier = entt::entity;
+    
     template<typename T>
     using Ref = std::shared_ptr<T>;
     

@@ -7,12 +7,16 @@ namespace Phoenix
     class PHOENIX_API Timer
     {
     public:
+
+        static void Start()
+        {
+            m_StartTime = std::chrono::high_resolution_clock::now();
+        }
         /**
-         * \brief Start the timer
+         * \brief Reset the timer
          */
         static void Reset()
         {
-            m_StartTime = std::chrono::high_resolution_clock::now();
             m_DeltaTime = std::chrono::high_resolution_clock::now();
             m_LastUpdateTime = std::chrono::high_resolution_clock::now();
         }
@@ -45,8 +49,6 @@ namespace Phoenix
          */
         static float GetDeltaTime()
         {
-            auto u = m_DeltaTime;
-            auto s = std::chrono::high_resolution_clock::now();
             float deltaTime =  std::chrono::duration_cast<std::chrono::nanoseconds>(std::chrono::high_resolution_clock::now() - m_DeltaTime).count() * 0.001f * 0.001f * 0.001f;
             return deltaTime;
         }

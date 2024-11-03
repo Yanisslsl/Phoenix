@@ -1,6 +1,7 @@
 ﻿#include "Core/Graphics/DataObjects/include/Buffer.h"
 
 #include "Base/Base.h"
+#include "Core/Application/include/Application.h"
 #include "Core/Graphics/OpenGLImpl/include/OpenGLBuffer.h"
 #include "Core/Graphics/Render/include/Renderer.h"
 
@@ -10,7 +11,7 @@ namespace Phoenix
 
     Ref<VertexBuffer> VertexBuffer::Create(uint32_t size)
     {
-        switch (Renderer::GetAPI())
+        switch (Application::Get().GetRenderer()->GetAPI())
         {
         case RendererAPI::API::None:    PX_CORE_ASSERT(false, "RendererAPI::None is currently not supported!"); return nullptr;
         case RendererAPI::API::OpenGL:  return CreateRef<OpenGLVertexBuffer>(size);
@@ -22,7 +23,7 @@ namespace Phoenix
 
     Ref<VertexBuffer> VertexBuffer::Create(std::vector<float> vertices)
     {
-        switch (Renderer::GetAPI())
+        switch (Application::Get().GetRenderer()->GetAPI())
         {
         case RendererAPI::API::None:    PX_CORE_ASSERT(false, "RendererAPI::None is currently not supported!"); return nullptr;
         case RendererAPI::API::OpenGL:  return CreateRef<OpenGLVertexBuffer>(vertices);
@@ -32,9 +33,21 @@ namespace Phoenix
         return nullptr;
     }
 
+    Ref<VertexBuffer> VertexBuffer::Create(const void* data, uint32_t size)
+    {
+        switch (Application::Get().GetRenderer()->GetAPI())
+        {
+        case RendererAPI::API::None:    PX_CORE_ASSERT(false, "RendererAPI::None is currently not supported!"); return nullptr;
+        case RendererAPI::API::OpenGL:  return CreateRef<OpenGLVertexBuffer>(data, size);
+        }
+
+        PX_CORE_ASSERT(false, "Unknown RendererAPI!");
+        return nullptr;
+    };
+
     Ref<IndexBuffer> IndexBuffer::Create(std::vector<uint32_t> indices)
     {
-        switch (Renderer::GetAPI())
+        switch (Application::Get().GetRenderer()->GetAPI())
         {
         case RendererAPI::API::None:    PX_CORE_ASSERT(false, "RendererAPI::None is currently not supported!"); return nullptr;
         case RendererAPI::API::OpenGL:  return CreateRef<OpenGLIndexBuffer>(indices);

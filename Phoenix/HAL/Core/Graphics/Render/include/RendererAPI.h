@@ -91,6 +91,7 @@ namespace Phoenix
          */
         virtual Ref<VertexBuffer> CreateVertexBuffer(std::vector<float> vertices) = 0;
 
+        virtual Ref<VertexBuffer> CreateVertexBuffer(const void* data, uint32_t size) = 0;
         /** 
          * \brief Create a IndexBuffer
          * \param indices 

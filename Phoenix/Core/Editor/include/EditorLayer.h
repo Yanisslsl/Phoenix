@@ -1,8 +1,10 @@
-#include "../../Layers/Layer/include/Layer.h"
-#include "../../Events/Event.h"
-#include "../../Events/MouseEvent.h"
-#include "../../Events/WindowEvent.h"
-#include "../../Events/KeyEvent.h"
+
+#include <glm/vec3.hpp>
+
+#include "Events/KeyEvent.h"
+#include "Events/MouseEvent.h"
+#include "Events/WindowEvent.h"
+#include "Layers/Layer/include/Layer.h"
 
 namespace Phoenix
 {
@@ -84,11 +86,6 @@ namespace Phoenix
          * \return uint32_t
          */
         uint32_t GetActiveWidgetID() const;
-
-        /** 
-         * \brief Trigger camera movement
-         */ 
-        void TriggerCameraMovement();
     private:
 
         /** 
@@ -103,11 +100,15 @@ namespace Phoenix
          */
         void DrawSceneEditor();
 
+        void UpdateCameraPosition();
+
          /** 
          * \brief UpdateCameraPosition
          *        Update the camera position
          */
-        void UpdateCameraPosition();
+        void UpdateCamera2DPosition();
+
+        void UpdateCamera3DPosition();
 
         /** 
          * \brief OnMouseButtonPressedEvent
@@ -156,8 +157,16 @@ namespace Phoenix
          *        Called when the window is resized
          */
         bool OnWindowResizeEvent(WindowResizeEvent& e);
+
+
+        /** 
+         * \brief RotateCamera
+         *        Rotate the camera
+         */
+        void RotateCamera();
+    public:
+        /** Editor ECS settings */
         bool m_BlockEvents = true;
-        bool m_Trigger_Camera_Movement = false;
         float m_Time = 0.0f;
 
         bool m_newentity = false;
@@ -166,7 +175,17 @@ namespace Phoenix
         float posy = 0.;
         float scale = 0;
         float rotation = 0;
-        
-     
+
+    private:
+        /** Camera Settings */
+        float m_LastMouseX = 740.0f;
+        float m_LastMouseY = 340.0f;
+        float m_Yaw = -90.0f;
+        float m_Pitch = 0.0f;
+        glm::vec3 m_CameraDirection = glm::vec3(0.0f, 0.0f, -1.0f);
+        float m_SleepTime = 0.0f;
+        bool m_isCameraDevMode = false;
+        float m_CameraSensitivity = 0.1f;
+        float m_CameraSpeed = 10.f;
     };
 }

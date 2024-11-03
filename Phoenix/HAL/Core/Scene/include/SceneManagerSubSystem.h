@@ -23,10 +23,16 @@ namespace Phoenix
         }
 
         /** 
-         * \brief Create a new scene
+         * \brief Create a new 2D scene
          * \param name the name of the scene
          */
-        Scene* CreateScene(std::string name);
+        Scene* Create2DScene(std::string name);
+
+        /** 
+         * \brief Create a new 3D scene
+         * \param name the name of the scene
+         */
+        Scene* Create3DScene(std::string name);
 
         /** 
          * \brief Delete a scene

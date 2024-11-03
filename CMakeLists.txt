@@ -16,6 +16,7 @@ find_package(glfw3 CONFIG REQUIRED)
 find_package(spdlog CONFIG REQUIRED)
 find_package(Stb REQUIRED)
 find_package(EnTT CONFIG REQUIRED)
+find_package(assimp REQUIRED)
 
 
 # Phoenix Library source files
@@ -45,6 +46,7 @@ target_link_libraries(Phoenix PRIVATE
     glfw
     spdlog::spdlog
     EnTT::EnTT
+    assimp::assimp
 )
 
 # Game executable source files
