@@ -161,6 +161,6 @@ This basic game is just a dungeon like game where you can move and shoot mobs wi
 - [x] Input Polling
 - [x] Input Registrator
 - [x] 2D Renderer
+- [x] 3D Renderer
 - [ ] Physics System alongside collision system
 - [ ] Behavior Tree
-- [ ] 3D Renderer
