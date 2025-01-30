@@ -263,7 +263,7 @@ namespace Phoenix
 	};
 
 	// To be defined in CLIENT
-	Application* CreateApplication();	
+	Application* CreateApplication(int argc, char** argv);	
 }
 
 

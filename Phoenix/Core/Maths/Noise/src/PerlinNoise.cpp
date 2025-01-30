@@ -37,7 +37,7 @@
             return value;
         }
 
-        void PerlinNoise::Noise(int width, int height, const char* filename)
+        void PerlinNoise::Noise(int width, int height, const char* filename, int octavesNumber)
         {
             std::vector<unsigned char> pixels(width * height);
             for(int y = 0; y < height; y++)
@@ -50,7 +50,7 @@
                     float amplitude = 1.0f;
                     const int GRID_SIZE = 100.0f;
 
-                    for(int i = 0; i < 12; i++)
+                    for(int i = 0; i < octavesNumber; i++)
                     {
                         val += Generate2D(x * frequency / GRID_SIZE, y * frequency / GRID_SIZE) * amplitude;
                         frequency *= 2.0f;

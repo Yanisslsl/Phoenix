@@ -12,7 +12,7 @@ namespace Phoenix {
         virtual float Generate2D(float x, float y) override;
         // virtual float Generate3D(float x, float y, float z) override;
 
-        virtual void Noise(int width, int height, const char* filename);
+        virtual void Noise(int width, int height, const char* filename, int octavesNumber) override;
     private:
         float GenerateGradientDistanceDotProduct(int ix, int iy, float x, float y);
 
