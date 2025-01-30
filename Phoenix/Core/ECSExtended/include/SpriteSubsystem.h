@@ -23,7 +23,11 @@ namespace Phoenix
         Cube,
         Sphere,
         Pyramid,
-        Model
+        Model,
+        Plane,
+        Terrain,
+
+        Custom
     };
     /**
      * \brief SpriteComponent class that represent a sprite component in the game. Now for 2D use cases.
@@ -33,6 +37,8 @@ namespace Phoenix
         std::string textureFilePath;
         ColorCode colorCode = Color::NONE;
         SpriteType spriteType;
+        std::vector<float> vertices;
+        std::vector<uint32_t> indices;
         SpriteComponent() = default;
         SpriteComponent(std::string texturePath, SpriteType type)
         {
@@ -43,6 +49,13 @@ namespace Phoenix
         {
             spriteType = type;
             colorCode = color;
+        }
+        SpriteComponent(SpriteType type, std::string texturePath, std::vector<float> vertices, std::vector<uint32_t> indices)
+        {
+            spriteType = type;
+            textureFilePath = texturePath;
+            this->vertices = vertices;
+            this->indices = indices;
         }
         virtual void Serialize(BlobSerializer& serializer) override
         {
