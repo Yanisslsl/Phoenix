@@ -188,7 +188,7 @@ public:
 
         int GRID_SIZE = 1;
 
-		Phoenix::PerlinNoise *noise = new Phoenix::PerlinNoise();
+		Phoenix::Scope<Phoenix::PerlinNoise> noise = Phoenix::CreateScope<Phoenix::PerlinNoise>(Phoenix::PerlinNoise());
   
         int dWidth = 200/CHUNK_RATIO;
         int dHeight = 200/CHUNK_RATIO;
@@ -283,9 +283,60 @@ public:
 	}
 };
 
-Phoenix::Application* Phoenix::CreateApplication()
+Phoenix::Application* Phoenix::CreateApplication(int argc, char** argv)
 {
-	return new Playground();
+	if (argc < 4)
+	{
+		std::cerr << "Error: Required arguments missing.\n";
+		exit(1);
+	}
+	std::string outputFilename = argv[1];
+
+	// Get width and height from arguments
+	int width, height;
+	try {
+		width = std::stoi(argv[2]);
+		height = std::stoi(argv[3]);
+        
+		if (width <= 0 || height <= 0) {
+			std::cerr << "Error: Width and height must be positive integers.\n";
+			exit(1);
+		}
+	} catch (const std::exception& e) {
+		std::cerr << "Error: Invalid width or height value. Must be positive integers.\n";
+		exit(1);
+	}
+
+	int octaves = 4;
+	if (argc > 4) {
+		try {
+			octaves = std::stoi(argv[4]);
+			if (octaves < 1) {
+				std::cerr << "Error: Octaves must be a positive integer.\n";
+		exit(1);
+			}
+		} catch (const std::exception& e) {
+			std::cerr << "Error: Invalid octaves value. Must be a positive integer.\n";
+		exit(1);
+		}
+	}
+
+	try {
+		// Create Perlin noise generator
+		Phoenix::Scope<Phoenix::PerlinNoise> noise = Phoenix::CreateScope<Phoenix::PerlinNoise>(Phoenix::PerlinNoise());
+		auto start = std::chrono::high_resolution_clock::now();
+		noise->Noise(width, height, outputFilename.c_str(), octaves);
+		auto end = std::chrono::high_resolution_clock::now();
+		auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);
+		std::cout << "Successfully generated Perlin noise image: " << outputFilename << "\n";
+		std::cout << "Dimensions: " << width << "x" << height << " pixels\n";
+		std::cout << "Used " << octaves << " octaves\n";
+		std::cout << "Time taken: " << duration.count() << "ms\n";
+	} catch (const std::exception& e) {
+		std::cerr << "Error generating noise image: " << e.what() << "\n";
+		exit(1);
+	}
+	return 0;
 }
 
 
