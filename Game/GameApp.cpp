@@ -89,11 +89,11 @@ public:
 	void CheckCurrentPosition()
 	{
 		auto cameraPosition = Phoenix::Application::Get().GetSubSystem<Phoenix::SceneManagerSubSystem>()->GetActiveScene()->GetCameraController()->GetCamera().GetPosition();
-		if(m_CurrentChunk == nullptr || cameraPosition.x <= m_CurrentChunk->bottomLeft.x || cameraPosition.x >= m_CurrentChunk->bottomLeft.x + 200/CHUNK_RATIO || cameraPosition.z <= m_CurrentChunk->bottomLeft.y || cameraPosition.z >= m_CurrentChunk->bottomLeft.y + 200/CHUNK_RATIO)
+		if(m_CurrentChunk == nullptr || cameraPosition.x <= m_CurrentChunk->bottomLeft.x || cameraPosition.x >= m_CurrentChunk->bottomLeft.x + 2000/CHUNK_RATIO || cameraPosition.z <= m_CurrentChunk->bottomLeft.y || cameraPosition.z >= m_CurrentChunk->bottomLeft.y + 2000/CHUNK_RATIO)
 		{
 			for(auto chunk : m_chunks)
 			{
-				if(cameraPosition.x > chunk->bottomLeft.x && cameraPosition.x < chunk->bottomLeft.x + 200/CHUNK_RATIO && cameraPosition.z > chunk->bottomLeft.y && cameraPosition.z < chunk->bottomLeft.y + 200/CHUNK_RATIO)
+				if(cameraPosition.x > chunk->bottomLeft.x && cameraPosition.x < chunk->bottomLeft.x + 2000/CHUNK_RATIO && cameraPosition.z > chunk->bottomLeft.y && cameraPosition.z < chunk->bottomLeft.y + 2000/CHUNK_RATIO)
 				{
 					auto entity = Phoenix::Application::Get().GetSubSystem<Phoenix::EntitySubsystem>()->GetEntityByName(chunk->name);
 					if(entity)
@@ -120,7 +120,7 @@ public:
 				auto _chunk = pendingChunk->future.get();
 				Phoenix::Ref<Phoenix::Entity> chunk = Phoenix::Application::Get().GetSubSystem<Phoenix::EntitySubsystem>()->CreateEntity(pendingChunk->name, true);
 				chunk->AddComponent(Phoenix::SpriteComponent(Phoenix::SpriteType::Custom, "ressources/terrain-grass.jpg", _chunk->vertices, _chunk->indices ));
-				chunk->AddComponent(Phoenix::TransformComponent{ glm::vec3(pendingChunk->position.x, -10, pendingChunk->position.z), 0, glm::vec3(100/CHUNK_RATIO, 0.3,100/CHUNK_RATIO) });
+				chunk->AddComponent(Phoenix::TransformComponent{ glm::vec3(pendingChunk->position.x, -10, pendingChunk->position.z), 0, glm::vec3(1000/CHUNK_RATIO, 3,1000/CHUNK_RATIO) });
 				Phoenix::Application::Get().GetSubSystem<Phoenix::EntitySubsystem>()->GetEntityByName(pendingChunk->name)->SetRotation(0.f, glm::vec3(1, 0, 0));
 				auto end = std::chrono::high_resolution_clock::now();
 				auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);
@@ -137,8 +137,8 @@ public:
 
 	void LoadChunkNeighboors(glm::vec3 center = glm::vec3(0,0,0))
 	{
-		const int RADIUS = 2;
-		int chunkSize = 200/CHUNK_RATIO;
+		const int RADIUS = 4;
+		int chunkSize = 2000/CHUNK_RATIO;
 		int startX = center.x - (RADIUS * chunkSize + chunkSize/2);
 		int startZ = center.z - (RADIUS * chunkSize + chunkSize/2);
 
@@ -186,12 +186,12 @@ public:
 		std::vector<float> vertices;
         std::vector<uint32_t> indices;
 
-        int GRID_SIZE = 1;
+        int GRID_SIZE = 5;
 
 		Phoenix::PerlinNoise *noise = new Phoenix::PerlinNoise();
   
-        int dWidth = 200/CHUNK_RATIO;
-        int dHeight = 200/CHUNK_RATIO;
+        int dWidth = 2000/CHUNK_RATIO;
+        int dHeight = 2000/CHUNK_RATIO;
         std::vector heights = std::vector<float>();
   
         for(int x = 0; x < dWidth; x++) {
@@ -199,7 +199,7 @@ public:
                 float height = 0.0f;
                 float frequency = 1.0f;
                 float amplitude = 1.0f;
-                const float lacunarity = 4.f;
+                const float lacunarity = 2.f;
                 const float persistence = 0.8f;
 
             	float localX = (float)x / (dWidth - 1);
@@ -213,7 +213,7 @@ public:
             	float chunkOffsetZ = (bottomLeft.y / (float)dHeight) * 2.0f;
 
 
-                for(int i = 0; i < 8; i++)
+                for(int i = 0; i < 4; i++)
                 {
                     height += noise->Generate2D(( px + chunkOffsetX) * frequency / GRID_SIZE, (pz + chunkOffsetZ) * frequency / GRID_SIZE) * amplitude;
                     frequency *= lacunarity;

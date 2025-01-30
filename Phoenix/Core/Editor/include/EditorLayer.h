@@ -186,6 +186,6 @@ namespace Phoenix
         float m_SleepTime = 0.0f;
         bool m_isCameraDevMode = true;
         float m_CameraSensitivity = 0.1f;
-        float m_CameraSpeed = 75.f;
+        float m_CameraSpeed = 200.f;
     };
 }

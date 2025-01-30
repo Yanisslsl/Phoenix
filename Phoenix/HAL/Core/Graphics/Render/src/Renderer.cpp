@@ -61,7 +61,7 @@ namespace Phoenix
 
     void Renderer::BeginScene()
     {
-        s_RendererAPI->SetClearColor({0., 0., 0., 1});
+        s_RendererAPI->SetClearColor({0.392f, 0.584f, 0.929f, 1.0f});
     }
 
     void Renderer::EndScene()

@@ -22,7 +22,7 @@ namespace Phoenix
 
     void Scene::OnUpdate()
     {
-        Application::Get().GetRenderer()->SetClearColor({ 0.34, 0.33, 0.33, 1 });
+        Application::Get().GetRenderer()->SetClearColor({ 0.392f, 0.584f, 0.929f, 1.0f});
         Application::Get().GetRenderer()->Clear();
         Application::Get().GetRenderer()->BeginScene(m_CameraController->GetCamera());
         Application::Get().GetRenderer()->OnUpdate();

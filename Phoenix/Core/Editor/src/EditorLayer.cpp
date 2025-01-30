@@ -181,7 +181,7 @@ namespace Phoenix
                 if(m_isCameraDevMode)
                 {
                     ImGui::SliderFloat("Camera Sensitivity", &m_CameraSensitivity,0, 10.f);
-                    ImGui::SliderFloat("Camera Speed", &m_CameraSpeed,1, 100.f);
+                    ImGui::SliderFloat("Camera Speed", &m_CameraSpeed,1, 500.f);
                 }
                 ImGui::TreePop();
             }           
