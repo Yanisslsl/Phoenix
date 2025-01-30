@@ -1,5 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project DefaultTargets="Build" ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <PreferredToolArchitecture>x64</PreferredToolArchitecture>
+  </PropertyGroup>
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|x64">
       <Configuration>Debug</Configuration>
@@ -9,245 +12,389 @@
       <Configuration>Release</Configuration>
       <Platform>x64</Platform>
     </ProjectConfiguration>
-    <ProjectConfiguration Include="Dist|x64">
-      <Configuration>Dist</Configuration>
+    <ProjectConfiguration Include="RelWithDebInfo|x64">
+      <Configuration>RelWithDebInfo</Configuration>
       <Platform>x64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{40FF9C0C-ACDE-1BA8-B5F6-A67E21558209}</ProjectGuid>
-    <IgnoreWarnCompileDuplicatedFilename>true</IgnoreWarnCompileDuplicatedFilename>
+    <ProjectGuid>{1E505C79-5DFC-3300-A6F2-3029A7462AAD}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
-    <RootNamespace>Phoenix</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+    <VcpkgEnabled>false</VcpkgEnabled>
+    <WindowsTargetPlatformVersion>10.0.22000.0</WindowsTargetPlatformVersion>
+    <Platform>x64</Platform>
+    <ProjectName>Phoenix</ProjectName>
+    <VCProjectUpgraderObjectName>NoUpgrade</VCProjectUpgraderObjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
-    <UseDebugLibraries>true</UseDebugLibraries>
-    <CharacterSet>Unicode</CharacterSet>
+    <CharacterSet>MultiByte</CharacterSet>
     <PlatformToolset>v143</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
-    <UseDebugLibraries>false</UseDebugLibraries>
-    <CharacterSet>Unicode</CharacterSet>
+    <CharacterSet>MultiByte</CharacterSet>
     <PlatformToolset>v143</PlatformToolset>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Dist|x64'" Label="Configuration">
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
-    <UseDebugLibraries>false</UseDebugLibraries>
-    <CharacterSet>Unicode</CharacterSet>
+    <CharacterSet>MultiByte</CharacterSet>
     <PlatformToolset>v143</PlatformToolset>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
   </ImportGroup>
-  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-  </ImportGroup>
-  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-  </ImportGroup>
-  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Dist|x64'">
-    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  <ImportGroup Label="PropertySheets">
+    <Import Project="do_not_import_user.props" Condition="exists('do_not_import_user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <LinkIncremental>true</LinkIncremental>
-    <OutDir>..\bin\Debug-windows-x86_64\Phoenix\</OutDir>
-    <IntDir>..\bin-int\Debug-windows-x86_64\Phoenix\</IntDir>
-    <TargetName>Phoenix</TargetName>
-    <TargetExt>.dll</TargetExt>
+  <PropertyGroup>
+    <_ProjectFileVersion>10.0.20506.1</_ProjectFileVersion>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\Users\yello\Dev\Test\Phoenix\Debug\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Phoenix.dir\Debug\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Phoenix</TargetName>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">.dll</TargetExt>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</LinkIncremental>
+    <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</GenerateManifest>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">C:\Users\yello\Dev\Test\Phoenix\Release\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Phoenix.dir\Release\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Phoenix</TargetName>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='Release|x64'">.dll</TargetExt>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</LinkIncremental>
+    <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</GenerateManifest>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">C:\Users\yello\Dev\Test\Phoenix\RelWithDebInfo\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">Phoenix.dir\RelWithDebInfo\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">Phoenix</TargetName>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">.dll</TargetExt>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">true</LinkIncremental>
+    <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">true</GenerateManifest>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <LinkIncremental>false</LinkIncremental>
-    <OutDir>..\bin\Release-windows-x86_64\Phoenix\</OutDir>
-    <IntDir>..\bin-int\Release-windows-x86_64\Phoenix\</IntDir>
-    <TargetName>Phoenix</TargetName>
-    <TargetExt>.dll</TargetExt>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Dist|x64'">
-    <LinkIncremental>false</LinkIncremental>
-    <OutDir>..\bin\Dist-windows-x86_64\Phoenix\</OutDir>
-    <IntDir>..\bin-int\Dist-windows-x86_64\Phoenix\</IntDir>
-    <TargetName>Phoenix</TargetName>
-    <TargetExt>.dll</TargetExt>
-  </PropertyGroup>
+  <PropertyGroup />
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
-      <PrecompiledHeader>NotUsing</PrecompiledHeader>
-      <WarningLevel>Level3</WarningLevel>
-      <PreprocessorDefinitions>PHOENIX_PLATFORM_WINDOWS;PHOENIX_BUILD_DLL;GLFW_INCLUDE_NONE;PHOENIX_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>HAL;Core;vendor\spdlog\include;vendor\GLFW\include;vendor\GLAD\include;vendor\imgui;vendor\stb_image;vendor\glm;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
-      <Optimization>Disabled</Optimization>
-      <AdditionalOptions>/MDd %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalIncludeDirectories>C:\Users\yello\Dev\Test\Phoenix\HAL;C:\Users\yello\Dev\Test\Phoenix\Core;C:\Users\yello\Dev\Test\Phoenix\vendor\spdlog\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /external:I "C:/Users/yello/Dev/Test/Phoenix/vcpkg_installed/x64-windows/include"</AdditionalOptions>
+      <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <DisableSpecificWarnings>4251;4275</DisableSpecificWarnings>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <ExternalWarningLevel>TurnOffAllWarnings</ExternalWarningLevel>
+      <InlineFunctionExpansion>Disabled</InlineFunctionExpansion>
       <LanguageStandard>stdcpp17</LanguageStandard>
-      <ExternalWarningLevel>Level3</ExternalWarningLevel>
+      <Optimization>Disabled</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <UseFullPaths>false</UseFullPaths>
+      <WarningLevel>Level3</WarningLevel>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;PHOENIX_PLATFORM_WINDOWS;PHOENIX_BUILD_DLL;PX_DEBUG;GLFW_DLL;SPDLOG_SHARED_LIB;SPDLOG_COMPILED_LIB;SPDLOG_FMT_EXTERNAL;FMT_SHARED;CMAKE_INTDIR="Debug";Phoenix_EXPORTS</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
     </ClCompile>
-    <Link>
-      <SubSystem>Windows</SubSystem>
-      <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <ImportLibrary>..\bin\Debug-windows-x86_64\Phoenix\Phoenix.lib</ImportLibrary>
-    </Link>
+    <ResourceCompile>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_DEBUG;_WINDOWS;PHOENIX_PLATFORM_WINDOWS;PHOENIX_BUILD_DLL;PX_DEBUG;GLFW_DLL;SPDLOG_SHARED_LIB;SPDLOG_COMPILED_LIB;SPDLOG_FMT_EXTERNAL;FMT_SHARED;CMAKE_INTDIR=\"Debug\";Phoenix_EXPORTS</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>C:\Users\yello\Dev\Test\Phoenix\HAL;C:\Users\yello\Dev\Test\Phoenix\Core;C:\Users\yello\Dev\Test\Phoenix\vendor\spdlog\include;C:\Users\yello\Dev\Test\Phoenix\vcpkg_installed\x64-windows\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>C:\Users\yello\Dev\Test\Phoenix\HAL;C:\Users\yello\Dev\Test\Phoenix\Core;C:\Users\yello\Dev\Test\Phoenix\vendor\spdlog\include;C:\Users\yello\Dev\Test\Phoenix\vcpkg_installed\x64-windows\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
     <PostBuildEvent>
-      <Command>IF EXIST ..\bin\Debug-windows-x86_64\Phoenix\Phoenix.dll\ (xcopy /Q /E /Y /I ..\bin\Debug-windows-x86_64\Phoenix\Phoenix.dll ..\bin\Debug-windows-x86_64\Game &gt; nul) ELSE (xcopy /Q /Y /I ..\bin\Debug-windows-x86_64\Phoenix\Phoenix.dll ..\bin\Debug-windows-x86_64\Game &gt; nul)</Command>
+      <Message></Message>
+      <Command>setlocal
+C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe -noprofile -executionpolicy Bypass -file C:/Users/yello/Dev/Libs/vcpkg/scripts/buildsystems/msbuild/applocal.ps1 -targetBinary C:/Users/yello/Dev/Test/Phoenix/Debug/Phoenix.dll -installedDir C:/Users/yello/Dev/Test/Phoenix/vcpkg_installed/x64-windows/debug/bin -OutVariable out
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
     </PostBuildEvent>
+    <Link>
+      <AdditionalDependencies>vcpkg_installed\x64-windows\debug\lib\glad.lib;vcpkg_installed\x64-windows\debug\lib\imguid.lib;vcpkg_installed\x64-windows\debug\lib\glfw3dll.lib;vcpkg_installed\x64-windows\debug\lib\spdlogd.lib;vcpkg_installed\x64-windows\debug\lib\assimp-vc143-mtd.lib;vcpkg_installed\x64-windows\debug\lib\fmtd.lib;vcpkg_installed\x64-windows\debug\lib\pugixml.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /machine:x64</AdditionalOptions>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+      <ImportLibrary>C:/Users/yello/Dev/Test/Phoenix/Debug/Phoenix.lib</ImportLibrary>
+      <ProgramDataBaseFile>C:/Users/yello/Dev/Test/Phoenix/Debug/Phoenix.pdb</ProgramDataBaseFile>
+      <SubSystem>Console</SubSystem>
+    </Link>
+    <ProjectReference>
+      <LinkLibraryDependencies>false</LinkLibraryDependencies>
+    </ProjectReference>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
-      <PrecompiledHeader>NotUsing</PrecompiledHeader>
-      <WarningLevel>Level3</WarningLevel>
-      <PreprocessorDefinitions>PHOENIX_PLATFORM_WINDOWS;PHOENIX_BUILD_DLL;GLFW_INCLUDE_NONE;PHOENIX_RELEASE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>HAL;Core;vendor\spdlog\include;vendor\GLFW\include;vendor\GLAD\include;vendor\imgui;vendor\stb_image;vendor\glm;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <Optimization>Full</Optimization>
-      <FunctionLevelLinking>true</FunctionLevelLinking>
-      <IntrinsicFunctions>true</IntrinsicFunctions>
-      <MinimalRebuild>false</MinimalRebuild>
-      <StringPooling>true</StringPooling>
-      <AdditionalOptions>/MDd %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalIncludeDirectories>C:\Users\yello\Dev\Test\Phoenix\HAL;C:\Users\yello\Dev\Test\Phoenix\Core;C:\Users\yello\Dev\Test\Phoenix\vendor\spdlog\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /external:I "C:/Users/yello/Dev/Test/Phoenix/vcpkg_installed/x64-windows/include"</AdditionalOptions>
+      <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
+      <DisableSpecificWarnings>4251;4275</DisableSpecificWarnings>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <ExternalWarningLevel>TurnOffAllWarnings</ExternalWarningLevel>
+      <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
       <LanguageStandard>stdcpp17</LanguageStandard>
-      <ExternalWarningLevel>Level3</ExternalWarningLevel>
+      <Optimization>MaxSpeed</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <UseFullPaths>false</UseFullPaths>
+      <WarningLevel>Level3</WarningLevel>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;PHOENIX_PLATFORM_WINDOWS;PHOENIX_BUILD_DLL;GLFW_DLL;SPDLOG_SHARED_LIB;SPDLOG_COMPILED_LIB;SPDLOG_FMT_EXTERNAL;FMT_SHARED;CMAKE_INTDIR="Release";Phoenix_EXPORTS</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+      <DebugInformationFormat>
+      </DebugInformationFormat>
     </ClCompile>
-    <Link>
-      <SubSystem>Windows</SubSystem>
-      <EnableCOMDATFolding>true</EnableCOMDATFolding>
-      <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalDependencies>opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <ImportLibrary>..\bin\Release-windows-x86_64\Phoenix\Phoenix.lib</ImportLibrary>
-    </Link>
+    <ResourceCompile>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;PHOENIX_PLATFORM_WINDOWS;PHOENIX_BUILD_DLL;GLFW_DLL;SPDLOG_SHARED_LIB;SPDLOG_COMPILED_LIB;SPDLOG_FMT_EXTERNAL;FMT_SHARED;CMAKE_INTDIR=\"Release\";Phoenix_EXPORTS</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>C:\Users\yello\Dev\Test\Phoenix\HAL;C:\Users\yello\Dev\Test\Phoenix\Core;C:\Users\yello\Dev\Test\Phoenix\vendor\spdlog\include;C:\Users\yello\Dev\Test\Phoenix\vcpkg_installed\x64-windows\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>C:\Users\yello\Dev\Test\Phoenix\HAL;C:\Users\yello\Dev\Test\Phoenix\Core;C:\Users\yello\Dev\Test\Phoenix\vendor\spdlog\include;C:\Users\yello\Dev\Test\Phoenix\vcpkg_installed\x64-windows\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
     <PostBuildEvent>
-      <Command>IF EXIST ..\bin\Release-windows-x86_64\Phoenix\Phoenix.dll\ (xcopy /Q /E /Y /I ..\bin\Release-windows-x86_64\Phoenix\Phoenix.dll ..\bin\Release-windows-x86_64\Game &gt; nul) ELSE (xcopy /Q /Y /I ..\bin\Release-windows-x86_64\Phoenix\Phoenix.dll ..\bin\Release-windows-x86_64\Game &gt; nul)</Command>
+      <Message></Message>
+      <Command>setlocal
+C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe -noprofile -executionpolicy Bypass -file C:/Users/yello/Dev/Libs/vcpkg/scripts/buildsystems/msbuild/applocal.ps1 -targetBinary C:/Users/yello/Dev/Test/Phoenix/Release/Phoenix.dll -installedDir C:/Users/yello/Dev/Test/Phoenix/vcpkg_installed/x64-windows/bin -OutVariable out
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
     </PostBuildEvent>
+    <Link>
+      <AdditionalDependencies>vcpkg_installed\x64-windows\lib\glad.lib;vcpkg_installed\x64-windows\lib\imgui.lib;vcpkg_installed\x64-windows\lib\glfw3dll.lib;vcpkg_installed\x64-windows\lib\spdlog.lib;vcpkg_installed\x64-windows\lib\assimp-vc143-mt.lib;vcpkg_installed\x64-windows\lib\fmt.lib;vcpkg_installed\x64-windows\lib\pugixml.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /machine:x64</AdditionalOptions>
+      <GenerateDebugInformation>false</GenerateDebugInformation>
+      <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+      <ImportLibrary>C:/Users/yello/Dev/Test/Phoenix/Release/Phoenix.lib</ImportLibrary>
+      <ProgramDataBaseFile>C:/Users/yello/Dev/Test/Phoenix/Release/Phoenix.pdb</ProgramDataBaseFile>
+      <SubSystem>Console</SubSystem>
+    </Link>
+    <ProjectReference>
+      <LinkLibraryDependencies>false</LinkLibraryDependencies>
+    </ProjectReference>
   </ItemDefinitionGroup>
-  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Dist|x64'">
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">
     <ClCompile>
-      <PrecompiledHeader>NotUsing</PrecompiledHeader>
-      <WarningLevel>Level3</WarningLevel>
-      <PreprocessorDefinitions>PHOENIX_PLATFORM_WINDOWS;PHOENIX_BUILD_DLL;GLFW_INCLUDE_NONE;PHOENIX_DIST;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>HAL;Core;vendor\spdlog\include;vendor\GLFW\include;vendor\GLAD\include;vendor\imgui;vendor\stb_image;vendor\glm;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <Optimization>Full</Optimization>
-      <FunctionLevelLinking>true</FunctionLevelLinking>
-      <IntrinsicFunctions>true</IntrinsicFunctions>
-      <MinimalRebuild>false</MinimalRebuild>
-      <StringPooling>true</StringPooling>
-      <AdditionalOptions>/MDd %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalIncludeDirectories>C:\Users\yello\Dev\Test\Phoenix\HAL;C:\Users\yello\Dev\Test\Phoenix\Core;C:\Users\yello\Dev\Test\Phoenix\vendor\spdlog\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /external:I "C:/Users/yello/Dev/Test/Phoenix/vcpkg_installed/x64-windows/include"</AdditionalOptions>
+      <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
+      <DisableSpecificWarnings>4251;4275</DisableSpecificWarnings>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <ExternalWarningLevel>TurnOffAllWarnings</ExternalWarningLevel>
       <LanguageStandard>stdcpp17</LanguageStandard>
-      <ExternalWarningLevel>Level3</ExternalWarningLevel>
+      <Optimization>MaxSpeed</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <UseFullPaths>false</UseFullPaths>
+      <WarningLevel>Level3</WarningLevel>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;PHOENIX_PLATFORM_WINDOWS;PHOENIX_BUILD_DLL;PX_DEBUG;GLFW_DLL;SPDLOG_SHARED_LIB;SPDLOG_COMPILED_LIB;SPDLOG_FMT_EXTERNAL;FMT_SHARED;CMAKE_INTDIR="RelWithDebInfo";Phoenix_EXPORTS</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+      <DebugInformationFormat>
+      </DebugInformationFormat>
     </ClCompile>
-    <Link>
-      <SubSystem>Windows</SubSystem>
-      <EnableCOMDATFolding>true</EnableCOMDATFolding>
-      <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalDependencies>opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <ImportLibrary>..\bin\Dist-windows-x86_64\Phoenix\Phoenix.lib</ImportLibrary>
-    </Link>
+    <ResourceCompile>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;PHOENIX_PLATFORM_WINDOWS;PHOENIX_BUILD_DLL;PX_DEBUG;GLFW_DLL;SPDLOG_SHARED_LIB;SPDLOG_COMPILED_LIB;SPDLOG_FMT_EXTERNAL;FMT_SHARED;CMAKE_INTDIR=\"RelWithDebInfo\";Phoenix_EXPORTS</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>C:\Users\yello\Dev\Test\Phoenix\HAL;C:\Users\yello\Dev\Test\Phoenix\Core;C:\Users\yello\Dev\Test\Phoenix\vendor\spdlog\include;C:\Users\yello\Dev\Test\Phoenix\vcpkg_installed\x64-windows\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>C:\Users\yello\Dev\Test\Phoenix\HAL;C:\Users\yello\Dev\Test\Phoenix\Core;C:\Users\yello\Dev\Test\Phoenix\vendor\spdlog\include;C:\Users\yello\Dev\Test\Phoenix\vcpkg_installed\x64-windows\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
     <PostBuildEvent>
-      <Command>IF EXIST ..\bin\Dist-windows-x86_64\Phoenix\Phoenix.dll\ (xcopy /Q /E /Y /I ..\bin\Dist-windows-x86_64\Phoenix\Phoenix.dll ..\bin\Dist-windows-x86_64\Game &gt; nul) ELSE (xcopy /Q /Y /I ..\bin\Dist-windows-x86_64\Phoenix\Phoenix.dll ..\bin\Dist-windows-x86_64\Game &gt; nul)</Command>
+      <Message></Message>
+      <Command>setlocal
+C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe -noprofile -executionpolicy Bypass -file C:/Users/yello/Dev/Libs/vcpkg/scripts/buildsystems/msbuild/applocal.ps1 -targetBinary C:/Users/yello/Dev/Test/Phoenix/RelWithDebInfo/Phoenix.dll -installedDir C:/Users/yello/Dev/Test/Phoenix/vcpkg_installed/x64-windows/bin -OutVariable out
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
     </PostBuildEvent>
+    <Link>
+      <AdditionalDependencies>vcpkg_installed\x64-windows\lib\glad.lib;vcpkg_installed\x64-windows\lib\imgui.lib;vcpkg_installed\x64-windows\lib\glfw3dll.lib;vcpkg_installed\x64-windows\lib\spdlog.lib;vcpkg_installed\x64-windows\lib\assimp-vc143-mt.lib;vcpkg_installed\x64-windows\lib\fmt.lib;vcpkg_installed\x64-windows\lib\pugixml.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /machine:x64</AdditionalOptions>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+      <ImportLibrary>C:/Users/yello/Dev/Test/Phoenix/RelWithDebInfo/Phoenix.lib</ImportLibrary>
+      <ProgramDataBaseFile>C:/Users/yello/Dev/Test/Phoenix/RelWithDebInfo/Phoenix.pdb</ProgramDataBaseFile>
+      <SubSystem>Console</SubSystem>
+    </Link>
+    <ProjectReference>
+      <LinkLibraryDependencies>false</LinkLibraryDependencies>
+    </ProjectReference>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="Core\Base\Base.h" />
-    <ClInclude Include="Core\Core.h" />
-    <ClInclude Include="Core\ECS\include\ComponentSystem.h" />
-    <ClInclude Include="Core\ECS\include\ComponentsData.h" />
-    <ClInclude Include="Core\ECS\include\EntityComponent.h" />
-    <ClInclude Include="Core\ECS\include\EntityManager.h" />
-    <ClInclude Include="Core\ECS\include\ISystem.h" />
-    <ClInclude Include="Core\ECS\include\TransformSystem.h" />
-    <ClInclude Include="Core\ECS\include\TransformsData.h" />
-    <ClInclude Include="Core\Events\Event.h" />
-    <ClInclude Include="Core\Events\EventDispatcher.h" />
-    <ClInclude Include="Core\Events\KeyEvent.h" />
-    <ClInclude Include="Core\Events\MouseEvent.h" />
-    <ClInclude Include="Core\Events\WindowEvent.h" />
-    <ClInclude Include="Core\ImGui\Platform\OpenGL\ImGuiOpenGLRenderer.h" />
-    <ClInclude Include="Core\ImGui\include\ImGuiLayer.h" />
-    <ClInclude Include="Core\Layers\Layer\include\Layer.h" />
-    <ClInclude Include="Core\Layers\LayerStack\include\LayerStack.h" />
-    <ClInclude Include="Core\Log\include\Log.h" />
-    <ClInclude Include="Core\Maths\include\Maths.h" />
-    <ClInclude Include="Core\Utils\Color.h" />
-    <ClInclude Include="Core\Utils\KeyCode.h" />
-    <ClInclude Include="Core\Utils\MouseCode.h" />
-    <ClInclude Include="Core\Utils\TimeStep.h" />
-    <ClInclude Include="Core\Utils\Timer.h" />
-    <ClInclude Include="HAL\Common\Core\ECSExtended\include\EntitySubsystem.h" />
-    <ClInclude Include="HAL\Common\Core\Graphics\DataObjects\include\Buffer.h" />
-    <ClInclude Include="HAL\Common\Core\Graphics\DataObjects\include\Shader.h" />
-    <ClInclude Include="HAL\Common\Core\Graphics\DataObjects\include\Texture.h" />
-    <ClInclude Include="HAL\Common\Core\Graphics\DataObjects\include\VertexArray.h" />
-    <ClInclude Include="HAL\Common\Core\Graphics\OpenGLImpl\include\OpenGLBuffer.h" />
-    <ClInclude Include="HAL\Common\Core\Graphics\OpenGLImpl\include\OpenGLShader.h" />
-    <ClInclude Include="HAL\Common\Core\Graphics\OpenGLImpl\include\OpenGLTexture2D.h" />
-    <ClInclude Include="HAL\Common\Core\Graphics\OpenGLImpl\include\OpenGLVertexArray.h" />
-    <ClInclude Include="HAL\Common\Core\Graphics\Render\include\OpenGLRendererAPI.h" />
-    <ClInclude Include="HAL\Common\Core\Graphics\Render\include\Renderer.h" />
-    <ClInclude Include="HAL\Common\Core\Graphics\Render\include\RendererAPI.h" />
-    <ClInclude Include="HAL\Common\Core\Input\include\Input.h" />
-    <ClInclude Include="HAL\Common\Core\Input\include\InputActionRegistratorSubSystem.h" />
-    <ClInclude Include="HAL\Common\Core\Input\include\InputActions.h" />
-    <ClInclude Include="HAL\Common\Core\Scene\include\OrthographicCamera.h" />
-    <ClInclude Include="HAL\Common\Core\Scene\include\OrthographicCameraController.h" />
-    <ClInclude Include="HAL\Common\Core\Scene\include\Scene.h" />
-    <ClInclude Include="HAL\Common\Core\Window\include\Window.h" />
-    <ClInclude Include="HAL\HAL.h" />
-    <ClInclude Include="HAL\PlatformDetection.h" />
-    <ClInclude Include="HAL\Windows\Core\Application\include\Application.h" />
-    <ClInclude Include="HAL\Windows\Core\Graphics\include\Test.h" />
-    <ClInclude Include="HAL\Windows\Core\Input\include\WindowsInput.h" />
-    <ClInclude Include="HAL\Windows\Core\Window\include\Window.h" />
-    <ClInclude Include="HAL\Windows\Windows.h" />
-    <ClInclude Include="Phoenix.h" />
-    <ClInclude Include="vendor\stb_image\stb_image.h" />
+    <CustomBuild Include="C:\Users\yello\Dev\Test\CMakeLists.txt">
+      <UseUtf8Encoding>Always</UseUtf8Encoding>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Building Custom Rule C:/Users/yello/Dev/Test/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">setlocal
+"C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe" -SC:/Users/yello/Dev/Test -BC:/Users/yello/Dev/Test/Phoenix --check-stamp-file C:/Users/yello/Dev/Test/Phoenix/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.27\Modules\CMakeCXXCompiler.cmake.in;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.27\Modules\CMakeCXXCompilerABI.cpp;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.27\Modules\CMakeCXXInformation.cmake;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.27\Modules\CMakeCommonLanguageInclude.cmake;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.27\Modules\CMakeCompilerIdDetection.cmake;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.27\Modules\CMakeDependentOption.cmake;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.27\Modules\CMakeDetermineCXXCompiler.cmake;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.27\Modules\CMakeDetermineCompileFeatures.cmake;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.27\Modules\CMakeDetermineCompiler.cmake;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.27\Modules\CMakeDetermineCompilerABI.cmake;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.27\Modules\CMakeDetermineCompilerId.cmake;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.27\Modules\CMakeDetermineRCCompiler.cmake;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.27\Modules\CMakeDetermineSystem.cmake;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.27\Modules\CMakeFindBinUtils.cmake;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.27\Modules\CMakeFindDependencyMacro.cmake;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.27\Modules\CMakeGenericSystem.cmake;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.27\Modules\CMakeInitializeConfigs.cmake;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.27\Modules\CMakeLanguageInformation.cmake;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.27\Modules\CMakeParseImplicitIncludeInfo.cmake;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.27\Modules\CMakeParseImplicitLinkInfo.cmake;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.27\Modules\CMakeParseLibraryArchitecture.cmake;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.27\Modules\CMakeRCCompiler.cmake.in;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.27\Modules\CMakeRCInformation.cmake;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.27\Modules\CMakeSystem.cmake.in;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.27\Modules\CMakeSystemSpecificInformation.cmake;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.27\Modules\CMakeSystemSpecificInitialize.cmake;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.27\Modules\CMakeTestCXXCompiler.cmake;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.27\Modules\CMakeTestCompilerCommon.cmake;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.27\Modules\CMakeTestRCCompiler.cmake;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.27\Modules\CheckCXXSourceCompiles.cmake;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.27\Modules\CheckIncludeFileCXX.cmake;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.27\Modules\CheckLibraryExists.cmake;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.27\Modules\Compiler\ADSP-DetermineCompiler.cmake;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.27\Modules\Compiler\ARMCC-DetermineCompiler.cmake;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.27\Modules\Compiler\ARMClang-DetermineCompiler.cmake;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.27\Modules\Compiler\AppleClang-DetermineCompiler.cmake;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.27\Modules\Compiler\Borland-DetermineCompiler.cmake;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.27\Modules\Compiler\CMakeCommonCompilerMacros.cmake;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.27\Modules\Compiler\Clang-DetermineCompiler.cmake;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.27\Modules\Compiler\Clang-DetermineCompilerInternal.cmake;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.27\Modules\Compiler\Comeau-CXX-DetermineCompiler.cmake;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.27\Modules\Compiler\Compaq-CXX-DetermineCompiler.cmake;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.27\Modules\Compiler\Cray-DetermineCompiler.cmake;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.27\Modules\Compiler\Embarcadero-DetermineCompiler.cmake;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.27\Modules\Compiler\Fujitsu-DetermineCompiler.cmake;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.27\Modules\Compiler\FujitsuClang-DetermineCompiler.cmake;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.27\Modules\Compiler\GHS-DetermineCompiler.cmake;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.27\Modules\Compiler\GNU-CXX-DetermineCompiler.cmake;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.27\Modules\Compiler\HP-CXX-DetermineCompiler.cmake;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.27\Modules\Compiler\IAR-DetermineCompiler.cmake;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.27\Modules\Compiler\IBMCPP-CXX-DetermineVersionInternal.cmake;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.27\Modules\Compiler\IBMClang-CXX-DetermineCompiler.cmake;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.27\Modules\Compiler\Intel-DetermineCompiler.cmake;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.27\Modules\Compiler\IntelLLVM-DetermineCompiler.cmake;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.27\Modules\Compiler\LCC-CXX-DetermineCompiler.cmake;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.27\Modules\Compiler\MSVC-CXX.cmake;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.27\Modules\Compiler\MSVC-DetermineCompiler.cmake;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.27\Modules\Compiler\MSVC.cmake;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.27\Modules\Compiler\NVHPC-DetermineCompiler.cmake;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.27\Modules\Compiler\NVIDIA-DetermineCompiler.cmake;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.27\Modules\Compiler\OpenWatcom-DetermineCompiler.cmake;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.27\Modules\Compiler\PGI-DetermineCompiler.cmake;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.27\Modules\Compiler\PathScale-DetermineCompiler.cmake;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.27\Modules\Compiler\SCO-DetermineCompiler.cmake;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.27\Modules\Compiler\SunPro-CXX-DetermineCompiler.cmake;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.27\Modules\Compiler\TI-DetermineCompiler.cmake;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.27\Modules\Compiler\Tasking-DetermineCompiler.cmake;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.27\Modules\Compiler\VisualAge-CXX-DetermineCompiler.cmake;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.27\Modules\Compiler\Watcom-DetermineCompiler.cmake;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.27\Modules\Compiler\XL-CXX-DetermineCompiler.cmake;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.27\Modules\Compiler\XLClang-CXX-DetermineCompiler.cmake;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.27\Modules\Compiler\zOS-CXX-DetermineCompiler.cmake;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.27\Modules\CompilerId\VS-10.vcxproj.in;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.27\Modules\FindPackageHandleStandardArgs.cmake;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.27\Modules\FindPackageMessage.cmake;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.27\Modules\FindThreads.cmake;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.27\Modules\Internal\CheckSourceCompiles.cmake;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.27\Modules\Internal\FeatureTesting.cmake;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.27\Modules\Platform\Windows-Determine-CXX.cmake;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.27\Modules\Platform\Windows-Initialize.cmake;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.27\Modules\Platform\Windows-MSVC-CXX.cmake;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.27\Modules\Platform\Windows-MSVC.cmake;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.27\Modules\Platform\Windows.cmake;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.27\Modules\Platform\WindowsPaths.cmake;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.27\Modules\SelectLibraryConfigurations.cmake;C:\Users\yello\Dev\Libs\vcpkg\scripts\buildsystems\vcpkg.cmake;C:\Users\yello\Dev\Test\Phoenix\CMakeFiles\3.27.2-msvc1\CMakeCXXCompiler.cmake;C:\Users\yello\Dev\Test\Phoenix\CMakeFiles\3.27.2-msvc1\CMakeRCCompiler.cmake;C:\Users\yello\Dev\Test\Phoenix\CMakeFiles\3.27.2-msvc1\CMakeSystem.cmake;C:\Users\yello\Dev\Test\Phoenix\vcpkg_installed\x64-windows\share\assimp\assimpConfig.cmake;C:\Users\yello\Dev\Test\Phoenix\vcpkg_installed\x64-windows\share\assimp\assimpConfigVersion.cmake;C:\Users\yello\Dev\Test\Phoenix\vcpkg_installed\x64-windows\share\assimp\assimpTargets-debug.cmake;C:\Users\yello\Dev\Test\Phoenix\vcpkg_installed\x64-windows\share\assimp\assimpTargets-release.cmake;C:\Users\yello\Dev\Test\Phoenix\vcpkg_installed\x64-windows\share\assimp\assimpTargets.cmake;C:\Users\yello\Dev\Test\Phoenix\vcpkg_installed\x64-windows\share\entt\EnTTConfig.cmake;C:\Users\yello\Dev\Test\Phoenix\vcpkg_installed\x64-windows\share\entt\EnTTConfigVersion.cmake;C:\Users\yello\Dev\Test\Phoenix\vcpkg_installed\x64-windows\share\entt\EnTTTargets.cmake;C:\Users\yello\Dev\Test\Phoenix\vcpkg_installed\x64-windows\share\fmt\fmt-config-version.cmake;C:\Users\yello\Dev\Test\Phoenix\vcpkg_installed\x64-windows\share\fmt\fmt-config.cmake;C:\Users\yello\Dev\Test\Phoenix\vcpkg_installed\x64-windows\share\fmt\fmt-targets-debug.cmake;C:\Users\yello\Dev\Test\Phoenix\vcpkg_installed\x64-windows\share\fmt\fmt-targets-release.cmake;C:\Users\yello\Dev\Test\Phoenix\vcpkg_installed\x64-windows\share\fmt\fmt-targets.cmake;C:\Users\yello\Dev\Test\Phoenix\vcpkg_installed\x64-windows\share\glad\gladConfig.cmake;C:\Users\yello\Dev\Test\Phoenix\vcpkg_installed\x64-windows\share\glad\gladConfigVersion.cmake;C:\Users\yello\Dev\Test\Phoenix\vcpkg_installed\x64-windows\share\glad\gladTargets-debug.cmake;C:\Users\yello\Dev\Test\Phoenix\vcpkg_installed\x64-windows\share\glad\gladTargets-release.cmake;C:\Users\yello\Dev\Test\Phoenix\vcpkg_installed\x64-windows\share\glad\gladTargets.cmake;C:\Users\yello\Dev\Test\Phoenix\vcpkg_installed\x64-windows\share\glfw3\glfw3Config.cmake;C:\Users\yello\Dev\Test\Phoenix\vcpkg_installed\x64-windows\share\glfw3\glfw3ConfigVersion.cmake;C:\Users\yello\Dev\Test\Phoenix\vcpkg_installed\x64-windows\share\glfw3\glfw3Targets-debug.cmake;C:\Users\yello\Dev\Test\Phoenix\vcpkg_installed\x64-windows\share\glfw3\glfw3Targets-release.cmake;C:\Users\yello\Dev\Test\Phoenix\vcpkg_installed\x64-windows\share\glfw3\glfw3Targets.cmake;C:\Users\yello\Dev\Test\Phoenix\vcpkg_installed\x64-windows\share\glm\glm-config.cmake;C:\Users\yello\Dev\Test\Phoenix\vcpkg_installed\x64-windows\share\imgui\imgui-config.cmake;C:\Users\yello\Dev\Test\Phoenix\vcpkg_installed\x64-windows\share\imgui\imgui-targets-debug.cmake;C:\Users\yello\Dev\Test\Phoenix\vcpkg_installed\x64-windows\share\imgui\imgui-targets-release.cmake;C:\Users\yello\Dev\Test\Phoenix\vcpkg_installed\x64-windows\share\imgui\imgui-targets.cmake;C:\Users\yello\Dev\Test\Phoenix\vcpkg_installed\x64-windows\share\nlohmann_json\nlohmann_jsonConfig.cmake;C:\Users\yello\Dev\Test\Phoenix\vcpkg_installed\x64-windows\share\nlohmann_json\nlohmann_jsonConfigVersion.cmake;C:\Users\yello\Dev\Test\Phoenix\vcpkg_installed\x64-windows\share\nlohmann_json\nlohmann_jsonTargets.cmake;C:\Users\yello\Dev\Test\Phoenix\vcpkg_installed\x64-windows\share\pugixml\pugixml-config-version.cmake;C:\Users\yello\Dev\Test\Phoenix\vcpkg_installed\x64-windows\share\pugixml\pugixml-config.cmake;C:\Users\yello\Dev\Test\Phoenix\vcpkg_installed\x64-windows\share\pugixml\pugixml-targets-debug.cmake;C:\Users\yello\Dev\Test\Phoenix\vcpkg_installed\x64-windows\share\pugixml\pugixml-targets-release.cmake;C:\Users\yello\Dev\Test\Phoenix\vcpkg_installed\x64-windows\share\pugixml\pugixml-targets.cmake;C:\Users\yello\Dev\Test\Phoenix\vcpkg_installed\x64-windows\share\spdlog\spdlogConfig.cmake;C:\Users\yello\Dev\Test\Phoenix\vcpkg_installed\x64-windows\share\spdlog\spdlogConfigTargets-debug.cmake;C:\Users\yello\Dev\Test\Phoenix\vcpkg_installed\x64-windows\share\spdlog\spdlogConfigTargets-release.cmake;C:\Users\yello\Dev\Test\Phoenix\vcpkg_installed\x64-windows\share\spdlog\spdlogConfigTargets.cmake;C:\Users\yello\Dev\Test\Phoenix\vcpkg_installed\x64-windows\share\spdlog\spdlogConfigVersion.cmake;C:\Users\yello\Dev\Test\Phoenix\vcpkg_installed\x64-windows\share\stb\FindStb.cmake;C:\Users\yello\Dev\Test\Phoenix\vcpkg_installed\x64-windows\share\stb\vcpkg-cmake-wrapper.cmake;C:\Users\yello\Dev\Test\vcpkg.json;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\Users\yello\Dev\Test\Phoenix\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Building Custom Rule C:/Users/yello/Dev/Test/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">setlocal
+"C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe" -SC:/Users/yello/Dev/Test -BC:/Users/yello/Dev/Test/Phoenix --check-stamp-file C:/Users/yello/Dev/Test/Phoenix/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.27\Modules\CMakeCXXCompiler.cmake.in;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.27\Modules\CMakeCXXCompilerABI.cpp;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.27\Modules\CMakeCXXInformation.cmake;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.27\Modules\CMakeCommonLanguageInclude.cmake;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.27\Modules\CMakeCompilerIdDetection.cmake;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.27\Modules\CMakeDependentOption.cmake;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.27\Modules\CMakeDetermineCXXCompiler.cmake;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.27\Modules\CMakeDetermineCompileFeatures.cmake;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.27\Modules\CMakeDetermineCompiler.cmake;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.27\Modules\CMakeDetermineCompilerABI.cmake;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.27\Modules\CMakeDetermineCompilerId.cmake;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.27\Modules\CMakeDetermineRCCompiler.cmake;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.27\Modules\CMakeDetermineSystem.cmake;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.27\Modules\CMakeFindBinUtils.cmake;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.27\Modules\CMakeFindDependencyMacro.cmake;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.27\Modules\CMakeGenericSystem.cmake;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.27\Modules\CMakeInitializeConfigs.cmake;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.27\Modules\CMakeLanguageInformation.cmake;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.27\Modules\CMakeParseImplicitIncludeInfo.cmake;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.27\Modules\CMakeParseImplicitLinkInfo.cmake;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.27\Modules\CMakeParseLibraryArchitecture.cmake;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.27\Modules\CMakeRCCompiler.cmake.in;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.27\Modules\CMakeRCInformation.cmake;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.27\Modules\CMakeSystem.cmake.in;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.27\Modules\CMakeSystemSpecificInformation.cmake;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.27\Modules\CMakeSystemSpecificInitialize.cmake;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.27\Modules\CMakeTestCXXCompiler.cmake;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.27\Modules\CMakeTestCompilerCommon.cmake;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.27\Modules\CMakeTestRCCompiler.cmake;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.27\Modules\CheckCXXSourceCompiles.cmake;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.27\Modules\CheckIncludeFileCXX.cmake;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.27\Modules\CheckLibraryExists.cmake;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.27\Modules\Compiler\ADSP-DetermineCompiler.cmake;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.27\Modules\Compiler\ARMCC-DetermineCompiler.cmake;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.27\Modules\Compiler\ARMClang-DetermineCompiler.cmake;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.27\Modules\Compiler\AppleClang-DetermineCompiler.cmake;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.27\Modules\Compiler\Borland-DetermineCompiler.cmake;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.27\Modules\Compiler\CMakeCommonCompilerMacros.cmake;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.27\Modules\Compiler\Clang-DetermineCompiler.cmake;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.27\Modules\Compiler\Clang-DetermineCompilerInternal.cmake;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.27\Modules\Compiler\Comeau-CXX-DetermineCompiler.cmake;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.27\Modules\Compiler\Compaq-CXX-DetermineCompiler.cmake;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.27\Modules\Compiler\Cray-DetermineCompiler.cmake;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.27\Modules\Compiler\Embarcadero-DetermineCompiler.cmake;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.27\Modules\Compiler\Fujitsu-DetermineCompiler.cmake;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.27\Modules\Compiler\FujitsuClang-DetermineCompiler.cmake;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.27\Modules\Compiler\GHS-DetermineCompiler.cmake;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.27\Modules\Compiler\GNU-CXX-DetermineCompiler.cmake;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.27\Modules\Compiler\HP-CXX-DetermineCompiler.cmake;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.27\Modules\Compiler\IAR-DetermineCompiler.cmake;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.27\Modules\Compiler\IBMCPP-CXX-DetermineVersionInternal.cmake;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.27\Modules\Compiler\IBMClang-CXX-DetermineCompiler.cmake;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.27\Modules\Compiler\Intel-DetermineCompiler.cmake;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.27\Modules\Compiler\IntelLLVM-DetermineCompiler.cmake;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.27\Modules\Compiler\LCC-CXX-DetermineCompiler.cmake;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.27\Modules\Compiler\MSVC-CXX.cmake;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.27\Modules\Compiler\MSVC-DetermineCompiler.cmake;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.27\Modules\Compiler\MSVC.cmake;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.27\Modules\Compiler\NVHPC-DetermineCompiler.cmake;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.27\Modules\Compiler\NVIDIA-DetermineCompiler.cmake;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.27\Modules\Compiler\OpenWatcom-DetermineCompiler.cmake;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.27\Modules\Compiler\PGI-DetermineCompiler.cmake;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.27\Modules\Compiler\PathScale-DetermineCompiler.cmake;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.27\Modules\Compiler\SCO-DetermineCompiler.cmake;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.27\Modules\Compiler\SunPro-CXX-DetermineCompiler.cmake;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.27\Modules\Compiler\TI-DetermineCompiler.cmake;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.27\Modules\Compiler\Tasking-DetermineCompiler.cmake;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.27\Modules\Compiler\VisualAge-CXX-DetermineCompiler.cmake;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.27\Modules\Compiler\Watcom-DetermineCompiler.cmake;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.27\Modules\Compiler\XL-CXX-DetermineCompiler.cmake;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.27\Modules\Compiler\XLClang-CXX-DetermineCompiler.cmake;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.27\Modules\Compiler\zOS-CXX-DetermineCompiler.cmake;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.27\Modules\CompilerId\VS-10.vcxproj.in;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.27\Modules\FindPackageHandleStandardArgs.cmake;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.27\Modules\FindPackageMessage.cmake;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.27\Modules\FindThreads.cmake;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.27\Modules\Internal\CheckSourceCompiles.cmake;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.27\Modules\Internal\FeatureTesting.cmake;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.27\Modules\Platform\Windows-Determine-CXX.cmake;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.27\Modules\Platform\Windows-Initialize.cmake;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.27\Modules\Platform\Windows-MSVC-CXX.cmake;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.27\Modules\Platform\Windows-MSVC.cmake;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.27\Modules\Platform\Windows.cmake;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.27\Modules\Platform\WindowsPaths.cmake;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.27\Modules\SelectLibraryConfigurations.cmake;C:\Users\yello\Dev\Libs\vcpkg\scripts\buildsystems\vcpkg.cmake;C:\Users\yello\Dev\Test\Phoenix\CMakeFiles\3.27.2-msvc1\CMakeCXXCompiler.cmake;C:\Users\yello\Dev\Test\Phoenix\CMakeFiles\3.27.2-msvc1\CMakeRCCompiler.cmake;C:\Users\yello\Dev\Test\Phoenix\CMakeFiles\3.27.2-msvc1\CMakeSystem.cmake;C:\Users\yello\Dev\Test\Phoenix\vcpkg_installed\x64-windows\share\assimp\assimpConfig.cmake;C:\Users\yello\Dev\Test\Phoenix\vcpkg_installed\x64-windows\share\assimp\assimpConfigVersion.cmake;C:\Users\yello\Dev\Test\Phoenix\vcpkg_installed\x64-windows\share\assimp\assimpTargets-debug.cmake;C:\Users\yello\Dev\Test\Phoenix\vcpkg_installed\x64-windows\share\assimp\assimpTargets-release.cmake;C:\Users\yello\Dev\Test\Phoenix\vcpkg_installed\x64-windows\share\assimp\assimpTargets.cmake;C:\Users\yello\Dev\Test\Phoenix\vcpkg_installed\x64-windows\share\entt\EnTTConfig.cmake;C:\Users\yello\Dev\Test\Phoenix\vcpkg_installed\x64-windows\share\entt\EnTTConfigVersion.cmake;C:\Users\yello\Dev\Test\Phoenix\vcpkg_installed\x64-windows\share\entt\EnTTTargets.cmake;C:\Users\yello\Dev\Test\Phoenix\vcpkg_installed\x64-windows\share\fmt\fmt-config-version.cmake;C:\Users\yello\Dev\Test\Phoenix\vcpkg_installed\x64-windows\share\fmt\fmt-config.cmake;C:\Users\yello\Dev\Test\Phoenix\vcpkg_installed\x64-windows\share\fmt\fmt-targets-debug.cmake;C:\Users\yello\Dev\Test\Phoenix\vcpkg_installed\x64-windows\share\fmt\fmt-targets-release.cmake;C:\Users\yello\Dev\Test\Phoenix\vcpkg_installed\x64-windows\share\fmt\fmt-targets.cmake;C:\Users\yello\Dev\Test\Phoenix\vcpkg_installed\x64-windows\share\glad\gladConfig.cmake;C:\Users\yello\Dev\Test\Phoenix\vcpkg_installed\x64-windows\share\glad\gladConfigVersion.cmake;C:\Users\yello\Dev\Test\Phoenix\vcpkg_installed\x64-windows\share\glad\gladTargets-debug.cmake;C:\Users\yello\Dev\Test\Phoenix\vcpkg_installed\x64-windows\share\glad\gladTargets-release.cmake;C:\Users\yello\Dev\Test\Phoenix\vcpkg_installed\x64-windows\share\glad\gladTargets.cmake;C:\Users\yello\Dev\Test\Phoenix\vcpkg_installed\x64-windows\share\glfw3\glfw3Config.cmake;C:\Users\yello\Dev\Test\Phoenix\vcpkg_installed\x64-windows\share\glfw3\glfw3ConfigVersion.cmake;C:\Users\yello\Dev\Test\Phoenix\vcpkg_installed\x64-windows\share\glfw3\glfw3Targets-debug.cmake;C:\Users\yello\Dev\Test\Phoenix\vcpkg_installed\x64-windows\share\glfw3\glfw3Targets-release.cmake;C:\Users\yello\Dev\Test\Phoenix\vcpkg_installed\x64-windows\share\glfw3\glfw3Targets.cmake;C:\Users\yello\Dev\Test\Phoenix\vcpkg_installed\x64-windows\share\glm\glm-config.cmake;C:\Users\yello\Dev\Test\Phoenix\vcpkg_installed\x64-windows\share\imgui\imgui-config.cmake;C:\Users\yello\Dev\Test\Phoenix\vcpkg_installed\x64-windows\share\imgui\imgui-targets-debug.cmake;C:\Users\yello\Dev\Test\Phoenix\vcpkg_installed\x64-windows\share\imgui\imgui-targets-release.cmake;C:\Users\yello\Dev\Test\Phoenix\vcpkg_installed\x64-windows\share\imgui\imgui-targets.cmake;C:\Users\yello\Dev\Test\Phoenix\vcpkg_installed\x64-windows\share\nlohmann_json\nlohmann_jsonConfig.cmake;C:\Users\yello\Dev\Test\Phoenix\vcpkg_installed\x64-windows\share\nlohmann_json\nlohmann_jsonConfigVersion.cmake;C:\Users\yello\Dev\Test\Phoenix\vcpkg_installed\x64-windows\share\nlohmann_json\nlohmann_jsonTargets.cmake;C:\Users\yello\Dev\Test\Phoenix\vcpkg_installed\x64-windows\share\pugixml\pugixml-config-version.cmake;C:\Users\yello\Dev\Test\Phoenix\vcpkg_installed\x64-windows\share\pugixml\pugixml-config.cmake;C:\Users\yello\Dev\Test\Phoenix\vcpkg_installed\x64-windows\share\pugixml\pugixml-targets-debug.cmake;C:\Users\yello\Dev\Test\Phoenix\vcpkg_installed\x64-windows\share\pugixml\pugixml-targets-release.cmake;C:\Users\yello\Dev\Test\Phoenix\vcpkg_installed\x64-windows\share\pugixml\pugixml-targets.cmake;C:\Users\yello\Dev\Test\Phoenix\vcpkg_installed\x64-windows\share\spdlog\spdlogConfig.cmake;C:\Users\yello\Dev\Test\Phoenix\vcpkg_installed\x64-windows\share\spdlog\spdlogConfigTargets-debug.cmake;C:\Users\yello\Dev\Test\Phoenix\vcpkg_installed\x64-windows\share\spdlog\spdlogConfigTargets-release.cmake;C:\Users\yello\Dev\Test\Phoenix\vcpkg_installed\x64-windows\share\spdlog\spdlogConfigTargets.cmake;C:\Users\yello\Dev\Test\Phoenix\vcpkg_installed\x64-windows\share\spdlog\spdlogConfigVersion.cmake;C:\Users\yello\Dev\Test\Phoenix\vcpkg_installed\x64-windows\share\stb\FindStb.cmake;C:\Users\yello\Dev\Test\Phoenix\vcpkg_installed\x64-windows\share\stb\vcpkg-cmake-wrapper.cmake;C:\Users\yello\Dev\Test\vcpkg.json;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">C:\Users\yello\Dev\Test\Phoenix\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">Building Custom Rule C:/Users/yello/Dev/Test/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">setlocal
+"C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe" -SC:/Users/yello/Dev/Test -BC:/Users/yello/Dev/Test/Phoenix --check-stamp-file C:/Users/yello/Dev/Test/Phoenix/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.27\Modules\CMakeCXXCompiler.cmake.in;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.27\Modules\CMakeCXXCompilerABI.cpp;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.27\Modules\CMakeCXXInformation.cmake;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.27\Modules\CMakeCommonLanguageInclude.cmake;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.27\Modules\CMakeCompilerIdDetection.cmake;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.27\Modules\CMakeDependentOption.cmake;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.27\Modules\CMakeDetermineCXXCompiler.cmake;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.27\Modules\CMakeDetermineCompileFeatures.cmake;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.27\Modules\CMakeDetermineCompiler.cmake;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.27\Modules\CMakeDetermineCompilerABI.cmake;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.27\Modules\CMakeDetermineCompilerId.cmake;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.27\Modules\CMakeDetermineRCCompiler.cmake;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.27\Modules\CMakeDetermineSystem.cmake;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.27\Modules\CMakeFindBinUtils.cmake;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.27\Modules\CMakeFindDependencyMacro.cmake;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.27\Modules\CMakeGenericSystem.cmake;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.27\Modules\CMakeInitializeConfigs.cmake;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.27\Modules\CMakeLanguageInformation.cmake;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.27\Modules\CMakeParseImplicitIncludeInfo.cmake;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.27\Modules\CMakeParseImplicitLinkInfo.cmake;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.27\Modules\CMakeParseLibraryArchitecture.cmake;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.27\Modules\CMakeRCCompiler.cmake.in;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.27\Modules\CMakeRCInformation.cmake;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.27\Modules\CMakeSystem.cmake.in;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.27\Modules\CMakeSystemSpecificInformation.cmake;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.27\Modules\CMakeSystemSpecificInitialize.cmake;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.27\Modules\CMakeTestCXXCompiler.cmake;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.27\Modules\CMakeTestCompilerCommon.cmake;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.27\Modules\CMakeTestRCCompiler.cmake;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.27\Modules\CheckCXXSourceCompiles.cmake;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.27\Modules\CheckIncludeFileCXX.cmake;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.27\Modules\CheckLibraryExists.cmake;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.27\Modules\Compiler\ADSP-DetermineCompiler.cmake;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.27\Modules\Compiler\ARMCC-DetermineCompiler.cmake;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.27\Modules\Compiler\ARMClang-DetermineCompiler.cmake;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.27\Modules\Compiler\AppleClang-DetermineCompiler.cmake;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.27\Modules\Compiler\Borland-DetermineCompiler.cmake;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.27\Modules\Compiler\CMakeCommonCompilerMacros.cmake;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.27\Modules\Compiler\Clang-DetermineCompiler.cmake;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.27\Modules\Compiler\Clang-DetermineCompilerInternal.cmake;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.27\Modules\Compiler\Comeau-CXX-DetermineCompiler.cmake;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.27\Modules\Compiler\Compaq-CXX-DetermineCompiler.cmake;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.27\Modules\Compiler\Cray-DetermineCompiler.cmake;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.27\Modules\Compiler\Embarcadero-DetermineCompiler.cmake;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.27\Modules\Compiler\Fujitsu-DetermineCompiler.cmake;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.27\Modules\Compiler\FujitsuClang-DetermineCompiler.cmake;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.27\Modules\Compiler\GHS-DetermineCompiler.cmake;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.27\Modules\Compiler\GNU-CXX-DetermineCompiler.cmake;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.27\Modules\Compiler\HP-CXX-DetermineCompiler.cmake;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.27\Modules\Compiler\IAR-DetermineCompiler.cmake;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.27\Modules\Compiler\IBMCPP-CXX-DetermineVersionInternal.cmake;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.27\Modules\Compiler\IBMClang-CXX-DetermineCompiler.cmake;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.27\Modules\Compiler\Intel-DetermineCompiler.cmake;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.27\Modules\Compiler\IntelLLVM-DetermineCompiler.cmake;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.27\Modules\Compiler\LCC-CXX-DetermineCompiler.cmake;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.27\Modules\Compiler\MSVC-CXX.cmake;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.27\Modules\Compiler\MSVC-DetermineCompiler.cmake;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.27\Modules\Compiler\MSVC.cmake;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.27\Modules\Compiler\NVHPC-DetermineCompiler.cmake;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.27\Modules\Compiler\NVIDIA-DetermineCompiler.cmake;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.27\Modules\Compiler\OpenWatcom-DetermineCompiler.cmake;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.27\Modules\Compiler\PGI-DetermineCompiler.cmake;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.27\Modules\Compiler\PathScale-DetermineCompiler.cmake;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.27\Modules\Compiler\SCO-DetermineCompiler.cmake;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.27\Modules\Compiler\SunPro-CXX-DetermineCompiler.cmake;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.27\Modules\Compiler\TI-DetermineCompiler.cmake;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.27\Modules\Compiler\Tasking-DetermineCompiler.cmake;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.27\Modules\Compiler\VisualAge-CXX-DetermineCompiler.cmake;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.27\Modules\Compiler\Watcom-DetermineCompiler.cmake;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.27\Modules\Compiler\XL-CXX-DetermineCompiler.cmake;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.27\Modules\Compiler\XLClang-CXX-DetermineCompiler.cmake;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.27\Modules\Compiler\zOS-CXX-DetermineCompiler.cmake;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.27\Modules\CompilerId\VS-10.vcxproj.in;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.27\Modules\FindPackageHandleStandardArgs.cmake;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.27\Modules\FindPackageMessage.cmake;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.27\Modules\FindThreads.cmake;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.27\Modules\Internal\CheckSourceCompiles.cmake;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.27\Modules\Internal\FeatureTesting.cmake;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.27\Modules\Platform\Windows-Determine-CXX.cmake;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.27\Modules\Platform\Windows-Initialize.cmake;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.27\Modules\Platform\Windows-MSVC-CXX.cmake;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.27\Modules\Platform\Windows-MSVC.cmake;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.27\Modules\Platform\Windows.cmake;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.27\Modules\Platform\WindowsPaths.cmake;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.27\Modules\SelectLibraryConfigurations.cmake;C:\Users\yello\Dev\Libs\vcpkg\scripts\buildsystems\vcpkg.cmake;C:\Users\yello\Dev\Test\Phoenix\CMakeFiles\3.27.2-msvc1\CMakeCXXCompiler.cmake;C:\Users\yello\Dev\Test\Phoenix\CMakeFiles\3.27.2-msvc1\CMakeRCCompiler.cmake;C:\Users\yello\Dev\Test\Phoenix\CMakeFiles\3.27.2-msvc1\CMakeSystem.cmake;C:\Users\yello\Dev\Test\Phoenix\vcpkg_installed\x64-windows\share\assimp\assimpConfig.cmake;C:\Users\yello\Dev\Test\Phoenix\vcpkg_installed\x64-windows\share\assimp\assimpConfigVersion.cmake;C:\Users\yello\Dev\Test\Phoenix\vcpkg_installed\x64-windows\share\assimp\assimpTargets-debug.cmake;C:\Users\yello\Dev\Test\Phoenix\vcpkg_installed\x64-windows\share\assimp\assimpTargets-release.cmake;C:\Users\yello\Dev\Test\Phoenix\vcpkg_installed\x64-windows\share\assimp\assimpTargets.cmake;C:\Users\yello\Dev\Test\Phoenix\vcpkg_installed\x64-windows\share\entt\EnTTConfig.cmake;C:\Users\yello\Dev\Test\Phoenix\vcpkg_installed\x64-windows\share\entt\EnTTConfigVersion.cmake;C:\Users\yello\Dev\Test\Phoenix\vcpkg_installed\x64-windows\share\entt\EnTTTargets.cmake;C:\Users\yello\Dev\Test\Phoenix\vcpkg_installed\x64-windows\share\fmt\fmt-config-version.cmake;C:\Users\yello\Dev\Test\Phoenix\vcpkg_installed\x64-windows\share\fmt\fmt-config.cmake;C:\Users\yello\Dev\Test\Phoenix\vcpkg_installed\x64-windows\share\fmt\fmt-targets-debug.cmake;C:\Users\yello\Dev\Test\Phoenix\vcpkg_installed\x64-windows\share\fmt\fmt-targets-release.cmake;C:\Users\yello\Dev\Test\Phoenix\vcpkg_installed\x64-windows\share\fmt\fmt-targets.cmake;C:\Users\yello\Dev\Test\Phoenix\vcpkg_installed\x64-windows\share\glad\gladConfig.cmake;C:\Users\yello\Dev\Test\Phoenix\vcpkg_installed\x64-windows\share\glad\gladConfigVersion.cmake;C:\Users\yello\Dev\Test\Phoenix\vcpkg_installed\x64-windows\share\glad\gladTargets-debug.cmake;C:\Users\yello\Dev\Test\Phoenix\vcpkg_installed\x64-windows\share\glad\gladTargets-release.cmake;C:\Users\yello\Dev\Test\Phoenix\vcpkg_installed\x64-windows\share\glad\gladTargets.cmake;C:\Users\yello\Dev\Test\Phoenix\vcpkg_installed\x64-windows\share\glfw3\glfw3Config.cmake;C:\Users\yello\Dev\Test\Phoenix\vcpkg_installed\x64-windows\share\glfw3\glfw3ConfigVersion.cmake;C:\Users\yello\Dev\Test\Phoenix\vcpkg_installed\x64-windows\share\glfw3\glfw3Targets-debug.cmake;C:\Users\yello\Dev\Test\Phoenix\vcpkg_installed\x64-windows\share\glfw3\glfw3Targets-release.cmake;C:\Users\yello\Dev\Test\Phoenix\vcpkg_installed\x64-windows\share\glfw3\glfw3Targets.cmake;C:\Users\yello\Dev\Test\Phoenix\vcpkg_installed\x64-windows\share\glm\glm-config.cmake;C:\Users\yello\Dev\Test\Phoenix\vcpkg_installed\x64-windows\share\imgui\imgui-config.cmake;C:\Users\yello\Dev\Test\Phoenix\vcpkg_installed\x64-windows\share\imgui\imgui-targets-debug.cmake;C:\Users\yello\Dev\Test\Phoenix\vcpkg_installed\x64-windows\share\imgui\imgui-targets-release.cmake;C:\Users\yello\Dev\Test\Phoenix\vcpkg_installed\x64-windows\share\imgui\imgui-targets.cmake;C:\Users\yello\Dev\Test\Phoenix\vcpkg_installed\x64-windows\share\nlohmann_json\nlohmann_jsonConfig.cmake;C:\Users\yello\Dev\Test\Phoenix\vcpkg_installed\x64-windows\share\nlohmann_json\nlohmann_jsonConfigVersion.cmake;C:\Users\yello\Dev\Test\Phoenix\vcpkg_installed\x64-windows\share\nlohmann_json\nlohmann_jsonTargets.cmake;C:\Users\yello\Dev\Test\Phoenix\vcpkg_installed\x64-windows\share\pugixml\pugixml-config-version.cmake;C:\Users\yello\Dev\Test\Phoenix\vcpkg_installed\x64-windows\share\pugixml\pugixml-config.cmake;C:\Users\yello\Dev\Test\Phoenix\vcpkg_installed\x64-windows\share\pugixml\pugixml-targets-debug.cmake;C:\Users\yello\Dev\Test\Phoenix\vcpkg_installed\x64-windows\share\pugixml\pugixml-targets-release.cmake;C:\Users\yello\Dev\Test\Phoenix\vcpkg_installed\x64-windows\share\pugixml\pugixml-targets.cmake;C:\Users\yello\Dev\Test\Phoenix\vcpkg_installed\x64-windows\share\spdlog\spdlogConfig.cmake;C:\Users\yello\Dev\Test\Phoenix\vcpkg_installed\x64-windows\share\spdlog\spdlogConfigTargets-debug.cmake;C:\Users\yello\Dev\Test\Phoenix\vcpkg_installed\x64-windows\share\spdlog\spdlogConfigTargets-release.cmake;C:\Users\yello\Dev\Test\Phoenix\vcpkg_installed\x64-windows\share\spdlog\spdlogConfigTargets.cmake;C:\Users\yello\Dev\Test\Phoenix\vcpkg_installed\x64-windows\share\spdlog\spdlogConfigVersion.cmake;C:\Users\yello\Dev\Test\Phoenix\vcpkg_installed\x64-windows\share\stb\FindStb.cmake;C:\Users\yello\Dev\Test\Phoenix\vcpkg_installed\x64-windows\share\stb\vcpkg-cmake-wrapper.cmake;C:\Users\yello\Dev\Test\vcpkg.json;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">C:\Users\yello\Dev\Test\Phoenix\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">false</LinkObjects>
+    </CustomBuild>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Core\ECS\src\ComponentSystem.cpp" />
-    <ClCompile Include="Core\ECS\src\EntityManager.cpp" />
-    <ClCompile Include="Core\ECS\src\TransformSystem.cpp" />
-    <ClCompile Include="Core\ECS\src\TransformsData.cpp" />
-    <ClCompile Include="Core\ImGui\Platform\OpenGL\ImGuiOpenGLRenderer.cpp" />
-    <ClCompile Include="Core\ImGui\src\ImGuiLayer.cpp" />
-    <ClCompile Include="Core\Layers\Layer\src\Layer.cpp" />
-    <ClCompile Include="Core\Layers\LayerStack\src\LayerStack.cpp" />
-    <ClCompile Include="Core\Log\src\Log.cpp" />
-    <ClCompile Include="HAL\Common\Core\ECSExtended\src\EntitySubsystem.cpp" />
-    <ClCompile Include="HAL\Common\Core\Graphics\DataObjects\src\Buffer.cpp" />
-    <ClCompile Include="HAL\Common\Core\Graphics\DataObjects\src\Shader.cpp" />
-    <ClCompile Include="HAL\Common\Core\Graphics\DataObjects\src\Texture.cpp" />
-    <ClCompile Include="HAL\Common\Core\Graphics\DataObjects\src\VertexArray.cpp" />
-    <ClCompile Include="HAL\Common\Core\Graphics\OpenGLImpl\src\OpenGLBuffer.cpp" />
-    <ClCompile Include="HAL\Common\Core\Graphics\OpenGLImpl\src\OpenGLShader.cpp" />
-    <ClCompile Include="HAL\Common\Core\Graphics\OpenGLImpl\src\OpenGLTexture2D.cpp" />
-    <ClCompile Include="HAL\Common\Core\Graphics\OpenGLImpl\src\OpenGLVertexArray.cpp" />
-    <ClCompile Include="HAL\Common\Core\Graphics\Render\src\OpenGLRendererAPI.cpp" />
-    <ClCompile Include="HAL\Common\Core\Graphics\Render\src\Renderer.cpp" />
-    <ClCompile Include="HAL\Common\Core\Graphics\Render\src\RendererAPI.cpp" />
-    <ClCompile Include="HAL\Common\Core\Input\src\Input.cpp" />
-    <ClCompile Include="HAL\Common\Core\Input\src\InputActionRegistratorSubSystem.cpp" />
-    <ClCompile Include="HAL\Common\Core\Input\src\InputActions.cpp" />
-    <ClCompile Include="HAL\Common\Core\Scene\src\OrthographicCamera.cpp" />
-    <ClCompile Include="HAL\Common\Core\Scene\src\OrthographicCameraController.cpp" />
-    <ClCompile Include="HAL\Common\Core\Scene\src\Scene.cpp" />
-    <ClCompile Include="HAL\Common\Core\Window\src\Window.cpp" />
-    <ClCompile Include="HAL\Windows\Core\Application\src\Application.cpp" />
-    <ClCompile Include="HAL\Windows\Core\Input\src\WindowsInput.cpp" />
-    <ClCompile Include="HAL\Windows\Core\Window\src\Window.cpp">
-      <ObjectFileName>$(IntDir)\Window1.obj</ObjectFileName>
+    <ClInclude Include="C:\Users\yello\Dev\Test\Phoenix\Core\Animation\include\AnimationSubsystem.h" />
+    <ClCompile Include="C:\Users\yello\Dev\Test\Phoenix\Core\Animation\src\AnimationSubsystem.cpp" />
+    <ClInclude Include="C:\Users\yello\Dev\Test\Phoenix\Core\Base\Base.h" />
+    <ClInclude Include="C:\Users\yello\Dev\Test\Phoenix\Core\Core.h" />
+    <ClInclude Include="C:\Users\yello\Dev\Test\Phoenix\Core\ECSExtended\include\Entity.h" />
+    <ClInclude Include="C:\Users\yello\Dev\Test\Phoenix\Core\ECSExtended\include\EntitySubsystem.h" />
+    <ClInclude Include="C:\Users\yello\Dev\Test\Phoenix\Core\ECSExtended\include\IComponent.h" />
+    <ClInclude Include="C:\Users\yello\Dev\Test\Phoenix\Core\ECSExtended\include\SpriteSubsystem.h" />
+    <ClInclude Include="C:\Users\yello\Dev\Test\Phoenix\Core\ECSExtended\include\Tag.h" />
+    <ClInclude Include="C:\Users\yello\Dev\Test\Phoenix\Core\ECSExtended\include\TransformSubsytem.h" />
+    <ClCompile Include="C:\Users\yello\Dev\Test\Phoenix\Core\ECSExtended\src\Entity.cpp" />
+    <ClCompile Include="C:\Users\yello\Dev\Test\Phoenix\Core\ECSExtended\src\EntitySubsystem.cpp" />
+    <ClCompile Include="C:\Users\yello\Dev\Test\Phoenix\Core\ECSExtended\src\SpriteSubsystem.cpp" />
+    <ClCompile Include="C:\Users\yello\Dev\Test\Phoenix\Core\ECSExtended\src\TransformSubsytem.cpp" />
+    <ClInclude Include="C:\Users\yello\Dev\Test\Phoenix\Core\Editor\include\EditorLayer.h" />
+    <ClInclude Include="C:\Users\yello\Dev\Test\Phoenix\Core\Editor\include\ImGuiOpenGL.h" />
+    <ClCompile Include="C:\Users\yello\Dev\Test\Phoenix\Core\Editor\src\EditorLayer.cpp" />
+    <ClInclude Include="C:\Users\yello\Dev\Test\Phoenix\Core\Events\Event.h" />
+    <ClInclude Include="C:\Users\yello\Dev\Test\Phoenix\Core\Events\EventDispatcher.h" />
+    <ClInclude Include="C:\Users\yello\Dev\Test\Phoenix\Core\Events\KeyEvent.h" />
+    <ClInclude Include="C:\Users\yello\Dev\Test\Phoenix\Core\Events\MouseEvent.h" />
+    <ClInclude Include="C:\Users\yello\Dev\Test\Phoenix\Core\Events\WindowEvent.h" />
+    <ClInclude Include="C:\Users\yello\Dev\Test\Phoenix\Core\Layers\Layer\include\Layer.h" />
+    <ClCompile Include="C:\Users\yello\Dev\Test\Phoenix\Core\Layers\Layer\src\Layer.cpp" />
+    <ClInclude Include="C:\Users\yello\Dev\Test\Phoenix\Core\Layers\LayerStack\include\LayerStack.h" />
+    <ClCompile Include="C:\Users\yello\Dev\Test\Phoenix\Core\Layers\LayerStack\src\LayerStack.cpp" />
+    <ClInclude Include="C:\Users\yello\Dev\Test\Phoenix\Core\Log\include\Log.h" />
+    <ClCompile Include="C:\Users\yello\Dev\Test\Phoenix\Core\Log\src\Log.cpp" />
+    <ClInclude Include="C:\Users\yello\Dev\Test\Phoenix\Core\Maths\Noise\include\NoiseGenerator.h" />
+    <ClInclude Include="C:\Users\yello\Dev\Test\Phoenix\Core\Maths\Noise\include\PerlinNoise.h" />
+    <ClCompile Include="C:\Users\yello\Dev\Test\Phoenix\Core\Maths\Noise\src\PerlinNoise.cpp" />
+    <ClInclude Include="C:\Users\yello\Dev\Test\Phoenix\Core\Physics\include\CollisionSubSytem.h" />
+    <ClCompile Include="C:\Users\yello\Dev\Test\Phoenix\Core\Physics\src\CollisionSubSytem.cpp" />
+    <ClInclude Include="C:\Users\yello\Dev\Test\Phoenix\Core\Utils\Color.h" />
+    <ClInclude Include="C:\Users\yello\Dev\Test\Phoenix\Core\Utils\FileSystem.h" />
+    <ClInclude Include="C:\Users\yello\Dev\Test\Phoenix\Core\Utils\KeyCode.h" />
+    <ClInclude Include="C:\Users\yello\Dev\Test\Phoenix\Core\Utils\MouseCode.h" />
+    <ClInclude Include="C:\Users\yello\Dev\Test\Phoenix\Core\Utils\TimeStep.h" />
+    <ClInclude Include="C:\Users\yello\Dev\Test\Phoenix\Core\Utils\Timer.h" />
+    <ClInclude Include="C:\Users\yello\Dev\Test\Phoenix\Core\Utils\UUID.h" />
+    <ClInclude Include="C:\Users\yello\Dev\Test\Phoenix\HAL\Core\Application\include\Application.h" />
+    <ClCompile Include="C:\Users\yello\Dev\Test\Phoenix\HAL\Core\Application\src\Application.cpp" />
+    <ClInclude Include="C:\Users\yello\Dev\Test\Phoenix\HAL\Core\Graphics\DataObjects\include\Buffer.h" />
+    <ClInclude Include="C:\Users\yello\Dev\Test\Phoenix\HAL\Core\Graphics\DataObjects\include\Shader.h" />
+    <ClInclude Include="C:\Users\yello\Dev\Test\Phoenix\HAL\Core\Graphics\DataObjects\include\Texture.h" />
+    <ClInclude Include="C:\Users\yello\Dev\Test\Phoenix\HAL\Core\Graphics\DataObjects\include\VertexArray.h" />
+    <ClCompile Include="C:\Users\yello\Dev\Test\Phoenix\HAL\Core\Graphics\DataObjects\src\Buffer.cpp" />
+    <ClCompile Include="C:\Users\yello\Dev\Test\Phoenix\HAL\Core\Graphics\DataObjects\src\Shader.cpp" />
+    <ClCompile Include="C:\Users\yello\Dev\Test\Phoenix\HAL\Core\Graphics\DataObjects\src\Texture.cpp" />
+    <ClCompile Include="C:\Users\yello\Dev\Test\Phoenix\HAL\Core\Graphics\DataObjects\src\VertexArray.cpp" />
+    <ClInclude Include="C:\Users\yello\Dev\Test\Phoenix\HAL\Core\Graphics\OpenGLImpl\include\OpenGLBuffer.h" />
+    <ClInclude Include="C:\Users\yello\Dev\Test\Phoenix\HAL\Core\Graphics\OpenGLImpl\include\OpenGLShader.h" />
+    <ClInclude Include="C:\Users\yello\Dev\Test\Phoenix\HAL\Core\Graphics\OpenGLImpl\include\OpenGLTexture2D.h" />
+    <ClInclude Include="C:\Users\yello\Dev\Test\Phoenix\HAL\Core\Graphics\OpenGLImpl\include\OpenGLVertexArray.h" />
+    <ClCompile Include="C:\Users\yello\Dev\Test\Phoenix\HAL\Core\Graphics\OpenGLImpl\src\OpenGLBuffer.cpp" />
+    <ClCompile Include="C:\Users\yello\Dev\Test\Phoenix\HAL\Core\Graphics\OpenGLImpl\src\OpenGLShader.cpp" />
+    <ClCompile Include="C:\Users\yello\Dev\Test\Phoenix\HAL\Core\Graphics\OpenGLImpl\src\OpenGLTexture2D.cpp" />
+    <ClCompile Include="C:\Users\yello\Dev\Test\Phoenix\HAL\Core\Graphics\OpenGLImpl\src\OpenGLVertexArray.cpp" />
+    <ClInclude Include="C:\Users\yello\Dev\Test\Phoenix\HAL\Core\Graphics\Render\include\OpenGLRendererAPI.h" />
+    <ClInclude Include="C:\Users\yello\Dev\Test\Phoenix\HAL\Core\Graphics\Render\include\Renderer.h" />
+    <ClInclude Include="C:\Users\yello\Dev\Test\Phoenix\HAL\Core\Graphics\Render\include\RendererAPI.h" />
+    <ClCompile Include="C:\Users\yello\Dev\Test\Phoenix\HAL\Core\Graphics\Render\src\OpenGLRendererAPI.cpp" />
+    <ClCompile Include="C:\Users\yello\Dev\Test\Phoenix\HAL\Core\Graphics\Render\src\Renderer.cpp" />
+    <ClCompile Include="C:\Users\yello\Dev\Test\Phoenix\HAL\Core\Graphics\Render\src\RendererAPI.cpp" />
+    <ClInclude Include="C:\Users\yello\Dev\Test\Phoenix\HAL\Core\Input\include\Input.h" />
+    <ClInclude Include="C:\Users\yello\Dev\Test\Phoenix\HAL\Core\Input\include\InputActionRegistratorSubSystem.h" />
+    <ClInclude Include="C:\Users\yello\Dev\Test\Phoenix\HAL\Core\Input\include\InputActions.h" />
+    <ClCompile Include="C:\Users\yello\Dev\Test\Phoenix\HAL\Core\Input\src\Input.cpp" />
+    <ClCompile Include="C:\Users\yello\Dev\Test\Phoenix\HAL\Core\Input\src\InputActionRegistratorSubSystem.cpp" />
+    <ClInclude Include="C:\Users\yello\Dev\Test\Phoenix\HAL\Core\Scene\include\Camera.h" />
+    <ClInclude Include="C:\Users\yello\Dev\Test\Phoenix\HAL\Core\Scene\include\CameraController.h" />
+    <ClInclude Include="C:\Users\yello\Dev\Test\Phoenix\HAL\Core\Scene\include\Scene.h" />
+    <ClInclude Include="C:\Users\yello\Dev\Test\Phoenix\HAL\Core\Scene\include\SceneManagerSubSystem.h" />
+    <ClCompile Include="C:\Users\yello\Dev\Test\Phoenix\HAL\Core\Scene\src\Camera.cpp" />
+    <ClCompile Include="C:\Users\yello\Dev\Test\Phoenix\HAL\Core\Scene\src\CameraController.cpp" />
+    <ClCompile Include="C:\Users\yello\Dev\Test\Phoenix\HAL\Core\Scene\src\Scene.cpp" />
+    <ClCompile Include="C:\Users\yello\Dev\Test\Phoenix\HAL\Core\Scene\src\SceneManagerSubSystem.cpp" />
+    <ClInclude Include="C:\Users\yello\Dev\Test\Phoenix\HAL\Core\Serialization\include\AbstractFactory.h" />
+    <ClInclude Include="C:\Users\yello\Dev\Test\Phoenix\HAL\Core\Serialization\include\BlobSerializer.h" />
+    <ClInclude Include="C:\Users\yello\Dev\Test\Phoenix\HAL\Core\Serialization\include\SerializerSubsystem.h" />
+    <ClCompile Include="C:\Users\yello\Dev\Test\Phoenix\HAL\Core\Serialization\src\BlobSerializer.cpp" />
+    <ClCompile Include="C:\Users\yello\Dev\Test\Phoenix\HAL\Core\Serialization\src\SerializerSubsystem.cpp" />
+    <ClInclude Include="C:\Users\yello\Dev\Test\Phoenix\HAL\Core\Window\include\Window.h" />
+    <ClCompile Include="C:\Users\yello\Dev\Test\Phoenix\HAL\Core\Window\src\Window.cpp">
+      <ObjectFileName>$(IntDir)/HAL/Core/Window/src/Window.cpp.obj</ObjectFileName>
     </ClCompile>
-    <ClCompile Include="vendor\stb_image\stb_image.cpp" />
+    <ClInclude Include="C:\Users\yello\Dev\Test\Phoenix\HAL\HAL.h" />
+    <ClInclude Include="C:\Users\yello\Dev\Test\Phoenix\HAL\Windows\Input\include\WindowsInput.h" />
+    <ClCompile Include="C:\Users\yello\Dev\Test\Phoenix\HAL\Windows\Input\src\WindowsInput.cpp" />
+    <ClInclude Include="C:\Users\yello\Dev\Test\Phoenix\HAL\Windows\Window\include\Window.h" />
+    <ClCompile Include="C:\Users\yello\Dev\Test\Phoenix\HAL\Windows\Window\src\Window.cpp">
+      <ObjectFileName>$(IntDir)/HAL/Windows/Window/src/Window.cpp.obj</ObjectFileName>
+    </ClCompile>
+    <ClInclude Include="C:\Users\yello\Dev\Test\Phoenix\HAL\Windows\Windows.h" />
+    <ClInclude Include="C:\Users\yello\Dev\Test\Phoenix\Phoenix.h" />
+    <Natvis Include="C:\Users\yello\Dev\Test\Phoenix\vcpkg_installed\x64-windows\share\nlohmann_json\nlohmann_json.natvis">
+    </Natvis>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="vendor\GLFW\GLFW.vcxproj">
-      <Project>{154B857C-0182-860D-AA6E-6C109684020F}</Project>
-    </ProjectReference>
-    <ProjectReference Include="vendor\GLAD\GLAD.vcxproj">
-      <Project>{5D4A857C-4981-860D-F26D-6C10DE83020F}</Project>
-    </ProjectReference>
-    <ProjectReference Include="vendor\imgui\ImGui.vcxproj">
-      <Project>{C0FF640D-2C14-8DBE-F595-301E616989EF}</Project>
+    <ProjectReference Include="C:\Users\yello\Dev\Test\Phoenix\ZERO_CHECK.vcxproj">
+      <Project>{D5C77401-E750-3DA0-A141-7BC7B6091FFF}</Project>
+      <Name>ZERO_CHECK</Name>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

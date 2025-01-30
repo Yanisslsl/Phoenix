@@ -57,8 +57,6 @@ public:
 	}
 	void OnUpdate() override
 	{
-		auto entites = Phoenix::Application::Get().GetSubSystem<Phoenix::EntitySubsystem>()->GetEntities();
-		std::cout << "Entities: " << entites.size() << std::endl;
 		Phoenix::Timer::Update();
 		ChunkPulling();
 		CheckCurrentPosition();
@@ -100,7 +98,6 @@ public:
 					{
 						m_CurrentChunk = chunk;
 						LoadChunkNeighboors(glm::vec3(chunk->position.x, 0, chunk->position.z));
-						std::cout << "Chunk " << chunk->name << " is already loaded" << std::endl;
 					}
 					break;
 				}
@@ -116,15 +113,11 @@ public:
 			auto pendingChunk = *it;
 			if(pendingChunk->future.wait_for(std::chrono::seconds(0)) == std::future_status::ready)
 			{
-				auto start = std::chrono::high_resolution_clock::now();
 				auto _chunk = pendingChunk->future.get();
 				Phoenix::Ref<Phoenix::Entity> chunk = Phoenix::Application::Get().GetSubSystem<Phoenix::EntitySubsystem>()->CreateEntity(pendingChunk->name, true);
 				chunk->AddComponent(Phoenix::SpriteComponent(Phoenix::SpriteType::Custom, "ressources/terrain-grass.jpg", _chunk->vertices, _chunk->indices ));
 				chunk->AddComponent(Phoenix::TransformComponent{ glm::vec3(pendingChunk->position.x, -10, pendingChunk->position.z), 0, glm::vec3(1000/CHUNK_RATIO, 3,1000/CHUNK_RATIO) });
 				Phoenix::Application::Get().GetSubSystem<Phoenix::EntitySubsystem>()->GetEntityByName(pendingChunk->name)->SetRotation(0.f, glm::vec3(1, 0, 0));
-				auto end = std::chrono::high_resolution_clock::now();
-				auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);
-				std::cout << "Chunk :" << pendingChunk->name << " created in " << duration.count() << "ms" << std::endl;
 				m_chunks.push_back(pendingChunk);
 				it = m_pending_chunks.erase(it);
 				return;
