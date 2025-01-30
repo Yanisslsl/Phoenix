@@ -80,8 +80,14 @@ namespace Phoenix
         void LookAt(const glm::vec3& target)
         {
             m_Camera.LookAt(target);
+            m_CameraLookAt = target;
         }
-    private:
+
+        glm::vec3 GetCameraLookAt() const
+        {
+          return m_CameraLookAt;
+        }
+       private:
         /** \brief OnMouseScrolled listener
          * \param event MouseScrolledEvent
          * \return bool
@@ -97,6 +103,7 @@ namespace Phoenix
         float m_AspectRatio;
         float m_ZoomLevel = 1.0f;
         Camera m_Camera;
+        glm::vec3 m_CameraLookAt = { 0.0f, 0.0f, 0.0f };  
         bool m_Rotation;
         glm::vec3 m_CameraPosition = { 0.0f, 0.0f, 0.0f };
         float m_CameraRotation = 0.0f; //In degrees, in the anti-clockwise direction

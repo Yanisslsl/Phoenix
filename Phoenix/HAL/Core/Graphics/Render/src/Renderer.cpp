@@ -4,6 +4,7 @@
 #include "Utils/Color.h"
 #include "Utils/Timer.h"
 #include "Core/Graphics/DataObjects/include/Shader.h"
+#include "Maths/Noise/include/PerlinNoise.h"
 
 
 namespace Phoenix
@@ -117,23 +118,47 @@ namespace Phoenix
     }
 
     void Renderer::CreateTexturedShape(std::string name, std::vector<float> vertices, std::vector<uint32_t> indices,
-                                       const char* vertexShader, const char* fragmentShader,
-                                       const BufferLayout bufferlayout, const char* texturePath,
+                                        const char* texturePath,
                                        const glm::mat4 modelMat)
     {
+        BufferLayout layout = {
+            { ShaderDataType::Float3, "aPos" },
+            { ShaderDataType::Float2, "aTexCoord" }
+        };
         Ref<VertexArray> vertexArray = s_RendererAPI->CreateVertexArray();
         Ref<VertexBuffer> vertexBuffer = s_RendererAPI->CreateVertexBuffer(vertices);
-        vertexBuffer->SetLayout(bufferlayout);
+        vertexBuffer->SetLayout(layout);
         vertexArray->AddVertexBuffer(vertexBuffer);
         Ref<IndexBuffer> indexBuffer = s_RendererAPI->CreateIndexBuffer(indices);
+        vertexArray->AddVertexBuffer(vertexBuffer);
         vertexArray->SetIndexBuffer(indexBuffer);
-        Ref<Texture2D> texture = s_RendererAPI->CreateTexture2D(texturePath);
-        Ref<Shader> shader = s_RendererAPI->CreateShader(name, vertexShader, fragmentShader);
+        
+        Ref<Texture2D> texture;
+        if(s_CachedTextures.find(texturePath) == s_CachedTextures.end())
+        {
+            texture = s_RendererAPI->CreateTexture2D(texturePath);
+            s_CachedTextures[texturePath] = texture; 
+        } else
+        {
+            texture = s_CachedTextures[texturePath];
+        }
+        
+        Ref<Shader> shader;
+        std::string defaultShader = "DEFAULT_SHADER"; //@TODO: constant for now, make it dynamic when we have a shader manager
+        if(s_CachedShaders.find(defaultShader) == s_CachedShaders.end())
+        {
+            shader = s_RendererAPI->CreateShader(defaultShader);
+            s_CachedShaders[defaultShader] = shader;
+        } else
+        {
+            shader = s_CachedShaders[defaultShader];
+        }
+        
         shader->Bind();
         shader->SetInt("u_Texture", 0);
         ShapeData shape = ShapeData{
             vertexBuffer, indexBuffer, vertexArray, shader,
-            bufferlayout, modelMat 
+            layout, modelMat 
         };
         shape.texture = texture;
         s_ShapeData.insert(std::pair<std::string, ShapeData>(name, shape));
@@ -229,74 +254,253 @@ namespace Phoenix
 
     void Renderer::CreateCube(std::string name, const char* texturePath, const glm::mat4 modelMat)
     {
+            std::vector<float> vertices = {
+                // positions          // texture coords
+                // Front face
+                -0.5f, -0.5f,  0.5f,  0.0f, 0.0f,  // 0
+                 0.5f, -0.5f,  0.5f,  1.0f, 0.0f,  // 1
+                 0.5f,  0.5f,  0.5f,  1.0f, 1.0f,  // 2
+                -0.5f,  0.5f,  0.5f,  0.0f, 1.0f,  // 3
+
+                // Back face
+                -0.5f, -0.5f, -0.5f,  0.0f, 0.0f,  // 4
+                 0.5f, -0.5f, -0.5f,  1.0f, 0.0f,  // 5
+                 0.5f,  0.5f, -0.5f,  1.0f, 1.0f,  // 6
+                -0.5f,  0.5f, -0.5f,  0.0f, 1.0f,  // 7
+
+                // Left face
+                -0.5f,  0.5f,  0.5f,  1.0f, 0.0f,  // 8
+                -0.5f,  0.5f, -0.5f,  1.0f, 1.0f,  // 9
+                -0.5f, -0.5f, -0.5f,  0.0f, 1.0f,  // 10
+                -0.5f, -0.5f,  0.5f,  0.0f, 0.0f,  // 11
+
+                // Right face
+                 0.5f,  0.5f,  0.5f,  1.0f, 0.0f,  // 12
+                 0.5f,  0.5f, -0.5f,  1.0f, 1.0f,  // 13
+                 0.5f, -0.5f, -0.5f,  0.0f, 1.0f,  // 14
+                 0.5f, -0.5f,  0.5f,  0.0f, 0.0f,  // 15
+
+                // Top face
+                -0.5f,  0.5f,  0.5f,  0.0f, 0.0f,  // 16
+                 0.5f,  0.5f,  0.5f,  1.0f, 0.0f,  // 17
+                 0.5f,  0.5f, -0.5f,  1.0f, 1.0f,  // 18
+                -0.5f,  0.5f, -0.5f,  0.0f, 1.0f,  // 19
+
+                // Bottom face
+                -0.5f, -0.5f,  0.5f,  0.0f, 0.0f,  // 20
+                 0.5f, -0.5f,  0.5f,  1.0f, 0.0f,  // 21
+                 0.5f, -0.5f, -0.5f,  1.0f, 1.0f,  // 22
+                -0.5f, -0.5f, -0.5f,  0.0f, 1.0f   // 23
+            };
+
+            std::vector<uint32_t> indices = {
+                // Front face
+                0, 1, 2, 2, 3, 0,
+                // Back face
+                4, 5, 6, 6, 7, 4,
+                // Left face
+                8, 9, 10, 10, 11, 8,
+                // Right face
+                12, 13, 14, 14, 15, 12,
+                // Top face
+                16, 17, 18, 18, 19, 16,
+                // Bottom face
+                20, 21, 22, 22, 23, 20
+            };
+            BufferLayout layout = {
+                { ShaderDataType::Float3, "aPos" },
+                { ShaderDataType::Float2, "aTexCoord" }
+            };
+            Ref<VertexArray> vertexArray = s_RendererAPI->CreateVertexArray();
+            Ref<VertexBuffer> vertexBuffer = s_RendererAPI->CreateVertexBuffer(vertices);
+            vertexBuffer->SetLayout(layout);
+            vertexArray->AddVertexBuffer(vertexBuffer);
+            Ref<IndexBuffer> indexBuffer = s_RendererAPI->CreateIndexBuffer(indices);
+            vertexArray->AddVertexBuffer(vertexBuffer);
+            vertexArray->SetIndexBuffer(indexBuffer);
+            Ref<Texture2D> texture = s_RendererAPI->CreateTexture2D(texturePath);
+            Ref<Shader> shader = s_RendererAPI->CreateShader(name);
+            shader->Bind();
+            shader->SetInt("u_Texture", 0);
+            ShapeData shape = ShapeData{
+                vertexBuffer, indexBuffer, vertexArray, shader,
+                layout, modelMat 
+            };
+            shape.texture = texture;
+            s_ShapeData.insert(std::pair<std::string, ShapeData>(name, shape));
+    }
+
+
+    void Renderer::CreatePlane(std::string name, const char* texturePath, const glm::mat4 modelMat)
+    {
         std::vector<float> vertices = {
             // positions          // texture coords
-            // Front face
-            -0.5f, -0.5f,  0.5f,  0.0f, 0.0f,  // 0
-             0.5f, -0.5f,  0.5f,  1.0f, 0.0f,  // 1
-             0.5f,  0.5f,  0.5f,  1.0f, 1.0f,  // 2
-            -0.5f,  0.5f,  0.5f,  0.0f, 1.0f,  // 3
-
-            // Back face
-            -0.5f, -0.5f, -0.5f,  0.0f, 0.0f,  // 4
-             0.5f, -0.5f, -0.5f,  1.0f, 0.0f,  // 5
-             0.5f,  0.5f, -0.5f,  1.0f, 1.0f,  // 6
-            -0.5f,  0.5f, -0.5f,  0.0f, 1.0f,  // 7
-
-            // Left face
-            -0.5f,  0.5f,  0.5f,  1.0f, 0.0f,  // 8
-            -0.5f,  0.5f, -0.5f,  1.0f, 1.0f,  // 9
-            -0.5f, -0.5f, -0.5f,  0.0f, 1.0f,  // 10
-            -0.5f, -0.5f,  0.5f,  0.0f, 0.0f,  // 11
-
-            // Right face
-             0.5f,  0.5f,  0.5f,  1.0f, 0.0f,  // 12
-             0.5f,  0.5f, -0.5f,  1.0f, 1.0f,  // 13
-             0.5f, -0.5f, -0.5f,  0.0f, 1.0f,  // 14
-             0.5f, -0.5f,  0.5f,  0.0f, 0.0f,  // 15
-
-            // Top face
-            -0.5f,  0.5f,  0.5f,  0.0f, 0.0f,  // 16
-             0.5f,  0.5f,  0.5f,  1.0f, 0.0f,  // 17
-             0.5f,  0.5f, -0.5f,  1.0f, 1.0f,  // 18
-            -0.5f,  0.5f, -0.5f,  0.0f, 1.0f,  // 19
-
-            // Bottom face
-            -0.5f, -0.5f,  0.5f,  0.0f, 0.0f,  // 20
-             0.5f, -0.5f,  0.5f,  1.0f, 0.0f,  // 21
-             0.5f, -0.5f, -0.5f,  1.0f, 1.0f,  // 22
-            -0.5f, -0.5f, -0.5f,  0.0f, 1.0f   // 23
+            -0.5f, -0.5f,  0.0f,  0.0f, 0.0f,  // 0
+             0.5f, -0.5f,  0.0f,  1.0f, 0.0f,  // 1
+             0.5f,  0.5f,  0.0f,  1.0f, 1.0f,  // 2
+            -0.5f,  0.5f,  0.0f,  0.0f, 1.0f   // 3
         };
 
         std::vector<uint32_t> indices = {
-            // Front face
-            0, 1, 2, 2, 3, 0,
-            // Back face
-            4, 5, 6, 6, 7, 4,
-            // Left face
-            8, 9, 10, 10, 11, 8,
-            // Right face
-            12, 13, 14, 14, 15, 12,
-            // Top face
-            16, 17, 18, 18, 19, 16,
-            // Bottom face
-            20, 21, 22, 22, 23, 20
+            0, 1, 2,    // first triangle
+            2, 3, 0     // second triangle
         };
+
         BufferLayout layout = {
             { ShaderDataType::Float3, "aPos" },
-                    { ShaderDataType::Float2, "aTexCoord" }
+            { ShaderDataType::Float2, "aTexCoord" }
         };
+
         Ref<VertexArray> vertexArray = s_RendererAPI->CreateVertexArray();
         Ref<VertexBuffer> vertexBuffer = s_RendererAPI->CreateVertexBuffer(vertices);
         vertexBuffer->SetLayout(layout);
         vertexArray->AddVertexBuffer(vertexBuffer);
+    
         Ref<IndexBuffer> indexBuffer = s_RendererAPI->CreateIndexBuffer(indices);
-        vertexArray->AddVertexBuffer(vertexBuffer);
         vertexArray->SetIndexBuffer(indexBuffer);
+    
         Ref<Texture2D> texture = s_RendererAPI->CreateTexture2D(texturePath);
         Ref<Shader> shader = s_RendererAPI->CreateShader(name);
         shader->Bind();
         shader->SetInt("u_Texture", 0);
+    
+        ShapeData shape = ShapeData{
+            vertexBuffer, indexBuffer, vertexArray, shader,
+            layout, modelMat 
+        };
+        shape.texture = texture;
+        s_ShapeData.insert(std::pair<std::string, ShapeData>(name, shape));
+    }
+
+    void Renderer::CreatePlane(std::string name, ColorType color, const glm::mat4 modelMat)
+    {
+        std::vector<float> vertices = {
+            // positions          // texture coords
+            -0.5f, -0.5f,  0.0f,  0.0f, 0.0f,  // 0
+             0.5f, -0.5f,  0.0f,  1.0f, 0.0f,  // 1
+             0.5f,  0.5f,  0.0f,  1.0f, 1.0f,  // 2
+            -0.5f,  0.5f,  0.0f,  0.0f, 1.0f   // 3
+        };
+
+        std::vector<uint32_t> indices = {
+            0, 1, 2,    // first triangle
+            2, 3, 0     // second triangle
+        };
+
+        BufferLayout layout = {
+            { ShaderDataType::Float3, "aPos" },
+            { ShaderDataType::Float2, "aTexCoord" }
+        };
+
+        Ref<VertexArray> vertexArray = s_RendererAPI->CreateVertexArray();
+        Ref<VertexBuffer> vertexBuffer = s_RendererAPI->CreateVertexBuffer(vertices);
+        vertexBuffer->SetLayout(layout);
+        vertexArray->AddVertexBuffer(vertexBuffer);
+    
+        Ref<IndexBuffer> indexBuffer = s_RendererAPI->CreateIndexBuffer(indices);
+        vertexArray->SetIndexBuffer(indexBuffer);
+    
+        Ref<Shader> shader = s_RendererAPI->CreateShader(name);
+        shader->Bind();
+        shader->SetInt("u_Texture", 0);
+    
+        ShapeData shape = ShapeData{
+            vertexBuffer, indexBuffer, vertexArray, shader,
+            layout, modelMat 
+        };
+        shape.color = color;
+        s_ShapeData.insert(std::pair<std::string, ShapeData>(name, shape));
+    }
+
+    void Renderer::CreateTerrain(std::string name, const char* texturePath, const glm::mat4 modelMat, int gridSize)
+    {
+        std::vector<float> vertices;
+        std::vector<uint32_t> indices;
+
+        int GRID_SIZE = 1;
+
+        PerlinNoise *noise = new PerlinNoise();
+
+        int dWidth = 100;
+        int dHeight = 100;
+        std::vector heights = std::vector<float>();
+
+        // Generate a grid of vertices
+        for(int z = 0; z < dWidth; z++) {
+            for(int x = 0; x < dHeight; x++) {
+                float height = 0.0f;
+                float frequency = 1.0f;
+                float amplitude = 1.0f;
+                const float lacunarity = 4.f;   // Augmentation de la fréquence entre octaves
+                const float persistence = 0.8f; 
+
+                // Calculate normalized position (0 to 1)
+                float nx = (float)x / (dWidth - 1);
+                float nz = (float)z / (dHeight - 1);
+            
+                float px = (nx - 0.5f) * 2.0f;  // Donne des coordonnées de -1 à 1
+                float pz = (nz - 0.5f) * 2.0f;
+
+                for(int i = 0; i < 8; i++)
+                {
+                    height += noise->Generate2D(px * frequency / GRID_SIZE, pz * frequency / GRID_SIZE) * amplitude;
+                    frequency *= lacunarity;
+                    amplitude *= persistence;
+                }
+
+                if(height > 1.0f)
+                    height = 1.0f;
+                else if(height < -1.0f)
+                    height = -1.0f;
+                // height *= .f;
+                heights.push_back(height);
+
+                vertices.push_back(px);          // x
+                vertices.push_back(height);      // y (height from noise)
+                vertices.push_back(pz);          // z
+                vertices.push_back(nx);          // texture u
+                vertices.push_back(nz);          // texture v
+            }
+        }
+
+        // Generate indices for triangles
+        for(int z = 0; z < dWidth - 1; z++) {
+            for(int x = 0; x < dHeight - 1; x++) {
+                uint32_t topLeft = z * dWidth + x;
+                uint32_t topRight = topLeft + 1;
+                uint32_t bottomLeft = (z + 1) * dHeight + x;
+                uint32_t bottomRight = bottomLeft + 1;
+            
+                // First triangle
+                indices.push_back(topLeft);
+                indices.push_back(bottomLeft);
+                indices.push_back(topRight);
+            
+                // Second triangle
+                indices.push_back(topRight);
+                indices.push_back(bottomLeft);
+                indices.push_back(bottomRight);
+            }
+        }
+
+        BufferLayout layout = {
+            { ShaderDataType::Float3, "aPos" },
+            { ShaderDataType::Float2, "aTexCoord" }
+        };
+
+        Ref<VertexArray> vertexArray = s_RendererAPI->CreateVertexArray();
+        Ref<VertexBuffer> vertexBuffer = s_RendererAPI->CreateVertexBuffer(vertices);
+        vertexBuffer->SetLayout(layout);
+        vertexArray->AddVertexBuffer(vertexBuffer);
+    
+        Ref<IndexBuffer> indexBuffer = s_RendererAPI->CreateIndexBuffer(indices);
+        vertexArray->SetIndexBuffer(indexBuffer);
+    
+        Ref<Texture2D> texture = s_RendererAPI->CreateTexture2D(texturePath);
+        Ref<Shader> shader = s_RendererAPI->CreateShader(name);
+        shader->Bind();
+        shader->SetInt("u_Texture", 0);
+    
         ShapeData shape = ShapeData{
             vertexBuffer, indexBuffer, vertexArray, shader,
             layout, modelMat 

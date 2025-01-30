@@ -171,7 +171,7 @@ namespace Phoenix
          * \param texturePath 
          * \param transform 
          */
-        void CreateTexturedShape(std::string name, std::vector<float> vertices, std::vector<uint32_t> indices, const char* vertexShader, const char* fragmentShader, const BufferLayout bufferlayout ,const char* texturePath, const glm::mat4 modelMat);
+        void CreateTexturedShape(std::string name, std::vector<float> vertices, std::vector<uint32_t> indices, const char* texturePath, const glm::mat4 modelMat);
 
         
         /** 
@@ -186,6 +186,11 @@ namespace Phoenix
 
         void CreateCube(std::string name, ColorType color, const glm::mat4 modelMat);
 
+        void CreatePlane(std::string name, const char* texturePath, const glm::mat4 modelMat);
+
+        void CreatePlane(std::string name, ColorType color, const glm::mat4 modelMat);
+
+        void CreateTerrain(std::string name, const char* texturePath, const glm::mat4 modelMat, int gridSize = 100);
 
         /** 
          * \brief Set texture index
@@ -253,6 +258,11 @@ namespace Phoenix
          * \brief Internal renderer data for shapes, used to keep track of the shapes and their data
          */
         std::map<std::string, ShapeData> s_ShapeData;
+
+
+        std::map<std::string, Ref<Texture2D>> s_CachedTextures;
+
+        std::map<std::string, Ref<Shader>> s_CachedShaders;
 
         /**
          * \brief Abstraction of the Graphics API 
