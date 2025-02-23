@@ -45,8 +45,41 @@ namespace Phoenix
                 Application::Get().GetSubSystem<SpriteSubsystem>()->AddSpriteComponent(m_EntityHandle, component);
                 Application::Get().GetRenderer()->CreateCube(m_name, component.textureFilePath.c_str(), glm::mat4(1));
             } 
-        } else
+        } else if (component.spriteType == Plane)
         {
+            if(component.textureFilePath.empty())
+            {
+                Application::Get().GetSubSystem<SpriteSubsystem>()->AddSpriteComponent(m_EntityHandle, component);
+                Application::Get().GetRenderer()->CreatePlane(m_name, Colors::GetColor(component.colorCode), glm::mat4(1));
+            } else if(!component.textureFilePath.empty())
+            {
+                Application::Get().GetSubSystem<SpriteSubsystem>()->AddSpriteComponent(m_EntityHandle, component);
+                Application::Get().GetRenderer()->CreatePlane(m_name, component.textureFilePath.c_str(), glm::mat4(1));
+            }
+        }
+        else if (component.spriteType == Terrain)
+        {
+            if(component.textureFilePath.empty())
+            {
+                Application::Get().GetSubSystem<SpriteSubsystem>()->AddSpriteComponent(m_EntityHandle, component);
+                // Application::Get().GetRenderer()->CreateTerrain(m_name, Colors::GetColor(component.colorCode), glm::mat4(1));
+            } else if(!component.textureFilePath.empty())
+            {
+                Application::Get().GetSubSystem<SpriteSubsystem>()->AddSpriteComponent(m_EntityHandle, component);
+                Application::Get().GetRenderer()->CreateTerrain(m_name, component.textureFilePath.c_str(), glm::mat4(1), 300.f);
+            }
+        } else if (component.spriteType == Custom)
+        {
+            if(component.textureFilePath.empty())
+            {
+                //@TODO add impl
+            } else if(!component.textureFilePath.empty())
+            {
+                Application::Get().GetSubSystem<SpriteSubsystem>()->AddSpriteComponent(m_EntityHandle, component);
+                Application::Get().GetRenderer()->CreateTexturedShape(m_name, component.vertices, component.indices ,component.textureFilePath.c_str(), glm::mat4(1));
+            }
+        }
+        else {
             if(component.textureFilePath.empty())
             {
                 Application::Get().GetSubSystem<SpriteSubsystem>()->AddSpriteComponent(m_EntityHandle, component);

@@ -184,8 +184,8 @@ namespace Phoenix
         float m_Pitch = 0.0f;
         glm::vec3 m_CameraDirection = glm::vec3(0.0f, 0.0f, -1.0f);
         float m_SleepTime = 0.0f;
-        bool m_isCameraDevMode = false;
+        bool m_isCameraDevMode = true;
         float m_CameraSensitivity = 0.1f;
-        float m_CameraSpeed = 10.f;
+        float m_CameraSpeed = 75.f;
     };
 }

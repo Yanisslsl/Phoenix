@@ -13,6 +13,10 @@ namespace Phoenix
 
 	Application* Application::s_Instance = nullptr;
 
+	/**
+	 * \brief 
+	 * \param mode 
+	 */
 	Application::Application(ApplicationMode mode): m_Mode(mode)
 	{
 		m_Window = WindowHal::Create(WindowProps("Phoenix Engine", 1280, 720));
@@ -28,10 +32,10 @@ namespace Phoenix
 		m_SpriteSubsystem = new SpriteSubsystem();
 		m_Renderer = new Renderer();
 		m_Renderer->Init();
-#ifdef PX_DEBUG
+// #ifdef PX_DEBUG
 		m_Editor_Layer = new EditorLayer();
 		PushOverlay(m_Editor_Layer);
-#endif
+// #endif
 	}
 	
 	Application::~Application()

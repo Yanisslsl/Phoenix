@@ -53,6 +53,11 @@ namespace Phoenix
             return deltaTime;
         }
 
+        static float GetFPS()
+        {
+            return 1.0f / GetDeltaTime();
+        }
+
     private:
         inline static std::chrono::time_point<std::chrono::high_resolution_clock> m_StartTime;
         inline static std::chrono::time_point<std::chrono::steady_clock> m_DeltaTime;
