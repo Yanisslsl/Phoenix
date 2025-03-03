@@ -30,12 +30,13 @@ namespace Phoenix
 		m_AnimationSubsystem = new AnimationSubsystem();
 		m_SerializerSubsystem = new SerializerSubsystem();
 		m_SpriteSubsystem = new SpriteSubsystem();
+		m_PhysicsSubsystem = new PhysicsSubsystem();
 		m_Renderer = new Renderer();
 		m_Renderer->Init();
-// #ifdef PX_DEBUG
+#ifdef PX_DEBUG
 		m_Editor_Layer = new EditorLayer();
 		PushOverlay(m_Editor_Layer);
-// #endif
+#endif
 	}
 	
 	Application::~Application()
@@ -82,6 +83,7 @@ namespace Phoenix
 			m_CollisionSubSystem->Update();
 			m_EntityManagerSubsystem->Update();
 			m_AnimationSubsystem->Update();
+			m_PhysicsSubsystem->Update();
 		}
 	}
 

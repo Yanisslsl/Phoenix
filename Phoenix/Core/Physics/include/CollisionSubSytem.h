@@ -10,6 +10,7 @@
 
 namespace Phoenix
 {
+    // @deprecated
     class CollisionSubSytem;
 
     enum class CollisionType

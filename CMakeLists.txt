@@ -17,6 +17,12 @@ find_package(spdlog CONFIG REQUIRED)
 find_package(Stb REQUIRED)
 find_package(EnTT CONFIG REQUIRED)
 find_package(assimp REQUIRED)
+find_package(Bullet CONFIG REQUIRED
+    COMPONENTS
+    BulletDynamics
+    BulletCollision
+    LinearMath
+)
 
 
 # Phoenix Library source files
@@ -36,6 +42,7 @@ target_include_directories(Phoenix PRIVATE
     "${CMAKE_SOURCE_DIR}/Phoenix/HAL"
     "${CMAKE_SOURCE_DIR}/Phoenix/Core"
     "${CMAKE_SOURCE_DIR}/Phoenix/vendor/spdlog/include"
+    "${BULLET_INCLUDE_DIRS}"
 )
 # Link Phoenix library to Game executable
 target_link_libraries(Phoenix PRIVATE 
@@ -47,6 +54,9 @@ target_link_libraries(Phoenix PRIVATE
     spdlog::spdlog
     EnTT::EnTT
     assimp::assimp
+    BulletDynamics
+    BulletCollision
+    LinearMath
 )
 
 # Game executable source files
@@ -65,6 +75,7 @@ target_include_directories(Game PRIVATE
     "${CMAKE_SOURCE_DIR}/Phoenix"
     "${CMAKE_SOURCE_DIR}/Phoenix/vendor/spdlog/include"
     "${CMAKE_SOURCE_DIR}/Phoenix/Core"
+    "${BULLET_INCLUDE_DIRS}"
 )
 
 # Link Phoenix library to Game executable
@@ -72,6 +83,10 @@ target_link_libraries(Game PRIVATE
     Phoenix
     glm::glm
     spdlog::spdlog
+    # @TODO remove this
+    BulletDynamics
+    BulletCollision
+    LinearMath
 )
 
 # Define macro for each build type

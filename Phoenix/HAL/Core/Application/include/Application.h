@@ -12,6 +12,7 @@
 #include "Events/WindowEvent.h"
 #include "Layers/LayerStack/include/LayerStack.h"
 #include "Physics/include/CollisionSubSytem.h"
+#include "Physics/include/PhysicsSubsystem.h"
 
 
 namespace Phoenix
@@ -192,13 +193,6 @@ namespace Phoenix
 		{
 			return m_SceneManagerSubSystem;
 		}
-
-		template <>
-		CollisionSubSytem* Application::GetSubSystem<CollisionSubSytem>()
-		{
-			return m_CollisionSubSystem;
-		}
-
 		template <>
 		TransformSubsytem* Application::GetSubSystem<TransformSubsytem>()
 		{
@@ -221,6 +215,18 @@ namespace Phoenix
 		SpriteSubsystem* Application::GetSubSystem<SpriteSubsystem>()
 		{
 			return m_SpriteSubsystem;
+		}
+
+		template <>
+		PhysicsSubsystem* Application::GetSubSystem<PhysicsSubsystem>()
+		{
+			return m_PhysicsSubsystem;
+		}
+
+		template <>
+		CollisionSubSytem* Application::GetSubSystem<CollisionSubSytem>()
+		{
+			return m_CollisionSubSystem;
 		}
 
 		/** 
@@ -260,6 +266,7 @@ namespace Phoenix
 		SpriteSubsystem* m_SpriteSubsystem;
 		Renderer* m_Renderer;
 		entt::registry m_Registry;
+		PhysicsSubsystem* m_PhysicsSubsystem;
 	};
 
 	// To be defined in CLIENT
