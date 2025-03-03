@@ -1,6 +1,3 @@
-#include <future>
-#include <iostream>
-#include <queue>
 #include <glm/ext/matrix_transform.hpp>
 #include "Phoenix.h"
 #include "Entities\include\Knight.h"
@@ -13,246 +10,89 @@
 #include "Maths/Noise/include/PerlinNoise.h"
 #include "Editor/include/ImGuiOpenGL.h"
 #include "imgui_internal.h"
+#include <btBulletDynamicsCommon.h>
+#include <iostream>
 
 
 class PlaygroundLayer : public Phoenix::Layer
 {
 public:
 
-	int CHUNK_RATIO = 20;
+	void CreateRandomCube() {
+		// Setup random number generator
+		std::random_device rd;
+		std::mt19937 gen(rd());
+		std::uniform_real_distribution<float> distribution(-2.5f, 2.5f);
+    
+		// Fixed height for all cubes
+		const float fixedHeight = 10.0f;
+    
+		// Create cubes in a loop
+			// Generate random X and Z positions between -2.5 and 2.5
+		float randomX = distribution(gen);
+		float randomZ = distribution(gen);
 
-	struct ChunkMesh
-	{
-		std::vector<float> vertices;
-		std::vector<uint32_t> indices;
-	};
+		std::vector<std::string> prefixes = {
+			"Cube", "Box", "Block", "Crate", "Square", "Brick", "Chunk", "Dice", 
+			"Prism", "Cell", "Cuboid", "Hexahedron", "Container", "Package"
+		};
+    
+		std::vector<std::string> suffixes = {
+			"Alpha", "Beta", "Delta", "Gamma", "Omega", "Prime", "X", "Y", "Z",
+			"One", "Two", "Three", "Blue", "Red", "Green", "Gold", "Silver"
+		};
 
-	struct ChunkData
-	{
-		std::string name;
-		glm::vec2 bottomLeft;
-		glm::vec3 position;
-		std::future<ChunkMesh*> future;
-
-		ChunkData(std::string name, glm::vec2 bottomLeft, glm::vec3 position, std::future<ChunkMesh*> future)
-			: name(name), bottomLeft(bottomLeft), position(position), future(std::move(future))
-		{
-		}
-	};
+		std::uniform_int_distribution<int> prefixDist(0, prefixes.size() - 1);
+		std::uniform_int_distribution<int> suffixDist(0, suffixes.size() - 1);
+		std::uniform_int_distribution<int> numberDist(1, 999);
+		std::string randomName = prefixes[prefixDist(gen)] + "_" + 
+							suffixes[suffixDist(gen)] + "_" + 
+							std::to_string(numberDist(gen));
+    
+		// Create the cube entity
+		auto cube = Phoenix::Application::Get().GetSubSystem<Phoenix::EntitySubsystem>()->CreateEntity(randomName, true);
+    
+		// Add sprite component
+		cube->AddComponent(Phoenix::SpriteComponent("ressources/container.jpg", Phoenix::SpriteType::Cube));
+    
+		// Add transform component with random position
+		cube->AddComponent(Phoenix::TransformComponent{
+			glm::vec3(randomX, fixedHeight, randomZ),  // Random X, fixed Y, random Z
+			0,                                         // No rotation
+			glm::vec3(1, 1, 1)                         // Default scale
+		});
+    
+		// Add rigidbody component
+		cube->AddComponent(Phoenix::RigidBody{
+			1.0f,                                      // Mass
+			Phoenix::RigidbodyType::DYNAMIC            // Dynamic body type
+		});
+    
+		// Add delay between cube creation
+	}
 	
 	PlaygroundLayer(Phoenix::Application* app = nullptr)
 		: Layer("PlaygroundLayer")
 	{
 		Phoenix::Application::Get().GetSubSystem<Phoenix::SceneManagerSubSystem>()->Create3DScene("MainLevel");
-		LoadChunkNeighboors();
+  
+		auto cube1 = Phoenix::Application::Get().GetSubSystem<Phoenix::EntitySubsystem>()->CreateEntity("Cube2", true);
+		cube1->AddComponent(Phoenix::SpriteComponent("ressources/wall.png", Phoenix::SpriteType::Cube ));
+		cube1->AddComponent(Phoenix::TransformComponent{ glm::vec3(0,-1,0), 0, glm::vec3( 10,1,10)});
+		cube1->AddComponent(Phoenix::RigidBody{ 1.0f,  Phoenix::RigidbodyType::STATIC });
+
+
+		Phoenix::Application::Get().GetSubSystem<Phoenix::InputActionRegistratorSubSystem>()->RegisterAction(Phoenix::InputAction("CreateRandomCube", Phoenix::Key::Space), [this]() {
+			this->CreateRandomCube();
+		});
+
+
+		
+	
 	}
 
 	~PlaygroundLayer()
 	{
-	}
-
-	void GenerateTerrain()
-	{
-		
-	}
-	void OnUpdate() override
-	{
-		auto entites = Phoenix::Application::Get().GetSubSystem<Phoenix::EntitySubsystem>()->GetEntities();
-		std::cout << "Entities: " << entites.size() << std::endl;
-		Phoenix::Timer::Update();
-		ChunkPulling();
-		CheckCurrentPosition();
-		Phoenix::Application::Get().GetSubSystem<Phoenix::SceneManagerSubSystem>()->GetActiveScene()->OnUpdate();
-	}
-
-
-	void CreateChunk(std::string name, glm::vec2 bottomLeft, glm::vec3 position)
-	{
-		for(auto chunk : m_chunks)
-		{
-			if(chunk->name == name)
-			{
-				std::cout << "Chunk " << name << " already exists" << std::endl;
-				return;
-			}
-		}
-		std::promise<ChunkMesh*> p = std::promise<ChunkMesh*>();
-		std::future<ChunkMesh*> f = p.get_future();
-		std::thread t1(&PlaygroundLayer::GenerateChunk, this, std::move(p), name, bottomLeft);
-		t1.detach();
-		auto chunkData = new ChunkData(name, bottomLeft, position, std::move(f));
-		m_pending_chunks.push_back(chunkData);
-		// RemoveUnseenChunks();
-	}
-
-
-	void CheckCurrentPosition()
-	{
-		auto cameraPosition = Phoenix::Application::Get().GetSubSystem<Phoenix::SceneManagerSubSystem>()->GetActiveScene()->GetCameraController()->GetCamera().GetPosition();
-		if(m_CurrentChunk == nullptr || cameraPosition.x <= m_CurrentChunk->bottomLeft.x || cameraPosition.x >= m_CurrentChunk->bottomLeft.x + 200/CHUNK_RATIO || cameraPosition.z <= m_CurrentChunk->bottomLeft.y || cameraPosition.z >= m_CurrentChunk->bottomLeft.y + 200/CHUNK_RATIO)
-		{
-			for(auto chunk : m_chunks)
-			{
-				if(cameraPosition.x > chunk->bottomLeft.x && cameraPosition.x < chunk->bottomLeft.x + 200/CHUNK_RATIO && cameraPosition.z > chunk->bottomLeft.y && cameraPosition.z < chunk->bottomLeft.y + 200/CHUNK_RATIO)
-				{
-					auto entity = Phoenix::Application::Get().GetSubSystem<Phoenix::EntitySubsystem>()->GetEntityByName(chunk->name);
-					if(entity)
-					{
-						m_CurrentChunk = chunk;
-						LoadChunkNeighboors(glm::vec3(chunk->position.x, 0, chunk->position.z));
-						std::cout << "Chunk " << chunk->name << " is already loaded" << std::endl;
-					}
-					break;
-				}
-			}
-		}
-	}
-
-
-	void ChunkPulling()
-	{
-		for(auto it = m_pending_chunks.begin(); it != m_pending_chunks.end();)
-		{
-			auto pendingChunk = *it;
-			if(pendingChunk->future.wait_for(std::chrono::seconds(0)) == std::future_status::ready)
-			{
-				auto start = std::chrono::high_resolution_clock::now();
-				auto _chunk = pendingChunk->future.get();
-				Phoenix::Ref<Phoenix::Entity> chunk = Phoenix::Application::Get().GetSubSystem<Phoenix::EntitySubsystem>()->CreateEntity(pendingChunk->name, true);
-				chunk->AddComponent(Phoenix::SpriteComponent(Phoenix::SpriteType::Custom, "ressources/terrain-grass.jpg", _chunk->vertices, _chunk->indices ));
-				chunk->AddComponent(Phoenix::TransformComponent{ glm::vec3(pendingChunk->position.x, -10, pendingChunk->position.z), 0, glm::vec3(100/CHUNK_RATIO, 0.3,100/CHUNK_RATIO) });
-				Phoenix::Application::Get().GetSubSystem<Phoenix::EntitySubsystem>()->GetEntityByName(pendingChunk->name)->SetRotation(0.f, glm::vec3(1, 0, 0));
-				auto end = std::chrono::high_resolution_clock::now();
-				auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);
-				std::cout << "Chunk :" << pendingChunk->name << " created in " << duration.count() << "ms" << std::endl;
-				m_chunks.push_back(pendingChunk);
-				it = m_pending_chunks.erase(it);
-				return;
-			}else
-			{
-				++it;
-			}
-		}
-	}
-
-	void LoadChunkNeighboors(glm::vec3 center = glm::vec3(0,0,0))
-	{
-		const int RADIUS = 2;
-		int chunkSize = 200/CHUNK_RATIO;
-		int startX = center.x - (RADIUS * chunkSize + chunkSize/2);
-		int startZ = center.z - (RADIUS * chunkSize + chunkSize/2);
-
-		std::unordered_set<std::string> chunksToKeep;
-
-		for(int i = 0; i < 2 * RADIUS + 1; i++)
-		{
-			for(int j = 0; j < 2 * RADIUS + 1; j++)
-			{
-				auto bottomLeft = glm::vec2(startX + (j * chunkSize), startZ + (i * chunkSize));
-				float centerX = bottomLeft.x + (chunkSize/2);
-				float centerZ = bottomLeft.y + (chunkSize/2);
-				auto position = glm::vec3(centerX, 0, centerZ);
-            
-				std::string chunkName = "Chunk-" + std::to_string(centerX) + "-" + std::to_string(centerZ);
-				chunksToKeep.insert(chunkName);
-				CreateChunk(chunkName, bottomLeft, position);
-			}
-		}
-
-		std::vector<ChunkData*> chunksToRemove;
-    
-		for(auto chunk : m_chunks)
-		{
-			if(chunksToKeep.find(chunk->name) == chunksToKeep.end())
-			{
-				chunksToRemove.push_back(chunk);
-			}
-		}
-
-		for(auto chunk : chunksToRemove)
-		{
-			auto entity = Phoenix::Application::Get().GetSubSystem<Phoenix::EntitySubsystem>()->GetEntityByName(chunk->name);
-			if(entity)
-			{
-				entity->Destroy();
-				m_chunks.erase(std::remove(m_chunks.begin(), m_chunks.end(), chunk), m_chunks.end());
-				delete chunk;
-			}
-		}
-	}
-
-	void GenerateChunk(std::promise<ChunkMesh*> p, std::string name, glm::vec2 bottomLeft)
-	{
-		std::vector<float> vertices;
-        std::vector<uint32_t> indices;
-
-        int GRID_SIZE = 1;
-
-		Phoenix::Scope<Phoenix::PerlinNoise> noise = Phoenix::CreateScope<Phoenix::PerlinNoise>(Phoenix::PerlinNoise());
-  
-        int dWidth = 200/CHUNK_RATIO;
-        int dHeight = 200/CHUNK_RATIO;
-        std::vector heights = std::vector<float>();
-  
-        for(int x = 0; x < dWidth; x++) {
-            for(int z = 0; z < dHeight; z++) {
-                float height = 0.0f;
-                float frequency = 1.0f;
-                float amplitude = 1.0f;
-                const float lacunarity = 4.f;
-                const float persistence = 0.8f;
-
-            	float localX = (float)x / (dWidth - 1);
-            	float localZ = (float)z / (dHeight - 1);
-
-            	float px = (localX - 0.5f) * 2.0f;
-            	float pz = (localZ - 0.5f) * 2.0f;
-
-            	// Compute chunks offset from local position to world position
-            	float chunkOffsetX = (bottomLeft.x / (float)dWidth) * 2.0f;
-            	float chunkOffsetZ = (bottomLeft.y / (float)dHeight) * 2.0f;
-
-
-                for(int i = 0; i < 8; i++)
-                {
-                    height += noise->Generate2D(( px + chunkOffsetX) * frequency / GRID_SIZE, (pz + chunkOffsetZ) * frequency / GRID_SIZE) * amplitude;
-                    frequency *= lacunarity;
-                    amplitude *= persistence;
-                }
-  
-                if(height > 1.0f)
-                    height = 1.0f;
-                else if(height < -1.0f)
-                    height = -1.0f;
-                heights.push_back(height);
-  
-                vertices.push_back(px);
-                vertices.push_back(height); // y (height from noise)
-                vertices.push_back(pz);
-                vertices.push_back(px); // textures
-                vertices.push_back(pz);
-            }
-        }
-  
-		for(int x = 0; x < dWidth; x++) {
-			for(int z = 0; z < dHeight; z++) {
-                uint32_t topLeft = x * dHeight  + z;
-                uint32_t topRight = topLeft + 1;
-                uint32_t bottomLeft = (x + 1) * dHeight + z;
-                uint32_t bottomRight = bottomLeft + 1;
-            
-                // First triangle
-                indices.push_back(topLeft);
-                indices.push_back(bottomLeft);
-                indices.push_back(topRight);
-            
-                // Second triangle
-                indices.push_back(topRight);
-                indices.push_back(bottomLeft);
-                indices.push_back(bottomRight);
-            }
-        }
-		p.set_value(new ChunkMesh({vertices, indices }));
 	}
 
 	void OnEvent(Phoenix::Event& event) override
@@ -260,12 +100,20 @@ public:
 	
 	}
 
+	void OnUpdate() override
+	{
+		Phoenix::Timer::Update();
+		Phoenix::Application::Get().GetSubSystem<Phoenix::SceneManagerSubSystem>()->GetActiveScene()->OnUpdate();
+}
+
 private:
 	std::vector<std::string> m_entities = { };
-	std::vector<ChunkData*> m_pending_chunks;
-	std::vector<ChunkData*> m_chunks;
-	ChunkData* m_CurrentChunk = nullptr;
-	std::queue<ChunkData*> m_chunkQueue;
+	btDiscreteDynamicsWorld* m_dynamicsWorld;
+	Phoenix::Ref<Phoenix::Entity> cube;
+	btRigidBody* bodyCube;
+	bool isDemoStarted = true;
+	float m_simulationTimer = 0.0f;
+	const float m_simulationRate = 0.02f;
 };
 
 class Playground : public Phoenix::Application
@@ -285,58 +133,7 @@ public:
 
 Phoenix::Application* Phoenix::CreateApplication(int argc, char** argv)
 {
-	if (argc < 4)
-	{
-		std::cerr << "Error: Required arguments missing.\n";
-		exit(1);
-	}
-	std::string outputFilename = argv[1];
-
-	// Get width and height from arguments
-	int width, height;
-	try {
-		width = std::stoi(argv[2]);
-		height = std::stoi(argv[3]);
-        
-		if (width <= 0 || height <= 0) {
-			std::cerr << "Error: Width and height must be positive integers.\n";
-			exit(1);
-		}
-	} catch (const std::exception& e) {
-		std::cerr << "Error: Invalid width or height value. Must be positive integers.\n";
-		exit(1);
-	}
-
-	int octaves = 4;
-	if (argc > 4) {
-		try {
-			octaves = std::stoi(argv[4]);
-			if (octaves < 1) {
-				std::cerr << "Error: Octaves must be a positive integer.\n";
-		exit(1);
-			}
-		} catch (const std::exception& e) {
-			std::cerr << "Error: Invalid octaves value. Must be a positive integer.\n";
-		exit(1);
-		}
-	}
-
-	try {
-		// Create Perlin noise generator
-		Phoenix::Scope<Phoenix::PerlinNoise> noise = Phoenix::CreateScope<Phoenix::PerlinNoise>(Phoenix::PerlinNoise());
-		auto start = std::chrono::high_resolution_clock::now();
-		noise->Noise(width, height, outputFilename.c_str(), octaves);
-		auto end = std::chrono::high_resolution_clock::now();
-		auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);
-		std::cout << "Successfully generated Perlin noise image: " << outputFilename << "\n";
-		std::cout << "Dimensions: " << width << "x" << height << " pixels\n";
-		std::cout << "Used " << octaves << " octaves\n";
-		std::cout << "Time taken: " << duration.count() << "ms\n";
-	} catch (const std::exception& e) {
-		std::cerr << "Error generating noise image: " << e.what() << "\n";
-		exit(1);
-	}
-	return 0;
+	return new Playground();
 }
 
 

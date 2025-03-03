@@ -9,6 +9,7 @@
 #include "ECSExtended/include/Entity.h"
 
 #include "Animation/include/AnimationSubsystem.h"
+#include "Physics/include/PhysicsSubsystem.h"
 
 namespace Phoenix
 {
@@ -103,6 +104,16 @@ namespace Phoenix
         Application::Get().GetSubSystem<CollisionSubSytem>()->AddCollider(m_EntityHandle, component);
     }
 
+    template <>
+    void PHOENIX_API Entity::AddComponent<RigidBody>(RigidBody component)
+    {
+        auto position = GetTransformPosition();
+        component.position = position;
+        component.scale = GetScale();
+        component.shape = RigidBodyShape::BOX;
+        Application::Get().GetSubSystem<PhysicsSubsystem>()->AddRigidBody(m_EntityHandle, component);
+    }
+
     glm::vec3 Entity::GetTransformPosition() const
     {
         return Application::Get().GetSubSystem<TransformSubsytem>()->GetTransformPosition(m_EntityHandle);
@@ -114,6 +125,8 @@ namespace Phoenix
         Application::Get().GetRenderer()->UpdateModelMatrix(m_name, GetWorldModelMatrix());
         if(!Application::Get().GetSubSystem<CollisionSubSytem>()->HasCollider(m_EntityHandle)) return;
         Application::Get().GetSubSystem<CollisionSubSytem>()->Update(m_EntityHandle, position);
+        if(!Application::Get().GetSubSystem<PhysicsSubsystem>()->HasRigidBody(m_EntityHandle)) return;
+        Application::Get().GetSubSystem<PhysicsSubsystem>()->SetRigidbodyPosition(m_EntityHandle, position);
     }
 
     float Entity::GetRotation() const
@@ -131,6 +144,8 @@ namespace Phoenix
     {
         Application::Get().GetSubSystem<TransformSubsytem>()->SetTransformRotation(m_EntityHandle, rotation, axis);
         Application::Get().GetRenderer()->UpdateModelMatrix(m_name, GetWorldModelMatrix());
+        if(!Application::Get().GetSubSystem<PhysicsSubsystem>()->HasRigidBody(m_EntityHandle)) return;
+        Application::Get().GetSubSystem<PhysicsSubsystem>()->SetRigidBodyRotation(m_EntityHandle, rotation, axis);
     }
 
 
@@ -143,6 +158,8 @@ namespace Phoenix
     {
         Application::Get().GetSubSystem<TransformSubsytem>()->SetTransformScale(m_EntityHandle, scale);
         Application::Get().GetRenderer()->UpdateModelMatrix(m_name, GetWorldModelMatrix());
+        if(!Application::Get().GetSubSystem<PhysicsSubsystem>()->HasRigidBody(m_EntityHandle)) return;
+        Application::Get().GetSubSystem<PhysicsSubsystem>()->SetRigidBodyScale(m_EntityHandle, scale);
     }
 
     void Entity::Destroy()

@@ -23,6 +23,7 @@
     "stb",
     "entt",
     "assimp",
-    "stb"
+    "stb",
+    "bullet3"
   ]
 }

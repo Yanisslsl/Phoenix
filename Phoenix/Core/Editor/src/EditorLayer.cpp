@@ -187,110 +187,110 @@ namespace Phoenix
             }           
             ImGui::TreePop();
         }
-        // std::vector<Ref<Entity>> entities = Application::Get().GetSubSystem<EntitySubsystem>()->GetEntities();
+        std::vector<Ref<Entity>> entities = Application::Get().GetSubSystem<EntitySubsystem>()->GetEntities();
         
-        // if (ImGui::TreeNode("Entities"))
-        // {
-        //     for(auto entity : entities)
-        //     {
-        //         if (ImGui::TreeNode((void*)(intptr_t)entity->m_EntityHandle, entity->GetName().c_str()))
-        //         {
-        //             if (ImGui::TreeNode((void*)(intptr_t)(entity->m_EntityHandle), "Transform Component"))
-        //             {
-        //                 ImGui::SeparatorText("Position");
-        //                 ImGui::Text("X: %f", entity->GetTransformPosition().x);                    
-        //                 ImGui::SameLine();
-        //                 float posx = entity->GetTransformPosition().x;
-        //                 if(ImGui::DragFloat("position x", &posx,1., -100.f,1300.f)) //modify position on x axis
-        //                 {
-        //                     entity->SetTransformPosition(glm::vec3(posx,entity->GetTransformPosition().x, entity->GetTransformPosition().z));
-        //                 }
-        //                 ImGui::Text("Y: %f", entity->GetTransformPosition().y);
-        //                 ImGui::SameLine();
-        //                 float posy = entity->GetTransformPosition().y; //modify position on y axis
-        //                 if (ImGui::DragFloat("position y", &posy, 1., -100.f, 800.f))
-        //                 {
-        //                     entity->SetTransformPosition(glm::vec3(entity->GetTransformPosition().x,posy, entity->GetTransformPosition().z));
-        //                 }
-        //                 ImGui::Text("Z: %f", entity->GetTransformPosition().z);                    
-        //                 ImGui::SameLine();
-        //                 float posZ = entity->GetTransformPosition().z;
-        //                 if(ImGui::DragFloat("position z", &posZ,1., -100.f,1300.f)) //modify position on x axis
-        //                 {
-        //                 entity->SetTransformPosition(glm::vec3(entity->GetTransformPosition().x,entity->GetTransformPosition().y, posZ));
-        //                 }
-        //                 ImGui::SeparatorText("Rotation");
-        //                 ImGui::Text("X: %f", entity->GetRotation());
-        //                 ImGui::SameLine();
-        //                 float rotation = entity->GetRotation(); // modify rotation
-        //                 if (ImGui::DragFloat("rotation", &rotation, 1., 0.,180.))
-        //                 {
-        //                     entity->SetRotation(rotation);
-        //                 }
-        //                 ImGui::SeparatorText("Scale");
-        //                 ImGui::Text("X: %f", entity->GetScale().x);
-        //                 ImGui::SameLine();
-        //                 float scx = entity->GetScale().x; // modify scale on x axis
-        //                 if (ImGui::DragFloat("scale x", &scx, 1., 0.,100000.))
-        //                 {
-        //                     entity->SetScale(glm::vec3(scx, entity->GetScale().y, entity->GetScale().z));
-        //                 }                      
-        //                 ImGui::Text("Y: %f", entity->GetScale().y);
-        //                 ImGui::SameLine();
-        //                 float scy = entity->GetScale().y; // modify scale on y axis
-        //                 if (ImGui::DragFloat("scale y", &scy, 1., 0., 100000.))
-        //                 {
-        //                     entity->SetScale(glm::vec3(entity->GetScale().x,scy, entity->GetScale().z));
-        //                 }
-        //                 ImGui::Text("Z: %f", entity->GetScale().z);
-        //                 ImGui::SameLine();
-        //                 float scz = entity->GetScale().z; // modify scale on z axis
-        //                 if (ImGui::DragFloat("scale z", &scz, 1., 0., 100000.))
-        //                 {
-        //                     entity->SetScale(glm::vec3(entity->GetScale().x,entity->GetScale().y, scz));
-        //                 }
-        //                 ImGui::TreePop();               
-        //             } 
-        //             ImGui::TreePop();
-        //         }
-        //     }
-        // ImGui::TreePop();
-        // }
-        // if (ImGui::TreeNode("Entity Creation"))
-        // {           
-        //     std::string s = std::to_string(m_newentityindex); // new entity's name
-        //     
-        //     if (ImGui::Button("Add") && m_newentity == false)              
-        //     {
-        //         m_newentity = true;
-        //     }
-        //     if (m_newentity == true)
-        //     {    
-        //         ImGui::InputFloat("Position x", &posx, 1., (float).3); 
-        //         ImGui::InputFloat("Position y", &posy, 1., (float).3);
-        //         ImGui::InputFloat("Scale", &scale, 1., (float).3);
-        //         ImGui::InputFloat("Rotation", &rotation, 1., (float).3);          
-        //         ImGui::Text("Select color ");
-        //         const char* items[] = { "Red","Green","Blue","Yellow","Orange","Purple","White","Black","Grey","Brown","Pink","Cyan","Magenta","Lime",
-        //         "Teal","Olive","Maroon","Navy","Aqua","Silver","Gold","Crimson","Indigo","Turquoise","Violet","Lavender","Rose","Tan","Beige","Khaki",
-        //         "Coral","Salmon","Peach","Apricot","Mauve","Lilac","Plum","Lemon","Mint","Jade","Emerald","Forest","Pine","Sky","Azure","Cobalt","Sapphire",
-        //         "Tangerine","Amber","Honey","Sand","Scarlett" }; 
-        //         static int item_selected = 0; 
-        //         ImGui::ListBox("listbox", &item_selected, items, IM_ARRAYSIZE(items), 5);
-        //
-        //         if (ImGui::Button("Apply")) 
-        //         {
-        //             m_newentityindex++; 
-        //             Ref<Entity> newEntity = Application::Get().GetSubSystem<EntitySubsystem>()->CreateEntity(s);
-        //             const auto colorVec = Colors::GetColorFromMap((ColorCode)item_selected);
-        //             newEntity->AddComponent(SpriteComponent(colorVec, Quad));
-        //             newEntity->AddComponent(TransformComponent(glm::vec3(posx, posy, 1.), rotation, glm::vec3(1, 1, 1)));
-        //             newEntity->SetScale((int)scale);
-        //             m_newentity = false; // hide the display of settings 
-        //         }
-        //     }     
-        //     ImGui::TreePop();      
-        // }
+        if (ImGui::TreeNode("Entities"))
+        {
+            for(auto entity : entities)
+            {
+                if (ImGui::TreeNode((void*)(intptr_t)entity->m_EntityHandle, entity->GetName().c_str()))
+                {
+                    if (ImGui::TreeNode((void*)(intptr_t)(entity->m_EntityHandle), "Transform Component"))
+                    {
+                        ImGui::SeparatorText("Position");
+                        ImGui::Text("X: %f", entity->GetTransformPosition().x);                    
+                        ImGui::SameLine();
+                        float posx = entity->GetTransformPosition().x;
+                        if(ImGui::DragFloat("position x", &posx,1., -100.f,1300.f)) //modify position on x axis
+                        {
+                            entity->SetTransformPosition(glm::vec3(posx,entity->GetTransformPosition().x, entity->GetTransformPosition().z));
+                        }
+                        ImGui::Text("Y: %f", entity->GetTransformPosition().y);
+                        ImGui::SameLine();
+                        float posy = entity->GetTransformPosition().y; //modify position on y axis
+                        if (ImGui::DragFloat("position y", &posy, 1., -100.f, 800.f))
+                        {
+                            entity->SetTransformPosition(glm::vec3(entity->GetTransformPosition().x,posy, entity->GetTransformPosition().z));
+                        }
+                        ImGui::Text("Z: %f", entity->GetTransformPosition().z);                    
+                        ImGui::SameLine();
+                        float posZ = entity->GetTransformPosition().z;
+                        if(ImGui::DragFloat("position z", &posZ,1., -100.f,1300.f)) //modify position on x axis
+                        {
+                        entity->SetTransformPosition(glm::vec3(entity->GetTransformPosition().x,entity->GetTransformPosition().y, posZ));
+                        }
+                        ImGui::SeparatorText("Rotation");
+                        ImGui::Text("X: %f", entity->GetRotation());
+                        ImGui::SameLine();
+                        float rotation = entity->GetRotation(); // modify rotation
+                        if (ImGui::DragFloat("rotation", &rotation, 1., 0.,180.))
+                        {
+                            entity->SetRotation(rotation);
+                        }
+                        ImGui::SeparatorText("Scale");
+                        ImGui::Text("X: %f", entity->GetScale().x);
+                        ImGui::SameLine();
+                        float scx = entity->GetScale().x; // modify scale on x axis
+                        if (ImGui::DragFloat("scale x", &scx, 1., 0.,100000.))
+                        {
+                            entity->SetScale(glm::vec3(scx, entity->GetScale().y, entity->GetScale().z));
+                        }                      
+                        ImGui::Text("Y: %f", entity->GetScale().y);
+                        ImGui::SameLine();
+                        float scy = entity->GetScale().y; // modify scale on y axis
+                        if (ImGui::DragFloat("scale y", &scy, 1., 0., 100000.))
+                        {
+                            entity->SetScale(glm::vec3(entity->GetScale().x,scy, entity->GetScale().z));
+                        }
+                        ImGui::Text("Z: %f", entity->GetScale().z);
+                        ImGui::SameLine();
+                        float scz = entity->GetScale().z; // modify scale on z axis
+                        if (ImGui::DragFloat("scale z", &scz, 1., 0., 100000.))
+                        {
+                            entity->SetScale(glm::vec3(entity->GetScale().x,entity->GetScale().y, scz));
+                        }
+                        ImGui::TreePop();               
+                    } 
+                    ImGui::TreePop();
+                }
+            }
+        ImGui::TreePop();
+        }
+        if (ImGui::TreeNode("Entity Creation"))
+        {           
+            std::string s = std::to_string(m_newentityindex); // new entity's name
+            
+            if (ImGui::Button("Add") && m_newentity == false)              
+            {
+                m_newentity = true;
+            }
+            if (m_newentity == true)
+            {    
+                ImGui::InputFloat("Position x", &posx, 1., (float).3); 
+                ImGui::InputFloat("Position y", &posy, 1., (float).3);
+                ImGui::InputFloat("Scale", &scale, 1., (float).3);
+                ImGui::InputFloat("Rotation", &rotation, 1., (float).3);          
+                ImGui::Text("Select color ");
+                const char* items[] = { "Red","Green","Blue","Yellow","Orange","Purple","White","Black","Grey","Brown","Pink","Cyan","Magenta","Lime",
+                "Teal","Olive","Maroon","Navy","Aqua","Silver","Gold","Crimson","Indigo","Turquoise","Violet","Lavender","Rose","Tan","Beige","Khaki",
+                "Coral","Salmon","Peach","Apricot","Mauve","Lilac","Plum","Lemon","Mint","Jade","Emerald","Forest","Pine","Sky","Azure","Cobalt","Sapphire",
+                "Tangerine","Amber","Honey","Sand","Scarlett" }; 
+                static int item_selected = 0; 
+                ImGui::ListBox("listbox", &item_selected, items, IM_ARRAYSIZE(items), 5);
+        
+                if (ImGui::Button("Apply")) 
+                {
+                    m_newentityindex++; 
+                    Ref<Entity> newEntity = Application::Get().GetSubSystem<EntitySubsystem>()->CreateEntity(s);
+                    const auto colorVec = Colors::GetColorFromMap((ColorCode)item_selected);
+                    newEntity->AddComponent(SpriteComponent(colorVec, Quad));
+                    newEntity->AddComponent(TransformComponent(glm::vec3(posx, posy, 1.), rotation, glm::vec3(1, 1, 1)));
+                    newEntity->SetScale((int)scale);
+                    m_newentity = false; // hide the display of settings 
+                }
+            }     
+            ImGui::TreePop();      
+        }
     }
 
     void EditorLayer::OnAttach()
