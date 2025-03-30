@@ -122,5 +122,14 @@ namespace Phoenix
 		indexBuffer->Bind();
 		m_IndexBuffer = indexBuffer;
 	}
-    
+
+	int OpenGLVertexArray::GetVertexCount() const
+	{
+    	return m_VertexCount;
+	}
+
+	void OpenGLVertexArray::SetVertexCount(int count)
+	{
+    	m_VertexCount = count;
+	}
 }

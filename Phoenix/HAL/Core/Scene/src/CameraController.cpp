@@ -17,46 +17,46 @@ namespace Phoenix
 
     void CameraController::OnUpdate(TimeStep ts)
     {
-        if (Input::IsKeyPressed(Key::A))
-        {
-            m_CameraPosition.x -= cos(glm::radians(m_CameraRotation)) * m_CameraTranslationSpeed * ts;
-            m_CameraPosition.y -= sin(glm::radians(m_CameraRotation)) * m_CameraTranslationSpeed * ts;
-        }
-        else if (Input::IsKeyPressed(Key::D))
-        {
-            m_CameraPosition.x += cos(glm::radians(m_CameraRotation)) * m_CameraTranslationSpeed * ts;
-            m_CameraPosition.y += sin(glm::radians(m_CameraRotation)) * m_CameraTranslationSpeed * ts;
-        }
-
-        if (Input::IsKeyPressed(Key::W))
-        {
-            m_CameraPosition.x += -sin(glm::radians(m_CameraRotation)) * m_CameraTranslationSpeed * ts;
-            m_CameraPosition.y += cos(glm::radians(m_CameraRotation)) * m_CameraTranslationSpeed * ts;
-        }
-        else if (Input::IsKeyPressed(Key::S))
-        {
-            m_CameraPosition.x -= -sin(glm::radians(m_CameraRotation)) * m_CameraTranslationSpeed * ts;
-            m_CameraPosition.y -= cos(glm::radians(m_CameraRotation)) * m_CameraTranslationSpeed * ts;
-        }
-
-        if (m_Rotation)
-        {
-            if (Input::IsKeyPressed(Key::Q))
-                m_CameraRotation += m_CameraRotationSpeed * ts;
-            if (Input::IsKeyPressed(Key::E))
-                m_CameraRotation -= m_CameraRotationSpeed * ts;
-
-            if (m_CameraRotation > 180.0f)
-                m_CameraRotation -= 360.0f;
-            else if (m_CameraRotation <= -180.0f)
-                m_CameraRotation += 360.0f;
-
-            m_Camera.SetRotation(m_CameraRotation);
-        }
-
-        m_Camera.SetPosition(m_CameraPosition);
-
-        m_CameraTranslationSpeed = m_ZoomLevel;
+        // if (Input::IsKeyPressed(Key::A))
+        // {
+        //     m_CameraPosition.x -= cos(glm::radians(m_CameraRotation)) * m_CameraTranslationSpeed * ts;
+        //     m_CameraPosition.y -= sin(glm::radians(m_CameraRotation)) * m_CameraTranslationSpeed * ts;
+        // }
+        // else if (Input::IsKeyPressed(Key::D))
+        // {
+        //     m_CameraPosition.x += cos(glm::radians(m_CameraRotation)) * m_CameraTranslationSpeed * ts;
+        //     m_CameraPosition.y += sin(glm::radians(m_CameraRotation)) * m_CameraTranslationSpeed * ts;
+        // }
+        //
+        // if (Input::IsKeyPressed(Key::W))
+        // {
+        //     m_CameraPosition.x += -sin(glm::radians(m_CameraRotation)) * m_CameraTranslationSpeed * ts;
+        //     m_CameraPosition.y += cos(glm::radians(m_CameraRotation)) * m_CameraTranslationSpeed * ts;
+        // }
+        // else if (Input::IsKeyPressed(Key::S))
+        // {
+        //     m_CameraPosition.x -= -sin(glm::radians(m_CameraRotation)) * m_CameraTranslationSpeed * ts;
+        //     m_CameraPosition.y -= cos(glm::radians(m_CameraRotation)) * m_CameraTranslationSpeed * ts;
+        // }
+        //
+        // if (m_Rotation)
+        // {
+        //     if (Input::IsKeyPressed(Key::Q))
+        //         m_CameraRotation += m_CameraRotationSpeed * ts;
+        //     if (Input::IsKeyPressed(Key::E))
+        //         m_CameraRotation -= m_CameraRotationSpeed * ts;
+        //
+        //     if (m_CameraRotation > 180.0f)
+        //         m_CameraRotation -= 360.0f;
+        //     else if (m_CameraRotation <= -180.0f)
+        //         m_CameraRotation += 360.0f;
+        //
+        //     m_Camera.SetRotation(m_CameraRotation);
+        // }
+        //
+        // m_Camera.SetPosition(m_CameraPosition);
+        //
+        // m_CameraTranslationSpeed = m_ZoomLevel;
     }
 
 
@@ -71,6 +71,19 @@ namespace Phoenix
         EventDispatcher dispatcher(event);
         dispatcher.Dispatch<MouseScrolledEvent>(PX_BIND_EVENT_FN(CameraController::OnMouseScrolled));
         dispatcher.Dispatch<WindowResizeEvent>(PX_BIND_EVENT_FN(CameraController::OnWindowResized));
+    }
+
+    void CameraController::RotateCamera(float yaw, float pitch)
+    {
+        auto cameraPosition = GetCamera().GetPosition();
+        glm::vec3 direction;
+        direction.x = cos(glm::radians(yaw)) * cos(glm::radians(pitch));
+        direction.y = sin(glm::radians(pitch));
+        direction.z = sin(glm::radians(yaw)) * cos(glm::radians(pitch));
+        direction = glm::normalize(direction);
+        std::cout << "Camera Direction: " << direction.x << " " << direction.y << " " << direction.z << std::endl;
+
+        LookAt(cameraPosition + direction);
     }
 
     bool CameraController::OnMouseScrolled(MouseScrolledEvent& event)

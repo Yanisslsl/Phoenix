@@ -6,6 +6,7 @@
 #include "Events/EventDispatcher.h"
 #include "Utils/Timer.h"
 #include "ECSExtended/include/TransformSubsytem.h"
+#include "ImGuiContextProvider/include/ImGuiContextProvider.h"
 
 
 namespace Phoenix
@@ -17,7 +18,7 @@ namespace Phoenix
 	 * \brief 
 	 * \param mode 
 	 */
-	Application::Application(ApplicationMode mode): m_Mode(mode)
+	Application::Application(ApplicationMode mode, bool enableEditor): m_Mode(mode)
 	{
 		m_Window = WindowHal::Create(WindowProps("Phoenix Engine", 1280, 720));
 		m_Window->SetEventCallback(PX_BIND_EVENT_FN(Application::OnEvent));
@@ -33,10 +34,9 @@ namespace Phoenix
 		m_PhysicsSubsystem = new PhysicsSubsystem();
 		m_Renderer = new Renderer();
 		m_Renderer->Init();
-#ifdef PX_DEBUG
-		m_Editor_Layer = new EditorLayer();
+		m_ImGuiContext = CreateRef<ImGuiContextProvider>();
+		m_Editor_Layer = new EditorLayer(enableEditor);
 		PushOverlay(m_Editor_Layer);
-#endif
 	}
 	
 	Application::~Application()

@@ -25,6 +25,8 @@ namespace Phoenix
         m_ViewProjectionMatrix = m_ProjectionMatrix * m_ViewMatrix;
     }
 
+    // currenly in 3D used as the way to update the view matrix, in 2D used to update the view matrix
+    // should be called in conjunction with SetPosition
     void Camera::LookAt(const glm::vec3& target)
     {
         m_ViewMatrix = glm::lookAt(m_Position, target, glm::vec3(0, 1, 0));

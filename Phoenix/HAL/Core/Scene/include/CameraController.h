@@ -83,6 +83,8 @@ namespace Phoenix
             m_CameraLookAt = target;
         }
 
+        void RotateCamera(float yaw, float pitch);
+
         glm::vec3 GetCameraLookAt() const
         {
           return m_CameraLookAt;

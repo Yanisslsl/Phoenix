@@ -1,4 +1,4 @@
-
+#pragma once
 #include <glm/vec3.hpp>
 
 #include "Events/KeyEvent.h"
@@ -18,7 +18,7 @@ namespace Phoenix
         /** 
          * \brief EditorLayer constructor
          */
-        EditorLayer();
+        EditorLayer(bool enabled = false);
 
         /** 
          * \brief EditorLayer destructor
@@ -54,7 +54,6 @@ namespace Phoenix
          * \brief Begin
          *        Called when the layer is started
          */
-
         /** 
          * \brief Begin
          *        Called when the layer is started
@@ -86,6 +85,8 @@ namespace Phoenix
          * \return uint32_t
          */
         uint32_t GetActiveWidgetID() const;
+
+        void HandleCameraMovement();
     private:
 
         /** 
@@ -177,12 +178,14 @@ namespace Phoenix
         float rotation = 0;
 
     private:
+        bool m_IsEnabled = false;
         /** Camera Settings */
         float m_LastMouseX = 740.0f;
         float m_LastMouseY = 340.0f;
         float m_Yaw = -90.0f;
         float m_Pitch = 0.0f;
         glm::vec3 m_CameraDirection = glm::vec3(0.0f, 0.0f, -1.0f);
+        glm::vec3 m_CameraPosition = glm::vec3(0.0f, 0.0f, -1.0f);
         float m_SleepTime = 0.0f;
         bool m_isCameraDevMode = true;
         float m_CameraSensitivity = 0.1f;

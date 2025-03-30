@@ -82,6 +82,7 @@ target_include_directories(Game PRIVATE
 target_link_libraries(Game PRIVATE 
     Phoenix
     glm::glm
+    imgui::imgui
     spdlog::spdlog
     # @TODO remove this
     BulletDynamics

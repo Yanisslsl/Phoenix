@@ -70,14 +70,19 @@ namespace Phoenix
     
     // @TODO create base type maths type that encapsulates glm types
     void Renderer::Submit(const Ref<Shader>& shader, const Ref<VertexArray>& vertexArray, Ref<Texture> texture, ColorType color,
-                          const glm::mat4 modelMat, TextureData textureData)
+                          const glm::mat4 modelMat, TextureData textureData, DrawType drawType)
     {
+        if(shader == nullptr || vertexArray == nullptr)
+        {
+            PX_ERROR("Shader or VertexArray is null");
+            return;
+        }
         shader->SetMat4("u_ViewProjection", s_SceneData->ViewProjectionMatrix);
         shader->SetFloat3("u_Color", {0.2f, 0.3f, 0.8f});
         shader->Bind();
         // we set the model matrix to the shader by using the transform vector with z = 1.0f for the 2D rendering
         shader->SetMat4("u_Model", modelMat);
-
+        
         // for shapes with textures but no animation
         if(texture != nullptr && !textureData.isEnable)
         {
@@ -96,6 +101,13 @@ namespace Phoenix
             shader->SetFloat3("u_Color", color);
         }
         vertexArray->Bind();
+
+        if(drawType == DrawType::LINES)
+        {
+            DrawLines(vertexArray, vertexArray->GetVertexCount());
+            return;
+        }
+        
         DrawIndexed(vertexArray);
     }
 
@@ -535,7 +547,6 @@ namespace Phoenix
 
     void Renderer::DeleteShape(std::string name)
     {
-        auto u = s_ShapeData;
         s_ShapeData.erase(name);
     }
 
@@ -576,7 +587,7 @@ namespace Phoenix
     {
         for(auto& shape : s_ShapeData)
         {
-            Submit(shape.second.shader, shape.second.vertexArray, shape.second.texture, shape.second.color, shape.second.modelMat, shape.second.currentTextureData);
+            Submit(shape.second.shader, shape.second.vertexArray, shape.second.texture, shape.second.color, shape.second.modelMat, shape.second.currentTextureData, shape.second.drawType);
         }
     }   
 
@@ -588,5 +599,62 @@ namespace Phoenix
             return;
         }
         s_ShapeData.find(name)->second.modelMat = modelMat;
+    }
+
+    void Renderer::UpdateShapeColor(std::string name, ColorType color)
+    {
+        if(s_ShapeData.find(name) == s_ShapeData.end())
+        {
+            PX_ERROR("Shape not found");
+            return;
+        }
+        s_ShapeData.find(name)->second.color = color;
+    }
+
+    void Renderer::DrawLine(std::string& name, const glm::vec3& start, const glm::vec3& end, const glm::vec3& color, float width)
+    {
+        std::vector<float> vertices = {
+            start.x, start.y, start.z, 0.0f, 0.0f,
+            end.x, end.y, end.z, 1.0f, 1.0f       
+        };
+
+        Ref<VertexArray> lineVA = s_RendererAPI->CreateVertexArray();
+    
+        Ref<VertexBuffer> lineVB = s_RendererAPI->CreateVertexBuffer(vertices);
+    
+        BufferLayout layout = {
+            { ShaderDataType::Float3, "aPos" },
+            { ShaderDataType::Float2, "aTexCoord" }
+        };
+        lineVB->SetLayout(layout);
+        lineVA->AddVertexBuffer(lineVB);
+        lineVA->SetVertexCount(2);
+    
+        Ref<Shader> lineShader;
+        std::string defaultShader = "DEFAULT_SHADER_LINE"; //@TODO: constant for now, make it dynamic when we have a shader manager
+        if(s_CachedShaders.find(defaultShader) == s_CachedShaders.end())
+        {
+            lineShader = s_RendererAPI->CreateShader(defaultShader);
+            s_CachedShaders[defaultShader] = lineShader;
+        } else
+        {
+            lineShader = s_CachedShaders[defaultShader];
+        }
+        
+        s_RendererAPI->SetLineWidth(width);
+        
+        glm::mat4 modelMatrix = glm::mat4(1.0f); // Matrice identité
+        
+        // lineShader->Bind();
+        lineShader->SetInt("u_Texture", 0);
+        
+        auto shape = ShapeData{
+            lineVB, nullptr, lineVA, lineShader,
+            layout, modelMatrix
+        };
+        shape.color = color;
+        shape.vertexCount = 2;
+        shape.drawType = LINES;
+        s_ShapeData.insert(std::pair<std::string, ShapeData>(name, shape));
     }
 }

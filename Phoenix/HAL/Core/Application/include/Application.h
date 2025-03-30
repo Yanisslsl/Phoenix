@@ -10,6 +10,7 @@
 #include "ECSExtended/include/SpriteSubsystem.h"
 #include "Events/Event.h"
 #include "Events/WindowEvent.h"
+#include "ImGuiContextProvider/include/ImGuiContextProvider.h"
 #include "Layers/LayerStack/include/LayerStack.h"
 #include "Physics/include/CollisionSubSytem.h"
 #include "Physics/include/PhysicsSubsystem.h"
@@ -51,9 +52,10 @@ namespace Phoenix
 	public:
 		/**
          * \brief Application constructor
-         * \param mode 
+         * \param mode
+         * \param enableEditor set it to false if you want to disable the editor for example if you want to extends the editor layer
          */
-		Application(ApplicationMode mode);
+		Application(ApplicationMode mode, bool enableEditor = true);
 
 		/**
          * \brief Application destructor
@@ -246,6 +248,11 @@ namespace Phoenix
 		{
 			return m_Renderer;
 		}
+
+		Ref<ImGuiContextProvider> GetImGuiContext()
+		{
+			return m_ImGuiContext;
+		}
 		
 	private:
 		ApplicationMode m_Mode;
@@ -267,6 +274,7 @@ namespace Phoenix
 		Renderer* m_Renderer;
 		entt::registry m_Registry;
 		PhysicsSubsystem* m_PhysicsSubsystem;
+		Ref<ImGuiContextProvider> m_ImGuiContext;
 	};
 
 	// To be defined in CLIENT

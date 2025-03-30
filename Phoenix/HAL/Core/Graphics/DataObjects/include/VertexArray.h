@@ -47,6 +47,11 @@ namespace Phoenix
          */
         virtual const Ref<IndexBuffer>& GetIndexBuffer() const = 0;
 
+
+        virtual int GetVertexCount() const = 0;
+
+        virtual void SetVertexCount(int count) = 0;
+
         /**
          * \brief Create a vertex array. Call the platform specific Create function.
          * \return Ref<VertexArray> Vertex array

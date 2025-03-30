@@ -10,6 +10,7 @@
 #include <LinearMath/btDefaultMotionState.h>
 #include "Core/Application/include/Application.h"
 #include "ECSExtended/include/Entity.h"
+#include "Utils/Timer.h"
 
 
 namespace Phoenix
@@ -74,9 +75,10 @@ namespace Phoenix
                     }
                     btDefaultMotionState* myMotionState = new btDefaultMotionState(transform);
                     btRigidBody* body = new btRigidBody(mass, myMotionState, shape, localInertia);
+                    body->setUserPointer(reinterpret_cast<void*>(static_cast<uintptr_t>(entityId)));
                     rigidBody.rbReference = body;
                     Application::Get().GetRegistry().emplace<RigidBody>(entityId, rigidBody);
-                    m_dynamicsWorld->addRigidBody(body);
+                    m_dynamicsWorld->addRigidBody(body, static_cast<int>(rigidBody.collisionGroup), static_cast<int>(rigidBody.collisionMask));
                     break;
                 }
             default:
@@ -153,7 +155,7 @@ namespace Phoenix
 
     void PhysicsSubsystem::SetRigidBodyScale(EntityIdentifier entityId, glm::vec3 scale)
     {
-    Application::Get().GetRegistry().patch<RigidBody>(entityId, [scale, this](RigidBody& rb) {
+        Application::Get().GetRegistry().patch<RigidBody>(entityId, [scale, this](RigidBody& rb) {
         // Update the component's scale field
         rb.scale = scale;
         
@@ -242,9 +244,107 @@ namespace Phoenix
         Application::Get().GetRegistry().view<RigidBody>().each([](auto entity, RigidBody& rb)
         {
             auto body = rb.rbReference;
+            if(rb.type == RigidbodyType::STATIC) return;
             btTransform trans;
             body->getMotionState()->getWorldTransform(trans);
             Application::Get().GetSubSystem<EntitySubsystem>()->GetEntityById(entity)->SetTransformPosition(glm::vec3(trans.getOrigin().getX(), trans.getOrigin().getY(), trans.getOrigin().getZ()));
         });
+
+        for(auto debugData: m_debugData)
+        {
+            
+            if(std::chrono::high_resolution_clock::now() > debugData.expirationTime)
+            {
+                Application::Get().GetRenderer()->DeleteShape(debugData.name);
+            }
+        }
     }
+
+    HitResult PhysicsSubsystem::TraceRayCast(glm::vec3 start, glm::vec3 end)
+    {
+        btVector3 rayStart(start.x, start.y, start.z);
+        btVector3 rayEnd(end.x, end.y, end.z);
+
+        btCollisionWorld::ClosestRayResultCallback rayCallback(rayStart, rayEnd);
+    
+        m_dynamicsWorld->rayTest(rayStart, rayEnd, rayCallback);
+
+        if (rayCallback.hasHit()) {
+            const btCollisionObject* hitObject = rayCallback.m_collisionObject;
+            btRigidBody* hitBody = btRigidBody::upcast(const_cast<btCollisionObject*>(hitObject));
+        
+            btVector3 hitPoint = rayCallback.m_hitPointWorld;
+            btVector3 hitNormal = rayCallback.m_hitNormalWorld;
+
+            if (hitBody && hitBody->getUserPointer()) {
+                EntityIdentifier entityId = static_cast<EntityIdentifier>(reinterpret_cast<uintptr_t>(hitBody->getUserPointer()));
+            
+                return HitResult{
+                    true, 
+                    entityId, 
+                    glm::vec3(hitPoint.x(), hitPoint.y(), hitPoint.z()), 
+                    glm::vec3(hitNormal.x(), hitNormal.y(), hitNormal.z())
+                };
+            }
+        }
+    
+        return HitResult{false, EntityIdentifier{}, glm::vec3(0), glm::vec3(0)};
+    }
+
+    HitResult PhysicsSubsystem::TraceRayCast(glm::vec3 start,glm::vec3 end, CollisionGroups collisionGroup , CollisionGroups collisionMask,  DebgugLine debugLine)
+    {
+        btVector3 rayStart(start.x, start.y, start.z);
+        btVector3 rayEnd(end.x, end.y, end.z);
+
+        // Gestion du debug visuel
+        std::chrono::time_point<std::chrono::high_resolution_clock> expirationTime = 
+            std::chrono::high_resolution_clock::now() + 
+            std::chrono::milliseconds(static_cast<long>(debugLine.duration * 1000));
+        std::string randomLineTraceName = "RayTrace" + std::to_string(rand());
+        Application::Get().GetRenderer()->DrawLine(randomLineTraceName, start, end, Colors::GetColor(debugLine.color), debugLine.width);
+        m_debugData.push_back({randomLineTraceName, expirationTime});
+
+        // Configuration du raycast avec filtres de collision
+        btCollisionWorld::ClosestRayResultCallback rayCallback(rayStart, rayEnd);
+        
+        // Appliquer les filtres de groupe
+        rayCallback.m_collisionFilterGroup = collisionGroup;
+        rayCallback.m_collisionFilterMask = collisionMask;
+        
+        // Exécuter le raycast
+        m_dynamicsWorld->rayTest(rayStart, rayEnd, rayCallback);
+
+        if (rayCallback.hasHit()) {
+            const btCollisionObject* hitObject = rayCallback.m_collisionObject;
+            btRigidBody* hitBody = btRigidBody::upcast(const_cast<btCollisionObject*>(hitObject));
+        
+            btVector3 hitPoint = rayCallback.m_hitPointWorld;
+            btVector3 hitNormal = rayCallback.m_hitNormalWorld;
+
+            auto entityId = static_cast<EntityIdentifier>(reinterpret_cast<uintptr_t>(hitBody->getUserPointer()));
+            
+            if (hitBody && entityId != entt::null) {
+                // Tracer une ligne verte pour indiquer une collision réussie
+                std::chrono::time_point<std::chrono::high_resolution_clock> hitExpirationTime = 
+                    std::chrono::high_resolution_clock::now() + 
+                    std::chrono::milliseconds(static_cast<long>(debugLine.duration * 1000));
+                std::string hitLineTraceName = "HitTrace" + std::to_string(rand());
+                
+                // Dessiner la ligne jusqu'au point d'impact, pas jusqu'à end
+                glm::vec3 hitPointGlm(hitPoint.x(), hitPoint.y(), hitPoint.z());
+                Application::Get().GetRenderer()->DrawLine(hitLineTraceName, start, hitPointGlm, Colors::GetColor(Color::GREEN), debugLine.width * 2);
+                m_debugData.push_back({hitLineTraceName, hitExpirationTime});
+                
+                return HitResult{
+                    true, 
+                    entityId, 
+                    glm::vec3(hitPoint.x(), hitPoint.y(), hitPoint.z()), 
+                    glm::vec3(hitNormal.x(), hitNormal.y(), hitNormal.z())
+                };
+            }
+        }
+
+        return HitResult{false, EntityIdentifier{}, glm::vec3(0), glm::vec3(0)};
+    }
+
 }

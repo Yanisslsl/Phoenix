@@ -96,6 +96,7 @@ namespace Phoenix
         }
     }
 
+    //@ deprecated
     template <>
     void PHOENIX_API Entity::AddComponent<BoxCollider>(BoxCollider component)
     {

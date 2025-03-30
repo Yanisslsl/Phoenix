@@ -11,6 +11,13 @@
 namespace Phoenix
 {
 
+
+     enum DrawType
+     {
+         LINES,
+         INDEXED
+     }; 
+
     /** 
      * \brief TextureData struct
      *        Used to store the texture data
@@ -62,7 +69,12 @@ namespace Phoenix
 
         // === 3DModel ====
         std::vector<Ref<Texture2D>> textures;
-    };
+
+
+        // == Lines //
+        int vertexCount;
+        DrawType drawType = INDEXED;
+    }; 
 
 
     /**
@@ -139,7 +151,7 @@ namespace Phoenix
          * \param modelMat
          * \param textureData
          */
-        void Submit(const Ref<Shader>& shader, const Ref<VertexArray>& vertexArray, Ref<Texture> texture, ColorType color, glm::mat4 modelMat, TextureData textureData);
+        void Submit(const Ref<Shader>& shader, const Ref<VertexArray>& vertexArray, Ref<Texture> texture, ColorType color, glm::mat4 modelMat, TextureData textureData, DrawType drawType);
 
         /**
          * \brief Create quad only for 2D
@@ -247,6 +259,10 @@ namespace Phoenix
         void UpdateModelMatrix(std::string name, glm::mat4 modelMat);
 
 
+        void UpdateShapeColor(std::string name, ColorType color);
+
+
+         void DrawLine(std::string& name, const glm::vec3& start, const glm::vec3& end, const glm::vec3& color, float width);
     protected:
         struct SceneData
         {

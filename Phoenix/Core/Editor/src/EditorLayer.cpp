@@ -7,55 +7,28 @@
 #include "Events/EventDispatcher.h"
 #include "Events/KeyEvent.h"
 #include "Events/MouseEvent.h"
-#include "Editor/include/ImGuiOpenGL.h"
 #include "Utils/Timer.h"
 #include "Utils/Color.h"
 #include "Core/Input/include/Input.h"
 #include "Core/Scene/include/SceneManagerSubSystem.h"
 #include "ECSExtended/include/Entity.h"
 #include "ECSExtended/include/TransformSubsytem.h"
+#include "ImGuiContextProvider/include/ImGuiOpenGL.h"
 
 namespace Phoenix
 {
-    EditorLayer::EditorLayer()
+    EditorLayer::EditorLayer(bool isEnabled)
         : Layer("EditorLayer")
     {
+        m_IsEnabled = isEnabled;
     }
     void EditorLayer::OnUpdate()
     {
-        ImGuiIO& io = ImGui::GetIO();
-        Application& app = Application::Get();
-        io.DisplaySize = ImVec2((float)app.GetWindow()->GetWidth(), (float)app.GetWindow()->GetHeight());
-        
-        float time = (float)glfwGetTime();
-        io.DeltaTime = m_Time > 0.0f ? (time - m_Time) : (1.0f / 60.0f);
-        m_Time = time;
-
-        ImGui_ImplOpenGL3_NewFrame();
-        ImGui::NewFrame();
-        
+        if(!m_IsEnabled) return;
+        Begin();
         DrawEditor();
-
-        ImGui::Render();
-        ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
-        UpdateCameraPosition();
-
-        if(m_isCameraDevMode)
-        {
-            if(Input::IsMouseButtonPressed(Mouse::ButtonRight) || Input::IsKeyPressed(Key::Space))
-            {
-                m_SleepTime += Timer::GetDeltaTime() * 10;
-                if(m_SleepTime > 0.3)
-                {
-                    RotateCamera();
-                }
-            } else
-            {
-                m_SleepTime = 0;
-                m_LastMouseX = Input::GetMouseX();
-                m_LastMouseY = Input::GetMouseY();
-            }
-        }
+        End();
+        HandleCameraMovement();
     }
 
 
@@ -119,6 +92,28 @@ namespace Phoenix
         direction = glm::normalize(direction);
         m_CameraDirection = direction;
         Application::Get().GetSubSystem<SceneManagerSubSystem>()->GetActiveScene()->GetCameraController()->LookAt(cameraPos + direction);
+    }
+
+    void EditorLayer::HandleCameraMovement()
+    {
+        UpdateCameraPosition();
+        
+        if(m_isCameraDevMode)
+        {
+            if(Input::IsMouseButtonPressed(Mouse::ButtonRight) || Input::IsKeyPressed(Key::Space))
+            {
+                m_SleepTime += Timer::GetDeltaTime() * 10;
+                if(m_SleepTime > 0.3)
+                {
+                    RotateCamera();
+                }
+            } else
+            {
+                m_SleepTime = 0;
+                m_LastMouseX = Input::GetMouseX();
+                m_LastMouseY = Input::GetMouseY();
+            }
+        }
     }
 
     void EditorLayer::UpdateCamera3DPosition()
@@ -295,36 +290,36 @@ namespace Phoenix
 
     void EditorLayer::OnAttach()
     {
-        ImGui::CreateContext();
-        ImGui::StyleColorsDark();
-
-        ImGuiIO& io = ImGui::GetIO();
-        io.BackendFlags |= ImGuiBackendFlags_HasMouseCursors;
-        io.BackendFlags |= ImGuiBackendFlags_HasSetMousePos;
-
-        io.KeyMap[ImGuiKey_Tab] = Key::Tab;
-        io.KeyMap[ImGuiKey_LeftArrow] = Key::Left;
-        io.KeyMap[ImGuiKey_RightArrow] = Key::Right;
-        io.KeyMap[ImGuiKey_UpArrow] = Key::Up;
-        io.KeyMap[ImGuiKey_DownArrow] = Key::Down;
-        io.KeyMap[ImGuiKey_PageUp] = Key::PageUp;
-        io.KeyMap[ImGuiKey_PageDown] = Key::PageDown;
-        io.KeyMap[ImGuiKey_Home] = Key::Home;
-        io.KeyMap[ImGuiKey_End] = Key::End;
-        io.KeyMap[ImGuiKey_Insert] = Key::Insert;
-        io.KeyMap[ImGuiKey_Delete] = Key::Delete;
-        io.KeyMap[ImGuiKey_Backspace] = Key::Backspace;
-        io.KeyMap[ImGuiKey_Space] = Key::Space;
-        io.KeyMap[ImGuiKey_Enter] = Key::Enter;
-        io.KeyMap[ImGuiKey_Escape] = Key::Escape;
-        io.KeyMap[ImGuiKey_A] = Key::A;
-        io.KeyMap[ImGuiKey_C] = Key::C;
-        io.KeyMap[ImGuiKey_V] = Key::V;
-        io.KeyMap[ImGuiKey_X] = Key::X;
-        io.KeyMap[ImGuiKey_Y] = Key::Y;
-        io.KeyMap[ImGuiKey_Z] = Key::Z;
-
-        ImGui_ImplOpenGL3_Init("#version 410");
+        // ImGui::CreateContext();
+        // ImGui::StyleColorsDark();
+        //
+        // ImGuiIO& io = ImGui::GetIO();
+        // io.BackendFlags |= ImGuiBackendFlags_HasMouseCursors;
+        // io.BackendFlags |= ImGuiBackendFlags_HasSetMousePos;
+        //
+        // io.KeyMap[ImGuiKey_Tab] = Key::Tab;
+        // io.KeyMap[ImGuiKey_LeftArrow] = Key::Left;
+        // io.KeyMap[ImGuiKey_RightArrow] = Key::Right;
+        // io.KeyMap[ImGuiKey_UpArrow] = Key::Up;
+        // io.KeyMap[ImGuiKey_DownArrow] = Key::Down;
+        // io.KeyMap[ImGuiKey_PageUp] = Key::PageUp;
+        // io.KeyMap[ImGuiKey_PageDown] = Key::PageDown;
+        // io.KeyMap[ImGuiKey_Home] = Key::Home;
+        // io.KeyMap[ImGuiKey_End] = Key::End;
+        // io.KeyMap[ImGuiKey_Insert] = Key::Insert;
+        // io.KeyMap[ImGuiKey_Delete] = Key::Delete;
+        // io.KeyMap[ImGuiKey_Backspace] = Key::Backspace;
+        // io.KeyMap[ImGuiKey_Space] = Key::Space;
+        // io.KeyMap[ImGuiKey_Enter] = Key::Enter;
+        // io.KeyMap[ImGuiKey_Escape] = Key::Escape;
+        // io.KeyMap[ImGuiKey_A] = Key::A;
+        // io.KeyMap[ImGuiKey_C] = Key::C;
+        // io.KeyMap[ImGuiKey_V] = Key::V;
+        // io.KeyMap[ImGuiKey_X] = Key::X;
+        // io.KeyMap[ImGuiKey_Y] = Key::Y;
+        // io.KeyMap[ImGuiKey_Z] = Key::Z;
+        //
+        // ImGui_ImplOpenGL3_Init("#version 410");
     }
 
     void EditorLayer::OnEvent(Event& e)
@@ -414,21 +409,27 @@ namespace Phoenix
 
     void EditorLayer::Begin()
     {
-       
+        ImGuiIO& io = ImGui::GetIO();
+        Application& app = Application::Get();
+        io.DisplaySize = ImVec2((float)app.GetWindow()->GetWidth(), (float)app.GetWindow()->GetHeight());
+        
+        float time = (float)glfwGetTime();
+        io.DeltaTime = m_Time > 0.0f ? (time - m_Time) : (1.0f / 60.0f);
+        m_Time = time;
+
         ImGui_ImplOpenGL3_NewFrame();
         ImGui::NewFrame();
     }
 
     void EditorLayer::OnDetach()
     {
-        ImGui::DestroyContext();
     }
 
     void EditorLayer::End()
     {
+        ImGui::Render();
+        ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
     }
-
-
 
     void EditorLayer::SetDarkThemeColors()
     {
