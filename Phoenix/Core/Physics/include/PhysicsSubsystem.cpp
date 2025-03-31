@@ -270,7 +270,7 @@ namespace Phoenix
         // Appliquer les filtres de groupe
         rayCallback.m_collisionFilterGroup = collisionGroup;
         rayCallback.m_collisionFilterMask = collisionMask;
-        
+
         // Exécuter le raycast
         m_dynamicsWorld->rayTest(rayStart, rayEnd, rayCallback);
 

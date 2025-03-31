@@ -14,9 +14,9 @@ public:
     float GetSpeed() { return m_Speed; }
     float GetMaxSpeed() { return m_MaxSpeed; }
     void RotateBoidBasedOnDirection();
-    void DetectCollision();
+    glm::vec3 GetAvoidanceVector();
 private:
-    glm::vec3 m_Direction = glm::vec3(1,0,0);
+    glm::vec3 m_Direction = glm::vec3(0.1,0.1,0.1);
     float m_Speed = 5.0f;
     float m_MaxSpeed = 1.0f;
     Phoenix::Ref<Phoenix::Entity> self;

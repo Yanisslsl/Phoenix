@@ -56,9 +56,8 @@ Boid::Boid(std::string id, glm::vec3 position, glm::vec2 direction, int type)
         
         m_id = id;
         self = Phoenix::Application::Get().GetSubSystem<Phoenix::EntitySubsystem>()->CreateEntity(m_id);
-        self->AddComponent(Phoenix::SpriteComponent(Phoenix::SpriteType::Custom, "ressources/spaceship.jpg",  vertices, indices));
+        self->AddComponent(Phoenix::SpriteComponent(Phoenix::SpriteType::Custom, "ressources/red-leader.jpg",  vertices, indices));
         self->AddComponent(Phoenix::TransformComponent{ {position.x, position.y, position.z}, 0, glm::vec3(1, 1, 1) });
-        // self->SetRotation(-90, glm::vec3(1,0,0));
         self->AddComponent(Phoenix::RigidBody(1, Phoenix::RigidbodyType::STATIC, Phoenix::CollisionGroups::GROUP_PLAYER));
         self->BindUpdate(PX_BIND_EVENT_FN(Update));
 }
@@ -68,7 +67,6 @@ void Boid::Update()
     auto dt = Phoenix::Timer::GetDeltaTime();
     self->SetTransformPosition(self->GetTransformPosition() + m_Direction * m_Speed * dt);
     RotateBoidBasedOnDirection();
-    // DetectCollision();
 }
 
 void Boid::RotateBoidBasedOnDirection()
@@ -95,33 +93,22 @@ void Boid::RotateBoidBasedOnDirection()
     }
 }
 
-void Boid::DetectCollision()
+glm::vec3 Boid::GetAvoidanceVector()
 {
     float radiusCercle = 5.0f;
     float goldenRatio = 1.61803398875f;
     float MAX_POINTS = 10;
-    
-    struct RaycastResult {
-        glm::vec3 direction;
-        bool hasHit;
-    };
-    std::vector<RaycastResult> results;
-    
+
     auto frontHit = Phoenix::Application::Get().GetSubSystem<Phoenix::PhysicsSubsystem>()->TraceRayCast(
         self->GetTransformPosition(), 
         self->GetTransformPosition() + m_Direction * radiusCercle,
         Phoenix::CollisionGroups::GROUP_PLAYER, 
-        Phoenix::CollisionGroups::GROUP_ENEMY,
-        {
-            0.1f,
-            Phoenix::Color::RED,
-            1.f
-        }
+        Phoenix::CollisionGroups::GROUP_ENEMY
     );
     
-    if (!frontHit.hasHit) return;
+    if (!frontHit.hasHit) return glm::vec3(0.0f);
     
-    results.push_back({m_Direction, frontHit.hasHit});
+    std::vector<glm::vec3> validDirections;
     
     for(int i = 0; i <= (int)MAX_POINTS; i++)
     {
@@ -139,33 +126,21 @@ void Boid::DetectCollision()
             self->GetTransformPosition(), 
             finalPosition,
             Phoenix::CollisionGroups::GROUP_PLAYER, 
-            Phoenix::CollisionGroups::GROUP_ENEMY,
-            {
-                0.1f,
-                Phoenix::Color::RED,
-                1.f
-            }
+            Phoenix::CollisionGroups::GROUP_ENEMY
         );
         
-        results.push_back({rayDirection, hit.hasHit});
-    }
-    
-    std::vector<glm::vec3> validDirections;
-    for (const auto& result : results)
-    {
-        if (!result.hasHit)
+        if (!hit.hasHit)
         {
-            validDirections.push_back(result.direction);
+            validDirections.push_back(rayDirection);
         }
     }
     
     if (validDirections.empty())
     {
-        m_Direction = -m_Direction;
-        return;
+        return -m_Direction * 2.0f;
     }
     
-    float bestDot = -1.0f;  // Worst dot possible
+    float bestDot = -1.0f;
     glm::vec3 bestDirection;
     
     for (const auto& direction : validDirections)
@@ -179,5 +154,6 @@ void Boid::DetectCollision()
         }
     }
     
-    m_Direction = bestDirection;
+    float avoidanceStrength = 2.0f;
+    return (bestDirection - m_Direction) * avoidanceStrength;
 }

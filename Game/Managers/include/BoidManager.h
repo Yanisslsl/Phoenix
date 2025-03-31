@@ -14,7 +14,7 @@ public:
     BoidManager();
     void Update();
     void UpdateBoids();
-    void Test();
+    void SpawnBoids();
 
     float GetSeparationWeight() const { return m_SeparationWeight; }
     void SetSeparationWeight(float weight) { m_SeparationWeight = weight; }
@@ -28,16 +28,14 @@ public:
     float GetInertiaWeight() const { return m_InertiaWeight; }
     void SetInertiaWeight(float weight) { m_InertiaWeight = weight; }
 
-    glm::vec3 GetCentroidDirection() const { return m_Centroid->GetDirection(); }
-    void SetCentroidDirection(glm::vec3 direction) { m_Centroid->SetDirection(direction); }
-
-    float GetCentroidSpeed() const { return m_Centroid->GetSpeed(); }
-    void SetCentroidSpeed(float speed);
+    float GetAvoidanceWeight() const { return m_avoidanceWeight; }
+    void SetAvoidanceWeight(float weight) { m_avoidanceWeight = weight; }
 
     float GetMaxDistance() const { return maxDistance; }
     void SetMaxDistance(float distance) { maxDistance = distance; }
 
-    void FollowCentroid();
+    float GetBoidSpeed() const { return m_Speed; }
+    void SetBoidSpeed(float speed);
 
     void CreateBoundingBox();
 private:
@@ -46,8 +44,11 @@ private:
     Phoenix::Ref<Phoenix::Entity> m_BoundingBox = nullptr;
     int counter = 0;
     float maxDistance = 5;
-    float m_SeparationWeight = 1.5f;
+    float m_SeparationWeight = 1.0f;
     float m_CohesionWeight = 1.0f;
     float m_AlignmentWeight = 1.0f;
     float m_InertiaWeight = 1.0f;
+    float m_avoidanceWeight = 2.0f;
+    float m_cubeSize = 20.0f;
+    float m_Speed = 5.0f;
 };

@@ -33,38 +33,17 @@ void Editor::OnUpdate()
       {
          m_BoidManager->SetInertiaWeight(inertiaWeight);
       }
+      float avoidanceWeight = m_BoidManager->GetAvoidanceWeight();
+      if(ImGui::SliderFloat("Avoidance Force", &avoidanceWeight,0, 10.f))
+      {
+         m_BoidManager->SetAvoidanceWeight(avoidanceWeight);
+      }
+      float boidSpeed = m_BoidManager->GetBoidSpeed();
+      if(ImGui::SliderFloat("Boid Speed", &boidSpeed,0, 50.f))
+      {
+         m_BoidManager->SetBoidSpeed(boidSpeed);
+      }
       
-      // ImGui::SeparatorText("Centroid direction");
-      // ImGui::Text("X: %f", m_BoidManager->GetCentroidDirection().x);                    
-      // ImGui::SameLine();
-      // float dirx = m_BoidManager->GetCentroidDirection().x;
-      // if(ImGui::SliderFloat("position x", &dirx,1., -1.f))
-      // {
-      //    m_BoidManager->SetCentroidDirection(glm::vec3(dirx, m_BoidManager->GetCentroidDirection().y, m_BoidManager->GetCentroidDirection().z));
-      // }
-      // ImGui::Text("Y: %f", m_BoidManager->GetCentroidDirection().y);
-      // ImGui::SameLine();
-      // float diry = m_BoidManager->GetCentroidDirection().y;
-      // if(ImGui::SliderFloat("position y", &diry,1., -1.f))
-      // {
-      //    m_BoidManager->SetCentroidDirection(glm::vec3(m_BoidManager->GetCentroidDirection().x, diry, m_BoidManager->GetCentroidDirection().z));
-      // }
-      //
-      // ImGui::Text("Z: %f", m_BoidManager->GetCentroidDirection().z);
-      // ImGui::SameLine();
-      // float dirz = m_BoidManager->GetCentroidDirection().z;
-      // if(ImGui::SliderFloat("position z", &dirz,1., -1.f))
-      // {
-      //    m_BoidManager->SetCentroidDirection(glm::vec3(m_BoidManager->GetCentroidDirection().x, m_BoidManager->GetCentroidDirection().y, dirz));
-      // }
-      //
-      // ImGui::SeparatorText("");
-      // float centroidSpeed = m_BoidManager->GetCentroidSpeed();
-      // if(ImGui::SliderFloat("Centroid Speed", &centroidSpeed,0, 30.f))
-      // {
-      //    m_BoidManager->SetCentroidSpeed(centroidSpeed);
-      // }
-      //
       ImGui::SeparatorText("");
       float maxDistance = m_BoidManager->GetMaxDistance();
       if(ImGui::SliderFloat("Max Distance", &maxDistance,0, 30.f))
