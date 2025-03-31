@@ -114,7 +114,7 @@ namespace Phoenix
         void SetRigidBodyScale(EntityIdentifier entityId, glm::vec3 scale);
         void DeleteRigidBody(EntityIdentifier entityId);
         void Update();
-        HitResult TraceRayCast(glm::vec3 start,glm::vec3 end);
+        HitResult TraceRayCast(glm::vec3 start,glm::vec3 end, CollisionGroups collisionGroup , CollisionGroups collisionMask);
         HitResult TraceRayCast(glm::vec3 start,glm::vec3 end, CollisionGroups collisionGroup , CollisionGroups collisionMask,  DebgugLine debugLine);
 
     private: 

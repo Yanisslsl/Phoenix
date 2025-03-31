@@ -260,13 +260,18 @@ namespace Phoenix
         }
     }
 
-    HitResult PhysicsSubsystem::TraceRayCast(glm::vec3 start, glm::vec3 end)
+    HitResult PhysicsSubsystem::TraceRayCast(glm::vec3 start, glm::vec3 end, CollisionGroups collisionGroup , CollisionGroups collisionMask)
     {
-        btVector3 rayStart(start.x, start.y, start.z);
+         btVector3 rayStart(start.x, start.y, start.z);
         btVector3 rayEnd(end.x, end.y, end.z);
 
         btCollisionWorld::ClosestRayResultCallback rayCallback(rayStart, rayEnd);
-    
+        
+        // Appliquer les filtres de groupe
+        rayCallback.m_collisionFilterGroup = collisionGroup;
+        rayCallback.m_collisionFilterMask = collisionMask;
+        
+        // Exécuter le raycast
         m_dynamicsWorld->rayTest(rayStart, rayEnd, rayCallback);
 
         if (rayCallback.hasHit()) {
@@ -276,9 +281,10 @@ namespace Phoenix
             btVector3 hitPoint = rayCallback.m_hitPointWorld;
             btVector3 hitNormal = rayCallback.m_hitNormalWorld;
 
-            if (hitBody && hitBody->getUserPointer()) {
-                EntityIdentifier entityId = static_cast<EntityIdentifier>(reinterpret_cast<uintptr_t>(hitBody->getUserPointer()));
+            auto entityId = static_cast<EntityIdentifier>(reinterpret_cast<uintptr_t>(hitBody->getUserPointer()));
             
+            if (hitBody && entityId != entt::null) {
+                
                 return HitResult{
                     true, 
                     entityId, 
@@ -287,7 +293,7 @@ namespace Phoenix
                 };
             }
         }
-    
+
         return HitResult{false, EntityIdentifier{}, glm::vec3(0), glm::vec3(0)};
     }
 

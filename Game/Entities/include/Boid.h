@@ -17,7 +17,7 @@ public:
     void DetectCollision();
 private:
     glm::vec3 m_Direction = glm::vec3(1,0,0);
-    float m_Speed = 1.0f;
+    float m_Speed = 5.0f;
     float m_MaxSpeed = 1.0f;
     Phoenix::Ref<Phoenix::Entity> self;
     std::string m_id;

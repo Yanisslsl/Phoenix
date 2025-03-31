@@ -38,9 +38,12 @@ public:
     void SetMaxDistance(float distance) { maxDistance = distance; }
 
     void FollowCentroid();
+
+    void CreateBoundingBox();
 private:
     std::vector<Phoenix::Ref<Boid>> m_Boids;
     Phoenix::Ref<Centroid> m_Centroid = nullptr;
+    Phoenix::Ref<Phoenix::Entity> m_BoundingBox = nullptr;
     int counter = 0;
     float maxDistance = 5;
     float m_SeparationWeight = 1.5f;
