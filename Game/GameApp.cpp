@@ -80,13 +80,6 @@ public:
 				indices.push_back(first + 1);
 			}
 		}
-
-		// entity2 = Phoenix::Application::Get().GetSubSystem<Phoenix::EntitySubsystem>()->CreateEntity("entityAlpha2");
-		// entity2->AddComponent(Phoenix::SpriteComponent(Phoenix::Color::RED, Phoenix::SpriteType::Cube));
-		// entity2->AddComponent(Phoenix::TransformComponent{ {10, 0, 0}, 0, glm::vec3(1, 1, 1) });
-		// // entity2->SetRotation(-90, glm::vec3(1,0,0));
-		// entity2->AddComponent(Phoenix::RigidBody(15, Phoenix::RigidbodyType::STATIC,Phoenix::CollisionGroups::GROUP_ENEMY ));
-
 		m_BoidManager = Phoenix::CreateRef<BoidManager>();
 		m_Editor = Phoenix::CreateRef<Editor>(m_BoidManager);
 
@@ -105,26 +98,7 @@ public:
 		auto dt = Phoenix::Timer::GetDeltaTime();
 		Phoenix::Timer::Update();
 		Phoenix::Application::Get().GetSubSystem<Phoenix::SceneManagerSubSystem>()->GetActiveScene()->OnUpdate();
-		// entity1->SetTransformPosition(entity1->GetTransformPosition() + glm::vec3(1,0, 0) * Phoenix::Timer::GetDeltaTime() * 10.f);
-		// Phoenix::Application::Get().GetSubSystem<Phoenix::PhysicsSubsystem>()->TraceRayCast(entity1->GetTransformPosition(), entity1->GetTransformPosition() +  glm::vec3(1,0, 0) * 5.0f,
-		// 		  {
-		// 			  .1f,
-		// 			  Phoenix::Color::RED,
-		// 			  1.f
-		// 	  });
-		// // auto distance = glm::distance(entity1->GetTransformPosition() + glm::vec3(1,0,0), entity2->GetTransformPosition());
-		// // std::cout << "Distance: " << distance << std::endl;
-		// // if(hit.hasHit)
-		// // {
-		// // 	std::cout << "HELLO";
-		// // }
 		m_Editor->OnUpdate();
-		
-
-
-
-
-		
 	}
 
 private:

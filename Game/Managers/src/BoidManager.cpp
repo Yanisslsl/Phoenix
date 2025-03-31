@@ -94,7 +94,7 @@ void BoidManager::SpawnBoids()
     glm::vec3 maxBounds(m_cubeSize, m_cubeSize, m_cubeSize);
     glm::vec3 dimensions = maxBounds - minBounds;
 
-    int totalBoids = 100; 
+    int totalBoids = 800; 
     float spacing = 4.0f;
 
     float volume = dimensions.x * dimensions.y * dimensions.z;

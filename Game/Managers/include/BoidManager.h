@@ -49,6 +49,6 @@ private:
     float m_AlignmentWeight = 1.0f;
     float m_InertiaWeight = 1.0f;
     float m_avoidanceWeight = 2.0f;
-    float m_cubeSize = 20.0f;
+    float m_cubeSize = 50.0f;
     float m_Speed = 5.0f;
 };

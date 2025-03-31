@@ -20,7 +20,7 @@ namespace Phoenix
 
     Scene* SceneManagerSubSystem::Create3DScene(std::string name)
     {
-        auto cameraController = new CameraController(45.0f, 1280, 720.0 , 0.1f, 100.0);
+        auto cameraController = new CameraController(45.0f, 1280, 720.0 , 0.1f, 1000.0);
         auto scene = new Scene(name, cameraController);
         m_Scenes_map.insert(std::pair<std::string, Scene*>(name, scene));
         if(!m_activeScene)
